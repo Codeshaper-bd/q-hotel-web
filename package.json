@@ -1,0 +1,29 @@
+{
+  "name": "q-hotel-web",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@nuxt/image": "^1.10.0",
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "gsap": "^3.13.0",
+    "nuxt": "^4.0.0",
+    "three": "^0.177.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.7",
+    "@types/three": "^0.177.0",
+    "sharp": "^0.34.3",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.8.3",
+    "vue-tsc": "^3.0.0"
+  }
+}

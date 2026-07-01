@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block build artifacts and private paths
+Disallow: /_nuxt/
+Disallow: /api/
+
+Sitemap: https://qhotel.com/sitemap.xml

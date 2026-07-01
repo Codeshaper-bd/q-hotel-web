@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ink: 13 17 23;
+  --color-paper: 247 242 234;
+  --color-muted: 103 110 118;
+  --color-line: 216 207 194;
+  --color-moss: 61 84 72;
+  --color-copper: 164 102 62;
+  --color-ocean: 37 88 112;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 220ms;
+  --duration-normal: 640ms;
+  --duration-slow: 1100ms;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --header-height: 4.5rem;
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: rgb(var(--color-paper));
+  color: rgb(var(--color-ink));
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--color-ocean));
+  outline-offset: 4px;
+}
+
+::selection {
+  background: rgb(var(--color-copper));
+  color: rgb(var(--color-paper));
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity var(--duration-normal) var(--ease-premium), transform var(--duration-normal) var(--ease-premium);
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
