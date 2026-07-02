@@ -17,7 +17,7 @@
       <!-- Ambient radial light behind the mark -->
       <div
         ref="ambientRef"
-        class="preloader-ambient absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 opacity-0"
+        class="preloader-ambient absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 transform-gpu opacity-0"
         aria-hidden="true"
       />
 
@@ -25,7 +25,7 @@
       <div ref="logoWrapRef" class="relative h-24 w-24 opacity-0 sm:h-28 sm:w-28">
         <svg class="h-full w-full" viewBox="0 0 51 50" fill="none" aria-hidden="true">
           <!-- Glow layer: blurred duplicate, faded in once the mark completes -->
-          <g ref="glowGroupRef" class="opacity-0 blur-[4px]">
+          <g ref="glowGroupRef" class="preloader-glow opacity-0">
             <path v-for="(d, index) in logoPaths" :key="`glow-${index}`" :d="d" class="fill-champagne" />
           </g>
 
@@ -163,6 +163,9 @@ onMounted(() => {
       { rotationY: 0, rotationX: 0, z: 0, duration: 1.4, ease: 'power3.out' },
       0,
     )
+    // Drop the 3D transform at rest: a lingering perspective layer rasterizes
+    // the gradient behind it differently and shows as a faint box in Chrome
+    .set(logoWrapRef.value, { clearProps: 'transform' }, 1.42)
     .to(strokePaths, {
       attr: { 'stroke-dashoffset': 0 },
       duration: 0.8,
@@ -212,6 +215,12 @@ onBeforeUnmount(() => {
 /* Soft radial light behind the brand mark */
 .preloader-ambient {
   background: radial-gradient(circle, rgb(var(--color-gold) / 0.16) 0%, transparent 60%);
+}
+
+/* Glow hugs the mark's shape; drop-shadow avoids the rectangular
+   filter-region artifact that blur() causes over the ambient gradient */
+.preloader-glow {
+  filter: drop-shadow(0 0 4px rgb(var(--color-champagne) / 0.8)) drop-shadow(0 0 10px rgb(var(--color-champagne) / 0.45));
 }
 
 /* Diagonal light band swept across the mark by the timeline */

@@ -1,8 +1,17 @@
 <template>
   <header
     ref="headerRef"
-    class="relative sticky top-0 z-40 bg-ink"
+    class="fixed inset-x-0 top-0 z-40"
   >
+    <!-- Glass background: same treatment as the booking bar, crossfaded as a
+         layer so the backdrop blur eases in rather than snapping on -->
+    <div
+      :class="[
+        'absolute inset-0 border-b border-champagne/20 bg-night/70 backdrop-blur-md transition-opacity duration-normal ease-premium',
+        hasSolidBackground ? 'opacity-100' : 'opacity-0',
+      ]"
+      aria-hidden="true"
+    />
     <!-- Skip to content -->
     <a
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-paper focus:px-4 focus:py-3 focus:text-ink"
@@ -11,7 +20,7 @@
       Skip to content
     </a>
 
-    <BaseContainer size="xl">
+    <BaseContainer size="xl" class="relative">
       <!-- Desktop: three-column bar -->
       <div class="flex min-h-[var(--header-height)] items-center justify-between gap-6">
         <!-- Left: logo -->
@@ -82,24 +91,26 @@
 
         <!-- Right: reserve button + mobile hamburger -->
         <div class="flex items-center gap-3">
-          <!-- Reserve button (desktop) -->
+          <!-- Reserve: split control — label + bed icon behind one border -->
           <NuxtLink
             to="#reserve"
-            class="hidden items-center gap-2 rounded-sm border border-paper/30 px-5 py-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-paper transition-colors duration-fast hover:border-paper/60 hover:bg-paper/5 lg:flex"
+            class="group hidden items-stretch border border-paper/40 text-paper transition-colors duration-fast hover:border-paper/70 hover:bg-paper/5 lg:flex"
           >
-            Reserve Now
+            <span class="flex items-center px-5 py-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.14em]">
+              Reserve Now
+            </span>
+            <span
+              class="flex items-center border-l border-paper/40 px-3.5 transition-colors duration-fast group-hover:border-paper/70"
+              aria-hidden="true"
+            >
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2 20v-8a2 2 0 012-2h16a2 2 0 012 2v8" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v6" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
+              </svg>
+            </span>
           </NuxtLink>
-
-          <!-- Account / search icon placeholder -->
-          <button
-            type="button"
-            class="hidden h-9 w-9 items-center justify-center rounded-sm border border-paper/20 text-paper/50 transition-colors duration-fast hover:border-paper/40 hover:text-paper lg:flex"
-            aria-label="Account"
-          >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-            </svg>
-          </button>
 
           <!-- Mobile hamburger -->
           <button
@@ -256,7 +267,18 @@ const route = useRoute()
 const headerRef = ref<HTMLElement | null>(null)
 const activeMenuId = ref<string | null>(null)
 const isMobileOpen = ref(false)
+const isScrolledPastHero = ref(false)
 let closeTimer: ReturnType<typeof setTimeout> | undefined
+
+// Transparent over the hero; translucent once past half the viewport, and
+// always solid while a menu or the mobile drawer is open for readability
+const hasSolidBackground = computed(() =>
+  isScrolledPastHero.value || isMobileOpen.value || activeMenuId.value !== null,
+)
+
+function handleScroll() {
+  isScrolledPastHero.value = window.scrollY > window.innerHeight * 0.5
+}
 
 const activeMegaMenuItem = computed(() =>
   navigationItems.find(i => i.id === activeMenuId.value && i.megaMenu) ?? null
@@ -308,10 +330,13 @@ watch(() => route.fullPath, () => {
 
 onMounted(() => {
   document.addEventListener('click', handleDocumentClick)
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll()
 })
 
 onUnmounted(() => {
   document.removeEventListener('click', handleDocumentClick)
+  window.removeEventListener('scroll', handleScroll)
   if (closeTimer) clearTimeout(closeTimer)
 })
 </script>

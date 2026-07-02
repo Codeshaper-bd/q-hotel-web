@@ -11,20 +11,17 @@
     <!-- Final hero UI: server-rendered for SEO, revealed at the end of the journey -->
     <div
       ref="heroUiRef"
-      :class="['relative flex min-h-svh items-center', isUiActive ? '' : 'pointer-events-none']"
+      :class="['relative flex min-h-svh flex-col justify-end', isUiActive ? '' : 'pointer-events-none']"
     >
-      <BaseContainer size="xl" class="w-full">
-        <div class="grid items-center gap-10 py-24 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+      <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-14">
+        <div class="grid items-end gap-8 xl:grid-cols-[1fr_auto] xl:gap-12">
           <div class="max-w-2xl">
-            <p class="mb-5 text-sm font-semibold uppercase tracking-[0.3em] text-champagne">
-              Q Hotel Dhaka
-            </p>
-            <h1 id="home-title" class="font-display text-4xl leading-[1.02] sm:text-6xl lg:text-7xl">
-              A new standard of luxury stay in Dhaka.
+            <h1 id="home-title" class="font-display text-4xl leading-[1.05] sm:text-6xl xl:text-7xl">
+              Retreat to our stylish hotel in Dhaka
             </h1>
-            <p class="mt-6 max-w-xl text-base leading-8 text-paper/70 sm:text-lg">
-              Discover elegant rooms, refined dining, and seamless hospitality
-              designed for modern travelers.
+            <p class="mt-4 max-w-xl text-base leading-8 text-paper/75 sm:text-lg">
+              Whether you seek adventure, culture, or calm — we've got the
+              perfect experience for every kind of traveler.
             </p>
           </div>
 
