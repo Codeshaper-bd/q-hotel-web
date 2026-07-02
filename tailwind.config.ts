@@ -17,7 +17,10 @@ export default <Partial<Config>>{
         line: 'rgb(var(--color-line) / <alpha-value>)',
         moss: 'rgb(var(--color-moss) / <alpha-value>)',
         copper: 'rgb(var(--color-copper) / <alpha-value>)',
-        ocean: 'rgb(var(--color-ocean) / <alpha-value>)'
+        ocean: 'rgb(var(--color-ocean) / <alpha-value>)',
+        night: 'rgb(var(--color-night) / <alpha-value>)',
+        gold: 'rgb(var(--color-gold) / <alpha-value>)',
+        champagne: 'rgb(var(--color-champagne) / <alpha-value>)'
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],

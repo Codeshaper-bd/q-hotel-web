@@ -10,6 +10,9 @@
   --color-moss: 61 84 72;
   --color-copper: 164 102 62;
   --color-ocean: 37 88 112;
+  --color-night: 0 15 27;
+  --color-gold: 201 164 92;
+  --color-champagne: 238 212 163;
 
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 220ms;
