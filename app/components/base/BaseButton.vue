@@ -15,7 +15,7 @@ import { NuxtLink } from '#components'
 const props = withDefaults(defineProps<{
   href?: string
   type?: 'button' | 'submit' | 'reset'
-  variant?: 'primary' | 'secondary' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline'
 }>(), {
   type: 'button',
   variant: 'primary'
@@ -24,7 +24,8 @@ const props = withDefaults(defineProps<{
 const variants: Record<NonNullable<typeof props.variant>, string> = {
   primary: 'bg-ink text-paper hover:bg-moss',
   secondary: 'bg-paper text-ink ring-1 ring-line hover:bg-ink hover:text-paper',
-  ghost: 'bg-transparent text-ink ring-1 ring-line hover:border-ink'
+  ghost: 'bg-transparent text-ink ring-1 ring-line hover:border-ink',
+  outline: 'bg-transparent text-paper ring-1 ring-paper/30 hover:bg-paper/10 hover:ring-paper/60',
 }
 
 const buttonClass = computed(() => [
