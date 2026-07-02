@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<{
   priority?: boolean
   fit?: 'cover' | 'contain'
 }>(), {
-  sizes: '100vw sm:640px md:768px lg:1024px',
+  sizes: 'xs:100vw sm:640px md:768px lg:1024px',
   priority: false,
   fit: 'cover'
 })
