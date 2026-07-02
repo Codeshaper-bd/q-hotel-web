@@ -91,12 +91,8 @@ type GsapTimeline = ReturnType<typeof gsapType.timeline>
 
 const FAILSAFE_MS = 4000
 
-// Q Hotel brand mark paths (viewBox 0 0 51 50)
-const logoPaths = [
-  'M18.3833 40.0763C18.3833 40.0763 25.0279 38.7909 34.1981 45.0763C34.1981 45.0763 40.2031 49.6569 47.8178 48.0664C47.8178 48.0664 38.3387 53.3715 30.117 46.4052C24.9846 42.0534 20.2748 40.3377 18.3779 40.0763H18.3833Z',
-  'M13.1428 3.09913L14.7036 4.13399C14.7036 4.13399 2.6827 10.915 5.127 27.2277C6.89382 39.0196 15.7442 47.8976 27.7218 46.5795L28.9846 47.7397C27.0823 47.9793 6.29223 49.2647 0.601534 28.9869C-0.173485 26.2255 -2.56358 11.939 13.1428 3.09913Z',
-  'M22.7848 1.2146L21.7334 0.261438C21.7334 0.261438 32.188 -1.94989 42.3608 6.47059C42.3608 6.47059 54.9942 16.4869 48.9078 32.3203C46.3118 39.0795 39.4125 44.0414 37.288 44.5861L35.4832 43.366C35.4832 43.366 45.6723 37.8214 45.5747 24.1885C45.5747 24.1885 46.2142 13.0283 38.4315 6.32353C38.4315 6.32353 32.833 0.332244 22.7902 1.2037L22.7848 1.2146Z',
-]
+// Q Hotel brand mark paths — shared single source in app/utils/brand.ts
+const logoPaths = qHotelLogoPaths
 
 // Non-breaking spaces keep word gaps intact as individual spans
 const copyLetters = 'Preparing your stay'.split('').map(letter => letter === ' ' ? ' ' : letter)
@@ -121,11 +117,15 @@ const copyRef = ref<HTMLElement | null>(null)
 const progressFillRef = ref<HTMLElement | null>(null)
 
 const nuxtApp = useNuxtApp()
+// Lets other components (e.g. the nav logo) sequence their entrance
+// animations to start exactly when the preloader reveals the page
+const isPreloaderComplete = useState('preloader-complete', () => false)
 let timeline: GsapTimeline | undefined
 let failsafeTimer: ReturnType<typeof setTimeout> | undefined
 
 function finish() {
   isVisible.value = false
+  isPreloaderComplete.value = true
 }
 
 onMounted(() => {
@@ -185,6 +185,10 @@ onMounted(() => {
     // Content lifts away, gold seam appears, doors open
     .to(contentRef.value, { y: -28, opacity: 0, duration: 0.4, ease: 'power2.in' }, 1.95)
     .to([hairlineTopRef.value, hairlineBottomRef.value], { opacity: 1, duration: 0.2 }, 2.15)
+    // Signal as the curtains begin so entrance animations play during the reveal
+    .call(() => {
+      isPreloaderComplete.value = true
+    }, [], 2.25)
     .to(curtainTopRef.value, { yPercent: -100, duration: 0.55, ease: 'power4.inOut' }, 2.25)
     .to(curtainBottomRef.value, { yPercent: 100, duration: 0.55, ease: 'power4.inOut' }, 2.25)
 })

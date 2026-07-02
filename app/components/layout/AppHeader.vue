@@ -94,13 +94,13 @@
           <!-- Reserve: split control — label + bed icon behind one border -->
           <NuxtLink
             to="#reserve"
-            class="group hidden items-stretch border border-paper/40 text-paper transition-colors duration-fast hover:border-paper/70 hover:bg-paper/5 lg:flex"
+            class="group hidden items-stretch border border-champagne/60 text-paper transition-colors duration-fast hover:border-champagne hover:bg-champagne/10 lg:flex"
           >
             <span class="flex items-center px-5 py-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.14em]">
               Reserve Now
             </span>
             <span
-              class="flex items-center border-l border-paper/40 px-3.5 transition-colors duration-fast group-hover:border-paper/70"
+              class="flex items-center border-l border-champagne/60 px-3.5 transition-colors duration-fast group-hover:border-champagne"
               aria-hidden="true"
             >
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
