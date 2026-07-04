@@ -1,7 +1,11 @@
 <template>
   <header
     ref="headerRef"
-    class="fixed inset-x-0 top-0 z-40"
+    :class="[
+      'fixed inset-x-0 top-0 z-40 transition-[opacity,transform] duration-normal ease-premium',
+      isMenuRevealed ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0',
+    ]"
+    :inert="!isMenuRevealed"
   >
     <!-- Glass background: same treatment as the booking bar, crossfaded as a
          layer so the backdrop blur eases in rather than snapping on -->
@@ -265,15 +269,27 @@ const navigationItems: NavItemData[] = [
 // ─── Menu state ───────────────────────────────────────────────────
 const route = useRoute()
 const headerRef = ref<HTMLElement | null>(null)
+
+// Hidden while the home hero's Q reveal plays; HeroSection owns this state
+// (defaults to visible for SSR, no-JS, reduced motion, and non-home pages).
+// `inert` keeps the hidden nav out of tab order — pointer-events-none wouldn't.
+const isMenuRevealed = useState('hero-menu-revealed', () => true)
+
+// Glass backdrop is held off while the home hero plays its full-bleed footage;
+// HeroSection allows it again near the journey's end (default: allowed)
+const isNavGlassAllowed = useState('hero-nav-glass', () => true)
 const activeMenuId = ref<string | null>(null)
 const isMobileOpen = ref(false)
 const isScrolledPastHero = ref(false)
 let closeTimer: ReturnType<typeof setTimeout> | undefined
 
-// Transparent over the hero; translucent once past half the viewport, and
-// always solid while a menu or the mobile drawer is open for readability
+// Transparent over the hero; translucent once past half the viewport (and the
+// hero permits it), and always solid while a menu or the mobile drawer is open
+// for readability
 const hasSolidBackground = computed(() =>
-  isScrolledPastHero.value || isMobileOpen.value || activeMenuId.value !== null,
+  (isScrolledPastHero.value && isNavGlassAllowed.value)
+  || isMobileOpen.value
+  || activeMenuId.value !== null,
 )
 
 function handleScroll() {
