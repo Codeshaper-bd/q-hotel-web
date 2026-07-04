@@ -3,6 +3,12 @@
     <HeroSection />
     <AboutSection />
     <RoomsSection />
+    <FacilitiesSection />
+    <MeetingsEventsSection />
+    <DiningSection />
+    <OffersSection />
+    <ReviewsSection />
+    <InstagramSection />
     <FaqSection />
   </div>
 </template>
