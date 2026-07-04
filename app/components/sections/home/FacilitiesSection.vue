@@ -3,21 +3,39 @@
     Facilities & Amenities: a dark, staggered grid of amenity tiles over a
     faint architectural skyline, mirroring the Figma layout (row one starts at
     the left edge, row two shifts one column right, the closing tile and the
-    supporting copy share the final row on large screens).
+    supporting copy share the final row on large screens). Composes <section>
+    directly instead of BaseSection because the skyline line-art must hang off
+    the viewport's left edge, outside the container — the same edge-bleed
+    pattern as the About watermark and FAQ sketch.
   -->
-  <BaseSection id="facilities" labelled-by="facilities-title" tone="ink" spacing="lg" container-size="xl">
-    <div class="relative">
-      <!-- Faint skyline line-art anchored to the bottom-left — texture, not content -->
-      <img
-        src="/images/facilities-skyline.svg"
-        alt=""
-        width="916"
-        height="508"
-        loading="lazy"
-        class="pointer-events-none absolute -bottom-24 -left-8 hidden w-[36rem] opacity-40 sm:-bottom-32 lg:block"
-        aria-hidden="true"
-      >
+  <section
+    id="facilities"
+    ref="sectionRef"
+    aria-labelledby="facilities-title"
+    class="relative isolate bg-ink py-24 text-paper sm:py-32"
+  >
+    <!-- Faint skyline anchored to the viewport's bottom-left corner — texture,
+         not content. Rises from the ground on scroll-in (construction reveal);
+         renders static without JS / under reduced motion. Driven by an
+         IntersectionObserver + CSS transition rather than ScrollTrigger:
+         the pinned rooms stack above shifts absolute scroll positions, which
+         the observer's real viewport intersection is immune to. -->
+    <img
+      ref="skylineRef"
+      src="/images/facilities-skyline.svg"
+      alt=""
+      width="916"
+      height="508"
+      loading="lazy"
+      :class="[
+        'skyline pointer-events-none absolute bottom-0 -left-[10%] -z-10 hidden w-[42rem] opacity-50 lg:block xl:w-[60rem]',
+        isSkylineAnimated ? 'skyline-animated' : '',
+        isSkylineBuilt ? 'skyline-built' : '',
+      ]"
+      aria-hidden="true"
+    >
 
+    <BaseContainer size="xl">
       <FadeReveal>
         <div class="flex flex-col items-center text-center">
           <BaseKicker tone="ink">What We Offer</BaseKicker>
@@ -32,7 +50,7 @@
           <div
             v-for="amenity in amenities"
             :key="amenity.id"
-            :class="['flex aspect-square flex-col items-center justify-center gap-4 bg-paper/[0.08] px-4 text-center', amenity.gridClass]"
+            :class="['facility-card flex aspect-square flex-col items-center justify-center gap-4 px-4 text-center', amenity.gridClass]"
           >
             <svg
               class="h-8 w-8 text-paper/90"
@@ -56,20 +74,50 @@
               designed to make your stay effortless — quiet comfort, warm
               service, and real measured care.
             </p>
-            <BaseButton href="#reserve" variant="gold">
+            <BaseArrowCta to="#reserve" variant="gold">
               View All Facilities
-              <svg class="ml-2.5 h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-              </svg>
-            </BaseButton>
+            </BaseArrowCta>
           </div>
         </div>
       </FadeReveal>
-    </div>
-  </BaseSection>
+    </BaseContainer>
+  </section>
 </template>
 
 <script setup lang="ts">
+const sectionRef = ref<HTMLElement | null>(null)
+const skylineRef = ref<HTMLImageElement | null>(null)
+const { prefersReducedMotion } = useReducedMotion()
+
+/** True once JS owns the reveal; keeps no-JS / reduced-motion renders static */
+const isSkylineAnimated = ref(false)
+/** Toggles the ground-up construction reveal each time the section enters */
+const isSkylineBuilt = ref(false)
+
+let skylineObserver: IntersectionObserver | undefined
+
+onMounted(() => {
+  if (!sectionRef.value || !skylineRef.value || prefersReducedMotion.value) {
+    return
+  }
+
+  isSkylineAnimated.value = true
+
+  // Rebuилds on every re-entry; the reverse transition happens offscreen
+  skylineObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      isSkylineBuilt.value = entry.isIntersecting
+    }
+  }, { rootMargin: '0px 0px -25% 0px' })
+
+  skylineObserver.observe(sectionRef.value)
+})
+
+onBeforeUnmount(() => {
+  skylineObserver?.disconnect()
+  skylineObserver = undefined
+})
+
 /** Amenity tile: label, restrained line-icon paths, optional grid placement */
 interface FacilityAmenity {
   id: string
@@ -177,3 +225,29 @@ const amenities: FacilityAmenity[] = [
   },
 ]
 </script>
+
+<style scoped>
+/* Construction reveal: once JS takes over, the skyline starts clipped at the
+   ground line and wipes upward into place — as if the towers are being
+   built — every time the section enters the viewport. clip-path + transform
+   only, so no layout shift; reduced motion never enters the animated state. */
+.skyline-animated {
+  clip-path: inset(100% 0% 0% 0%);
+  transform: translateY(3rem);
+  transition:
+    clip-path 2400ms var(--ease-premium),
+    transform 2400ms var(--ease-premium);
+}
+
+.skyline-animated.skyline-built {
+  clip-path: inset(0% 0% 0% 0%);
+  transform: translateY(0);
+}
+
+/* Amenity tile: lifted panel tone with a film-grain noise wash, matching the
+   textured card fill in the design (Tailwind cannot express the SVG grain) */
+.facility-card {
+  background-color: rgb(var(--color-paper) / 0.08);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+}
+</style>

@@ -132,26 +132,13 @@
               <!-- Rooms detail routes arrive with the reservations flow; the
                    CTA hands off to the reserve entry point until then -->
               <div class="mt-8">
-                <NuxtLink
+                <BaseArrowCta
                   to="#reserve"
+                  variant="outline"
                   :tabindex="activeRoomId === room.id ? 0 : -1"
-                  class="room-cta group inline-flex items-stretch text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-champagne"
                 >
-                  <span class="flex min-h-11 items-center border border-r-0 border-paper/40 px-6 text-[0.7rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-fast group-hover:border-champagne group-hover:bg-champagne/10 group-focus-visible:border-champagne group-focus-visible:bg-champagne/10">
-                    More Details
-                  </span>
-                  <span
-                    class="room-cta-icon relative flex min-h-11 w-12 items-center justify-center overflow-hidden border border-champagne/60 text-champagne transition-colors duration-fast group-hover:border-champagne group-hover:bg-champagne group-hover:text-night group-focus-visible:border-champagne group-focus-visible:bg-champagne group-focus-visible:text-night"
-                    aria-hidden="true"
-                  >
-                    <svg class="room-cta-arrow room-cta-arrow-primary h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-                    </svg>
-                    <svg class="room-cta-arrow room-cta-arrow-secondary h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-                    </svg>
-                  </span>
-                </NuxtLink>
+                  More Details
+                </BaseArrowCta>
               </div>
             </div>
           </article>
@@ -422,33 +409,6 @@ onMounted(async () => {
 .rooms-track {
   display: grid;
   gap: 1.5rem;
-}
-
-.room-cta-arrow {
-  inset: auto;
-  position: absolute;
-  transition:
-    opacity var(--duration-normal) var(--ease-premium),
-    transform var(--duration-normal) var(--ease-premium);
-}
-
-.room-cta-arrow-secondary {
-  opacity: 0;
-  transform: translate(-0.85rem, 0.85rem);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .room-cta:hover .room-cta-arrow-primary,
-  .room-cta:focus-visible .room-cta-arrow-primary {
-    opacity: 0;
-    transform: translate(0.85rem, -0.85rem);
-  }
-
-  .room-cta:hover .room-cta-arrow-secondary,
-  .room-cta:focus-visible .room-cta-arrow-secondary {
-    opacity: 1;
-    transform: translate(0, 0);
-  }
 }
 
 /* Carousel image crossfade inside the fixed-aspect frame */

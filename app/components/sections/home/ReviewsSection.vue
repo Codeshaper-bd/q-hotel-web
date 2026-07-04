@@ -65,17 +65,14 @@
           </div>
 
           <div class="mt-8 lg:mt-auto lg:pt-8">
-            <BaseButton
-              href="https://www.tripadvisor.com"
+            <BaseArrowCta
+              to="https://www.tripadvisor.com"
               variant="gold"
               target="_blank"
               rel="noopener"
             >
               Write a Review
-              <svg class="ml-2.5 h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-              </svg>
-            </BaseButton>
+            </BaseArrowCta>
           </div>
         </div>
 
