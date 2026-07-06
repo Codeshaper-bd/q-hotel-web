@@ -29,7 +29,10 @@
       <video
         v-if="shouldPlayVideo"
         ref="videoRef"
-        class="absolute inset-0 h-full w-full object-cover"
+        :class="[
+          'absolute inset-0 h-full w-full object-cover',
+          isArrived ? 'hero-video-idle-zoom' : '',
+        ]"
         :src="videoSrc"
         :poster="poster"
         :muted="true"
@@ -52,12 +55,17 @@
       />
     </div>
 
-    <!-- Depth scrim: a whisper during the dive, fully cleared once the footage
-         owns the frame — the arrival is uncovered video. (Stays visible for
+    <!-- Cinematic warmth: a soft-light gold→olive cast so the footage grades
+         toward 5-star warmth without re-touching the asset -->
+    <div class="hero-warmth pointer-events-none absolute inset-0" />
+
+    <!-- Depth scrim: a whisper during the dive; once the footage owns the
+         frame it settles into a deep olive-brown → transparent grade tuned
+         for the headline's bottom-left readability. (Stays visible for
          reduced-motion/no-JS as the static poster's legibility layer.) -->
     <div
       ref="scrimRef"
-      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/85 via-night/25 to-night/55"
+      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/90 via-olive/25 to-night/45"
     />
 
     <!-- Cinema polish for the stage phase only: fine static grain (kills
@@ -82,34 +90,17 @@
         >
           <defs>
             <mask :id="maskId" maskUnits="userSpaceOnUse" x="-100" y="-100" width="300" height="300">
-              <!-- White = stage visible; black glyph = the see-through window -->
+              <!-- White = stage visible; the black circle is the see-through
+                   portal. Its radius is exactly the gold band's inner edge
+                   (PORTAL_RADIUS) so window and ring read as one perfect Q. -->
               <rect x="-100" y="-100" width="300" height="300" fill="white" />
-              <text
-                x="50"
-                y="50"
-                text-anchor="middle"
-                dominant-baseline="central"
-                class="hero-mask-glyph"
-                fill="black"
-              >Q</text>
-              <!-- Counter punch-out: fading this black ellipse in dissolves the
-                   golden island inside the Q's ring once the ring has swept
-                   past the viewport, so no odd object floats over the footage.
-                   Geometry is hand-tuned to the glyph's counter (adjust
-                   cx/cy/rx/ry if the display font changes). -->
-              <ellipse
-                ref="counterFadeRef"
-                cx="50"
-                cy="50.3"
-                rx="4.9"
-                ry="5.1"
-                fill="black"
-                opacity="0"
-              />
+              <circle cx="50" cy="50" :r="PORTAL_RADIUS" fill="black" />
             </mask>
 
-            <!-- Brand shine: top-lit paper→champagne→gold metallic gradient -->
-            <linearGradient :id="shineId" x1="0" y1="0" x2="0" y2="1">
+            <!-- Brand shine: top-lit paper→champagne→gold metallic gradient.
+                 A slow sway of its angle (GSAP) reads as light moving across
+                 polished metal. -->
+            <linearGradient :id="shineId" ref="shineRef" x1="0" y1="0" x2="0" y2="1">
               <stop class="q-shine-start" offset="0" />
               <stop class="q-shine-mid" offset="0.55" />
               <stop class="q-shine-end" offset="1" />
@@ -128,9 +119,36 @@
               <stop class="q-stage-mid" offset="0.55" />
               <stop class="q-stage-end" offset="1" />
             </linearGradient>
+
+            <!-- Softly blurred, warm-graded lobby for outside the Q: the
+                 guest glimpses the room they are about to enter -->
+            <filter :id="lobbyBlurId" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+              <feGaussianBlur stdDeviation="2.4" />
+              <!-- Warm champagne grade: lift red toward gold, ease blue out —
+                   the surround must never drift green or muddy -->
+              <feColorMatrix
+                type="matrix"
+                values="1.06 0 0 0 0.06  0 0.94 0 0 0.035  0 0 0.76 0 0  0 0 0 1 0"
+              />
+            </filter>
           </defs>
 
-          <!-- The stage plate, cut by the Q window; footage ghosts ~10% through -->
+          <!-- Outside the Q: the same lobby, softly blurred and warmed — the
+               letter is a clear portal into the sharp footage beneath.
+               Oversized ~15% so tilt/rotation never exposes an edge. -->
+          <image
+            :href="poster"
+            x="-15"
+            y="-15"
+            width="130"
+            height="130"
+            preserveAspectRatio="xMidYMid slice"
+            :filter="`url(#${lobbyBlurId})`"
+            :mask="`url(#${maskId})`"
+          />
+
+          <!-- Dark champagne wash over the blurred lobby, cut by the Q window;
+               keeps the cinematic mood and the monogram's contrast -->
           <rect
             x="-100"
             y="-100"
@@ -153,34 +171,28 @@
             :mask="`url(#${maskId})`"
           />
 
-          <!-- Gold rim lining the window: soft halo under a crisp shine edge,
-               constant screen weight (non-scaling stroke) through the dolly.
-               Outer group fades with the pass-through (the counter outline
-               would otherwise float mid-screen); inner group keeps breathing. -->
+          <!-- The brand monogram itself, metallic champagne, riding the rim of
+               the portal. Outer group fades with the pass-through; inner group
+               keeps the luminous breathing. -->
           <g ref="rimFadeRef">
-            <g ref="rimRef">
-            <text
-              x="50"
-              y="50"
-              text-anchor="middle"
-              dominant-baseline="central"
-              fill="none"
-              class="hero-mask-glyph q-rim-halo"
-            >Q</text>
-            <text
-              x="50"
-              y="50"
-              text-anchor="middle"
-              dominant-baseline="central"
-              fill="none"
-              :stroke="`url(#${shineId})`"
-              class="hero-mask-glyph q-rim-line"
-            >Q</text>
+            <g ref="rimRef" :transform="MARK_TRANSFORM">
+              <path
+                v-for="(markPath, index) in qHotelLogoPaths"
+                :key="index"
+                :d="markPath"
+                :fill="`url(#${shineId})`"
+                class="q-mark-path"
+              />
             </g>
           </g>
         </svg>
       </div>
     </div>
+
+    <!-- Cursor fluid reveal: desktop-only WebGL layer where the pointer melts
+         liquid windows through the stage, echoing the Q's own reveal. Mounts
+         only for fine pointers with motion allowed; silently absent otherwise. -->
+    <LazyHeroFluidReveal v-if="canUseFluid" :video-el="videoRef" :progress="progress" />
   </div>
 </template>
 
@@ -204,6 +216,16 @@ const maskId = `hero-reveal-mask-${uid}`
 const shineId = `hero-reveal-shine-${uid}`
 const glowId = `hero-reveal-glow-${uid}`
 const stageId = `hero-reveal-stage-${uid}`
+const lobbyBlurId = `hero-reveal-lobby-blur-${uid}`
+
+/**
+ * Brand mark placement (logo viewBox is 0 0 51 50): scaled and translated so
+ * the ring centers on the stage at ~33 viewBox units diameter. The portal
+ * circle in the mask (cx 50, cy 50, r 14.2) sits just inside the ring so the
+ * gold arcs line its rim. Tune together if the mark is resized.
+ */
+const MARK_TRANSFORM = 'translate(33.6 33.6) scale(0.67)'
+const PORTAL_RADIUS = 14.2
 
 const rootRef = ref<HTMLElement | null>(null)
 const videoPlaneRef = ref<HTMLElement | null>(null)
@@ -213,10 +235,14 @@ const tiltRef = ref<HTMLElement | null>(null)
 const plateRef = ref<HTMLElement | null>(null)
 const overlayRef = ref<SVGSVGElement | null>(null)
 const glowRef = ref<SVGRectElement | null>(null)
-const counterFadeRef = ref<SVGEllipseElement | null>(null)
 const rimFadeRef = ref<SVGGElement | null>(null)
 const rimRef = ref<SVGGElement | null>(null)
+const shineRef = ref<SVGLinearGradientElement | null>(null)
 const shouldPlayVideo = ref(false)
+const canUseFluid = ref(false)
+
+/** The footage owns the frame: fluid layer retired, idle Ken Burns may run */
+const isArrived = computed(() => props.progress > 0.6)
 
 const { gsap, createContext, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()
@@ -228,10 +254,8 @@ const MAX_DOLLY_SCALE = 9
 /** Pointer-tilt amplitude in degrees at rest */
 const TILT_MAX = 2.4
 
-/** Piecewise-linear ramp: 0 before `from`, 1 after `to` */
-function ramp(progress: number, from: number, to: number): number {
-  return Math.min(1, Math.max(0, (progress - from) / (to - from)))
-}
+// Progress curves (`ramp`, `heroVideoScale`) are shared with the WebGL fluid
+// layer via app/utils/heroReveal.ts so the two can never drift apart
 
 function applyProgress(progress: number) {
   if (!gsap || prefersReducedMotion.value) {
@@ -250,10 +274,9 @@ function applyProgress(progress: number) {
     transformPerspective: PERSPECTIVE,
   })
 
-  // Pass-through: once the ring dominates the viewport, the counter island
-  // inside it (and its floating gold outline) melts away first...
+  // Pass-through: once the ring dominates the viewport the gold mark melts
+  // away first, so nothing floats over the arrival...
   const passThrough = ramp(progress, 0.28, 0.4)
-  gsap.set(counterFadeRef.value, { opacity: passThrough })
   gsap.set(rimFadeRef.value, { autoAlpha: 1 - passThrough })
 
   // ...then the whole stage dissolves as the ring sweeps past, so nothing
@@ -262,11 +285,11 @@ function applyProgress(progress: number) {
 
   // Depth parallax: the footage settles from oversized to rest slower than
   // the plane flies — then keeps a whisper of settle through the hold
-  const videoScale = 1.18 - 0.16 * ramp(progress, 0, 0.55) - 0.02 * ramp(progress, 0.55, 1)
-  gsap.set(videoPlaneRef.value, { scale: videoScale })
+  gsap.set(videoPlaneRef.value, { scale: heroVideoScale(progress) })
 
-  // Scrim: barely-there during the dive, full once the footage is exposed
-  gsap.set(scrimRef.value, { autoAlpha: 0.12 + ramp(progress, 0.45, 0.72) * 0.88 })
+  // Scrim: barely-there during the dive, settling in step with the earlier
+  // content arrival so the headline lands on a readable frame
+  gsap.set(scrimRef.value, { autoAlpha: 0.12 + ramp(progress, 0.42, 0.6) * 0.88 })
 }
 
 watch(() => props.progress, applyProgress)
@@ -275,6 +298,11 @@ onMounted(() => {
   // The reveal IS the hero, so footage plays across breakpoints when motion is
   // allowed; reduced-motion keeps the lighter static poster
   shouldPlayVideo.value = !prefersReducedMotion.value
+
+  // Cursor fluid layer: fine pointers with motion allowed only — it samples
+  // the footage element, so it rides on shouldPlayVideo. WebGL availability
+  // is verified inside the component (silent no-op when unsupported).
+  canUseFluid.value = shouldPlayVideo.value && window.matchMedia('(pointer: fine)').matches
 
   // Snap to the closed-Q starting state before the timeline scrubs it open
   applyProgress(props.progress)
@@ -292,6 +320,20 @@ onMounted(() => {
       ease: 'sine.inOut',
       yoyo: true,
       repeat: -1,
+    })
+
+    // Specular sheen: the shine gradient's angle sways slowly, so light
+    // appears to travel across the polished monogram
+    const sheen = { angle: -16 }
+    gsap.to(sheen, {
+      angle: 16,
+      duration: 9,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      onUpdate: () => {
+        shineRef.value?.setAttribute('gradientTransform', `rotate(${sheen.angle.toFixed(2)} 0.5 0.5)`)
+      },
     })
 
     // Pointer tilt: the plane leans toward the cursor at rest, draining to
@@ -338,18 +380,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Solid letterform for the mask window + gold rim — the display serif, filled.
-   Sized against the oversized plate so it reads ~26% of viewport height. */
-.hero-mask-glyph {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 600;
-  font-size: 21px;
+/* The brand mark on the portal rim: metallic fill via the shine gradient,
+   with a whisper of champagne edge for polish */
+.q-mark-path {
+  stroke: rgb(var(--color-champagne) / 0.35);
+  stroke-width: 0.2;
 }
 
-/* Stage strength: the single knob for how much footage ghosts through
-   outside the Q window (0.9 = ~10% of the video) */
+/* Wash strength: the single knob for how much of the blurred lobby reads
+   through the champagne-night wash outside the Q window */
 .hero-mask-plate {
-  fill-opacity: 0.9;
+  fill-opacity: 0.62;
 }
 
 /* Stage gradient stops — deep night warmed toward the brand metals; plain
@@ -361,12 +402,12 @@ onMounted(() => {
 
 .q-stage-mid {
   stop-color: rgb(var(--color-night));
-  stop-color: color-mix(in srgb, rgb(var(--color-night)) 74%, rgb(var(--color-gold)));
+  stop-color: color-mix(in srgb, rgb(var(--color-night)) 62%, rgb(var(--color-gold)));
 }
 
 .q-stage-end {
   stop-color: rgb(var(--color-night));
-  stop-color: color-mix(in srgb, rgb(var(--color-night)) 72%, rgb(var(--color-copper)));
+  stop-color: color-mix(in srgb, rgb(var(--color-night)) 64%, rgb(var(--color-copper)));
 }
 
 /* Radial gold light behind the Q — the letter is the light source */
@@ -378,18 +419,6 @@ onMounted(() => {
 .q-glow-fade {
   stop-color: rgb(var(--color-gold));
   stop-opacity: 0;
-}
-
-/* Soft gold halo under the crisp shine edge — constant screen weight as it zooms */
-.q-rim-halo {
-  stroke: rgb(var(--color-gold) / 0.35);
-  stroke-width: 5px;
-  vector-effect: non-scaling-stroke;
-}
-
-.q-rim-line {
-  stroke-width: 1.6px;
-  vector-effect: non-scaling-stroke;
 }
 
 /* Metallic gradient stops (SVG stop-color can't use Tailwind utilities) */
@@ -412,8 +441,32 @@ onMounted(() => {
   mix-blend-mode: soft-light;
 }
 
-/* Edge vignette: pulls the eye to the Q, hides plane edges during tilt */
+/* Edge vignette: pulls the eye to the Q, hides plane edges during tilt,
+   and doubles as a soft depth-of-field cue toward the frame's corners */
 .hero-vignette {
-  background: radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgb(var(--color-night) / 0.55) 100%);
+  background: radial-gradient(ellipse 118% 88% at 50% 45%, transparent 50%, rgb(var(--color-night) / 0.62) 100%);
+}
+
+/* Warm cinematic cast: gold light from above settling into olive shadow —
+   grades the footage toward 5-star warmth without touching the asset */
+.hero-warmth {
+  background: linear-gradient(180deg, rgb(var(--color-gold) / 0.12), rgb(var(--color-olive) / 0.18));
+  mix-blend-mode: soft-light;
+}
+
+/* Idle Ken Burns once the arrival holds: a barely-perceptible push-in.
+   The global reduced-motion rules collapse this to a static frame. */
+@keyframes hero-idle-zoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.035);
+  }
+}
+
+.hero-video-idle-zoom {
+  animation: hero-idle-zoom 36s ease-in-out infinite alternate;
 }
 </style>
