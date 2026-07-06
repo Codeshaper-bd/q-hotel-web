@@ -219,13 +219,17 @@ const stageId = `hero-reveal-stage-${uid}`
 const lobbyBlurId = `hero-reveal-lobby-blur-${uid}`
 
 /**
- * Brand mark placement (logo viewBox is 0 0 51 50): scaled and translated so
- * the ring centers on the stage at ~33 viewBox units diameter. The portal
- * circle in the mask (cx 50, cy 50, r 14.2) sits just inside the ring so the
- * gold arcs line its rim. Tune together if the mark is resized.
+ * Brand mark placement, derived from a least-squares circle fit of the ring
+ * paths (center 25.104/23.933, inner edge r 20.247 in the logo's 0 0 51 50
+ * viewBox) so the portal window sits EXACTLY concentric with the drawn ring:
+ *   scale     = targetOuterDiameter / (2 × 25.463)
+ *   translate = 50 − scale × ringCenter
+ *   portal r  = scale × 20.247 − 0.12   (tucked just under the gold band)
+ * Current target: 27 viewBox units outer diameter. Recompute all three
+ * together if the mark is ever resized.
  */
-const MARK_TRANSFORM = 'translate(33.6 33.6) scale(0.67)'
-const PORTAL_RADIUS = 14.2
+const MARK_TRANSFORM = 'translate(36.69 37.31) scale(0.5302)'
+const PORTAL_RADIUS = 10.6
 
 const rootRef = ref<HTMLElement | null>(null)
 const videoPlaneRef = ref<HTMLElement | null>(null)

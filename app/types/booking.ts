@@ -1,10 +1,11 @@
-/** Rate preference offered on the hero reservation console */
-export type BookingRateFilter = 'promo' | 'price-high' | 'price-low'
-
 export interface BookingSearchQuery {
+  /** ISO date (YYYY-MM-DD) */
   checkIn: string
+  /** ISO date (YYYY-MM-DD) */
   checkOut: string
-  guests: number
   rooms: number
-  rateFilter: BookingRateFilter
+  adults: number
+  children: number
+  /** Corporate/promotional code, empty when not used */
+  promoCode: string
 }

@@ -16,7 +16,7 @@
       :class="['relative flex min-h-svh flex-col justify-end', isUiActive ? '' : 'pointer-events-none']"
     >
       <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-14">
-        <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] xl:gap-16">
+        <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,48rem)] xl:gap-12">
           <div class="max-w-2xl">
             <p
               ref="kickerRef"
@@ -137,6 +137,10 @@ onMounted(() => {
     })
 
     timeline
+      // Pad the timeline to exactly 1 so tween positions read as journey
+      // progress (a scrubbed timeline maps scroll to TIME, and its duration
+      // is otherwise just the last tween's end)
+      .set({}, {}, 1)
       // Hint fades as the Q begins to open
       .to(scrollHintRef.value, { opacity: 0, duration: 0.05, ease: 'none' }, 0.02)
       // Arrival choreography: kicker → headline → lead → reservation console,

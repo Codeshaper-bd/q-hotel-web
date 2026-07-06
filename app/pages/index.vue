@@ -1,6 +1,8 @@
 <template>
   <div>
     <HeroSection />
+    <AboutSection />
+    <RoomsSection />
     <ExperienceSection />
     <CtaSection />
   </div>
