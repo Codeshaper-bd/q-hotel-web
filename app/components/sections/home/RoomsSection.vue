@@ -1,70 +1,71 @@
 <template>
   <!--
-    Rooms and Suites showcase: room-type tabs filter one featured panel —
-    photography left, dark details card right (rate, description, key specs,
-    More Details). Content is a typed static Room[] (CMS-ready); switching
-    tabs crossfades the panel on transform/opacity only.
+    Rooms and Suites showcase: scroll-pinned stacked room panels on desktop,
+    with a readable vertical flow fallback for mobile and reduced motion.
   -->
   <BaseSection id="rooms" labelled-by="rooms-title" tone="paper" spacing="lg" container-size="xl">
-    <FadeReveal>
-      <div class="flex flex-col items-center text-center">
-        <BaseKicker>Select Your Room</BaseKicker>
-        <h2 id="rooms-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
-          Rooms and Suites
-        </h2>
-      </div>
-    </FadeReveal>
+    <div ref="sectionRef">
+      <FadeReveal>
+        <div class="flex flex-col items-center text-center">
+          <BaseKicker>Select Your Room</BaseKicker>
+          <h2 id="rooms-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+            Rooms and Suites
+          </h2>
+        </div>
+      </FadeReveal>
 
-    <FadeReveal>
-      <div
-        role="tablist"
-        aria-label="Room types"
-        class="mt-9 flex flex-wrap justify-center gap-2.5"
-        @keydown="handleTablistKeydown"
-      >
-        <button
-          v-for="room in rooms"
-          :id="`room-tab-${room.id}`"
-          :key="room.id"
-          type="button"
-          role="tab"
-          :aria-selected="activeRoomId === room.id"
-          :aria-controls="`room-panel-${room.id}`"
-          :tabindex="activeRoomId === room.id ? 0 : -1"
-          :class="[
-            'border px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] transition-colors duration-fast',
-            activeRoomId === room.id
-              ? 'border-copper bg-copper/10 text-copper'
-              : 'border-line text-ink/60 hover:border-ink/40 hover:text-ink',
-          ]"
-          @click="handleTabClick(room.id)"
+      <FadeReveal>
+        <div
+          role="tablist"
+          aria-label="Room types"
+          class="mt-9 flex flex-wrap justify-center gap-2.5"
+          @keydown="handleTablistKeydown"
         >
-          {{ room.tabLabel }}
-        </button>
-      </div>
-    </FadeReveal>
+          <button
+            v-for="room in rooms"
+            :id="`room-tab-${room.id}`"
+            :key="room.id"
+            type="button"
+            role="tab"
+            :aria-selected="activeRoomId === room.id"
+            :aria-controls="`room-panel-${room.id}`"
+            :tabindex="activeRoomId === room.id ? 0 : -1"
+            :class="[
+              'border px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] transition-colors duration-fast',
+              activeRoomId === room.id
+                ? 'border-copper bg-copper/10 text-copper'
+                : 'border-line text-ink/60 hover:border-ink/40 hover:text-ink',
+            ]"
+            @click="handleTabClick(room.id)"
+          >
+            {{ room.tabLabel }}
+          </button>
+        </div>
+      </FadeReveal>
 
-    <FadeReveal>
       <div
-        :id="`room-panel-${activeRoom.id}`"
-        ref="panelRef"
-        role="tabpanel"
-        :aria-labelledby="`room-tab-${activeRoom.id}`"
-        tabindex="0"
-        class="mt-10"
-        @mouseenter="pauseAutoAdvance"
-        @mouseleave="resumeAutoAdvance"
+        ref="stackRef"
+        class="rooms-stack mt-10"
       >
-      <Transition name="room-panel" mode="out-in">
-        <div :key="activeRoom.id" class="grid gap-6 lg:grid-cols-[1.25fr_1fr] lg:gap-8">
+        <article
+          v-for="(room, roomIndex) in rooms"
+          :id="`room-panel-${room.id}`"
+          :key="room.id"
+          :data-room-card="roomIndex"
+          role="tabpanel"
+          :aria-labelledby="`room-tab-${room.id}`"
+          :aria-hidden="activeRoomId === room.id ? undefined : 'true'"
+          :tabindex="activeRoomId === room.id ? 0 : -1"
+          class="room-showcase-card grid gap-6 bg-paper lg:grid-cols-[1.25fr_1fr] lg:gap-8"
+        >
           <!-- Photography with quiet dot navigation -->
-          <div class="room-panel-media relative">
+          <div class="relative">
             <div class="relative aspect-[4/3] overflow-hidden bg-line/40">
               <Transition name="room-image">
                 <BaseImage
-                  :key="activeImage.src"
-                  :src="activeImage.src"
-                  :alt="activeImage.alt"
+                  :key="selectedImage(room).src"
+                  :src="selectedImage(room).src"
+                  :alt="selectedImage(room).alt"
                   :width="1600"
                   :height="1200"
                   sizes="xs:100vw sm:100vw md:100vw lg:60vw xl:50vw"
@@ -73,36 +74,37 @@
               </Transition>
             </div>
             <div
-              v-if="activeRoom.images.length > 1"
+              v-if="room.images.length > 1"
               class="absolute inset-x-0 bottom-4 flex justify-center gap-2"
             >
               <button
-                v-for="(image, imageIndex) in activeRoom.images"
+                v-for="(image, imageIndex) in room.images"
                 :key="image.src"
                 type="button"
                 :class="[
                   'h-2.5 w-2.5 rounded-full border border-night/30 transition-colors duration-fast',
-                  imageIndex === activeImageIndex ? 'bg-champagne' : 'bg-paper/70 hover:bg-paper',
+                  imageIndex === selectedImageIndex(room.id) ? 'bg-champagne' : 'bg-paper/70 hover:bg-paper',
                 ]"
-                :aria-label="`Show photo ${imageIndex + 1} of ${activeRoom.name}`"
-                :aria-pressed="imageIndex === activeImageIndex"
-                @click="handleImageSelect(imageIndex)"
+                :aria-label="`Show photo ${imageIndex + 1} of ${room.name}`"
+                :aria-pressed="imageIndex === selectedImageIndex(room.id)"
+                :tabindex="activeRoomId === room.id ? 0 : -1"
+                @click="handleImageSelect(room.id, imageIndex)"
               />
             </div>
           </div>
 
           <!-- Details card -->
-          <article class="room-panel-card flex flex-col bg-ink p-7 text-paper sm:p-9">
+          <div class="flex min-h-full flex-col bg-ink p-7 text-paper sm:p-9">
             <span class="self-start border border-champagne/50 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-champagne">
-              ${{ activeRoom.nightlyRateUsd }} / Night
+              ${{ room.nightlyRateUsd }} / Night
             </span>
 
             <h3 class="mt-5 font-display text-3xl leading-tight sm:text-4xl">
-              {{ activeRoom.name }}
+              {{ room.name }}
             </h3>
 
             <p class="mt-4 text-sm leading-7 text-paper/70">
-              {{ activeRoom.description }}
+              {{ room.description }}
             </p>
 
             <ul class="mt-7 space-y-3.5 border-t border-paper/15 pt-7 text-sm text-paper/80">
@@ -110,13 +112,13 @@
                 <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
                 </svg>
-                {{ activeRoom.areaSqFt }} Sq Ft Room
+                {{ room.areaSqFt }} Sq Ft Room
               </li>
               <li class="flex items-center gap-3">
                 <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                 </svg>
-                {{ activeRoom.maxOccupancy }} {{ activeRoom.maxOccupancy === 1 ? 'Person' : 'Persons' }}
+                {{ room.maxOccupancy }} {{ room.maxOccupancy === 1 ? 'Person' : 'Persons' }}
               </li>
               <li class="flex items-center gap-3">
                 <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -124,7 +126,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
                 </svg>
-                {{ activeRoom.bedType }}
+                {{ room.bedType }}
               </li>
             </ul>
 
@@ -133,6 +135,7 @@
             <div class="mt-8 lg:mt-auto lg:pt-8">
               <NuxtLink
                 to="#reserve"
+                :tabindex="activeRoomId === room.id ? 0 : -1"
                 class="group inline-flex items-stretch border border-champagne/60 text-paper transition-colors duration-fast hover:border-champagne hover:bg-champagne/10"
               >
                 <span class="flex items-center px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.14em]">
@@ -148,15 +151,15 @@
                 </span>
               </NuxtLink>
             </div>
-          </article>
-        </div>
-      </Transition>
+          </div>
+        </article>
       </div>
-    </FadeReveal>
+    </div>
   </BaseSection>
 </template>
 
 <script setup lang="ts">
+import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 import type { Room } from '~/types/room'
 
 /** Static showcase content (CMS-ready shape); live rates come with the PMS */
@@ -165,7 +168,7 @@ const rooms: Room[] = [
     id: 'standard-double',
     tabLabel: 'Standard Double',
     name: 'Standard Double Room',
-    description: 'A calm, thoughtfully appointed double room with warm wood tones and everything a short city stay needs — rest, work, and an unhurried morning.',
+    description: 'A calm, thoughtfully appointed double room with warm wood tones and everything a short city stay needs - rest, work, and an unhurried morning.',
     nightlyRateUsd: 140,
     areaSqFt: 220,
     maxOccupancy: 2,
@@ -230,93 +233,56 @@ const rooms: Room[] = [
 ]
 
 const activeRoomId = ref(rooms[0]?.id ?? '')
-const activeImageIndex = ref(0)
-const panelRef = ref<HTMLElement | null>(null)
+const activeImageIndexes = reactive<Record<string, number>>({})
+const sectionRef = ref<HTMLElement | null>(null)
+const stackRef = ref<HTMLElement | null>(null)
 
-const { prefersReducedMotion } = useReducedMotion()
+const { gsap, createContext, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()
+const nuxtApp = useNuxtApp()
+const ScrollTrigger = nuxtApp.$ScrollTrigger as typeof ScrollTriggerType | undefined
 
-/**
- * Auto-showcase: rooms rotate on their own until the guest interacts —
- * then the guest owns the tabs. Pauses on hover and while offscreen;
- * never runs under reduced motion.
- */
-const AUTO_ADVANCE_MS = 5000
-let autoAdvanceTimer = 0
-let hasUserTakenOver = false
-let isPanelInView = false
+let roomStackTrigger: ScrollTriggerType | undefined
 
-function advanceToNextRoom() {
-  const currentIndex = rooms.findIndex(room => room.id === activeRoomId.value)
-  const nextRoom = rooms[(currentIndex + 1) % rooms.length]
-  if (nextRoom) {
-    selectRoom(nextRoom.id)
-  }
+function selectedImageIndex(roomId: string) {
+  return activeImageIndexes[roomId] ?? 0
 }
 
-function pauseAutoAdvance() {
-  window.clearInterval(autoAdvanceTimer)
-  autoAdvanceTimer = 0
+function selectedImage(room: Room) {
+  return room.images[selectedImageIndex(room.id)] ?? (room.images[0] as Room['images'][number])
 }
-
-function resumeAutoAdvance() {
-  if (hasUserTakenOver || prefersReducedMotion.value || !isPanelInView || autoAdvanceTimer !== 0) {
-    return
-  }
-  autoAdvanceTimer = window.setInterval(advanceToNextRoom, AUTO_ADVANCE_MS)
-}
-
-function stopAutoAdvance() {
-  hasUserTakenOver = true
-  pauseAutoAdvance()
-}
-
-onMounted(() => {
-  if (prefersReducedMotion.value) {
-    return
-  }
-  const panel = panelRef.value
-  if (panel && 'IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(([entry]) => {
-      isPanelInView = Boolean(entry?.isIntersecting)
-      if (isPanelInView) {
-        resumeAutoAdvance()
-      }
-      else {
-        pauseAutoAdvance()
-      }
-    }, { threshold: 0.25 })
-    observer.observe(panel)
-    addCleanup(() => observer.disconnect())
-  }
-  else {
-    isPanelInView = true
-    resumeAutoAdvance()
-  }
-  addCleanup(() => window.clearInterval(autoAdvanceTimer))
-})
-
-function handleTabClick(roomId: string) {
-  stopAutoAdvance()
-  selectRoom(roomId)
-}
-
-function handleImageSelect(imageIndex: number) {
-  stopAutoAdvance()
-  activeImageIndex.value = imageIndex
-}
-
-const activeRoom = computed<Room>(() =>
-  rooms.find(room => room.id === activeRoomId.value) ?? (rooms[0] as Room),
-)
-
-const activeImage = computed(() =>
-  activeRoom.value.images[activeImageIndex.value] ?? (activeRoom.value.images[0] as Room['images'][number]),
-)
 
 function selectRoom(roomId: string) {
   activeRoomId.value = roomId
-  activeImageIndex.value = 0
+  activeImageIndexes[roomId] = selectedImageIndex(roomId)
+}
+
+function handleImageSelect(roomId: string, imageIndex: number) {
+  activeRoomId.value = roomId
+  activeImageIndexes[roomId] = imageIndex
+}
+
+function scrollToRoom(roomId: string) {
+  if (!roomStackTrigger || prefersReducedMotion.value) {
+    return
+  }
+
+  const roomIndex = rooms.findIndex(room => room.id === roomId)
+  if (roomIndex < 0) {
+    return
+  }
+
+  const progress = rooms.length > 1 ? roomIndex / (rooms.length - 1) : 0
+  const targetY = roomStackTrigger.start + (roomStackTrigger.end - roomStackTrigger.start) * progress
+  window.scrollTo({
+    top: targetY,
+    behavior: 'smooth',
+  })
+}
+
+function handleTabClick(roomId: string) {
+  selectRoom(roomId)
+  scrollToRoom(roomId)
 }
 
 /** Roving-focus keyboard support for the tablist (Left/Right/Home/End) */
@@ -326,7 +292,6 @@ function handleTablistKeydown(event: KeyboardEvent) {
     return
   }
   event.preventDefault()
-  stopAutoAdvance()
 
   const currentIndex = rooms.findIndex(room => room.id === activeRoomId.value)
   let nextIndex = currentIndex
@@ -346,45 +311,110 @@ function handleTablistKeydown(event: KeyboardEvent) {
   const nextRoom = rooms[nextIndex]
   if (nextRoom) {
     selectRoom(nextRoom.id)
+    scrollToRoom(nextRoom.id)
     nextTick(() => {
       document.getElementById(`room-tab-${nextRoom.id}`)?.focus()
     })
   }
 }
+
+onMounted(async () => {
+  await nextTick()
+
+  const sectionElement = sectionRef.value
+  const stackElement = stackRef.value
+
+  if (!sectionElement || !stackElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
+    return
+  }
+
+  const mediaMatcher = gsap.matchMedia()
+
+  mediaMatcher.add('(min-width: 1024px)', () => {
+    const context = createContext(() => {
+      const cards = gsap.utils.toArray<HTMLElement>('[data-room-card]', stackElement)
+
+      if (cards.length < 2) {
+        return
+      }
+
+      gsap.set(cards, {
+        autoAlpha: index => index === 0 ? 1 : 0.98,
+        scale: index => index === 0 ? 1 : 0.96,
+        yPercent: index => index === 0 ? 0 : 108,
+        zIndex: index => index + 1,
+        transformOrigin: 'center top',
+      })
+
+      const timeline = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: stackElement,
+          start: 'top top+=96',
+          end: () => `+=${cards.length * window.innerHeight * 0.72}`,
+          pin: true,
+          scrub: 0.85,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const activeIndex = Math.min(
+              rooms.length - 1,
+              Math.max(0, Math.round(self.progress * (rooms.length - 1))),
+            )
+            const activeRoom = rooms[activeIndex]
+            if (activeRoom && activeRoomId.value !== activeRoom.id) {
+              activeRoomId.value = activeRoom.id
+            }
+          },
+        },
+      })
+
+      roomStackTrigger = timeline.scrollTrigger
+
+      cards.slice(1).forEach((card, index) => {
+        const previousCard = cards[index]
+        if (!previousCard) {
+          return
+        }
+        const timelinePosition = index
+
+        timeline
+          .to(card, {
+            autoAlpha: 1,
+            scale: 1,
+            yPercent: 0,
+            duration: 1,
+          }, timelinePosition)
+          .to(previousCard, {
+            autoAlpha: 0.42,
+            scale: 0.92,
+            yPercent: -5,
+            duration: 1,
+          }, timelinePosition)
+      })
+    }, sectionElement)
+
+    return () => {
+      roomStackTrigger = undefined
+      context?.revert()
+    }
+  })
+
+  addCleanup(() => {
+    roomStackTrigger = undefined
+    mediaMatcher.revert()
+  })
+})
 </script>
 
 <style scoped>
-/* Panel swap: photography drifts in from the left, the details card follows
-   from the right a beat later — transform/opacity only, collapsed by the
-   global reduced-motion rules */
-.room-panel-enter-active,
-.room-panel-leave-active {
-  transition: opacity var(--duration-normal) var(--ease-premium);
+.rooms-stack {
+  display: grid;
+  gap: 1.5rem;
 }
 
-.room-panel-enter-active .room-panel-media,
-.room-panel-enter-active .room-panel-card {
-  transition:
-    opacity var(--duration-slow) var(--ease-premium),
-    transform var(--duration-slow) var(--ease-premium);
-}
-
-.room-panel-enter-active .room-panel-card {
-  transition-delay: 120ms;
-}
-
-.room-panel-enter-from .room-panel-media {
-  opacity: 0;
-  transform: translateX(-1.5rem);
-}
-
-.room-panel-enter-from .room-panel-card {
-  opacity: 0;
-  transform: translateX(1.5rem);
-}
-
-.room-panel-leave-to {
-  opacity: 0;
+.room-showcase-card {
+  transform-origin: center top;
 }
 
 /* Carousel image crossfade inside the fixed-aspect frame */
@@ -396,5 +426,21 @@ function handleTablistKeydown(event: KeyboardEvent) {
 .room-image-enter-from,
 .room-image-leave-to {
   opacity: 0;
+}
+
+@media (min-width: 1024px) {
+  .rooms-stack {
+    display: block;
+    min-height: 34rem;
+    height: min(68vh, 40rem);
+    position: relative;
+  }
+
+  .room-showcase-card {
+    inset: 0;
+    min-height: 100%;
+    position: absolute;
+    will-change: transform, opacity;
+  }
 }
 </style>
