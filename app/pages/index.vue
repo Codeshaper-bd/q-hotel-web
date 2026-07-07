@@ -3,8 +3,7 @@
     <HeroSection />
     <AboutSection />
     <RoomsSection />
-    <ExperienceSection />
-    <CtaSection />
+    <FaqSection />
   </div>
 </template>
 
