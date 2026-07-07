@@ -45,22 +45,22 @@
 
       <div
         ref="stackRef"
-        class="rooms-stack mt-10"
+        class="rooms-stack mt-10 lg:mt-8"
       >
-        <article
-          v-for="(room, roomIndex) in rooms"
-          :id="`room-panel-${room.id}`"
-          :key="room.id"
-          :data-room-card="roomIndex"
-          role="tabpanel"
-          :aria-labelledby="`room-tab-${room.id}`"
-          :aria-hidden="activeRoomId === room.id ? undefined : 'true'"
-          :tabindex="activeRoomId === room.id ? 0 : -1"
-          class="room-showcase-card grid gap-6 bg-paper lg:grid-cols-[1.25fr_1fr] lg:gap-8"
-        >
-          <!-- Photography with quiet dot navigation -->
-          <div class="relative">
-            <div class="relative aspect-[4/3] overflow-hidden bg-line/40">
+        <div ref="trackRef" class="rooms-track">
+          <article
+            v-for="(room, roomIndex) in rooms"
+            :id="`room-panel-${room.id}`"
+            :key="room.id"
+            :data-room-card="roomIndex"
+            role="tabpanel"
+            :aria-labelledby="`room-tab-${room.id}`"
+            :aria-hidden="activeRoomId === room.id ? undefined : 'true'"
+            :tabindex="activeRoomId === room.id ? 0 : -1"
+            class="room-showcase-card relative overflow-hidden bg-ink"
+          >
+            <!-- Full-bleed photography with quiet dot navigation -->
+            <div data-room-media class="relative aspect-[4/3] overflow-hidden bg-line/40 motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:aspect-auto">
               <Transition name="room-image">
                 <BaseImage
                   :key="selectedImage(room).src"
@@ -68,91 +68,94 @@
                   :alt="selectedImage(room).alt"
                   :width="1600"
                   :height="1200"
-                  sizes="xs:100vw sm:100vw md:100vw lg:60vw xl:50vw"
+                  sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1280px"
                   class="absolute inset-0 h-full w-full object-cover"
                 />
               </Transition>
-            </div>
-            <div
-              v-if="room.images.length > 1"
-              class="absolute inset-x-0 bottom-4 flex justify-center gap-2"
-            >
-              <button
-                v-for="(image, imageIndex) in room.images"
-                :key="image.src"
-                type="button"
-                :class="[
-                  'h-2.5 w-2.5 rounded-full border border-night/30 transition-colors duration-fast',
-                  imageIndex === selectedImageIndex(room.id) ? 'bg-champagne' : 'bg-paper/70 hover:bg-paper',
-                ]"
-                :aria-label="`Show photo ${imageIndex + 1} of ${room.name}`"
-                :aria-pressed="imageIndex === selectedImageIndex(room.id)"
-                :tabindex="activeRoomId === room.id ? 0 : -1"
-                @click="handleImageSelect(room.id, imageIndex)"
-              />
-            </div>
-          </div>
-
-          <!-- Details card -->
-          <div class="flex min-h-full flex-col bg-ink p-7 text-paper sm:p-9">
-            <span class="self-start border border-champagne/50 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-champagne">
-              ${{ room.nightlyRateUsd }} / Night
-            </span>
-
-            <h3 class="mt-5 font-display text-3xl leading-tight sm:text-4xl">
-              {{ room.name }}
-            </h3>
-
-            <p class="mt-4 text-sm leading-7 text-paper/70">
-              {{ room.description }}
-            </p>
-
-            <ul class="mt-7 space-y-3.5 border-t border-paper/15 pt-7 text-sm text-paper/80">
-              <li class="flex items-center gap-3">
-                <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                </svg>
-                {{ room.areaSqFt }} Sq Ft Room
-              </li>
-              <li class="flex items-center gap-3">
-                <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-                {{ room.maxOccupancy }} {{ room.maxOccupancy === 1 ? 'Person' : 'Persons' }}
-              </li>
-              <li class="flex items-center gap-3">
-                <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2 20v-8a2 2 0 012-2h16a2 2 0 012 2v8" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
-                </svg>
-                {{ room.bedType }}
-              </li>
-            </ul>
-
-            <!-- Rooms detail routes arrive with the reservations flow; the
-                 CTA hands off to the reserve entry point until then -->
-            <div class="mt-8 lg:mt-auto lg:pt-8">
-              <NuxtLink
-                to="#reserve"
-                :tabindex="activeRoomId === room.id ? 0 : -1"
-                class="group inline-flex items-stretch border border-champagne/60 text-paper transition-colors duration-fast hover:border-champagne hover:bg-champagne/10"
+              <div
+                v-if="room.images.length > 1"
+                class="absolute inset-x-0 bottom-4 flex justify-center gap-2 lg:inset-x-auto lg:bottom-8 lg:left-10 lg:justify-start"
               >
-                <span class="flex items-center px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.14em]">
-                  More Details
-                </span>
-                <span
-                  class="flex items-center bg-champagne px-3.5 text-night transition-colors duration-fast group-hover:bg-gold"
-                  aria-hidden="true"
-                >
-                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-                  </svg>
-                </span>
-              </NuxtLink>
+                <button
+                  v-for="(image, imageIndex) in room.images"
+                  :key="image.src"
+                  type="button"
+                  :class="[
+                    'h-2.5 w-2.5 rounded-full border border-night/30 transition-colors duration-fast',
+                    imageIndex === selectedImageIndex(room.id) ? 'bg-champagne' : 'bg-paper/70 hover:bg-paper',
+                  ]"
+                  :aria-label="`Show photo ${imageIndex + 1} of ${room.name}`"
+                  :aria-pressed="imageIndex === selectedImageIndex(room.id)"
+                  :tabindex="activeRoomId === room.id ? 0 : -1"
+                  @click="handleImageSelect(room.id, imageIndex)"
+                />
+              </div>
             </div>
-          </div>
-        </article>
+
+            <!-- Details panel: solid below the photo on mobile, frosted glass overlay on desktop -->
+            <div class="relative flex flex-col bg-ink p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-6 motion-safe:lg:right-6 motion-safe:lg:w-96 motion-safe:lg:overflow-y-auto motion-safe:lg:border motion-safe:lg:border-champagne/25 motion-safe:lg:bg-night/55 motion-safe:lg:p-8 motion-safe:lg:backdrop-blur-xl motion-safe:xl:inset-y-10 motion-safe:xl:right-10 motion-safe:xl:w-[26rem] motion-safe:xl:p-10">
+              <span class="self-start border border-champagne/50 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-champagne">
+                ${{ room.nightlyRateUsd }} / Night
+              </span>
+
+              <h3 class="mt-5 font-display text-3xl leading-tight sm:text-4xl">
+                {{ room.name }}
+              </h3>
+
+              <p class="mt-4 text-sm leading-7 text-paper/70">
+                {{ room.description }}
+              </p>
+
+              <ul class="mt-7 space-y-3.5 text-sm text-paper/80 motion-safe:lg:mt-auto motion-safe:lg:pt-8">
+                <li class="flex items-center gap-3">
+                  <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                  </svg>
+                  {{ room.areaSqFt }} Sq Ft Room
+                </li>
+                <li class="flex items-center gap-3">
+                  <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                  </svg>
+                  {{ room.maxOccupancy }} {{ room.maxOccupancy === 1 ? 'Person' : 'Persons' }}
+                </li>
+                <li class="flex items-center gap-3">
+                  <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 20v-8a2 2 0 012-2h16a2 2 0 012 2v8" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
+                  </svg>
+                  {{ room.bedType }}
+                </li>
+              </ul>
+
+              <!-- Rooms detail routes arrive with the reservations flow; the
+                   CTA hands off to the reserve entry point until then -->
+              <div class="mt-8">
+                <NuxtLink
+                  to="#reserve"
+                  :tabindex="activeRoomId === room.id ? 0 : -1"
+                  class="room-cta group inline-flex items-stretch text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-champagne"
+                >
+                  <span class="flex min-h-11 items-center border border-r-0 border-paper/40 px-6 text-[0.7rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-fast group-hover:border-champagne group-hover:bg-champagne/10 group-focus-visible:border-champagne group-focus-visible:bg-champagne/10">
+                    More Details
+                  </span>
+                  <span
+                    class="room-cta-icon relative flex min-h-11 w-12 items-center justify-center overflow-hidden border border-champagne/60 text-champagne transition-colors duration-fast group-hover:border-champagne group-hover:bg-champagne group-hover:text-night group-focus-visible:border-champagne group-focus-visible:bg-champagne group-focus-visible:text-night"
+                    aria-hidden="true"
+                  >
+                    <svg class="room-cta-arrow room-cta-arrow-primary h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
+                    </svg>
+                    <svg class="room-cta-arrow room-cta-arrow-secondary h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
+                    </svg>
+                  </span>
+                </NuxtLink>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </BaseSection>
@@ -236,6 +239,7 @@ const activeRoomId = ref(rooms[0]?.id ?? '')
 const activeImageIndexes = reactive<Record<string, number>>({})
 const sectionRef = ref<HTMLElement | null>(null)
 const stackRef = ref<HTMLElement | null>(null)
+const trackRef = ref<HTMLElement | null>(null)
 
 const { gsap, createContext, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()
@@ -332,28 +336,31 @@ onMounted(async () => {
 
   mediaMatcher.add('(min-width: 1024px)', () => {
     const context = createContext(() => {
+      const trackElement = trackRef.value
       const cards = gsap.utils.toArray<HTMLElement>('[data-room-card]', stackElement)
 
-      if (cards.length < 2) {
+      if (!trackElement || cards.length < 2) {
         return
       }
 
-      gsap.set(cards, {
-        autoAlpha: index => index === 0 ? 1 : 0.98,
-        scale: index => index === 0 ? 1 : 0.96,
-        yPercent: index => index === 0 ? 0 : 108,
-        zIndex: index => index + 1,
-        transformOrigin: 'center top',
-      })
+      const slideCount = cards.length - 1
 
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
-          trigger: stackElement,
-          start: 'top top+=96',
+          // Pin the whole section block (kicker, title, tabs, and card stack)
+          // so the heading stays on screen while the cards slide through.
+          trigger: sectionElement,
+          start: 'top top+=30',
           end: () => `+=${cards.length * window.innerHeight * 0.72}`,
           pin: true,
           scrub: 0.85,
+          // Always settle on a full card so a slide never rests half-cut
+          snap: {
+            snapTo: 1 / slideCount,
+            duration: { min: 0.25, max: 0.6 },
+            ease: 'power2.out',
+          },
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
@@ -371,26 +378,30 @@ onMounted(async () => {
 
       roomStackTrigger = timeline.scrollTrigger
 
-      cards.slice(1).forEach((card, index) => {
-        const previousCard = cards[index]
-        if (!previousCard) {
+      // Cinematic horizontal slide: one card width per snap step
+      timeline.to(trackElement, {
+        xPercent: -100 * slideCount,
+        duration: slideCount,
+      }, 0)
+
+      // Subtle counter-drift on each photo while its card crosses the frame;
+      // the slight overscale hides the edges the drift would expose
+      cards.forEach((card, index) => {
+        const mediaElement = card.querySelector<HTMLElement>('[data-room-media]')
+        if (!mediaElement) {
           return
         }
-        const timelinePosition = index
 
-        timeline
-          .to(card, {
-            autoAlpha: 1,
-            scale: 1,
-            yPercent: 0,
-            duration: 1,
-          }, timelinePosition)
-          .to(previousCard, {
-            autoAlpha: 0.42,
-            scale: 0.92,
-            yPercent: -5,
-            duration: 1,
-          }, timelinePosition)
+        gsap.set(mediaElement, { scale: 1.1 })
+
+        const isFirst = index === 0
+        const isLast = index === cards.length - 1
+        timeline.fromTo(mediaElement, {
+          xPercent: isFirst ? 0 : 4,
+        }, {
+          xPercent: isLast ? 0 : -4,
+          duration: isFirst || isLast ? 1 : 2,
+        }, isFirst ? 0 : index - 1)
       })
     }, sectionElement)
 
@@ -408,13 +419,36 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.rooms-stack {
+.rooms-track {
   display: grid;
   gap: 1.5rem;
 }
 
-.room-showcase-card {
-  transform-origin: center top;
+.room-cta-arrow {
+  inset: auto;
+  position: absolute;
+  transition:
+    opacity var(--duration-normal) var(--ease-premium),
+    transform var(--duration-normal) var(--ease-premium);
+}
+
+.room-cta-arrow-secondary {
+  opacity: 0;
+  transform: translate(-0.85rem, 0.85rem);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .room-cta:hover .room-cta-arrow-primary,
+  .room-cta:focus-visible .room-cta-arrow-primary {
+    opacity: 0;
+    transform: translate(0.85rem, -0.85rem);
+  }
+
+  .room-cta:hover .room-cta-arrow-secondary,
+  .room-cta:focus-visible .room-cta-arrow-secondary {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
 }
 
 /* Carousel image crossfade inside the fixed-aspect frame */
@@ -428,19 +462,28 @@ onMounted(async () => {
   opacity: 0;
 }
 
-@media (min-width: 1024px) {
+/* The pinned horizontal slider only exists when motion is allowed; reduced
+   motion keeps the readable vertical flow at every width */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .rooms-stack {
-    display: block;
-    min-height: 34rem;
-    height: min(68vh, 40rem);
+    /* Leave room for the fixed header, section heading, and tabs above the
+       pinned stack so the whole block fits inside the viewport while pinned */
+    height: clamp(26rem, calc(100vh - 19rem), 44rem);
+    overflow: hidden;
     position: relative;
   }
 
+  .rooms-track {
+    display: flex;
+    gap: 0;
+    height: 100%;
+    will-change: transform;
+  }
+
   .room-showcase-card {
-    inset: 0;
-    min-height: 100%;
-    position: absolute;
-    will-change: transform, opacity;
+    flex: 0 0 100%;
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

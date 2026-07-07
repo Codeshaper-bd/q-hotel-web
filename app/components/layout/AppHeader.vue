@@ -199,62 +199,6 @@ const navigationItems: NavItemData[] = [
     ],
   },
   {
-    id: 'experiences',
-    label: 'Experiences',
-    href: '#experiences',
-    badge: '+',
-    megaMenu: {
-      columns: [
-        {
-          title: 'The Hotel',
-          items: [
-            { label: 'About Us', href: '#about' },
-            { label: 'Hotel Policy', href: '#policy' },
-            { label: 'Banquets', href: '#banquets' },
-          ],
-        },
-        {
-          title: 'Stay',
-          items: [
-            { label: 'Facilities', href: '#facilities' },
-            { label: 'Amenities', href: '#amenities' },
-          ],
-        },
-        {
-          title: 'Offers',
-          items: [
-            { label: 'Packages', href: '#packages' },
-            { label: 'Seasonal Deals', href: '#seasonal-deals' },
-          ],
-        },
-        {
-          title: 'Explore',
-          items: [
-            { label: 'Gallery', href: '#gallery' },
-            { label: 'Nearby Attractions', href: '#attractions' },
-          ],
-        },
-      ],
-      contact: {
-        address: ['House 14, Road 7', 'Sector 4, Uttara', 'Dhaka-1230, Bangladesh'],
-        phones: [
-          { label: 'Overseas', value: '+88-02-41090390' },
-          { label: 'Local', value: '+88-09678111555' },
-          { label: 'Mobile', value: '+880 1713-377700' },
-        ],
-        emails: ['info@qfl.com.bd', 'mkt.affairs@qfl.com.bd'],
-        social: [
-          { platform: 'facebook', href: '#', ariaLabel: 'Q Hotel on Facebook' },
-          { platform: 'instagram', href: '#', ariaLabel: 'Q Hotel on Instagram' },
-          { platform: 'linkedin', href: '#', ariaLabel: 'Q Hotel on LinkedIn' },
-          { platform: 'youtube', href: '#', ariaLabel: 'Q Hotel on YouTube' },
-        ],
-      },
-      imageSrc: '/images/hotel-interior.jpg',
-      imageAlt: 'Q Hotel luxury interior lounge',
-    },
-  },
-  {
     id: 'meetings',
     label: 'Meetings & Events',
     href: '#meetings',

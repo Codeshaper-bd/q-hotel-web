@@ -8,7 +8,7 @@
   <section
     id="about"
     aria-labelledby="about-title"
-    class="relative overflow-hidden bg-paper py-20 text-ink sm:py-24"
+    class="relative overflow-hidden bg-paper py-20 pb-0 text-ink sm:py-24 sm:pb-0"
   >
     <!-- Brand mark half-cropped at the viewport edge — texture, not content -->
     <svg
