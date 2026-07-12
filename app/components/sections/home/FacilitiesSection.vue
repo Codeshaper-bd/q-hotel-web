@@ -28,7 +28,7 @@
       height="508"
       loading="lazy"
       :class="[
-        'skyline pointer-events-none absolute bottom-0 -left-[10%] -z-10 hidden w-[42rem] opacity-50 lg:block xl:w-[60rem]',
+        'skyline pointer-events-none absolute bottom-0 -left-[10%] -z-10 hidden w-[60rem] opacity-50 lg:block',
         isSkylineAnimated ? 'skyline-animated' : '',
         isSkylineBuilt ? 'skyline-built' : '',
       ]"
