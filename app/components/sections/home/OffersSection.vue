@@ -36,16 +36,21 @@
               sizes="xs:78vw sm:46vw lg:33vw xl:540px"
               class="absolute inset-0 transition-transform duration-slow ease-premium motion-safe:group-hover:scale-105"
             />
-            <!-- Hover/focus affordance; the card link itself carries the action -->
-            <span
-              class="pointer-events-none absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 bg-champagne px-4 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-night opacity-0 transition-opacity duration-normal group-focus-within:opacity-100 motion-safe:group-hover:opacity-100"
+            <!--
+              Hover/focus affordance in the project's signature CTA. Purely
+              decorative: the card's stretched title link already carries the
+              action, so this is hidden from assistive tech, taken out of the
+              tab order, and lets clicks fall through to the link beneath it.
+            -->
+            <BaseArrowCta
+              to="#reserve"
+              variant="gold"
               aria-hidden="true"
+              tabindex="-1"
+              class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-normal group-focus-within:opacity-100 motion-safe:group-hover:opacity-100"
             >
               More Details
-              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-              </svg>
-            </span>
+            </BaseArrowCta>
           </div>
 
           <h3 class="mt-5 font-display text-2xl text-ink">
@@ -60,33 +65,39 @@
       </div>
     </FadeReveal>
 
-    <!-- Paging controls + scroll-linked progress rule -->
-    <div class="mt-10 flex items-center justify-center gap-5">
-      <button
-        type="button"
-        class="flex h-11 w-11 items-center justify-center border border-line text-ink transition-colors duration-fast enabled:hover:border-copper enabled:hover:text-copper disabled:opacity-40"
-        :disabled="!canScrollBack"
-        aria-label="Previous offers"
-        @click="scrollByCard(-1)"
-      >
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l6-6m-6 6l6 6" />
-        </svg>
-      </button>
+    <!--
+      Paging controls + scroll-linked progress rule: arrows either side of a
+      hairline, the whole group framed by a fine gold rule as in the Figma
+      design. Arrows carry no box of their own, but keep a 44px hit area.
+    -->
+    <div class="mt-10 flex justify-center">
+      <div class="inline-flex items-center gap-4 border border-gold/60 px-3 sm:gap-6 sm:px-4">
+        <button
+          type="button"
+          class="flex h-11 w-11 items-center justify-center text-ink transition-colors duration-fast enabled:hover:text-copper disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
+          :disabled="!canScrollBack"
+          aria-label="Previous offers"
+          @click="scrollByCard(-1)"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4m0 0l6-6m-6 6l6 6" />
+          </svg>
+        </button>
 
-      <div class="carousel-progress h-px w-40 bg-line" aria-hidden="true" />
+        <div class="carousel-progress h-px w-32 bg-line sm:w-44" aria-hidden="true" />
 
-      <button
-        type="button"
-        class="flex h-11 w-11 items-center justify-center border border-line text-ink transition-colors duration-fast enabled:hover:border-copper enabled:hover:text-copper disabled:opacity-40"
-        :disabled="!canScrollForward"
-        aria-label="Next offers"
-        @click="scrollByCard(1)"
-      >
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0l-6-6m6 6l-6 6" />
-        </svg>
-      </button>
+        <button
+          type="button"
+          class="flex h-11 w-11 items-center justify-center text-ink transition-colors duration-fast enabled:hover:text-copper disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
+          :disabled="!canScrollForward"
+          aria-label="Next offers"
+          @click="scrollByCard(1)"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16m0 0l-6-6m6 6l-6 6" />
+          </svg>
+        </button>
+      </div>
     </div>
   </BaseSection>
 </template>

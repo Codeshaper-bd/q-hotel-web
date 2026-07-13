@@ -9,6 +9,7 @@
     <OffersSection />
     <ReviewsSection />
     <InstagramSection />
+    <LocationSection />
     <FaqSection />
   </div>
 </template>

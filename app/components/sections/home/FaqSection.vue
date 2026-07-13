@@ -1,108 +1,47 @@
 <template>
   <!--
-    Frequently Asked Questions: an accessible single-open accordion beside a
-    hand-drawn architectural line sketch. Composes <section> directly (not
-    BaseSection) so the sketch can bleed off the container to the left
-    viewport edge on large screens. Paper tone (not pure white).
+    Frequently Asked Questions as an architectural construction experience: on
+    large screens the section pins for ~220vh while the Q Hotel building is
+    assembled on the left — grid, foundation, structural drawing, materials,
+    window lights, landscaping — and the FAQ content stages in on the right,
+    readable and interactive throughout (the accordion is ordinary DOM inside
+    the pinned layout; nothing overlays it).
+
+    Mobile, short viewports, reduced motion, and no-JS all skip the pin and
+    show the completed building with the plain accordion — the animation is an
+    enhancement, never a requirement. Composes <section> directly (not
+    BaseSection) because the pinned stage owns its own height and gutters.
   -->
   <section
     id="faq"
+    ref="sectionRef"
     aria-labelledby="faq-title"
-    class="overflow-hidden bg-paper py-24 text-ink sm:py-32"
+    class="overflow-hidden bg-paper text-ink"
   >
-    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      <!-- Architectural line sketch — bleeds to the left viewport edge on lg -->
-      <FadeReveal>
-        <div class="px-5 sm:px-6 lg:px-0">
-          <img
-            src="/images/faq-sketch.svg"
-            alt=""
-            width="808"
-            height="747"
-            class="mx-auto h-auto w-full max-w-md opacity-60 lg:max-w-none"
-            aria-hidden="true"
-          >
-        </div>
-      </FadeReveal>
+    <div class="faq-stage grid items-center gap-12 py-24 sm:py-32 lg:grid-cols-2 lg:gap-10 lg:py-0">
+      <!-- Construction visual, grounded to the stage floor on lg -->
+      <div class="flex items-end justify-center px-5 sm:px-6 lg:h-full lg:px-8 lg:pb-6 lg:pt-24">
+        <FaqBuildingVisual :progress="visualProgress" class="max-w-md lg:max-h-full lg:max-w-none" />
+      </div>
 
       <!-- Heading + accordion, aligned to the xl container's right edge -->
-      <div class="px-5 sm:px-6 lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
-        <FadeReveal>
-          <div class="flex flex-col items-center text-center">
-            <BaseKicker>Related Question</BaseKicker>
-            <h2 id="faq-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
-              Frequently Asked Questions
-            </h2>
-          </div>
-        </FadeReveal>
+      <div class="px-5 sm:px-6 lg:max-h-full lg:self-center lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
+        <div data-faq-reveal class="flex flex-col items-center text-center">
+          <BaseKicker>Related Question</BaseKicker>
+          <h2 id="faq-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+            Frequently Asked Questions
+          </h2>
+        </div>
 
-        <FadeReveal>
-          <dl class="mt-10 border-t border-line/70">
-            <div
-              v-for="(item, index) in faqs"
-              :key="item.question"
-              class="border-b border-line/70"
-            >
-              <dt>
-                <button
-                  :id="`faq-question-${index}`"
-                  type="button"
-                  :aria-expanded="openIndex === index"
-                  :aria-controls="`faq-answer-${index}`"
-                  class="flex w-full items-center gap-4 py-5 text-left"
-                  @click="toggle(index)"
-                >
-                  <span
-                    :class="[
-                      'shrink-0 transition-colors duration-fast',
-                      openIndex === index ? 'text-copper' : 'text-ink/40',
-                    ]"
-                    aria-hidden="true"
-                  >
-                    <svg
-                      class="h-4 w-4 transition-transform duration-normal ease-premium motion-reduce:transition-none"
-                      :class="openIndex === index ? 'rotate-45' : ''"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    >
-                      <path stroke-linecap="round" d="M12 5v14M5 12h14" />
-                    </svg>
-                  </span>
-                  <span class="font-display text-lg text-ink sm:text-xl">
-                    {{ item.question }}
-                  </span>
-                </button>
-              </dt>
-              <dd
-                :id="`faq-answer-${index}`"
-                role="region"
-                :aria-labelledby="`faq-question-${index}`"
-                :class="[
-                  'grid transition-[grid-template-rows] duration-normal ease-premium motion-reduce:transition-none',
-                  openIndex === index ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
-                ]"
-              >
-                <div class="overflow-hidden">
-                  <p class="max-w-xl pb-6 pl-8 text-sm leading-7 text-ink/60">
-                    {{ item.answer }}
-                  </p>
-                </div>
-              </dd>
-            </div>
-          </dl>
-        </FadeReveal>
+        <FaqAccordion :items="faqs" class="mt-10" />
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-interface FaqItem {
-  question: string
-  answer: string
-}
+import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
+import type { FaqItem } from '~/types/faq'
 
 const faqs: FaqItem[] = [
   {
@@ -131,12 +70,90 @@ const faqs: FaqItem[] = [
   },
 ]
 
-// Single-open accordion; first item open by default
-const openIndex = ref<number | null>(0)
+const sectionRef = ref<HTMLElement | null>(null)
+/** 1 (completed) is the resting truth: SSR, mobile, and reduced motion never move it */
+const visualProgress = ref(1)
 
-function toggle(index: number) {
-  openIndex.value = openIndex.value === index ? null : index
+const { gsap, prefersReducedMotion } = useGsap()
+const { addCleanup } = useAnimationCleanup()
+const nuxtApp = useNuxtApp()
+const ScrollTrigger = nuxtApp.$ScrollTrigger as typeof ScrollTriggerType | undefined
+
+/** Piecewise-linear ramp: 0 before `from`, 1 after `to` */
+function ramp(progress: number, from: number, to: number): number {
+  return Math.min(1, Math.max(0, (progress - from) / (to - from)))
 }
+
+/** FAQ content stages in early: the heading arrives with the foundation, the
+ *  questions with the structure — readable long before the building finishes */
+function applyContentProgress(progress: number, elements: HTMLElement[]) {
+  if (!gsap) {
+    return
+  }
+
+  elements.forEach((element, index) => {
+    const start = index === 0 ? 0.02 : 0.08 + (index - 1) * 0.035
+    const reveal = ramp(progress, start, start + 0.08)
+
+    gsap.set(element, {
+      autoAlpha: reveal,
+      y: 20 * (1 - reveal),
+    })
+
+    // Restrained blur on the heading block only, cleared once it has landed
+    if (index === 0) {
+      element.style.filter = reveal < 1 ? `blur(${(4 * (1 - reveal)).toFixed(2)}px)` : 'none'
+    }
+  })
+}
+
+onMounted(async () => {
+  await nextTick()
+
+  const sectionElement = sectionRef.value
+
+  if (!sectionElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
+    return
+  }
+
+  const mediaMatcher = gsap.matchMedia()
+
+  // The pinned experience needs width for two columns and height for the
+  // stage; anything smaller keeps the static completed layout.
+  mediaMatcher.add('(min-width: 1024px) and (min-height: 560px)', () => {
+    const contentElements = gsap.utils.toArray<HTMLElement>('[data-faq-reveal]', sectionElement)
+
+    const trigger = ScrollTrigger.create({
+      trigger: sectionElement,
+      start: () => `top top+=${readHeaderHeight()}`,
+      end: '+=220%',
+      pin: true,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        visualProgress.value = self.progress
+        applyContentProgress(self.progress, contentElements)
+      },
+      onRefresh: (self) => {
+        visualProgress.value = self.progress
+        applyContentProgress(self.progress, contentElements)
+      },
+    })
+
+    return () => {
+      trigger.kill()
+      // Back to the resting truth: completed building, content untouched
+      visualProgress.value = 1
+      gsap.set(contentElements, { clearProps: 'all' })
+      contentElements.forEach((element) => {
+        element.style.filter = ''
+      })
+    }
+  })
+
+  addCleanup(() => mediaMatcher.revert())
+})
 
 // FAQ structured data for rich results
 useHead({
@@ -159,3 +176,13 @@ useHead({
   ],
 })
 </script>
+
+<style scoped>
+/* Pinned stage: exactly the viewport below the fixed header while the
+   construction sequence scrubs; natural flow everywhere else */
+@media (min-width: 1024px) and (min-height: 560px) {
+  .faq-stage {
+    height: calc(100svh - var(--header-height));
+  }
+}
+</style>

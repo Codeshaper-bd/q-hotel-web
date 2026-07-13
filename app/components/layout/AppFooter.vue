@@ -1,6 +1,6 @@
 <template>
   <!-- Inset frame: paper page shows on all four sides of the dark panel -->
-  <footer class="bg-paper p-4 sm:p-6 lg:p-8">
+  <footer class="bg-paper p-2 sm:p-3 lg:p-4">
     <div class="overflow-hidden rounded-sm bg-night text-paper">
       <BaseContainer size="xl">
       <!-- Upper band: brand, contact + actions, newsletter + rating -->
@@ -271,6 +271,34 @@
               {{ info }}
             </li>
           </ul>
+        </div>
+      </div>
+
+      <!-- Accepted payment methods -->
+      <div class="flex flex-col gap-4 border-t border-paper/10 py-7 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="shrink-0 text-xs font-semibold uppercase tracking-[0.14em] text-paper/50">We Accept:</span>
+          <img
+            src="/images/footer/visa_cards.png"
+            alt="Accepted payment methods: Visa, Nagad, bKash, American Express, Mastercard, DBBL, Upay, Apple Pay, NexusPay, iPay, cityBank, Brac Bank, Bank Asia, Islami Bank, Q-Cash, fastcash, Upay, and City Bank Direct"
+            width="1244"
+            height="48"
+            loading="lazy"
+            class="h-6 w-auto max-w-full sm:h-7"
+          >
+          <span class="shrink-0 text-xs text-paper/40">and more........</span>
+        </div>
+
+        <div class="flex shrink-0 flex-col items-center gap-1.5">
+          <span class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-paper/50">Verified By</span>
+          <img
+            src="/images/footer/verified_ssl_commerz.png"
+            alt="SSLCommerz"
+            width="145"
+            height="31"
+            loading="lazy"
+            class="h-6 w-auto sm:h-7"
+          >
         </div>
       </div>
 

@@ -17,12 +17,16 @@
       :class="['arrow-cta-icon relative flex min-h-11 w-12 items-center justify-center overflow-hidden transition-colors duration-fast', iconClasses[variant]]"
       aria-hidden="true"
     >
-      <svg class="arrow-cta-arrow arrow-cta-arrow-primary h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-      </svg>
-      <svg class="arrow-cta-arrow arrow-cta-arrow-secondary h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
-      </svg>
+      <!-- Defaults to the signature diagonal arrow; `icon` swaps in a different
+           glyph (e.g. a social mark) without duplicating the whole CTA -->
+      <slot name="icon">
+        <svg class="arrow-cta-arrow arrow-cta-arrow-primary h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
+        </svg>
+        <svg class="arrow-cta-arrow arrow-cta-arrow-secondary h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
+        </svg>
+      </slot>
     </span>
   </NuxtLink>
 </template>

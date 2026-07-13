@@ -50,7 +50,7 @@
           <div
             v-for="amenity in amenities"
             :key="amenity.id"
-            :class="['facility-card flex aspect-square flex-col items-center justify-center gap-4 px-4 text-center', amenity.gridClass]"
+            :class="['surface-grain flex aspect-square flex-col items-center justify-center gap-4 bg-paper/10 px-4 text-center', amenity.gridClass]"
           >
             <svg
               class="h-8 w-8 text-paper/90"
@@ -244,10 +244,6 @@ const amenities: FacilityAmenity[] = [
   transform: translateY(0);
 }
 
-/* Amenity tile: lifted panel tone with a film-grain noise wash, matching the
-   textured card fill in the design (Tailwind cannot express the SVG grain) */
-.facility-card {
-  background-color: rgb(var(--color-paper) / 0.08);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
-}
+/* The amenity tile's grain wash now comes from the shared `.surface-grain`
+   utility in main.css, so the location cards can wear the same surface */
 </style>
