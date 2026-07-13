@@ -21,11 +21,11 @@
         aria-hidden="true"
       />
 
-      <!-- Brand mark: stroke-drawn, champagne-filled, settled in 3D perspective -->
+      <!-- Brand mark: stroke-drawn, champagne-filled, with a subtle 2D entrance -->
       <div ref="logoWrapRef" class="relative h-24 w-24 opacity-0 sm:h-28 sm:w-28">
         <svg class="h-full w-full" viewBox="0 0 51 50" fill="none" aria-hidden="true">
-          <!-- Glow layer: blurred duplicate, faded in once the mark completes -->
-          <g ref="glowGroupRef" class="preloader-glow opacity-0">
+          <!-- Filter-free highlight layer avoids rectangular SVG compositing artifacts -->
+          <g ref="glowGroupRef" class="opacity-0">
             <path v-for="(d, index) in logoPaths" :key="`glow-${index}`" :d="d" class="fill-champagne" />
           </g>
 
@@ -50,7 +50,7 @@
         </svg>
 
         <!-- Light sweep across the mark -->
-        <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute inset-0 overflow-hidden rounded-full" aria-hidden="true">
           <div ref="sheenRef" class="preloader-sheen absolute inset-y-0 -left-full w-full opacity-0" />
         </div>
       </div>
@@ -156,15 +156,14 @@ onMounted(() => {
     .to(progressFillRef.value, { scaleX: 1, duration: 1.9, ease: 'none' }, 0)
     // Ambient light breathes in
     .to(ambientRef.value, { opacity: 1, duration: 0.6, ease: 'power1.out' }, 0)
-    // Mark arrives from 3D depth while its outline draws
+    // A 2D entrance avoids browser-specific square compositing artifacts
     .to(logoWrapRef.value, { opacity: 1, duration: 0.45, ease: 'power1.out' }, 0.05)
     .fromTo(logoWrapRef.value,
-      { rotationY: -35, rotationX: 10, z: -90, transformPerspective: 900 },
-      { rotationY: 0, rotationX: 0, z: 0, duration: 1.4, ease: 'power3.out' },
+      { scale: 0.92, y: 6 },
+      { scale: 1, y: 0, duration: 1.4, ease: 'power3.out' },
       0,
     )
-    // Drop the 3D transform at rest: a lingering perspective layer rasterizes
-    // the gradient behind it differently and shows as a faint box in Chrome
+    // Drop the temporary transform layer once the mark settles
     .set(logoWrapRef.value, { clearProps: 'transform' }, 1.42)
     .to(strokePaths, {
       attr: { 'stroke-dashoffset': 0 },
@@ -219,12 +218,6 @@ onBeforeUnmount(() => {
 /* Soft radial light behind the brand mark */
 .preloader-ambient {
   background: radial-gradient(circle, rgb(var(--color-gold) / 0.16) 0%, transparent 60%);
-}
-
-/* Glow hugs the mark's shape; drop-shadow avoids the rectangular
-   filter-region artifact that blur() causes over the ambient gradient */
-.preloader-glow {
-  filter: drop-shadow(0 0 4px rgb(var(--color-champagne) / 0.8)) drop-shadow(0 0 10px rgb(var(--color-champagne) / 0.45));
 }
 
 /* Diagonal light band swept across the mark by the timeline */
