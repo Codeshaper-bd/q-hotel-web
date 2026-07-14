@@ -24,7 +24,7 @@ export default <Partial<Config>>{
         olive: 'rgb(var(--color-olive) / <alpha-value>)'
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Satoshi', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['Cormorant Garamond', 'Georgia', 'serif']
       },
       borderRadius: {

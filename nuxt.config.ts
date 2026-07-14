@@ -1,7 +1,17 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/image'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxt/fonts'],
+  fonts: {
+    families: [
+      // Display serif for headlines, nav, and brand moments
+      { name: 'Cormorant Garamond', provider: 'google', weights: [400, 500, 600, 700] },
+      // Body/UI sans — Satoshi ships from Fontshare, not Google
+      { name: 'Satoshi', provider: 'fontshare', weights: [400, 500, 700, 900] },
+      // Booking-bar field labels per Figma spec
+      { name: 'Inter', provider: 'google', weights: [400, 500, 600] }
+    ]
+  },
   css: ['~/assets/css/main.css'],
   components: [
     { path: '~/components', pathPrefix: false }

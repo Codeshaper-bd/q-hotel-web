@@ -11,7 +11,7 @@
          layer so the backdrop blur eases in rather than snapping on -->
     <div
       :class="[
-        'absolute inset-0 border-b border-champagne/20 bg-night/70 backdrop-blur-md transition-opacity duration-normal ease-premium',
+        'absolute inset-0 border-b border-line/70 bg-paper/90 backdrop-blur-md transition-opacity duration-normal ease-premium',
         hasSolidBackground ? 'opacity-100' : 'opacity-0',
       ]"
       aria-hidden="true"
@@ -28,7 +28,7 @@
       <!-- Desktop: three-column bar -->
       <div class="flex min-h-[var(--header-height)] items-center justify-between gap-6">
         <!-- Left: logo -->
-        <NavLogo />
+        <NavLogo :tone="hasSolidBackground ? 'on-light' : 'on-dark'" />
 
         <!-- Centre: primary navigation (hidden on mobile) -->
         <nav
@@ -40,7 +40,10 @@
             <NuxtLink
               v-if="!item.dropdown && !item.megaMenu"
               :to="item.href"
-              class="px-3.5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-paper/60 transition-colors duration-fast hover:text-paper xl:px-4"
+              :class="[
+                'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
+                hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-paper/60 hover:text-paper',
+              ]"
             >
               {{ item.label }}
             </NuxtLink>
@@ -54,8 +57,10 @@
                 aria-haspopup="true"
                 :aria-controls="`nav-menu-${item.id}`"
                 :class="[
-                  'flex items-center gap-1 px-3.5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-fast xl:px-4',
-                  activeMenuId === item.id ? 'text-copper' : 'text-paper/60 hover:text-paper',
+                  'flex items-center gap-1 px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
+                  activeMenuId === item.id
+                    ? 'text-copper'
+                    : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-paper/60 hover:text-paper',
                 ]"
                 @mouseenter="handleTriggerEnter(item.id)"
                 @mouseleave="schedulMenuClose"
@@ -68,7 +73,12 @@
                 <span v-if="item.badge" class="ml-0.5 text-copper" aria-hidden="true">{{ item.badge }}</span>
                 <!-- Chevron indicator -->
                 <svg
-                  :class="['h-3 w-3 shrink-0 transition-transform duration-fast', activeMenuId === item.id ? 'rotate-180 text-copper' : 'text-paper/30']"
+                  :class="[
+                    'h-3 w-3 shrink-0 transition-transform duration-fast',
+                    activeMenuId === item.id
+                      ? 'rotate-180 text-copper'
+                      : hasSolidBackground ? 'text-ink/30' : 'text-paper/30',
+                  ]"
                   viewBox="0 0 12 12"
                   fill="none"
                   aria-hidden="true"
@@ -98,13 +108,23 @@
           <!-- Reserve: split control — label + bed icon behind one border -->
           <NuxtLink
             to="#reserve"
-            class="group hidden items-stretch border border-champagne/60 text-paper transition-colors duration-fast hover:border-champagne hover:bg-champagne/10 lg:flex"
+            :class="[
+              'group hidden items-stretch border transition-colors duration-fast lg:flex',
+              hasSolidBackground
+                ? 'border-copper/60 text-ink hover:border-copper hover:bg-copper/10'
+                : 'border-champagne/60 text-paper hover:border-champagne hover:bg-champagne/10',
+            ]"
           >
-            <span class="flex items-center px-5 py-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.14em]">
+            <span class="flex items-center px-5 py-2.5 text-sm font-semibold uppercase leading-5">
               Reserve Now
             </span>
             <span
-              class="flex items-center border-l border-champagne/60 px-3.5 transition-colors duration-fast group-hover:border-champagne"
+              :class="[
+                'flex items-center border-l px-3.5 transition-colors duration-fast',
+                hasSolidBackground
+                  ? 'border-copper/60 group-hover:border-copper'
+                  : 'border-champagne/60 group-hover:border-champagne',
+              ]"
               aria-hidden="true"
             >
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -119,7 +139,12 @@
           <!-- Mobile hamburger -->
           <button
             type="button"
-            class="flex h-10 w-10 items-center justify-center rounded-sm border border-paper/20 text-paper/60 transition-colors duration-fast hover:border-paper/40 hover:text-paper lg:hidden"
+            :class="[
+              'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast lg:hidden',
+              hasSolidBackground
+                ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
+                : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
+            ]"
             :aria-expanded="isMobileOpen"
             aria-controls="mobile-navigation"
             aria-label="Toggle navigation"

@@ -57,7 +57,7 @@ body {
   margin: 0;
   background: rgb(var(--color-paper));
   color: rgb(var(--color-ink));
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-family: Satoshi, ui-sans-serif, system-ui, sans-serif;
 }
 
 * {

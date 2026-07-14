@@ -31,7 +31,7 @@
             :aria-controls="`room-panel-${room.id}`"
             :tabindex="activeRoomId === room.id ? 0 : -1"
             :class="[
-              'border px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] transition-colors duration-fast',
+              'border px-4 py-2 text-sm font-semibold uppercase tracking-[0.16em] transition-colors duration-fast',
               activeRoomId === room.id
                 ? 'border-copper bg-copper/10 text-copper'
                 : 'border-line text-ink/60 hover:border-ink/40 hover:text-ink',

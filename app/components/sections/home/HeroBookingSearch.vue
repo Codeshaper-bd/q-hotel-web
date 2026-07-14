@@ -9,12 +9,12 @@
   -->
   <form
     ref="rootRef"
-    class="w-full border border-champagne/25 bg-night/65 p-2 shadow-[0_28px_80px_-28px] shadow-night/90 backdrop-blur-xl xl:flex xl:items-stretch"
+    class="w-full xl:flex xl:items-center"
     aria-label="Check room availability"
     @submit.prevent="handleSubmit"
     @keydown.escape="openPanel = null"
   >
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:flex xl:flex-1">
+    <div class="grid grid-cols-1 border border-champagne/25 bg-night/65 p-2 shadow-[0_28px_80px_-28px] shadow-night/90 backdrop-blur-xl sm:grid-cols-2 xl:flex xl:flex-1">
       <!-- Check-in & Check-out: one field, one range calendar -->
       <div class="relative sm:col-span-2 xl:flex-[1.7]">
         <button
@@ -29,11 +29,11 @@
             <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
             </svg>
-            <span class="whitespace-nowrap text-sm text-paper">{{ formatBookingDateLong(checkIn) }}</span>
+            <span class="whitespace-nowrap text-xs leading-6 text-paper">{{ formatBookingDateLong(checkIn) }}</span>
             <svg class="h-3 w-3 shrink-0 text-champagne/60" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class="whitespace-nowrap text-sm" :class="checkOut ? 'text-paper' : 'text-paper/50'">
+            <span class="whitespace-nowrap text-xs leading-6" :class="checkOut ? 'text-paper' : 'text-paper/50'">
               {{ checkOut ? formatBookingDateLong(checkOut) : 'Select date' }}
             </span>
           </span>
@@ -68,7 +68,7 @@
             <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
             </svg>
-            <span class="truncate text-sm text-paper">{{ guestsSummary }}</span>
+            <span class="truncate text-xs leading-6 text-paper">{{ guestsSummary }}</span>
             <svg class="h-3 w-3 shrink-0 text-paper/60" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -92,7 +92,7 @@
               class="flex items-center justify-between gap-6 border-b border-paper/10 py-3.5 last:border-b-0"
             >
               <div>
-                <p class="text-sm text-paper">{{ stepper.title }}</p>
+                <p class="text-xs text-paper">{{ stepper.title }}</p>
                 <p class="text-[0.65rem] text-paper/45">{{ stepper.hint }}</p>
               </div>
               <div class="flex items-center gap-3">
@@ -107,7 +107,7 @@
                     <path d="M2.5 6h7" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
                   </svg>
                 </button>
-                <span class="w-5 text-center text-sm text-paper">{{ stepper.value }}</span>
+                <span class="w-5 text-center text-xs text-paper">{{ stepper.value }}</span>
                 <button
                   type="button"
                   class="hero-step-btn"
@@ -148,13 +148,13 @@
             type="text"
             autocomplete="off"
             placeholder="Optional"
-            class="w-full min-w-0 bg-transparent text-sm text-paper placeholder:text-paper/40"
+            class="w-full min-w-0 bg-transparent text-sm leading-6 text-paper placeholder:text-paper/40"
           >
         </div>
       </div>
     </div>
 
-    <BaseButton type="submit" variant="gold" class="mt-2 w-full xl:ml-2 xl:mt-0 xl:w-auto xl:self-stretch xl:px-8">
+    <BaseButton type="submit" variant="gold" class="mt-2 w-full !rounded-none !tracking-normal xl:relative xl:z-10 xl:-ml-8 xl:mt-0 xl:w-auto xl:min-w-[9rem] xl:px-10 xl:py-4">
       Search
     </BaseButton>
   </form>
@@ -280,7 +280,7 @@ onUnmounted(() => {
    hairline dividers, warming softly under the pointer */
 .hero-bar-field {
   display: block;
-  padding: 0.875rem 1.375rem 1rem;
+  padding: 0.5rem;
   transition: background-color var(--duration-fast) var(--ease-premium);
 }
 
@@ -290,9 +290,10 @@ onUnmounted(() => {
 
 .hero-bar-label {
   display: block;
-  font-size: 0.55rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.25rem;
   text-transform: uppercase;
   white-space: nowrap;
   color: rgb(var(--color-champagne) / 0.6);

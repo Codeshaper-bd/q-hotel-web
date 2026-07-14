@@ -16,7 +16,7 @@
          then fills solid; renders solid without JS / under reduced motion. -->
     <svg
       ref="brandMarkRef"
-      class="brand-mark pointer-events-none absolute -left-16 top-10 h-64 w-64 text-line/70 sm:-left-12 sm:h-72 sm:w-72"
+      class="brand-mark pointer-events-none absolute -left-16 -top-10 h-64 w-64 text-line/70 sm:-left-12 sm:h-72 sm:w-72"
       viewBox="0 0 51 50"
       fill="none"
       aria-hidden="true"
@@ -53,11 +53,8 @@
         <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
           <h2 id="about-title" class="sr-only">Who we are</h2>
           <BaseKicker>Who We Are</BaseKicker>
-          <p class="mt-8 font-display text-xl leading-9 text-ink sm:text-2xl sm:leading-[2.75rem]">
-            Q Hotel is a premier hospitality destination in Dhaka, offering
-            refined comfort, exceptional service, and effortless access to the
-            city's key business, shopping, and cultural attractions — crafted
-            for discerning travelers and memorable stays.
+          <p class="mt-8 font-display text-2xl font-semibold leading-9 text-ink sm:text-4xl sm:leading-[2.75rem]">
+            Q Hotel Dhaka is a premier hospitality destination in Dhaka, offering refined comfort, exceptional service, and effortless access to the city's key business, shopping, and cultural attractions, crafted for discerning travelers and memorable stays.
           </p>
         </div>
       </FadeReveal>

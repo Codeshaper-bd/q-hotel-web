@@ -2,15 +2,23 @@
   <!-- Section eyebrow chip: the brand mark beside a tracked uppercase label,
        used to introduce sections ("Who We Are", "Select Your Room") -->
   <span :class="kickerClass">
-    <svg :class="['h-3.5 w-3.5 shrink-0', tone === 'ink' ? 'text-champagne' : 'text-copper']" viewBox="0 0 51 50" aria-hidden="true" focusable="false">
-      <path
-        v-for="(markPath, index) in qHotelLogoPaths"
-        :key="index"
-        :d="markPath"
-        fill="currentColor"
-      />
-    </svg>
-    <span :class="['text-[0.6rem] font-semibold uppercase tracking-[0.24em]', tone === 'ink' ? 'text-paper/75' : 'text-ink/70']">
+    <!-- Mark sits in its own cell, divided from the label by a hairline -->
+    <span class="flex items-center px-4 py-2.5">
+      <svg :class="['h-5 w-5 shrink-0', tone === 'ink' ? 'text-champagne' : 'text-ink']" viewBox="0 0 51 50" aria-hidden="true" focusable="false">
+        <path
+          v-for="(markPath, index) in qHotelLogoPaths"
+          :key="index"
+          :d="markPath"
+          fill="currentColor"
+        />
+      </svg>
+    </span>
+    <span
+      :class="[
+        'flex items-center border-l px-5 py-2.5 text-sm font-medium uppercase leading-5',
+        tone === 'ink' ? 'border-paper/20 text-paper' : 'border-line text-ink',
+      ]"
+    >
       <slot />
     </span>
   </span>
@@ -25,7 +33,7 @@ const props = withDefaults(defineProps<{
 })
 
 const kickerClass = computed(() => [
-  'inline-flex items-center gap-2.5 border px-4 py-2',
+  'inline-flex items-stretch border',
   props.tone === 'ink' ? 'border-paper/20 bg-paper/5' : 'border-line bg-paper'
 ])
 </script>

@@ -50,8 +50,29 @@
           <div
             v-for="amenity in amenities"
             :key="amenity.id"
-            :class="['surface-grain flex aspect-square flex-col items-center justify-center gap-4 bg-paper/10 px-4 text-center', amenity.gridClass]"
+            :class="['surface-grain relative isolate flex aspect-square flex-col items-center justify-center gap-4 overflow-hidden bg-paper/10 px-4 text-center', amenity.gridClass]"
+            @mouseenter="handleTileEnter"
+            @mouseleave="handleTileLeave"
           >
+            <!-- Hover media: slides in from the edge the cursor crossed, so a
+                 left-to-right sweep reads as the photo arriving from the left.
+                 Decorative — the label below always carries the meaning. -->
+            <span
+              data-facility-media
+              class="facility-media pointer-events-none absolute inset-0 -z-10"
+              aria-hidden="true"
+            >
+              <BaseImage
+                :src="amenity.image"
+                alt=""
+                :width="480"
+                :height="480"
+                sizes="xs:50vw sm:33vw lg:16vw"
+              />
+              <!-- Scrim keeps the icon and label legible over any photo -->
+              <span class="absolute inset-0 bg-ink/30" />
+            </span>
+
             <svg
               class="h-8 w-8 text-paper/90"
               viewBox="0 0 24 24"
@@ -88,6 +109,73 @@
 const sectionRef = ref<HTMLElement | null>(null)
 const skylineRef = ref<HTMLImageElement | null>(null)
 const { prefersReducedMotion } = useReducedMotion()
+const { gsap } = useGsap()
+
+// ─── Direction-aware hover reveal ─────────────────────────────────────
+// Offsets keyed by the edge the pointer crossed: the media parks just
+// outside that edge, then slides to rest — so sweeping the grid
+// left-to-right reads as each photo arriving from the left.
+const EDGE_OFFSETS = [
+  { xPercent: 0, yPercent: -100 }, // 0 — top
+  { xPercent: 100, yPercent: 0 }, // 1 — right
+  { xPercent: 0, yPercent: 100 }, // 2 — bottom
+  { xPercent: -100, yPercent: 0 }, // 3 — left
+] as const
+
+/** Which edge the pointer crossed, normalised so corners split evenly */
+function edgeIndexFor(event: MouseEvent, tile: HTMLElement): number {
+  const { width, height, left, top } = tile.getBoundingClientRect()
+  const x = (event.clientX - left - width / 2) * (width > height ? height / width : 1)
+  const y = (event.clientY - top - height / 2) * (height > width ? width / height : 1)
+  return Math.round((Math.atan2(y, x) * (180 / Math.PI) + 180) / 90 + 3) % 4
+}
+
+function mediaOf(event: MouseEvent): HTMLElement | null {
+  const tile = event.currentTarget as HTMLElement | null
+  return tile?.querySelector<HTMLElement>('[data-facility-media]') ?? null
+}
+
+function handleTileEnter(event: MouseEvent) {
+  const media = mediaOf(event)
+  if (!media || !gsap) {
+    return
+  }
+
+  gsap.killTweensOf(media)
+
+  // Reduced motion: the photo appears, but nothing travels
+  if (prefersReducedMotion.value) {
+    gsap.set(media, { autoAlpha: 1, xPercent: 0, yPercent: 0 })
+    return
+  }
+
+  const offset = EDGE_OFFSETS[edgeIndexFor(event, event.currentTarget as HTMLElement)]
+  gsap.set(media, { ...offset, autoAlpha: 1 })
+  gsap.to(media, { xPercent: 0, yPercent: 0, duration: 0.55, ease: 'power3.out' })
+}
+
+function handleTileLeave(event: MouseEvent) {
+  const media = mediaOf(event)
+  if (!media || !gsap) {
+    return
+  }
+
+  gsap.killTweensOf(media)
+
+  if (prefersReducedMotion.value) {
+    gsap.set(media, { autoAlpha: 0 })
+    return
+  }
+
+  // Leaves through the edge the pointer actually exited by
+  const offset = EDGE_OFFSETS[edgeIndexFor(event, event.currentTarget as HTMLElement)]
+  gsap.to(media, {
+    ...offset,
+    duration: 0.45,
+    ease: 'power3.in',
+    onComplete: () => gsap.set(media, { autoAlpha: 0 }),
+  })
+}
 
 /** True once JS owns the reveal; keeps no-JS / reduced-motion renders static */
 const isSkylineAnimated = ref(false)
@@ -123,14 +211,20 @@ interface FacilityAmenity {
   id: string
   label: string
   iconPaths: string[]
+  /** Revealed behind the tile on hover; decorative, never the sole content */
+  image: string
   /** Explicit placement for the staggered large-screen grid */
   gridClass?: string
 }
 
+// ASSET: `image` currently reuses the closest existing photography. Swap each
+// for a dedicated facility shot (e.g. /images/facilities/<id>.jpg) when the
+// real set lands — the hover reveal needs no other change.
 const amenities: FacilityAmenity[] = [
   {
     id: 'airport-shuttle',
     label: 'Airport Shuttle',
+    image: '/images/hero/aerial-terrain.jpg',
     iconPaths: [
       'M4 5.5h16a1 1 0 011 1V16a1 1 0 01-1 1H4a1 1 0 01-1-1V6.5a1 1 0 011-1z',
       'M3 11.5h18',
@@ -141,6 +235,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'vehicle-parking',
     label: 'Free Vehicle Parking',
+    image: '/images/hero/lobby-interior.jpg',
     iconPaths: [
       'M4.5 4.5h15v15h-15z',
       'M10 16.5V8h2.75a2.25 2.25 0 010 4.5H10',
@@ -149,6 +244,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'two-restaurants',
     label: 'Two Restaurants',
+    image: '/images/dining/bbq-restaurant.jpg',
     iconPaths: [
       'M7 3.5v5.5M10 3.5v5.5M7 9a1.5 1.5 0 003 0M8.5 10.5V20.5',
       'M16.5 3.5c-1.8 2.6-1.8 6.4 0 9v8',
@@ -157,6 +253,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'swimming-pool',
     label: 'Swimming Pool',
+    image: '/images/offers/swimming.jpg',
     iconPaths: [
       'M3 17.5c1.5 1.1 3.5 1.1 5 0s3.5-1.1 5 0 3.5 1.1 5 0 2.2-1 3-.6',
       'M13.5 4.5v9.5M18.5 4.5v9.5M13.5 7.5h5M13.5 11h5',
@@ -165,6 +262,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'fitness-spa',
     label: 'Fitness & Spa',
+    image: '/images/offers/stressless-spa.jpg',
     iconPaths: [
       'M6.5 9v6M4 10.5v3M17.5 9v6M20 10.5v3M6.5 12h11',
     ],
@@ -172,6 +270,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'breakfast',
     label: 'Breakfast',
+    image: '/images/offers/readymade-meal.jpg',
     gridClass: 'lg:col-start-2',
     iconPaths: [
       'M4 17.5h16M5 17.5a7 7 0 0114 0',
@@ -181,6 +280,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'free-wifi',
     label: 'Free WIFI',
+    image: '/images/meetings/business-class-lounge.jpg',
     iconPaths: [
       'M4 10a12 12 0 0116 0M7 13.2a8 8 0 0110 0M9.8 16.4a4 4 0 014.4 0',
       'M12 19.5h.01',
@@ -189,6 +289,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'tea-coffee',
     label: 'Tea/Coffee Maker',
+    image: '/images/instagram/moment-3.jpg',
     iconPaths: [
       'M5 10h11v5.5a4 4 0 01-4 4H9a4 4 0 01-4-4V10z',
       'M16 11h1.5a2.25 2.25 0 010 4.5H16',
@@ -198,6 +299,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'cctv-security',
     label: 'CCTV Security',
+    image: '/images/instagram/moment-5.jpg',
     iconPaths: [
       'M3.5 9l11.5-3.5 1.3 4.3-11.5 3.5z',
       'M6.5 13.5l.9 3.5h4.5',
@@ -207,6 +309,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'bbq-bar',
     label: 'BBQ & Bar',
+    image: '/images/dining/bbq-restaurant.jpg',
     iconPaths: [
       'M5 8.5h14a7 7 0 01-14 0z',
       'M12 15.5V19M8.5 21.5h7',
@@ -216,6 +319,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'smoke-free',
     label: 'Smoke-Free Hotel',
+    image: '/images/rooms/deluxe-double.jpg',
     gridClass: 'lg:col-start-5 lg:row-start-3',
     iconPaths: [
       'M4 14.5h12v3H4zM18.5 14.5v3M21 14.5v3',
@@ -246,4 +350,18 @@ const amenities: FacilityAmenity[] = [
 
 /* The amenity tile's grain wash now comes from the shared `.surface-grain`
    utility in main.css, so the location cards can wear the same surface */
+
+/* Hover media rests hidden — GSAP owns visibility and position from the
+   first pointer enter onward. Hidden by default so no-JS and touch users
+   never see a stray photo over the label. */
+.facility-media {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.facility-media :deep(img) {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
 </style>

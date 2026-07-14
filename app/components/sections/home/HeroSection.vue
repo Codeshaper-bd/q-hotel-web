@@ -16,27 +16,20 @@
       :class="['relative flex min-h-svh flex-col justify-end', isUiActive ? '' : 'pointer-events-none']"
     >
       <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-14">
-        <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,48rem)] xl:gap-12">
+        <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,44rem)] xl:gap-20">
           <div class="max-w-2xl">
-            <p
-              ref="kickerRef"
-              class="text-[0.65rem] font-semibold uppercase tracking-[0.42em] text-champagne/80"
-            >
-              Q Hotel · Dhaka
-            </p>
             <h1
               id="home-title"
               ref="titleRef"
-              class="mt-5 font-display text-5xl leading-[1.04] sm:text-6xl xl:text-7xl"
+              class="mt-5 font-display text-xl leading-[1.04] sm:text-4xl "
             >
-              Arrive in Quiet Luxury
+              Retreat To Our Stylish Hotel In Dhaka
             </h1>
             <p
               ref="leadRef"
-              class="mt-6 max-w-xl text-base leading-8 text-paper/75 sm:text-lg"
+              class="mt-4 max-w-xl text-lg xl:text-xl"
             >
-              Experience refined rooms, thoughtful service, and warm hospitality
-              designed for business and leisure travelers in Dhaka.
+              Whether you seek adventure, culture, or calm — we’ve got the perfect experience for every kind of traveler.
             </p>
           </div>
 
@@ -68,7 +61,6 @@ import type { BookingSearchQuery } from '~/types/booking'
 
 const sectionRef = ref<HTMLElement | null>(null)
 const heroUiRef = ref<HTMLElement | null>(null)
-const kickerRef = ref<HTMLElement | null>(null)
 const titleRef = ref<HTMLElement | null>(null)
 const leadRef = ref<HTMLElement | null>(null)
 const consoleRef = ref<HTMLElement | null>(null)
@@ -112,7 +104,7 @@ onMounted(() => {
     isUiActive.value = false
     isMenuRevealed.value = false
     isNavGlassAllowed.value = false
-    gsap.set([kickerRef.value, titleRef.value, leadRef.value, consoleRef.value], { opacity: 0, y: 26 })
+    gsap.set([titleRef.value, leadRef.value, consoleRef.value], { opacity: 0, y: 26 })
 
     // Pacing: the dolly-through completes by ~55% and the last ~40% is a held
     // beat of clean full-bleed video, so the next section never chases the Q
@@ -143,9 +135,8 @@ onMounted(() => {
       .set({}, {}, 1)
       // Hint fades as the Q begins to open
       .to(scrollHintRef.value, { opacity: 0, duration: 0.05, ease: 'none' }, 0.02)
-      // Arrival choreography: kicker → headline → lead → reservation console,
+      // Arrival choreography: headline → lead → reservation console,
       // starting as the stage dissolve finishes so there is no empty beat
-      .to(kickerRef.value, { opacity: 1, y: 0, duration: 0.05, ease: 'none' }, 0.5)
       .to(titleRef.value, { opacity: 1, y: 0, duration: 0.07, ease: 'none' }, 0.53)
       .to(leadRef.value, { opacity: 1, y: 0, duration: 0.07, ease: 'none' }, 0.57)
       .to(consoleRef.value, { opacity: 1, y: 0, duration: 0.08, ease: 'none' }, 0.6)
