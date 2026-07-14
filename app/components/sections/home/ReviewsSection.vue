@@ -14,16 +14,12 @@
       </div>
     </FadeReveal>
 
-    <FadeReveal>
-      <div
-        ref="carouselViewportRef"
-        class="scrollbar-quiet -mx-5 mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-5 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0 motion-reduce:scroll-auto"
-        aria-label="Guest reviews"
-      >
-        <!-- Rating summary leads the carousel -->
+    <!-- Summary panel sits OUTSIDE the scroll container so it holds its place
+         while only the guest stories slide past it -->
+    <div class="mt-12 lg:grid lg:grid-cols-4 lg:items-stretch lg:gap-6">
+      <FadeReveal>
         <div
-          data-carousel-card
-          class="flex w-[82vw] max-w-sm shrink-0 snap-start flex-col bg-paper/10 p-7 sm:w-[46%] sm:p-8 lg:w-[calc((100%-4.5rem)/4)] lg:max-w-none"
+          class="flex h-full flex-col bg-paper/10 p-7 sm:p-8"
         >
           <p class="text-5xl font-semibold text-paper">5.0</p>
           <p class="mt-4 text-sm leading-6 text-paper/70">
@@ -75,28 +71,36 @@
             </BaseArrowCta>
           </div>
         </div>
+      </FadeReveal>
 
-        <!-- Guest stories -->
-        <blockquote
-          v-for="review in reviews"
-          :key="review.id"
-          data-carousel-card
-          class="flex w-[82vw] max-w-sm shrink-0 snap-start flex-col bg-paper/10 p-7 sm:w-[46%] sm:p-8 lg:w-[calc((100%-4.5rem)/4)] lg:max-w-none"
+      <!-- Guest stories: the only thing that scrolls -->
+      <FadeReveal class="lg:col-span-3 lg:min-w-0">
+        <div
+          ref="carouselViewportRef"
+          class="scrollbar-quiet -mx-5 mt-6 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-5 sm:-mx-6 sm:px-6 lg:mx-0 lg:mt-0 lg:h-full lg:px-0 motion-reduce:scroll-auto"
+          aria-label="Guest reviews"
         >
-          <p class="flex gap-1.5" :aria-label="`Rated ${review.rating} out of 5 stars`">
-            <svg v-for="starIndex in review.rating" :key="starIndex" class="h-4 w-4 text-gold" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" />
-            </svg>
-          </p>
-          <p class="mt-6 font-display text-xl leading-8 text-paper">
-            {{ review.quote }}
-          </p>
-          <footer class="mt-auto pt-8 text-sm text-paper/70">
-            {{ review.guestName }}
-          </footer>
-        </blockquote>
-      </div>
-    </FadeReveal>
+          <blockquote
+            v-for="review in reviews"
+            :key="review.id"
+            data-carousel-card
+            class="flex w-[82vw] max-w-sm shrink-0 snap-start flex-col bg-paper/10 p-7 sm:w-[46%] sm:p-8 lg:w-[calc((100%-3rem)/3)] lg:max-w-none"
+          >
+            <p class="flex gap-1.5" :aria-label="`Rated ${review.rating} out of 5 stars`">
+              <svg v-for="starIndex in review.rating" :key="starIndex" class="h-4 w-4 text-gold" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" />
+              </svg>
+            </p>
+            <p class="mt-6 font-display text-xl leading-8 text-paper">
+              {{ review.quote }}
+            </p>
+            <footer class="mt-auto pt-8 text-sm text-paper/70">
+              {{ review.guestName }}
+            </footer>
+          </blockquote>
+        </div>
+      </FadeReveal>
+    </div>
 
     <!-- Progress rule left, round paging arrows right -->
     <div class="mt-10 flex items-center justify-between gap-6">
