@@ -1,41 +1,54 @@
 <template>
   <!--
-    Explore / Location: a dark band pairing the hotel's map with the landmarks
-    around it. The map itself is not embedded yet — its frame is reserved at a
-    fixed size so dropping the embed in later cannot shift the layout (and cannot
-    cost us CLS). The attraction copy is real server-rendered HTML, never map-only,
-    so the neighbourhood is still readable to search engines and screen readers.
+    Explore / Location: a dark band pairing the hotel's interactive map with the
+    landmarks around it. Each attraction card can drive the map (framing itself
+    against the hotel), while the card copy stays real server-rendered HTML —
+    never map-only — so the neighbourhood remains readable to search engines,
+    screen readers, and anyone the map fails to load for.
   -->
-  <BaseSection id="location" labelled-by="location-title" tone="ink" spacing="lg" container-size="xl">
-    <FadeReveal>
-      <div class="flex flex-col items-center text-center">
-        <BaseKicker tone="ink">Our Location</BaseKicker>
-        <h2 id="location-title" class="mt-6 font-display text-4xl text-paper sm:text-5xl">
-          Explore Q Hotel Dhaka
-        </h2>
-      </div>
-    </FadeReveal>
+  <section
+    id="location"
+    aria-labelledby="location-title"
+    class="relative isolate overflow-hidden bg-ink py-24 text-paper sm:py-32"
+  >
+    <!-- The map IS the section's backdrop, bled to the full width. It sits
+         behind the copy, and the copy passes pointer events through to it, so
+         the open left half stays a real, draggable map. -->
+    <LocationMap
+      class="absolute inset-0 -z-10"
+      :hotel="hotel"
+      :attractions="nearbyAttractions"
+      :active-attraction-id="activeAttractionId"
+    />
 
-    <FadeReveal>
-      <div class="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2">
-        <!--
-          RESERVED FOR THE MAP EMBED. Deliberately empty for now: the frame holds
-          its dimensions so the interactive map (or a static map image) can be
-          dropped straight in without moving anything around it.
-        -->
-        <div
-          class="surface-grain min-h-[20rem] bg-paper/10 sm:min-h-[26rem] lg:min-h-[32rem]"
-          aria-hidden="true"
-        />
+    <BaseContainer size="xl" class="pointer-events-none">
+      <FadeReveal>
+        <div class="pointer-events-auto flex flex-col items-center text-center">
+          <BaseKicker tone="ink">Our Location</BaseKicker>
+          <h2 id="location-title" class="mt-6 font-display text-4xl text-paper sm:text-5xl">
+            Explore Q Hotel Dhaka
+          </h2>
+        </div>
+      </FadeReveal>
 
-        <div class="grid gap-6 sm:grid-cols-2">
-          <!-- Same panel surface as the facility tiles and review cards: the
-               shared grain wash over the `bg-paper/10` tint -->
-          <article
-            v-for="attraction in nearbyAttractions"
-            :key="attraction.id"
-            class="surface-grain flex flex-col bg-paper/10 p-6"
-          >
+      <FadeReveal>
+        <div class="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2">
+          <!-- Left column is deliberately empty: it is the window onto the map,
+               and it must not swallow the pointer events the map needs -->
+          <div class="hidden lg:block" aria-hidden="true" />
+
+          <div class="pointer-events-auto grid gap-6 sm:grid-cols-2">
+            <!-- Same panel surface as the facility tiles and review cards, but
+                 these now stand ON the map: the ink base and blur are what keep
+                 the copy readable over live tiles -->
+            <article
+              v-for="attraction in nearbyAttractions"
+              :key="attraction.id"
+              :class="[
+                'surface-grain flex flex-col bg-ink/70 p-6 backdrop-blur-sm transition-shadow duration-normal ease-premium',
+                activeAttractionId === attraction.id ? 'shadow-[inset_0_0_0_1px_rgb(var(--color-champagne))]' : '',
+              ]"
+            >
             <h3 class="font-display text-xl text-paper">
               {{ attraction.name }}
             </h3>
@@ -51,57 +64,93 @@
               </svg>
               {{ formatDistance(attraction) }}
             </p>
+
+            <!-- Drives the map beside it; a real button, so it is reachable by
+                 keyboard and announces its pressed state -->
+            <p class="mt-4">
+              <button
+                type="button"
+                :aria-pressed="activeAttractionId === attraction.id"
+                class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-paper/60 underline-offset-4 transition-colors duration-fast hover:text-champagne hover:underline"
+                @click="toggleAttraction(attraction.id)"
+              >
+                {{ activeAttractionId === attraction.id ? 'Back to the hotel' : 'Show on map' }}
+              </button>
+            </p>
           </article>
         </div>
       </div>
     </FadeReveal>
 
-    <FadeReveal>
-      <div class="mt-12 flex justify-center">
-        <!-- The attractions page arrives with the rest of the content routes;
-             the CTA hands off to the reserve entry point until then -->
-        <BaseArrowCta to="#reserve" variant="gold">
-          Near By Attraction
-        </BaseArrowCta>
-      </div>
-    </FadeReveal>
-  </BaseSection>
+      <FadeReveal>
+        <div class="pointer-events-auto mt-12 flex justify-center">
+          <!-- The attractions page arrives with the rest of the content routes;
+               the CTA hands off to the reserve entry point until then -->
+          <BaseArrowCta to="#reserve" variant="gold">
+            Near By Attraction
+          </BaseArrowCta>
+        </div>
+      </FadeReveal>
+    </BaseContainer>
+  </section>
 </template>
 
 <script setup lang="ts">
-import type { NearbyAttraction } from '~/types/location'
+import type { HotelLocation, NearbyAttraction } from '~/types/location'
 
-/** Static showcase content (CMS-ready shape); distances are straight-line */
+const hotel: HotelLocation = {
+  name: 'Q Hotel Dhaka',
+  address: 'Uttara, Dhaka, Bangladesh',
+  coordinates: [23.8377208, 90.4572272],
+  directionsUrl: 'https://maps.app.goo.gl/KAggvEKj6dWVGrQE9',
+}
+
+/**
+ * Static showcase content (CMS-ready shape). Coordinates are the landmarks'
+ * real positions and the distances are the straight-line distances computed
+ * from them — the map and the copy have to agree, or one of them is lying.
+ */
 const nearbyAttractions: NearbyAttraction[] = [
   {
     id: 'army-golf-club',
     name: 'Army Golf Club',
     description: 'A premier nine-hole course spanning fifty-eight scenic acres, with a swimming pool and the well-loved Palm View Restaurant — conveniently close to the airport.',
-    distanceMiles: 0.51,
-    distanceKm: 0.82,
+    distanceMiles: 3.05,
+    distanceKm: 4.91,
+    coordinates: [23.8199143, 90.4130827],
   },
   {
     id: 'jamuna-future-park',
     name: 'Jamuna Future Park',
     description: 'One of South Asia\'s largest shopping malls: hundreds of retailers, a cinema, and a food court, all a short drive from the hotel lobby.',
-    distanceMiles: 1.5,
-    distanceKm: 2.0,
+    distanceMiles: 2.68,
+    distanceKm: 4.31,
+    coordinates: [23.8134982, 90.4240893],
   },
   {
     id: 'lalbagh-fort',
     name: 'Lalbagh Fort',
     description: 'The beautiful remnants of an unfinished Mughal fort. The grounds still hold gardens, fortifications, a mosque, and a mausoleum, with excavation ongoing.',
-    distanceMiles: 6.2,
-    distanceKm: 9.98,
+    distanceMiles: 9.30,
+    distanceKm: 14.97,
+    coordinates: [23.7188430, 90.3881528],
   },
   {
     id: 'ramna-park',
     name: 'Ramna Park',
     description: 'Dhaka\'s favourite green retreat — a serene lake, mature trees, and long walking paths, ideal for an unhurried morning away from the traffic.',
-    distanceMiles: 5.44,
-    distanceKm: 8.75,
+    distanceMiles: 7.66,
+    distanceKm: 12.33,
+    coordinates: [23.7402535, 90.3995197],
   },
 ]
+
+/** null centres the hotel; an id frames that landmark against the hotel */
+const activeAttractionId = ref<string | null>(null)
+
+function toggleAttraction(id: string) {
+  activeAttractionId.value = activeAttractionId.value === id ? null : id
+}
 
 function formatDistance(attraction: NearbyAttraction) {
   return `${attraction.distanceMiles} mi / ${attraction.distanceKm} km from the hotel`

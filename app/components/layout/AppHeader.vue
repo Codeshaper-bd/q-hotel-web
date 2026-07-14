@@ -252,9 +252,12 @@ const isMobileOpen = ref(false)
 const isScrolledPastHero = ref(false)
 let closeTimer: ReturnType<typeof setTimeout> | undefined
 
-// Transparent over the hero; translucent once past half the viewport (and the
-// hero permits it), and always solid while a menu or the mobile drawer is open
-// for readability
+// Every page opens with the transparent nav over its dark cover media; the
+// paper glass arrives on scroll. The home hero owns a longer runway (its
+// pinned journey plus the glass hold-off), while inner pages — whose dark
+// banner is only a few hundred pixels tall — go solid almost immediately.
+const isHome = computed(() => route.path === '/')
+
 const hasSolidBackground = computed(() =>
   (isScrolledPastHero.value && isNavGlassAllowed.value)
   || isMobileOpen.value
@@ -262,7 +265,8 @@ const hasSolidBackground = computed(() =>
 )
 
 function handleScroll() {
-  isScrolledPastHero.value = window.scrollY > window.innerHeight * 0.5
+  const threshold = isHome.value ? window.innerHeight * 0.5 : 80
+  isScrolledPastHero.value = window.scrollY > threshold
 }
 
 const activeMegaMenuItem = computed(() =>
@@ -307,10 +311,12 @@ function handleDocumentClick(event: MouseEvent) {
   }
 }
 
-// Close mobile drawer on route change
+// Close mobile drawer on route change; re-read the scroll state once the new
+// page has settled, since the solid-background threshold differs per route
 watch(() => route.fullPath, () => {
   isMobileOpen.value = false
   closeMenu()
+  nextTick(() => handleScroll())
 })
 
 onMounted(() => {
