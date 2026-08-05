@@ -1,17 +1,5 @@
-<template>
-  <!--
-    Dining showcase: a full-screen (viewport minus header) video stage that the
-    scroll pins, stepping through one outlet at a time. Footage crossfades while
-    the copy leads slightly ahead of it — the outgoing text leaves before the
-    frame has finished changing, the incoming text arrives after, which is what
-    keeps the change feeling directed rather than mechanical.
+<!-- <template>
 
-    Composes <section> directly (not BaseSection) because the stage must bleed
-    to both viewport edges while the copy stays on the xl container grid.
-
-    Mobile, reduced motion and no-JS get every outlet as a plain stacked
-    poster-and-copy panel: no pin, no autoplay, all copy still in the HTML.
-  -->
   <section
     id="dining"
     ref="sectionRef"
@@ -28,7 +16,7 @@
         :aria-hidden="isSlideInert(venueIndex) ? 'true' : undefined"
       >
         <div :data-dining-media="venueIndex" class="absolute inset-0 overflow-hidden bg-night">
-          <!-- Carries first paint and stays put if the footage never loads -->
+        
           <BaseImage
             :src="venue.poster.src"
             :alt="venue.poster.alt"
@@ -50,7 +38,7 @@
             aria-hidden="true"
           />
 
-          <!-- Legibility: an even wash plus a heavier foot under the copy -->
+         
           <div class="absolute inset-0 bg-night/30" aria-hidden="true" />
           <div class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-night/90 via-night/40 to-transparent" aria-hidden="true" />
         </div>
@@ -65,8 +53,7 @@
                 {{ venue.description }}
               </p>
               <div class="mt-8">
-                <!-- Dining detail routes arrive with the restaurant pages; the
-                     CTA hands off to the reserve entry point until then -->
+               
                 <BaseArrowCta
                   to="#reserve"
                   variant="gold"
@@ -80,7 +67,7 @@
         </div>
       </article>
 
-      <!-- Position readout: only meaningful while the stage is pinned -->
+
       <div class="pointer-events-none absolute inset-x-0 bottom-10 hidden motion-safe:lg:block">
         <BaseContainer size="xl">
           <div class="flex items-center justify-end gap-5">
@@ -101,17 +88,7 @@
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 import type { DiningVenue } from '~/types/dining'
 
-/**
- * Static showcase content (CMS-ready shape).
- *
- * PLACEHOLDER MEDIA: every slide currently points at the hero loop because no
- * dining footage exists yet. Drop the real files into /public/videos/dining/
- * and change `videoSrc` (and each `poster`) here — nothing else needs to move.
- *
- * PLACEHOLDER COPY: only BBQ Restaurant is real. The other two outlets are
- * drafted so the interaction can be built and reviewed; replace with the
- * hotel's actual venue names and descriptions.
- */
+
 const venues: DiningVenue[] = [
   {
     id: 'bbq-restaurant',
@@ -141,12 +118,10 @@ const stageRef = ref<HTMLElement | null>(null)
 const progressRef = ref<HTMLElement | null>(null)
 const videoElements = ref<HTMLVideoElement[]>([])
 
-/** Footage is a desktop, full-motion enhancement; posters carry everyone else */
-const shouldPlayVideo = ref(false)
+
 const activeIndex = ref(0)
-/** True once the slides are stacked on top of each other, so only one shows */
 const isStageStacked = ref(false)
-/** Footage decodes only while the section is actually on screen */
+
 const isSectionVisible = ref(false)
 
 const { gsap, createContext, prefersReducedMotion } = useGsap()
@@ -290,7 +265,6 @@ onMounted(async () => {
             duration: 1,
             ease: 'none',
           }, step)
-          // ...and the new copy arrives once the new frame has taken hold
           .to(copyLayers[index] as HTMLElement, {
             autoAlpha: 1,
             y: 0,
@@ -321,7 +295,6 @@ onMounted(async () => {
   addCleanup(() => {
     mediaMatcher.revert()
 
-    // Stop decoding and let the browser release the buffers
     videoElements.value.forEach((video) => {
       video.pause()
       video.removeAttribute('src')
@@ -333,9 +306,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* Pinned full-bleed stage: the viewport minus the fixed header, so the footage
-   sits directly below the navbar. Only where the pin actually runs — mobile and
-   reduced motion keep the stacked panels in normal flow. */
+
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .dining-stage {
     position: relative;
@@ -348,4 +319,4 @@ onMounted(async () => {
     width: 100%;
   }
 }
-</style>
+</style>  -->

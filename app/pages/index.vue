@@ -6,9 +6,6 @@
     <FacilitiesSection />
     <MeetingsEventsSection />
     <DiningSection />
-    <OffersSection />
-    <ReviewsSection />
-    <InstagramSection />
     <LocationSection />
     <FaqSection />
   </div>
