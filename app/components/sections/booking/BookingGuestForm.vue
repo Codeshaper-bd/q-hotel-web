@@ -13,30 +13,30 @@
     <div class="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2">
       <div>
         <label :class="labelClass" for="guest-first-name">First Name</label>
-        <input id="guest-first-name" v-model.trim="form.firstName" :class="inputClass" type="text" autocomplete="given-name" required>
+        <input id="guest-first-name" v-model.trim="form.firstName" name="firstName" :class="inputClass" type="text" autocomplete="given-name" required>
       </div>
       <div>
         <label :class="labelClass" for="guest-last-name">Last Name</label>
-        <input id="guest-last-name" v-model.trim="form.lastName" :class="inputClass" type="text" autocomplete="family-name" required>
+        <input id="guest-last-name" v-model.trim="form.lastName" name="lastName" :class="inputClass" type="text" autocomplete="family-name" required>
       </div>
       <div>
         <label :class="labelClass" for="guest-email">Email Address</label>
-        <input id="guest-email" v-model.trim="form.email" :class="inputClass" type="email" autocomplete="email" placeholder="someone@gmail.com" required>
+        <input id="guest-email" v-model.trim="form.email" name="email" :class="inputClass" type="email" autocomplete="email" placeholder="someone@gmail.com" required>
       </div>
       <div>
         <label :class="labelClass" for="guest-phone">Phone Number</label>
         <div class="flex">
-          <select v-model="form.phoneCountryCode" class="w-[7.5rem] shrink-0 border border-r-0 border-ink/40 bg-white px-2 text-sm text-ink focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean" aria-label="Phone country code">
+          <select v-model="form.phoneCountryCode" name="phoneCountryCode" class="w-[7.5rem] shrink-0 border border-r-0 border-ink/40 bg-white px-2 text-sm text-ink focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean" aria-label="Phone country code">
             <option v-for="code in phoneCountryCodes" :key="code.dial" :value="code.dial">
               {{ code.dial }} {{ code.name }}
             </option>
           </select>
-          <input id="guest-phone" v-model.trim="form.phone" class="h-[52px] w-full min-w-0 border border-ink/40 bg-white px-4 text-base text-ink focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean" type="tel" autocomplete="tel" required>
+          <input id="guest-phone" v-model.trim="form.phone" name="phone" class="h-[52px] w-full min-w-0 border border-ink/40 bg-white px-4 text-base text-ink focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean" type="tel" autocomplete="tel" required>
         </div>
       </div>
       <div>
         <label :class="labelClass" for="guest-country">Country / Region</label>
-        <select id="guest-country" v-model="form.country" :class="inputClass" required>
+        <select id="guest-country" v-model="form.country" name="country" :class="inputClass" required>
           <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
         </select>
       </div>
@@ -46,19 +46,19 @@
     <div class="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2">
       <div>
         <label :class="labelClass" for="guest-city">City / Town</label>
-        <input id="guest-city" v-model.trim="form.city" :class="inputClass" type="text" autocomplete="address-level2">
+        <input id="guest-city" v-model.trim="form.city" name="city" :class="inputClass" type="text" autocomplete="address-level2">
       </div>
       <div>
         <label :class="labelClass" for="guest-address-1">Address Line 1</label>
-        <input id="guest-address-1" v-model.trim="form.addressLine1" :class="inputClass" type="text" autocomplete="address-line1">
+        <input id="guest-address-1" v-model.trim="form.addressLine1" name="addressLine1" :class="inputClass" type="text" autocomplete="address-line1">
       </div>
       <div>
         <label :class="labelClass" for="guest-address-2">Address Line 2</label>
-        <input id="guest-address-2" v-model.trim="form.addressLine2" :class="inputClass" type="text" autocomplete="address-line2">
+        <input id="guest-address-2" v-model.trim="form.addressLine2" name="addressLine2" :class="inputClass" type="text" autocomplete="address-line2">
       </div>
       <div>
         <label :class="labelClass" for="guest-postal-code">Postal Code</label>
-        <input id="guest-postal-code" v-model.trim="form.postalCode" :class="inputClass" type="text" autocomplete="postal-code">
+        <input id="guest-postal-code" v-model.trim="form.postalCode" name="postalCode" :class="inputClass" type="text" autocomplete="postal-code">
       </div>
     </div>
 
@@ -67,6 +67,7 @@
       <textarea
         id="guest-note"
         v-model.trim="form.note"
+        name="note"
         rows="4"
         placeholder="Write what you need..."
         class="w-full resize-y border border-ink/40 bg-white px-4 py-3.5 text-base text-ink placeholder:text-ink/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean"

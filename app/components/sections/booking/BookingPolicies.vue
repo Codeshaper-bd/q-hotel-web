@@ -83,39 +83,30 @@
         applicable in Bangladesh.
       </p>
 
-      <template v-if="!submitted">
-        <p class="mt-8 flex items-center justify-center gap-2 text-center text-base font-medium text-moss">
-          <svg class="h-4 w-4 shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-            <path d="M8 1.333A6.667 6.667 0 1014.667 8 6.674 6.674 0 008 1.333zm3.53 5.137l-4 4a.667.667 0 01-.943 0l-2-2a.667.667 0 11.943-.943L7 9.057l3.53-3.53a.667.667 0 01.943.943z" />
-          </svg>
-          Book now and lock in this great deal. Prices may increase if you wait.
-        </p>
-
-        <div class="mt-6 flex justify-center">
-          <button
-            type="submit"
-            class="group inline-flex min-h-[60px] items-stretch bg-champagne text-ink transition-colors duration-fast hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
-          >
-            <span class="flex items-center px-8 text-sm font-semibold uppercase tracking-[0.1em]">
-              Payment Now
-            </span>
-            <span class="flex items-center border-l border-ink/15 px-5" aria-hidden="true">
-              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </span>
-          </button>
-        </div>
-      </template>
+      <p class="mt-8 flex items-center justify-center gap-2 text-center text-base font-medium text-moss">
+        <svg class="h-4 w-4 shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 1.333A6.667 6.667 0 1014.667 8 6.674 6.674 0 008 1.333zm3.53 5.137l-4 4a.667.667 0 01-.943 0l-2-2a.667.667 0 11.943-.943L7 9.057l3.53-3.53a.667.667 0 01.943.943z" />
+        </svg>
+        Book now and lock in this great deal. Prices may increase if you wait.
+      </p>
 
       <!-- Payment gateway integration lands with the PMS work; until then a
-           successful client-side submit confirms receipt rather than
-           pretending a charge went through -->
-      <div v-else class="mt-8 flex items-center justify-center gap-3 border border-moss/30 bg-moss/5 px-6 py-5 text-center text-base text-ink">
-        <svg class="h-5 w-5 shrink-0 text-moss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-        </svg>
-        <span>Reservation request received. Our team will confirm your stay by email shortly.</span>
+           valid submit takes the guest straight to a confirmation page
+           rather than pretending a charge went through -->
+      <div class="mt-6 flex justify-center">
+        <button
+          type="submit"
+          class="group inline-flex min-h-[60px] items-stretch bg-champagne text-ink transition-colors duration-fast hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
+        >
+          <span class="flex items-center px-8 text-sm font-semibold uppercase tracking-[0.1em]">
+            Payment Now
+          </span>
+          <span class="flex items-center border-l border-ink/15 px-5" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </span>
+        </button>
       </div>
     </div>
   </div>
@@ -128,7 +119,6 @@ const props = defineProps<{
   room: Room
   checkIn: string
   taxRatePercent: number
-  submitted: boolean
 }>()
 
 const openSections = reactive({

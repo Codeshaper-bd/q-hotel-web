@@ -12,7 +12,6 @@
             :room="room"
             :check-in="checkIn"
             :tax-rate-percent="TAX_RATE_PERCENT"
-            :submitted="isSubmitted"
           />
         </div>
 
@@ -36,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BookingSearchQuery } from '~/types/booking'
+import type { BookingConfirmation, BookingSearchQuery } from '~/types/booking'
 
 // Checkout: never worth indexing, and query-param room variants would
 // otherwise read as thin duplicate content
@@ -65,11 +64,38 @@ const roomSubtotal = computed(() => room.value.nightlyRateUsd * nights.value)
 const taxes = computed(() => Math.round(roomSubtotal.value * (TAX_RATE_PERCENT / 100)))
 const totalPrice = computed(() => roomSubtotal.value + taxes.value)
 
-const isSubmitted = ref(false)
+const confirmation = useState<BookingConfirmation | null>('booking-confirmation', () => null)
 
-function handleSubmit() {
-  // Payment gateway + PMS integration land here. Until then, a valid
-  // submission just confirms the request was received.
-  isSubmitted.value = true
+function handleSubmit(event: Event) {
+  // Payment gateway + PMS integration land here. Until then, a valid native
+  // submit (the browser only fires this once every `required` field passes)
+  // hands the details straight to the confirmation page.
+  const formData = new FormData(event.target as HTMLFormElement)
+  const readField = (name: string) => String(formData.get(name) ?? '').trim()
+
+  confirmation.value = {
+    reservationNumber: `QH-${todayIsoDate().replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`,
+    roomId: room.value.id,
+    guest: {
+      firstName: readField('firstName'),
+      lastName: readField('lastName'),
+      email: readField('email'),
+      phoneCountryCode: readField('phoneCountryCode'),
+      phone: readField('phone'),
+      country: readField('country'),
+      note: readField('note'),
+    },
+    checkIn: checkIn.value,
+    checkOut: checkOut.value,
+    roomsCount: roomsCount.value,
+    guestsCount: guestsCount.value,
+    roomSubtotal: roomSubtotal.value,
+    taxes: taxes.value,
+    totalPrice: totalPrice.value,
+    taxRatePercent: TAX_RATE_PERCENT,
+    confirmedAt: new Date().toISOString(),
+  }
+
+  navigateTo('/booking-confirmed')
 }
 </script>
