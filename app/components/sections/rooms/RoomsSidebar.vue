@@ -6,7 +6,7 @@
     layout here, just reference information a guest checks while browsing.
   -->
   <aside class="flex flex-col gap-6" aria-label="Hotel information">
-    <div class="bg-paper shadow-sm shadow-ink/5 ring-1 ring-line">
+    <div class="bg-white">
       <div class="relative aspect-[16/10]">
         <BaseImage
           src="/images/hero/lobby-interior.jpg"
@@ -68,7 +68,7 @@
       </div>
     </div>
 
-    <div class="bg-paper p-5 shadow-sm shadow-ink/5 ring-1 ring-line">
+    <div class="bg-white p-5">
       <h3 class="font-display text-2xl text-ink">Hotel Information</h3>
       <hr class="mt-4 border-line">
 

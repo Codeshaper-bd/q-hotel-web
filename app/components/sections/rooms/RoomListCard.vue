@@ -78,10 +78,8 @@
           </li>
         </ul>
 
-        <!-- Reservation routes arrive with the booking flow; Book Now hands
-             off to the reserve entry point until then -->
         <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <BaseArrowCta to="#reserve" variant="gold">
+          <BaseArrowCta :to="`/booking?room=${room.id}`" variant="gold">
             Book Now
           </BaseArrowCta>
           <button

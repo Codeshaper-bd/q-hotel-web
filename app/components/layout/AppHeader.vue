@@ -252,14 +252,21 @@ const isMobileOpen = ref(false)
 const isScrolledPastHero = ref(false)
 let closeTimer: ReturnType<typeof setTimeout> | undefined
 
-// Every page opens with the transparent nav over its dark cover media; the
+// Most pages open with the transparent nav over a dark cover photo; the
 // paper glass arrives on scroll. The home hero owns a longer runway (its
 // pinned journey plus the glass hold-off), while inner pages — whose dark
 // banner is only a few hundred pixels tall — go solid almost immediately.
 const isHome = computed(() => route.path === '/')
 
+// Pages with no dark cover media at the top (a plain paper background
+// instead of a hero photo) would render white-on-white nav text under this
+// scroll-threshold scheme, so they skip it and start solid immediately.
+const NO_DARK_HERO_ROUTES = new Set(['/booking'])
+const hasDarkHero = computed(() => !NO_DARK_HERO_ROUTES.has(route.path))
+
 const hasSolidBackground = computed(() =>
-  (isScrolledPastHero.value && isNavGlassAllowed.value)
+  !hasDarkHero.value
+  || (isScrolledPastHero.value && isNavGlassAllowed.value)
   || isMobileOpen.value,
 )
 
