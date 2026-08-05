@@ -38,3 +38,24 @@ export interface BookingConfirmation {
   taxRatePercent: number
   confirmedAt: string
 }
+
+/**
+ * A declined/cancelled checkout attempt, handed from /booking to
+ * /payment-failed. Same shape as BookingConfirmation plus the failure
+ * context; a real gateway integration will populate `failureReason`.
+ */
+export interface PaymentFailure {
+  attemptReference: string
+  roomId: string
+  guest: GuestDetails
+  checkIn: string
+  checkOut: string
+  roomsCount: number
+  guestsCount: number
+  roomSubtotal: number
+  taxes: number
+  totalPrice: number
+  taxRatePercent: number
+  attemptedAt: string
+  failureReason: string
+}

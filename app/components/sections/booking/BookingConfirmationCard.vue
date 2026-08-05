@@ -31,7 +31,7 @@
 
     <div class="p-6">
       <div class="flex items-center justify-between text-sm">
-        <span class="font-medium uppercase tracking-[0.06em] text-ink">Total Paid</span>
+        <span class="font-medium uppercase tracking-[0.06em] text-ink">{{ totalLabel }}</span>
         <span class="font-display text-xl text-ink">${{ totalPrice.toLocaleString('en-US') }}</span>
       </div>
     </div>
@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import type { Room } from '~/types/room'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   room: Room
   reservationNumber: string
   checkIn: string
@@ -50,7 +50,12 @@ const props = defineProps<{
   roomsCount: number
   guestsCount: number
   totalPrice: number
-}>()
+  /** "Total Paid" on the confirmation page; a failed attempt never charged
+   *  anything, so that page passes a truthful label instead */
+  totalLabel?: string
+}>(), {
+  totalLabel: 'Total Paid',
+})
 
 const rows = computed(() => [
   { label: 'Reservation', value: props.reservationNumber },
