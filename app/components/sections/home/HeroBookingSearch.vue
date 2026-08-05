@@ -10,12 +10,12 @@
   -->
   <form
     ref="rootRef"
-    class="w-full xl:flex xl:items-center"
+    :class="['w-full xl:flex xl:items-center', tone === 'light' ? 'tone-light' : 'tone-dark']"
     aria-label="Check room availability"
     @submit.prevent="handleSubmit"
     @keydown.escape="openPanel = null"
   >
-    <div class="grid grid-cols-1 border border-champagne/45 bg-night/60 shadow-[0_28px_80px_-28px] shadow-night/90 backdrop-blur-[5px] sm:grid-cols-2 xl:flex xl:h-[94px] xl:flex-1">
+    <div :class="['grid grid-cols-1 border shadow-[0_28px_80px_-28px] backdrop-blur-[5px] sm:grid-cols-2 xl:flex xl:h-[94px] xl:flex-1', barClass]">
       <!-- Check-In -->
       <div class="relative xl:flex-1">
         <button
@@ -25,13 +25,13 @@
           :aria-expanded="openPanel === 'dates'"
           @click="togglePanel('dates')"
         >
-          <span class="hero-bar-label">Check-In</span>
+          <span :class="['hero-bar-label', labelClass]">Check-In</span>
           <span class="mt-1.5 flex items-center gap-2">
-            <svg class="h-4 w-4 shrink-0 text-paper" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class="whitespace-nowrap text-base leading-6 text-paper">{{ formatBookingDateLong(checkIn) }}</span>
+            <span :class="['whitespace-nowrap text-base leading-6', valueClass]">{{ formatBookingDateLong(checkIn) }}</span>
           </span>
         </button>
 
@@ -53,7 +53,7 @@
       <div class="hero-bar-divider" aria-hidden="true" />
 
       <!-- Check-Out -->
-      <div class="relative border-t border-paper/10 sm:border-l sm:border-t-0 xl:flex-1 xl:border-l-0">
+      <div :class="['relative border-t sm:border-l sm:border-t-0 xl:flex-1 xl:border-l-0', dividerBorderClass]">
         <button
           type="button"
           class="hero-bar-field w-full text-left"
@@ -61,13 +61,13 @@
           :aria-expanded="openPanel === 'dates'"
           @click="togglePanel('dates')"
         >
-          <span class="hero-bar-label">Check-Out</span>
+          <span :class="['hero-bar-label', labelClass]">Check-Out</span>
           <span class="mt-1.5 flex items-center gap-2">
-            <svg class="h-4 w-4 shrink-0 text-paper" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class="whitespace-nowrap text-base leading-6" :class="checkOut ? 'text-paper' : 'text-paper/50'">
+            <span class="whitespace-nowrap text-base leading-6" :class="checkOut ? valueClass : mutedValueClass">
               {{ checkOut ? formatBookingDateLong(checkOut) : 'Select date' }}
             </span>
           </span>
@@ -77,7 +77,7 @@
       <div class="hero-bar-divider" aria-hidden="true" />
 
       <!-- Guests & Rooms -->
-      <div class="relative border-t border-paper/10 xl:border-l-0 xl:border-t-0 xl:flex-1">
+      <div :class="['relative border-t xl:border-l-0 xl:border-t-0 xl:flex-1', dividerBorderClass]">
         <button
           type="button"
           class="hero-bar-field w-full text-left"
@@ -85,14 +85,14 @@
           :aria-expanded="openPanel === 'guests'"
           @click="togglePanel('guests')"
         >
-          <span class="hero-bar-label">Guests &amp; Rooms</span>
+          <span :class="['hero-bar-label', labelClass]">Guests &amp; Rooms</span>
           <span class="mt-1.5 flex items-center gap-2">
-            <svg class="h-4 w-4 shrink-0 text-paper" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class="truncate text-base leading-6 text-paper">{{ guestsSummary }}</span>
-            <svg class="h-4 w-4 shrink-0 text-paper/70" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <span :class="['truncate text-base leading-6', valueClass]">{{ guestsSummary }}</span>
+            <svg :class="['h-4 w-4 shrink-0', chevronClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </span>
@@ -104,7 +104,7 @@
           role="dialog"
           aria-label="Select rooms and guests"
         >
-          <div class="border border-champagne/25 bg-night/95 p-5 shadow-[0_28px_80px_-28px] shadow-night backdrop-blur-xl">
+          <div class="border border-champagne/25 bg-ink/95 p-5 shadow-[0_28px_80px_-28px] shadow-ink backdrop-blur-xl">
             <p class="text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-paper/45">
               Maximum {{ MAX_GUESTS_PER_ROOM }} guests per room
             </p>
@@ -161,29 +161,42 @@
       <div class="hero-bar-divider" aria-hidden="true" />
 
       <!-- Special Rates -->
-      <div class="hero-bar-field border-t border-paper/10 sm:border-l xl:w-[9rem] xl:flex-none xl:border-t-0">
-        <label for="hero-special-rates" class="hero-bar-label">Special Rates</label>
-        <div class="mt-1.5 flex h-[30px] items-center border border-champagne/30 bg-night/50 px-2.5">
+      <div :class="['hero-bar-field border-t sm:border-l xl:w-[9rem] xl:flex-none xl:border-t-0', dividerBorderClass]">
+        <label for="hero-special-rates" :class="['hero-bar-label', labelClass]">Special Rates</label>
+        <div :class="['mt-1.5 flex h-[30px] items-center border px-2.5', rateFieldClass]">
           <input
             id="hero-special-rates"
             v-model.trim="promoCode"
             type="text"
             autocomplete="off"
             placeholder="Optional"
-            class="w-full min-w-0 bg-transparent text-sm leading-6 text-paper placeholder:text-paper/40"
+            :class="['w-full min-w-0 bg-transparent text-sm leading-6', valueClass, tone === 'light' ? 'placeholder:text-ink/40' : 'placeholder:text-paper/40']"
           >
         </div>
       </div>
     </div>
 
     <BaseButton type="submit" variant="gold" class="mt-2 w-full !rounded-none !tracking-normal xl:relative xl:z-10 xl:-ml-8 xl:mt-0 xl:h-[60px] xl:w-[7.5rem]">
-      Search
+      {{ submitLabel }}
     </BaseButton>
   </form>
 </template>
 
 <script setup lang="ts">
 import type { BookingSearchQuery } from '~/types/booking'
+
+const props = withDefaults(defineProps<{
+  /** `dark` (default) matches the hero's glass bar; `light` is the white,
+   *  champagne-bordered bar used on the /rooms listing banner */
+  tone?: 'dark' | 'light'
+  submitLabel?: string
+  /** Seeds the console from a previously submitted search (e.g. handed off
+   *  from the hero into the /rooms page) instead of today/tomorrow defaults */
+  initialQuery?: BookingSearchQuery
+}>(), {
+  tone: 'dark',
+  submitLabel: 'Search',
+})
 
 const emit = defineEmits<{
   search: [query: BookingSearchQuery]
@@ -196,13 +209,30 @@ const MAX_CHILDREN = 6
 const rootRef = ref<HTMLElement | null>(null)
 const openPanel = ref<'dates' | 'guests' | null>(null)
 
-// Default stay: tonight, one night — the console is always submittable
-const checkIn = ref(todayIsoDate())
-const checkOut = ref(addDaysIso(todayIsoDate(), 1))
-const rooms = ref(1)
-const adults = ref(2)
-const children = ref(0)
-const promoCode = ref('')
+// Default stay: tonight, one night — the console is always submittable.
+// A handed-off `initialQuery` (e.g. from the hero into the /rooms page)
+// seeds these instead.
+const checkIn = ref(props.initialQuery?.checkIn ?? todayIsoDate())
+const checkOut = ref(props.initialQuery?.checkOut ?? addDaysIso(todayIsoDate(), 1))
+const rooms = ref(props.initialQuery?.rooms ?? 1)
+const adults = ref(props.initialQuery?.adults ?? 2)
+const children = ref(props.initialQuery?.children ?? 0)
+const promoCode = ref(props.initialQuery?.promoCode ?? '')
+
+// Tone-driven class lookups (mirrors BaseArrowCta's variant maps): the dark
+// glass hero bar vs. the white, champagne-bordered bar on the /rooms banner
+const barClass = computed(() => props.tone === 'light'
+  ? 'border-champagne bg-paper shadow-ink/15'
+  : 'border-champagne/45 bg-ink/60 shadow-ink/90')
+const labelClass = computed(() => props.tone === 'light' ? 'text-ink/60' : 'text-paper/70')
+const iconClass = computed(() => props.tone === 'light' ? 'text-ink/70' : 'text-paper')
+const valueClass = computed(() => props.tone === 'light' ? 'text-ink' : 'text-paper')
+const mutedValueClass = computed(() => props.tone === 'light' ? 'text-ink/40' : 'text-paper/50')
+const chevronClass = computed(() => props.tone === 'light' ? 'text-ink/50' : 'text-paper/70')
+const dividerBorderClass = computed(() => props.tone === 'light' ? 'border-ink/10' : 'border-paper/10')
+const rateFieldClass = computed(() => props.tone === 'light'
+  ? 'border-ink/15 bg-paper'
+  : 'border-champagne/30 bg-ink/50')
 
 const totalGuests = computed(() => adults.value + children.value)
 
@@ -306,10 +336,16 @@ onUnmounted(() => {
   transition: background-color var(--duration-fast) var(--ease-premium);
 }
 
-.hero-bar-field:hover {
+.tone-dark .hero-bar-field:hover {
   background-color: rgb(var(--color-paper) / 0.04);
 }
 
+.tone-light .hero-bar-field:hover {
+  background-color: rgb(var(--color-ink) / 0.04);
+}
+
+/* Color comes from the tone-driven `labelClass`/`valueClass` etc. utility
+   classes in the template — this rule only owns the shared typography */
 .hero-bar-label {
   display: block;
   font-family: Satoshi, ui-sans-serif, system-ui, sans-serif;
@@ -318,8 +354,6 @@ onUnmounted(() => {
   line-height: 18px;
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgb(var(--color-paper) / 0.7);
-  opacity: 0.7;
 }
 
 /* Vertical hairline between fields — hidden on stacked mobile/tablet rows,
@@ -336,6 +370,10 @@ onUnmounted(() => {
     align-self: center;
     height: 3.5rem;
     background-color: rgb(var(--color-paper) / 0.15);
+  }
+
+  .tone-light .hero-bar-divider {
+    background-color: rgb(var(--color-ink) / 0.12);
   }
 }
 

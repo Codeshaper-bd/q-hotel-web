@@ -16,11 +16,11 @@
         priority
         class="h-full w-full"
       />
-      <div class="absolute inset-0 bg-night/40" />
+      <div class="absolute inset-0 bg-ink/40" />
     </div>
 
     <BaseContainer size="xl" class="relative w-full pb-12 pt-32 sm:pb-14">
-      <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,44rem)] xl:gap-20">
+      <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,56.125rem)] xl:gap-20">
         <div ref="textRef" class="max-w-2xl">
           <h1
             id="home-title"
@@ -72,7 +72,9 @@ onMounted(() => {
 
 function handleSearch(query: BookingSearchQuery) {
   // OPERA PMS availability/rate/reservation integration lands here.
-  // Until the reservations flow exists, the selection is kept for handoff.
+  // Until then, the selection is handed off to the room list via shared
+  // state, which seeds that page's own search console.
   useState<BookingSearchQuery | null>('booking-search-draft', () => null).value = query
+  navigateTo('/rooms')
 }
 </script>
