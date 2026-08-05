@@ -14,7 +14,10 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
   components: [
-    { path: '~/components', pathPrefix: false }
+    // backup-home holds a pre-redesign snapshot of the home sections, kept
+    // for reference only. Excluded so its files never shadow the live
+    // same-named components under sections/home during auto-import.
+    { path: '~/components', pathPrefix: false, ignore: ['**/sections/backup-home/**'] }
   ],
   app: {
     head: {

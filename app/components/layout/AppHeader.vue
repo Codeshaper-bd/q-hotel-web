@@ -42,7 +42,7 @@
               :to="item.href"
               :class="[
                 'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
-                hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-paper/60 hover:text-paper',
+                hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
               ]"
             >
               {{ item.label }}
@@ -60,7 +60,7 @@
                   'flex items-center gap-1 px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
                   activeMenuId === item.id
                     ? 'text-copper'
-                    : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-paper/60 hover:text-paper',
+                    : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
                 ]"
                 @mouseenter="handleTriggerEnter(item.id)"
                 @mouseleave="schedulMenuClose"
@@ -77,7 +77,7 @@
                     'h-3 w-3 shrink-0 transition-transform duration-fast',
                     activeMenuId === item.id
                       ? 'rotate-180 text-copper'
-                      : hasSolidBackground ? 'text-ink/30' : 'text-paper/30',
+                      : hasSolidBackground ? 'text-ink/30' : 'text-white/40',
                   ]"
                   viewBox="0 0 12 12"
                   fill="none"
@@ -260,8 +260,7 @@ const isHome = computed(() => route.path === '/')
 
 const hasSolidBackground = computed(() =>
   (isScrolledPastHero.value && isNavGlassAllowed.value)
-  || isMobileOpen.value
-  || activeMenuId.value !== null,
+  || isMobileOpen.value,
 )
 
 function handleScroll() {
