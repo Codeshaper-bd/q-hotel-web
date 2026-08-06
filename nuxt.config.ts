@@ -52,8 +52,11 @@ export default defineNuxtConfig({
     '/': { prerender: true }
   },
   typescript: {
-    strict: true,
-    typeCheck: true
+    strict: true
+    // Type-checking runs separately via `pnpm typecheck`. Running it again
+    // inside `nuxt build` (typeCheck: true) reads the auto-generated
+    // `#imports` declarations, which broke on Vercel when a restored build
+    // cache served stale types for newly added composables/utils.
   },
   runtimeConfig: {
     public: {
