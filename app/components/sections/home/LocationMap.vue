@@ -121,12 +121,17 @@
 import type { Map as LeafletMap, Marker, Polyline, TileLayer } from 'leaflet'
 import type { HotelLocation, LatLngTuple, NearbyAttraction } from '~/types/location'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   hotel: HotelLocation
   attractions: NearbyAttraction[]
   /** Attraction the surrounding section wants centred, or null for the hotel */
   activeAttractionId: string | null
-}>()
+  /** Push the pin left of centre to clear cards docked over the right half.
+   *  Set false when nothing else occupies the frame (e.g. a plain map panel). */
+  biased?: boolean
+}>(), {
+  biased: true,
+})
 
 type BasemapId = 'satellite' | 'dark'
 
@@ -171,7 +176,7 @@ function biasedCenter(point: LatLngTuple, zoom: number) {
   }
 
   const width = map.getSize().x
-  const bias = width >= 1024 ? width * LEFT_BIAS_RATIO : 0
+  const bias = props.biased && width >= 1024 ? width * LEFT_BIAS_RATIO : 0
   const projected = map.project(point, zoom).add([bias, 0])
 
   return map.unproject(projected, zoom)

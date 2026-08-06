@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-paper text-ink">
     <AppHeader />
     <main id="main-content">
-      <ErrorHeroBanner :status-code="error.statusCode" />
+      <ErrorHeroBanner :status-code="error.status" />
       <FaqSection />
     </main>
     <AppFooter />
@@ -17,7 +17,7 @@ const props = defineProps<{
 }>()
 
 useSeoMetaData({
-  title: props.error.statusCode === 404 ? 'Page Not Found' : 'Something Went Wrong',
+  title: props.error.status === 404 ? 'Page Not Found' : 'Something Went Wrong',
   description: 'The page you are looking for could not be found. Return to Q Hotel Dhaka and continue exploring our rooms, dining, and amenities.',
   path: '/404'
 })
