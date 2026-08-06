@@ -34,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+import { useRoomsCatalog, parseBookingRouteQuery } from '#imports'
+
 const route = useRoute()
 const rooms = useRoomsCatalog()
 const hasQuery = computed(() => !!parseBookingRouteQuery(route.query))

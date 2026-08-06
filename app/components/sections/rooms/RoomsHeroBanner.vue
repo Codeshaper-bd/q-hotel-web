@@ -99,6 +99,7 @@
 
 <script setup lang="ts">
 import type { BookingSearchQuery } from "~/types/booking";
+import { parseBookingRouteQuery, toBookingRouteQuery } from '#imports'
 
 const route = useRoute();
 

@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import type { BookingConfirmation, BookingSearchQuery } from '~/types/booking'
+import { useRoomsCatalog } from '#imports'
 
 // Checkout: never worth indexing, and query-param room variants would
 // otherwise read as thin duplicate content

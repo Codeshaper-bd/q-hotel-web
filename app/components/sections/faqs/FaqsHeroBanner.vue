@@ -51,6 +51,7 @@
 
 <script setup lang="ts">
 import type { BookingSearchQuery } from '~/types/booking'
+import { toBookingRouteQuery } from '#imports'
 
 function handleSearch(query: BookingSearchQuery) {
   // OPERA PMS availability/rate/reservation integration lands here.

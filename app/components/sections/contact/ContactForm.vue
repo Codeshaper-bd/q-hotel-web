@@ -71,6 +71,8 @@
 </template>
 
 <script setup lang="ts">
+import { countries, phoneCountryCodes } from '~/utils/contactOptions'
+
 const labelClass = 'mb-2.5 block text-xs font-medium uppercase tracking-[0.06em] text-ink/60'
 const inputClass = 'h-[52px] w-full border border-ink/40 bg-transparent px-4 text-base text-ink placeholder:text-ink/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean'
 

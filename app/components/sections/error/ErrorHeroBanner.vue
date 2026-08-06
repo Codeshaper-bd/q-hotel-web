@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import type { BookingSearchQuery } from '~/types/booking'
+import { toBookingRouteQuery } from '#imports'
 
 const props = withDefaults(defineProps<{
   statusCode?: number

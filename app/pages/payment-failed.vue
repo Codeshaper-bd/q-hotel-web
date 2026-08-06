@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import type { GuestDetails, PaymentFailure } from '~/types/booking'
+import { useRoomsCatalog } from '#imports'
 
 useHead({
   meta: [{ name: 'robots', content: 'noindex, nofollow' }],

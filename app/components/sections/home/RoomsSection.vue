@@ -162,6 +162,7 @@
 <script setup lang="ts">
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 import type { Room } from '~/types/room'
+import { useRoomsCatalog } from '#imports'
 
 const rooms = useRoomsCatalog()
 

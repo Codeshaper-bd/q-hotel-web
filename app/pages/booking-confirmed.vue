@@ -62,6 +62,7 @@
 
 <script setup lang="ts">
 import type { BookingConfirmation, GuestDetails } from '~/types/booking'
+import { useRoomsCatalog } from '#imports'
 
 useHead({
   meta: [{ name: 'robots', content: 'noindex, nofollow' }],
