@@ -26,7 +26,7 @@
           @click="togglePanel('dates')"
         >
           <span :class="['hero-bar-label', labelClass]">Check-In</span>
-          <span class="mt-1.5 flex items-center gap-2">
+          <span class="mt-3 flex items-center gap-2">
             <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
@@ -62,7 +62,7 @@
           @click="togglePanel('dates')"
         >
           <span :class="['hero-bar-label', labelClass]">Check-Out</span>
-          <span class="mt-1.5 flex items-center gap-2">
+          <span class="mt-3 flex items-center gap-2">
             <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
@@ -86,7 +86,7 @@
           @click="togglePanel('guests')"
         >
           <span :class="['hero-bar-label', labelClass]">Guests &amp; Rooms</span>
-          <span class="mt-1.5 flex items-center gap-2">
+          <span class="mt-3 flex items-center gap-2">
             <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
@@ -161,23 +161,23 @@
       <div class="hero-bar-divider" aria-hidden="true" />
 
       <!-- Special Rates -->
-      <div :class="['hero-bar-field border-t sm:border-l xl:w-[9rem] xl:flex-none xl:border-t-0', dividerBorderClass]">
+      <div :class="['hero-bar-field border-t xl:flex-1 xl:border-t-0', dividerBorderClass]">
         <label for="hero-special-rates" :class="['hero-bar-label', labelClass]">Special Rates</label>
-        <div :class="['mt-1.5 flex h-[30px] items-center border px-2.5', rateFieldClass]">
+        <div :class="['mt-1.5 flex h-[30px] items-center mr-10', rateFieldClass]">
           <input
             id="hero-special-rates"
             v-model.trim="promoCode"
             type="text"
             autocomplete="off"
             placeholder="Optional"
-            :class="['w-full min-w-0 bg-transparent text-sm leading-6', valueClass, tone === 'light' ? 'placeholder:text-ink/40' : 'placeholder:text-paper/40']"
+            :class="['h-full w-full min-w-0 border bg-transparent px-2.5 text-sm leading-6 outline-none transition-colors duration-fast focus-visible:outline-none focus:border-champagne/60', valueClass, tone === 'light' ? 'border-ink/15 placeholder:text-ink/40' : 'border-champagne/30 placeholder:text-paper/40']"
           >
         </div>
       </div>
     </div>
 
     <BaseButton type="submit" variant="gold" class="mt-2 w-full !rounded-none !tracking-normal xl:relative xl:z-10 xl:-ml-8 xl:mt-0 xl:h-[60px] xl:w-[7.5rem]">
-      {{ submitLabel }}
+      {{ submitLabel }} 
     </BaseButton>
   </form>
 </template>
@@ -231,8 +231,8 @@ const mutedValueClass = computed(() => props.tone === 'light' ? 'text-ink/40' : 
 const chevronClass = computed(() => props.tone === 'light' ? 'text-ink/50' : 'text-paper/70')
 const dividerBorderClass = computed(() => props.tone === 'light' ? 'border-ink/10' : 'border-paper/10')
 const rateFieldClass = computed(() => props.tone === 'light'
-  ? 'border-ink/15 bg-paper'
-  : 'border-champagne/30 bg-ink/50')
+  ? 'bg-paper'
+  : 'bg-ink/50')
 
 const totalGuests = computed(() => adults.value + children.value)
 
@@ -332,7 +332,11 @@ onUnmounted(() => {
    hairline dividers, warming softly under the pointer */
 .hero-bar-field {
   display: block;
-  padding: 0.75rem 1rem;
+  /* 20px top/bottom exactly fills the bar's fixed 94px height (20 + label 18
+     + gap + value/rate-box + 20 = 94 for both field shapes), matching the
+     Figma spec's symmetric vertical centering instead of block flow's
+     top-aligned default */
+  padding: 1.25rem 1rem;
   transition: background-color var(--duration-fast) var(--ease-premium);
 }
 
