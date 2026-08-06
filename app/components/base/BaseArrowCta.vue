@@ -5,10 +5,16 @@
     (rooms "More Details", facilities "View All Facilities", venue "Book
     Space"). `outline` keeps the flush bordered look for dark sections,
     `gold` is the filled variant, `ghost` the light-section outline.
+
+    With `to` it renders a link; without one it renders a button (`type`
+    default) so dialog-openers and action controls stay semantically correct.
   -->
-  <NuxtLink
-    :to="to"
-    :class="['arrow-cta group inline-flex items-stretch focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4', rootClasses[variant]]"
+  <component
+    :is="to ? NuxtLink : 'button'"
+    :to="to ?? undefined"
+    :type="to ? undefined : 'button'"
+    :class="['arrow-cta cursor-pointer group inline-flex items-stretch focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4', rootClasses[variant]]"
+    @click="emit('click', $event)"
   >
     <span :class="['flex min-h-11 items-center px-6 text-[0.7rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-fast', labelClasses[variant]]">
       <slot />
@@ -28,16 +34,22 @@
         </svg>
       </slot>
     </span>
-  </NuxtLink>
+  </component>
 </template>
 
 <script setup lang="ts">
+import { NuxtLink } from '#components'
+
 const props = withDefaults(defineProps<{
-  to: string
+  to?: string
   variant?: 'outline' | 'gold' | 'ghost'
 }>(), {
   variant: 'gold'
 })
+
+const emit = defineEmits<{
+  click: [event: MouseEvent]
+}>()
 
 type ArrowCtaVariant = NonNullable<typeof props.variant>
 

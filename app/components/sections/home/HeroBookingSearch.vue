@@ -1,22 +1,23 @@
 <template>
   <!--
-    Reservation bar: one seamless dark console with hairline dividers —
-    Check-in | Check-out | Guests & Rooms | Promo Code | Search. The two date
-    fields share a range-calendar popover; Guests & Rooms opens a stepper
-    panel; promo code is a plain input. Panels open upward (the bar lives at
-    the viewport bottom), one at a time; Escape or an outside click closes.
-    Stacks into a touch-friendly column on small screens.
+    Reservation console: one dark glass bar — Check-In | Check-Out |
+    Guests & Rooms | Special Rates | Search — separated by hairline
+    dividers, Search overlapping the bar's trailing edge. Check-In and
+    Check-Out are separate triggers that share one range-calendar popover;
+    Guests & Rooms opens a stepper panel. Panels open upward (the bar sits
+    near the viewport bottom), one at a time; Escape or an outside click
+    closes. Stacks into a touch-friendly column on small screens.
   -->
   <form
     ref="rootRef"
-    class="w-full xl:flex xl:items-center"
+    :class="['w-full xl:flex xl:items-center', tone === 'light' ? 'tone-light' : 'tone-dark']"
     aria-label="Check room availability"
     @submit.prevent="handleSubmit"
     @keydown.escape="openPanel = null"
   >
-    <div class="grid grid-cols-1 border border-champagne/25 bg-night/65 p-2 shadow-[0_28px_80px_-28px] shadow-night/90 backdrop-blur-xl sm:grid-cols-2 xl:flex xl:flex-1">
-      <!-- Check-in & Check-out: one field, one range calendar -->
-      <div class="relative sm:col-span-2 xl:flex-[1.7]">
+    <div :class="['grid grid-cols-1 border shadow-[0_28px_80px_-28px] backdrop-blur-[5px] sm:grid-cols-2 xl:flex xl:h-[94px] xl:flex-1', barClass]">
+      <!-- Check-In -->
+      <div class="relative xl:flex-1">
         <button
           type="button"
           class="hero-bar-field w-full text-left"
@@ -24,18 +25,13 @@
           :aria-expanded="openPanel === 'dates'"
           @click="togglePanel('dates')"
         >
-          <span class="hero-bar-label">Check-in — Check-out</span>
-          <span class="mt-1.5 flex items-center gap-2.5">
-            <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+          <span :class="['hero-bar-label', labelClass]">Check-In</span>
+          <span class="mt-3 flex items-center gap-2">
+            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class="whitespace-nowrap text-xs leading-6 text-paper">{{ formatBookingDateLong(checkIn) }}</span>
-            <svg class="h-3 w-3 shrink-0 text-champagne/60" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <span class="whitespace-nowrap text-xs leading-6" :class="checkOut ? 'text-paper' : 'text-paper/50'">
-              {{ checkOut ? formatBookingDateLong(checkOut) : 'Select date' }}
-            </span>
+            <span :class="['whitespace-nowrap text-base leading-6', valueClass]">{{ formatBookingDateLong(checkIn) }}</span>
           </span>
         </button>
 
@@ -54,8 +50,34 @@
         </div>
       </div>
 
+      <div class="hero-bar-divider" aria-hidden="true" />
+
+      <!-- Check-Out -->
+      <div :class="['relative border-t sm:border-l sm:border-t-0 xl:flex-1 xl:border-l-0', dividerBorderClass]">
+        <button
+          type="button"
+          class="hero-bar-field w-full text-left"
+          aria-haspopup="dialog"
+          :aria-expanded="openPanel === 'dates'"
+          @click="togglePanel('dates')"
+        >
+          <span :class="['hero-bar-label', labelClass]">Check-Out</span>
+          <span class="mt-3 flex items-center gap-2">
+            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="whitespace-nowrap text-base leading-6" :class="checkOut ? valueClass : mutedValueClass">
+              {{ checkOut ? formatBookingDateLong(checkOut) : 'Select date' }}
+            </span>
+          </span>
+        </button>
+      </div>
+
+      <div class="hero-bar-divider" aria-hidden="true" />
+
       <!-- Guests & Rooms -->
-      <div class="relative border-t border-paper/10 xl:border-l xl:border-t-0 xl:flex-[1.15]">
+      <div :class="['relative border-t xl:border-l-0 xl:border-t-0 xl:flex-1', dividerBorderClass]">
         <button
           type="button"
           class="hero-bar-field w-full text-left"
@@ -63,14 +85,15 @@
           :aria-expanded="openPanel === 'guests'"
           @click="togglePanel('guests')"
         >
-          <span class="hero-bar-label">Guests &amp; Rooms</span>
-          <span class="mt-1.5 flex items-center gap-2.5">
-            <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          <span :class="['hero-bar-label', labelClass]">Guests &amp; Rooms</span>
+          <span class="mt-3 flex items-center gap-2">
+            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class="truncate text-xs leading-6 text-paper">{{ guestsSummary }}</span>
-            <svg class="h-3 w-3 shrink-0 text-paper/60" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+            <span :class="['truncate text-base leading-6', valueClass]">{{ guestsSummary }}</span>
+            <svg :class="['h-4 w-4 shrink-0', chevronClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </span>
         </button>
@@ -81,7 +104,7 @@
           role="dialog"
           aria-label="Select rooms and guests"
         >
-          <div class="border border-champagne/25 bg-night/95 p-5 shadow-[0_28px_80px_-28px] shadow-night backdrop-blur-xl">
+          <div class="border border-champagne/25 bg-ink/95 p-5 shadow-[0_28px_80px_-28px] shadow-ink backdrop-blur-xl">
             <p class="text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-paper/45">
               Maximum {{ MAX_GUESTS_PER_ROOM }} guests per room
             </p>
@@ -135,33 +158,45 @@
         </div>
       </div>
 
-      <!-- Promo code -->
-      <div class="hero-bar-field border-t border-paper/10 sm:border-l xl:border-t-0 xl:flex-1">
-        <label for="hero-promo" class="hero-bar-label">Promo Code</label>
-        <div class="mt-1.5 flex items-center gap-2.5">
-          <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-          </svg>
+      <div class="hero-bar-divider" aria-hidden="true" />
+
+      <!-- Special Rates -->
+      <div :class="['hero-bar-field border-t xl:flex-1 xl:border-t-0', dividerBorderClass]">
+        <label for="hero-special-rates" :class="['hero-bar-label', labelClass]">Special Rates</label>
+        <div :class="['mt-1.5 flex h-[30px] items-center mr-10', rateFieldClass]">
           <input
-            id="hero-promo"
+            id="hero-special-rates"
             v-model.trim="promoCode"
             type="text"
             autocomplete="off"
             placeholder="Optional"
-            class="w-full min-w-0 bg-transparent text-sm leading-6 text-paper placeholder:text-paper/40"
+            :class="['h-full w-full min-w-0 border bg-transparent px-2.5 text-sm leading-6 outline-none transition-colors duration-fast focus-visible:outline-none focus:border-champagne/60', valueClass, tone === 'light' ? 'border-ink/15 placeholder:text-ink/40' : 'border-champagne/30 placeholder:text-paper/40']"
           >
         </div>
       </div>
     </div>
 
-    <BaseButton type="submit" variant="gold" class="mt-2 w-full !rounded-none !tracking-normal xl:relative xl:z-10 xl:-ml-8 xl:mt-0 xl:w-auto xl:min-w-[9rem] xl:px-10 xl:py-4">
-      Search
+    <BaseButton type="submit" variant="gold" class="mt-2 w-full !rounded-none !tracking-normal xl:relative xl:z-10 xl:-ml-8 xl:mt-0 xl:h-[60px] xl:w-[7.5rem]">
+      {{ submitLabel }} 
     </BaseButton>
   </form>
 </template>
 
 <script setup lang="ts">
 import type { BookingSearchQuery } from '~/types/booking'
+
+const props = withDefaults(defineProps<{
+  /** `dark` (default) matches the hero's glass bar; `light` is the white,
+   *  champagne-bordered bar used on the /rooms listing banner */
+  tone?: 'dark' | 'light'
+  submitLabel?: string
+  /** Seeds the console from a previously submitted search (e.g. handed off
+   *  from the hero into the /rooms page) instead of today/tomorrow defaults */
+  initialQuery?: BookingSearchQuery
+}>(), {
+  tone: 'dark',
+  submitLabel: 'Search',
+})
 
 const emit = defineEmits<{
   search: [query: BookingSearchQuery]
@@ -174,13 +209,30 @@ const MAX_CHILDREN = 6
 const rootRef = ref<HTMLElement | null>(null)
 const openPanel = ref<'dates' | 'guests' | null>(null)
 
-// Default stay: tonight, one night — the console is always submittable
-const checkIn = ref(todayIsoDate())
-const checkOut = ref(addDaysIso(todayIsoDate(), 1))
-const rooms = ref(1)
-const adults = ref(2)
-const children = ref(0)
-const promoCode = ref('')
+// Default stay: tonight, one night — the console is always submittable.
+// A handed-off `initialQuery` (e.g. from the hero into the /rooms page)
+// seeds these instead.
+const checkIn = ref(props.initialQuery?.checkIn ?? todayIsoDate())
+const checkOut = ref(props.initialQuery?.checkOut ?? addDaysIso(todayIsoDate(), 1))
+const rooms = ref(props.initialQuery?.rooms ?? 1)
+const adults = ref(props.initialQuery?.adults ?? 2)
+const children = ref(props.initialQuery?.children ?? 0)
+const promoCode = ref(props.initialQuery?.promoCode ?? '')
+
+// Tone-driven class lookups (mirrors BaseArrowCta's variant maps): the dark
+// glass hero bar vs. the white, champagne-bordered bar on the /rooms banner
+const barClass = computed(() => props.tone === 'light'
+  ? 'border-champagne bg-paper shadow-ink/15'
+  : 'border-champagne/45 bg-ink/60 shadow-ink/90')
+const labelClass = computed(() => props.tone === 'light' ? 'text-ink/60' : 'text-paper/70')
+const iconClass = computed(() => props.tone === 'light' ? 'text-ink/70' : 'text-paper')
+const valueClass = computed(() => props.tone === 'light' ? 'text-ink' : 'text-paper')
+const mutedValueClass = computed(() => props.tone === 'light' ? 'text-ink/40' : 'text-paper/50')
+const chevronClass = computed(() => props.tone === 'light' ? 'text-ink/50' : 'text-paper/70')
+const dividerBorderClass = computed(() => props.tone === 'light' ? 'border-ink/10' : 'border-paper/10')
+const rateFieldClass = computed(() => props.tone === 'light'
+  ? 'bg-paper'
+  : 'bg-ink/50')
 
 const totalGuests = computed(() => adults.value + children.value)
 
@@ -280,23 +332,53 @@ onUnmounted(() => {
    hairline dividers, warming softly under the pointer */
 .hero-bar-field {
   display: block;
-  padding: 0.5rem;
+  /* 20px top/bottom exactly fills the bar's fixed 94px height (20 + label 18
+     + gap + value/rate-box + 20 = 94 for both field shapes), matching the
+     Figma spec's symmetric vertical centering instead of block flow's
+     top-aligned default */
+  padding: 1.25rem 1rem;
   transition: background-color var(--duration-fast) var(--ease-premium);
 }
 
-.hero-bar-field:hover {
+.tone-dark .hero-bar-field:hover {
   background-color: rgb(var(--color-paper) / 0.04);
 }
 
+.tone-light .hero-bar-field:hover {
+  background-color: rgb(var(--color-ink) / 0.04);
+}
+
+/* Color comes from the tone-driven `labelClass`/`valueClass` etc. utility
+   classes in the template — this rule only owns the shared typography */
 .hero-bar-label {
   display: block;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  font-size: 10px;
+  font-family: Satoshi, ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
   font-weight: 500;
-  line-height: 1.25rem;
+  line-height: 18px;
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgb(var(--color-champagne) / 0.6);
+}
+
+/* Vertical hairline between fields — hidden on stacked mobile/tablet rows,
+   shown once the bar becomes one flex row at xl */
+.hero-bar-divider {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .hero-bar-divider {
+    display: flex;
+    flex: none;
+    width: 1px;
+    align-self: center;
+    height: 3.5rem;
+    background-color: rgb(var(--color-paper) / 0.15);
+  }
+
+  .tone-light .hero-bar-divider {
+    background-color: rgb(var(--color-ink) / 0.12);
+  }
 }
 
 /* Stepper buttons: quiet rounds that warm on hover */

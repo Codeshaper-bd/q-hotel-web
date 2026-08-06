@@ -1,16 +1,17 @@
 <template>
   <!--
-    Dining showcase: a full-screen (viewport minus header) video stage that the
-    scroll pins, stepping through one outlet at a time. Footage crossfades while
-    the copy leads slightly ahead of it — the outgoing text leaves before the
-    frame has finished changing, the incoming text arrives after, which is what
-    keeps the change feeling directed rather than mechanical.
+    Dining showcase: a full-screen (viewport minus header) image stage that the
+    scroll pins, stepping through one outlet at a time. The background
+    photograph is static — it cuts instantly between outlets, no crossfade or
+    scale — while the copy is the only thing that animates: it fades/slides
+    out, the background swaps underneath while it's fully hidden, then the
+    next outlet's copy fades/slides in.
 
     Composes <section> directly (not BaseSection) because the stage must bleed
     to both viewport edges while the copy stays on the xl container grid.
 
     Mobile, reduced motion and no-JS get every outlet as a plain stacked
-    poster-and-copy panel: no pin, no autoplay, all copy still in the HTML.
+    poster-and-copy panel: no pin, all copy still in the HTML.
   -->
   <section
     id="dining"
@@ -28,26 +29,13 @@
         :aria-hidden="isSlideInert(venueIndex) ? 'true' : undefined"
       >
         <div :data-dining-media="venueIndex" class="absolute inset-0 overflow-hidden bg-night">
-          <!-- Carries first paint and stays put if the footage never loads -->
           <BaseImage
             :src="venue.poster.src"
             :alt="venue.poster.alt"
             :width="1920"
             :height="1080"
             sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px"
-            class="absolute inset-0 h-full w-full"
-          />
-
-          <video
-            v-if="shouldPlayVideo"
-            :ref="(element: unknown) => registerVideo(element, venueIndex)"
-            class="absolute inset-0 h-full w-full object-cover"
-            :src="venue.videoSrc"
-            :muted="true"
-            loop
-            playsinline
-            preload="metadata"
-            aria-hidden="true"
+            class="absolute inset-0"
           />
 
           <!-- Legibility: an even wash plus a heavier foot under the copy -->
@@ -104,9 +92,10 @@ import type { DiningVenue } from '~/types/dining'
 /**
  * Static showcase content (CMS-ready shape).
  *
- * PLACEHOLDER MEDIA: every slide currently points at the hero loop because no
- * dining footage exists yet. Drop the real files into /public/videos/dining/
- * and change `videoSrc` (and each `poster`) here — nothing else needs to move.
+ * PLACEHOLDER MEDIA: every slide currently reuses the same photograph because
+ * no per-outlet dining photography exists yet. Drop the real files into
+ * /public/images/dining/ and change each `poster` here — nothing else needs
+ * to move.
  *
  * PLACEHOLDER COPY: only BBQ Restaurant is real. The other two outlets are
  * drafted so the interaction can be built and reviewed; replace with the
@@ -118,36 +107,28 @@ const venues: DiningVenue[] = [
     name: 'BBQ Restaurant',
     description: 'Charcoal-grilled specialties in a double-height dining room of stone, timber, and low evening light — our signature restaurant pairs bold flavors with an unhurried, convivial setting.',
     poster: { src: '/images/dining/bbq-restaurant.jpg', alt: 'Q Hotel BBQ Restaurant dining room with ring chandeliers, stone feature wall, and city-view windows' },
-    videoSrc: '/videos/hero/hero-loop.mp4',
   },
   {
     id: 'sky-lounge',
     name: 'Sky Lounge & Bar',
     description: 'Dhaka at dusk from the top floor: a low-lit bar of brass and smoked glass, where a short list of classics and a longer one of rare malts carry the evening past midnight.',
     poster: { src: '/images/dining/bbq-restaurant.jpg', alt: 'Rooftop lounge and bar with brass detailing and city views at dusk' },
-    videoSrc: '/videos/hero/hero-loop.mp4',
   },
   {
     id: 'atrium-cafe',
     name: 'The Atrium Café',
     description: 'An all-day room under glass — breakfast that runs long, a patisserie counter worth the detour, and coffee served with the kind of quiet that makes a table hard to leave.',
     poster: { src: '/images/dining/bbq-restaurant.jpg', alt: 'All-day café under a glass atrium with a patisserie counter and marble tables' },
-    videoSrc: '/videos/hero/hero-loop.mp4',
   },
 ]
 
 const sectionRef = ref<HTMLElement | null>(null)
 const stageRef = ref<HTMLElement | null>(null)
 const progressRef = ref<HTMLElement | null>(null)
-const videoElements = ref<HTMLVideoElement[]>([])
 
-/** Footage is a desktop, full-motion enhancement; posters carry everyone else */
-const shouldPlayVideo = ref(false)
 const activeIndex = ref(0)
 /** True once the slides are stacked on top of each other, so only one shows */
 const isStageStacked = ref(false)
-/** Footage decodes only while the section is actually on screen */
-const isSectionVisible = ref(false)
 
 const { gsap, createContext, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()
@@ -165,37 +146,7 @@ function isSlideInert(index: number) {
   return isStageStacked.value && index !== activeIndex.value
 }
 
-/** Index-keyed, so playback never targets the wrong outlet's footage */
-function registerVideo(element: unknown, index: number) {
-  if (element instanceof HTMLVideoElement) {
-    videoElements.value[index] = element
-  }
-}
-
-/** Only the outlet on screen decodes frames; the rest stay paused */
-function syncPlayback() {
-  videoElements.value.forEach((video, index) => {
-    const shouldPlay = isStageStacked.value
-      && isSectionVisible.value
-      && index === activeIndex.value
-
-    if (shouldPlay && video.paused) {
-      video.play().catch(() => {
-        // Autoplay rejected: the poster image simply remains
-      })
-    }
-    else if (!shouldPlay && !video.paused) {
-      video.pause()
-    }
-  })
-}
-
-watch([activeIndex, isStageStacked, isSectionVisible], syncPlayback)
-
 onMounted(async () => {
-  shouldPlayVideo.value = !prefersReducedMotion.value
-    && window.matchMedia('(min-width: 1024px)').matches
-
   await nextTick()
 
   const sectionElement = sectionRef.value
@@ -204,17 +155,6 @@ onMounted(async () => {
   if (!sectionElement || !stageElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
     return
   }
-
-  // Playback follows what is actually on screen. A ScrollTrigger cannot answer
-  // that here: the pin makes this very section position: fixed, so a trigger on
-  // it reports "gone" while the stage is still filling the viewport. An
-  // observer watches the rendered box instead, pinned or not.
-  const visibilityObserver = new IntersectionObserver(([entry]) => {
-    isSectionVisible.value = entry?.isIntersecting ?? false
-  })
-
-  visibilityObserver.observe(sectionElement)
-  addCleanup(() => visibilityObserver.disconnect())
 
   const mediaMatcher = gsap.matchMedia()
 
@@ -232,11 +172,9 @@ onMounted(async () => {
       const stepCount = mediaLayers.length - 1
       const headerHeight = readHeaderHeight()
 
-      // Only the first outlet is visible at rest; the rest wait, slightly
-      // overscaled, so their reveal carries a settle rather than a hard cut
-      mediaLayers.forEach((layer, index) => {
-        gsap.set(layer, { autoAlpha: index === 0 ? 1 : 0, scale: index === 0 ? 1 : 1.08 })
-      })
+      // Only the first outlet's photograph is visible at rest. No scale/zoom —
+      // the background is static, never animated.
+      gsap.set(mediaLayers, { autoAlpha: (index: number) => (index === 0 ? 1 : 0) })
       copyLayers.forEach((layer, index) => {
         gsap.set(layer, { autoAlpha: index === 0 ? 1 : 0, y: index === 0 ? 0 : 28 })
       })
@@ -244,7 +182,7 @@ onMounted(async () => {
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: sectionElement,
-          // Rest the stage directly under the fixed header, so the footage
+          // Rest the stage directly under the fixed header, so the photograph
           // fills the viewport below the navbar
           start: () => `top top+=${headerHeight}`,
           end: () => `+=${mediaLayers.length * window.innerHeight * 0.8}`,
@@ -271,25 +209,17 @@ onMounted(async () => {
         const step = index - 1
 
         timeline
-          // Copy leaves first — the frame is still changing behind it
+          // Copy leaves first — the background hasn't cut yet
           .to(copyLayers[step] as HTMLElement, {
             autoAlpha: 0,
             y: -28,
             duration: 0.4,
             ease: 'power2.in',
           }, step)
-          .to(mediaLayers[step] as HTMLElement, {
-            autoAlpha: 0,
-            scale: 1.06,
-            duration: 1,
-            ease: 'none',
-          }, step)
-          .to(mediaLayers[index] as HTMLElement, {
-            autoAlpha: 1,
-            scale: 1,
-            duration: 1,
-            ease: 'none',
-          }, step)
+          // Background cut: instant swap while the copy is fully hidden — no
+          // crossfade, no scale, the photograph is never mid-transition
+          .set(mediaLayers[step] as HTMLElement, { autoAlpha: 0 }, step + 0.45)
+          .set(mediaLayers[index] as HTMLElement, { autoAlpha: 1 }, step + 0.45)
           // ...and the new copy arrives once the new frame has taken hold
           .to(copyLayers[index] as HTMLElement, {
             autoAlpha: 1,
@@ -313,29 +243,18 @@ onMounted(async () => {
 
     return () => {
       isStageStacked.value = false
-      isSectionVisible.value = false
       context?.revert()
     }
   })
 
-  addCleanup(() => {
-    mediaMatcher.revert()
-
-    // Stop decoding and let the browser release the buffers
-    videoElements.value.forEach((video) => {
-      video.pause()
-      video.removeAttribute('src')
-      video.load()
-    })
-    videoElements.value = []
-  })
+  addCleanup(() => mediaMatcher.revert())
 })
 </script>
 
 <style scoped>
-/* Pinned full-bleed stage: the viewport minus the fixed header, so the footage
-   sits directly below the navbar. Only where the pin actually runs — mobile and
-   reduced motion keep the stacked panels in normal flow. */
+/* Pinned full-bleed stage: the viewport minus the fixed header, so the
+   photograph sits directly below the navbar. Only where the pin actually
+   runs — mobile and reduced motion keep the stacked panels in normal flow. */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .dining-stage {
     position: relative;

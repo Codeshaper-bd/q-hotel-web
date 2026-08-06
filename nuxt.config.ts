@@ -14,7 +14,10 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
   components: [
-    { path: '~/components', pathPrefix: false }
+    // backup-home holds a pre-redesign snapshot of the home sections, kept
+    // for reference only. Excluded so its files never shadow the live
+    // same-named components under sections/home during auto-import.
+    { path: '~/components', pathPrefix: false, ignore: ['**/sections/backup-home/**'] }
   ],
   app: {
     head: {
@@ -49,8 +52,11 @@ export default defineNuxtConfig({
     '/': { prerender: true }
   },
   typescript: {
-    strict: true,
-    typeCheck: true
+    strict: true
+    // Type-checking runs separately via `pnpm typecheck`. Running it again
+    // inside `nuxt build` (typeCheck: true) reads the auto-generated
+    // `#imports` declarations, which broke on Vercel when a restored build
+    // cache served stale types for newly added composables/utils.
   },
   runtimeConfig: {
     public: {

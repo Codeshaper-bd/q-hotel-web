@@ -15,7 +15,11 @@
           <NuxtLink
             v-if="!item.dropdown && !item.megaMenu"
             :to="item.href"
-            class="flex items-center justify-between px-5 py-3 text-sm font-medium uppercase tracking-[0.12em] text-paper/70 transition-colors duration-fast hover:text-paper"
+            :aria-current="isActive(item.href) ? 'page' : undefined"
+            :class="[
+              'flex items-center justify-between px-5 py-3 text-sm font-medium uppercase tracking-[0.12em] transition-colors duration-fast',
+              isActive(item.href) ? 'text-copper' : 'text-paper/70 hover:text-paper',
+            ]"
             @click="$emit('close')"
           >
             {{ item.label }}
@@ -121,6 +125,16 @@ defineEmits<{
 }>()
 
 const expandedId = ref<string | null>(null)
+
+const route = useRoute()
+
+/** Mirrors AppHeader's active-page detection: `/` matches the root exactly,
+ *  other paths match the page and nested routes; hash links never count */
+function isActive(href: string) {
+  if (href.startsWith('#')) return false
+  if (href === '/') return route.path === '/'
+  return route.path === href || route.path.startsWith(`${href}/`)
+}
 
 function toggleExpand(id: string) {
   expandedId.value = expandedId.value === id ? null : id

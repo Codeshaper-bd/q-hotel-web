@@ -5,8 +5,6 @@ export interface DiningVenue {
   id: string
   name: string
   description: string
-  /** First paint and the mobile / reduced-motion / no-JS fallback */
+  /** Full-bleed, static background photograph for the outlet's slide */
   poster: ImageAsset
-  /** Ambient background footage; desktop + full-motion users only */
-  videoSrc: string
 }

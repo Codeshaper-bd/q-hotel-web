@@ -74,15 +74,15 @@
               </Transition>
               <div
                 v-if="room.images.length > 1"
-                class="absolute inset-x-0 bottom-4 flex justify-center gap-2 lg:inset-x-auto lg:bottom-8 lg:left-10 lg:justify-start"
+                class="absolute inset-x-0 bottom-4 flex justify-center gap-1 lg:inset-x-auto lg:bottom-8 lg:left-10 lg:justify-start"
               >
                 <button
                   v-for="(image, imageIndex) in room.images"
                   :key="image.src"
                   type="button"
                   :class="[
-                    'h-2.5 w-2.5 rounded-full border border-night/30 transition-colors duration-fast',
-                    imageIndex === selectedImageIndex(room.id) ? 'bg-champagne' : 'bg-paper/70 hover:bg-paper',
+                    'h-2 transition-[width,background-color] duration-fast',
+                    imageIndex === selectedImageIndex(room.id) ? 'w-9 bg-copper' : 'w-2 bg-paper/80 hover:bg-paper',
                   ]"
                   :aria-label="`Show photo ${imageIndex + 1} of ${room.name}`"
                   :aria-pressed="imageIndex === selectedImageIndex(room.id)"
@@ -92,53 +92,60 @@
               </div>
             </div>
 
-            <!-- Details panel: solid below the photo on mobile, frosted glass overlay on desktop -->
-            <div class="relative flex flex-col bg-ink p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-6 motion-safe:lg:right-6 motion-safe:lg:w-96 motion-safe:lg:overflow-y-auto motion-safe:lg:border motion-safe:lg:border-champagne/25 motion-safe:lg:bg-night/55 motion-safe:lg:p-8 motion-safe:lg:backdrop-blur-xl motion-safe:xl:inset-y-10 motion-safe:xl:right-10 motion-safe:xl:w-[26rem] motion-safe:xl:p-10">
-              <span class="self-start border border-champagne/50 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-champagne">
-                ${{ room.nightlyRateUsd }} / Night
-              </span>
+            <!-- Details panel: solid below the photo on mobile, a copper-framed
+                 scrim overlay on desktop (frame inset from the tinted edge,
+                 matching the Figma room card). No inner scroll: the stack
+                 height below is sized to fit every room's content. -->
+            <div class="relative flex flex-col bg-ink p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-4 motion-safe:lg:right-4 motion-safe:lg:w-[27rem] motion-safe:lg:bg-night/70 motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]">
+              <div class="motion-safe:lg:absolute motion-safe:lg:inset-4 motion-safe:lg:flex motion-safe:lg:flex-col motion-safe:lg:border motion-safe:lg:border-copper motion-safe:lg:p-7 motion-safe:xl:inset-5 motion-safe:xl:p-8">
+                <span class="self-start border border-paper/70 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-paper">
+                  ${{ room.nightlyRateUsd }} / Night
+                </span>
 
-              <h3 class="mt-5 font-display text-3xl leading-tight sm:text-4xl">
-                {{ room.name }}
-              </h3>
+                <h3 class="mt-4 font-display text-3xl leading-tight sm:text-4xl">
+                  {{ room.name }}
+                </h3>
 
-              <p class="mt-4 text-sm leading-7 text-paper/70">
-                {{ room.description }}
-              </p>
+                <p class="mt-3 text-sm leading-7 text-paper/80">
+                  {{ room.description }}
+                </p>
 
-              <ul class="mt-7 space-y-3.5 text-sm text-paper/80 motion-safe:lg:mt-auto motion-safe:lg:pt-8">
-                <li class="flex items-center gap-3">
-                  <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                  </svg>
-                  {{ room.areaSqFt }} Sq Ft Room
-                </li>
-                <li class="flex items-center gap-3">
-                  <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                  </svg>
-                  {{ room.maxOccupancy }} {{ room.maxOccupancy === 1 ? 'Person' : 'Persons' }}
-                </li>
-                <li class="flex items-center gap-3">
-                  <svg class="h-4 w-4 shrink-0 text-champagne/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 20v-8a2 2 0 012-2h16a2 2 0 012 2v8" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
-                  </svg>
-                  {{ room.bedType }}
-                </li>
-              </ul>
+                <ul class="mt-6 space-y-3 text-sm text-paper/80 motion-safe:lg:mt-auto motion-safe:lg:pt-6">
+                  <li class="flex items-center gap-3">
+                    <svg class="h-5 w-5 shrink-0 text-paper" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M13.333 10.001v1.667a1.667 1.667 0 01-1.666 1.666H7.5a.833.833 0 00-.833.834v2.5a1.667 1.667 0 001.666 1.666h8.334a1.667 1.667 0 001.666-1.666V8.335a1.667 1.667 0 00-1.666-1.667" />
+                      <path d="M3.334 13.335a1.667 1.667 0 01-1.667-1.667V3.335a1.667 1.667 0 011.667-1.667h8.333a1.667 1.667 0 011.666 1.667v2.5a.833.833 0 01-.833.833H8.334a1.667 1.667 0 00-1.667 1.667v1.666" />
+                    </svg>
+                    {{ room.areaSqFt }} Sq Ft Room
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <svg class="h-5 w-5 shrink-0 text-paper" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M15.834 17.5v-1.667a3.333 3.333 0 00-3.334-3.333H7.5a3.333 3.333 0 00-3.334 3.333V17.5" />
+                      <path d="M10 9.167a3.333 3.333 0 100-6.667 3.333 3.333 0 000 6.667z" />
+                    </svg>
+                    {{ room.maxOccupancy }} {{ room.maxOccupancy === 1 ? 'Person' : 'Persons' }}
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <svg class="h-5 w-5 shrink-0 text-paper" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M1.667 16.665V9.999c0-.442.176-.866.488-1.179.313-.312.737-.488 1.179-.488h13.333c.442 0 .866.176 1.179.488.312.313.488.737.488 1.179v6.666" />
+                      <path d="M3.333 8.332v-3.333c0-.442.176-.867.488-1.179.313-.313.737-.488 1.179-.488h10c.442 0 .866.175 1.179.488.312.312.488.737.488 1.179v3.333" />
+                      <path d="M10 3.332v5" />
+                      <path d="M1.667 15h16.667" />
+                    </svg>
+                    {{ room.bedType }}
+                  </li>
+                </ul>
 
-              <!-- Rooms detail routes arrive with the reservations flow; the
-                   CTA hands off to the reserve entry point until then -->
-              <div class="mt-8">
-                <BaseArrowCta
-                  to="#reserve"
-                  variant="outline"
-                  :tabindex="activeRoomId === room.id ? 0 : -1"
-                >
-                  More Details
-                </BaseArrowCta>
+                <!-- "More Details" opens the full room-details popup -->
+                <div class="mt-6">
+                  <BaseArrowCta
+                    variant="gold"
+                    :tabindex="activeRoomId === room.id ? 0 : -1"
+                    @click="isDetailsOpen = true"
+                  >
+                    More Details
+                  </BaseArrowCta>
+                </div>
               </div>
             </div>
           </article>
@@ -146,84 +153,22 @@
       </div>
     </div>
   </BaseSection>
+
+  <!-- Dialog lives outside the pinned stack: a transformed ancestor would
+       otherwise become the containing block for the fixed overlay -->
+  <RoomDetailsDialog v-model:open="isDetailsOpen" />
 </template>
 
 <script setup lang="ts">
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 import type { Room } from '~/types/room'
+import { useRoomsCatalog } from '#imports'
 
-/** Static showcase content (CMS-ready shape); live rates come with the PMS */
-const rooms: Room[] = [
-  {
-    id: 'standard-double',
-    tabLabel: 'Standard Double',
-    name: 'Standard Double Room',
-    description: 'A calm, thoughtfully appointed double room with warm wood tones and everything a short city stay needs - rest, work, and an unhurried morning.',
-    nightlyRateUsd: 140,
-    areaSqFt: 220,
-    maxOccupancy: 2,
-    bedType: '1 Double Bed',
-    images: [
-      { src: '/images/rooms/standard-double.jpg', alt: 'Standard Double Room with a plush double bed, walnut headboard, and warm brass lamps' },
-    ],
-  },
-  {
-    id: 'deluxe-twin',
-    tabLabel: 'Deluxe Twin',
-    name: 'Deluxe Twin Room',
-    description: 'Our Deluxe Twin Room offers spacious comfort with two premium beds, contemporary furnishings, and thoughtfully designed corners for work and rest.',
-    nightlyRateUsd: 180,
-    areaSqFt: 260,
-    maxOccupancy: 2,
-    bedType: '2 Single Beds',
-    images: [
-      { src: '/images/rooms/deluxe-twin-1.jpg', alt: 'Deluxe Twin Room with two premium single beds against a walnut headboard wall' },
-      { src: '/images/rooms/deluxe-twin-2.jpg', alt: 'Deluxe Twin Room seen from the window, with writing desk and leather armchair' },
-    ],
-  },
-  {
-    id: 'deluxe-double',
-    tabLabel: 'Deluxe Double',
-    name: 'Deluxe Double Room',
-    description: 'A generous king-bedded room layered in ivory and soft beige, with a reading corner and dusk-lit windows made for slow evenings.',
-    nightlyRateUsd: 210,
-    areaSqFt: 320,
-    maxOccupancy: 3,
-    bedType: '1 King Bed',
-    images: [
-      { src: '/images/rooms/deluxe-double.jpg', alt: 'Deluxe Double Room with a king bed, cove-lit walnut headboard, and lounge chair' },
-    ],
-  },
-  {
-    id: 'presidential-suite',
-    tabLabel: 'Presidential Suite',
-    name: 'Presidential Suite',
-    description: 'The house signature: a palatial living room under a crystal chandelier, silk-draped windows, and a private bedroom wing for stays that should feel like occasions.',
-    nightlyRateUsd: 520,
-    areaSqFt: 1200,
-    maxOccupancy: 6,
-    bedType: '2 King Beds',
-    images: [
-      { src: '/images/rooms/presidential-suite.jpg', alt: 'Presidential Suite living room with chandelier, ivory sofas, and marble floor' },
-    ],
-  },
-  {
-    id: 'executive-suite',
-    tabLabel: 'Executive Suite',
-    name: 'Executive Suite',
-    description: 'Business-first luxury: a king bedroom beside a proper workspace with a city-view desk, tuned for long stays and productive evenings.',
-    nightlyRateUsd: 380,
-    areaSqFt: 650,
-    maxOccupancy: 4,
-    bedType: '1 King Bed',
-    images: [
-      { src: '/images/rooms/executive-suite.jpg', alt: 'Executive Suite with king bed and a city-view workspace behind a walnut partition' },
-    ],
-  },
-]
+const rooms = useRoomsCatalog()
 
 const activeRoomId = ref(rooms[0]?.id ?? '')
 const activeImageIndexes = reactive<Record<string, number>>({})
+const isDetailsOpen = ref(false)
 const sectionRef = ref<HTMLElement | null>(null)
 const stackRef = ref<HTMLElement | null>(null)
 const trackRef = ref<HTMLElement | null>(null)
@@ -427,8 +372,10 @@ onMounted(async () => {
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .rooms-stack {
     /* Leave room for the fixed header, section heading, and tabs above the
-       pinned stack so the whole block fits inside the viewport while pinned */
-    height: clamp(26rem, calc(100vh - 19rem), 44rem);
+       pinned stack, and a visible gap below it, so the whole block fits
+       inside the viewport - with breathing room - while pinned. Tall enough
+       that the details panel never needs to scroll internally. */
+    height: clamp(34rem, calc(100vh - 19rem), 46rem);
     overflow: hidden;
     position: relative;
   }

@@ -92,10 +92,10 @@
             </div>
 
             <div class="mt-8 flex flex-wrap gap-4 lg:mt-auto lg:pt-8">
-              <BaseArrowCta to="#reserve" variant="gold">
+              <BaseArrowCta to="/booking" variant="gold">
                 Book Space
               </BaseArrowCta>
-              <BaseArrowCta to="#reserve" variant="ghost">
+              <BaseArrowCta variant="ghost" @click="isDetailsOpen = true">
                 View Details
               </BaseArrowCta>
             </div>
@@ -110,6 +110,11 @@
       </div>
     </div>
   </BaseSection>
+
+  <!-- Venue details reuse the same shared popup as the rooms section: both
+       are static demo content today, so they stay visually identical until
+       each gets its own API-backed data. -->
+  <RoomDetailsDialog v-model:open="isDetailsOpen" />
 </template>
 
 <script setup lang="ts">
@@ -169,6 +174,9 @@ const blockRef = ref<HTMLElement | null>(null)
 const headingRef = ref<HTMLElement | null>(null)
 const stackRef = ref<HTMLElement | null>(null)
 
+// ─── Venue details popup ────────────────────────────────────────────
+const isDetailsOpen = ref(false)
+
 const { gsap, createContext, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()
 const nuxtApp = useNuxtApp()
@@ -192,7 +200,7 @@ function measureHeadingHold() {
   const cards = stackElement?.querySelectorAll<HTMLElement>('[data-venue-card]')
   const lastCard = cards?.[cards.length - 1]
 
-  if (!blockElement || !headingElement || !lastCard) {
+  if (!blockElement || !headingElement || !stackElement || !lastCard) {
     return
   }
 
@@ -202,6 +210,17 @@ function measureHeadingHold() {
   const cardBottom = cardTop + lastCard.offsetHeight
 
   blockElement.style.setProperty('--venue-heading-hold', `${Math.max(0, cardBottom - headingBottom)}px`)
+
+  // The first card must never rest beneath the heading band, or its top
+  // border hides behind the paper band while the deck holds on scroll-up.
+  // The band's height is content-driven (title wrapping varies by width), so
+  // the deck's resting offset is measured: the band's pinned bottom edge plus
+  // a beat of breathing room, never less than the designed 10rem runway.
+  // Anchored to the heading's own top (= header height), never to a card's
+  // current top — that value already includes the deck offset itself.
+  const designedRunway = headingTop + 10 * 16
+  const deckTop = Math.max(designedRunway, headingBottom + 8)
+  stackElement.style.setProperty('--venue-deck-top', `${deckTop}px`)
 }
 
 onMounted(async () => {
@@ -262,6 +281,7 @@ onMounted(async () => {
     return () => {
       ScrollTrigger.removeEventListener('refreshInit', measureHeadingHold)
       blockRef.value?.style.removeProperty('--venue-heading-hold')
+      stackRef.value?.style.removeProperty('--venue-deck-top')
       context?.revert()
     }
   })
@@ -322,7 +342,9 @@ onMounted(async () => {
   }
 
   .venue-stack {
-    /* Deck rests below the held heading, not under the header */
+    /* Deck rests below the held heading, not under the header. Measured at
+       runtime (like the heading hold) so the first card clears the heading
+       band; this 10rem value is the no-JS fallback */
     --venue-deck-top: calc(var(--header-height) + 10rem);
 
     /* Cancels the heading's hold margin, leaving the shared title-to-content

@@ -25,12 +25,12 @@
     </a>
 
     <BaseContainer size="xl" class="relative">
-      <!-- Desktop: three-column bar -->
+      <!-- Desktop: logo left, navigation right -->
       <div class="flex min-h-[var(--header-height)] items-center justify-between gap-6">
         <!-- Left: logo -->
         <NavLogo :tone="hasSolidBackground ? 'on-light' : 'on-dark'" />
 
-        <!-- Centre: primary navigation (hidden on mobile) -->
+        <!-- Right: primary navigation (hidden on mobile) -->
         <nav
           class="hidden items-center gap-0 lg:flex"
           aria-label="Primary navigation"
@@ -40,9 +40,12 @@
             <NuxtLink
               v-if="!item.dropdown && !item.megaMenu"
               :to="item.href"
+              :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
-                'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
-                hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-paper/60 hover:text-paper',
+                'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-7 last:pr-0',
+                isActive(item.href)
+                  ? 'text-copper'
+                  : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
               ]"
             >
               {{ item.label }}
@@ -58,9 +61,9 @@
                 :aria-controls="`nav-menu-${item.id}`"
                 :class="[
                   'flex items-center gap-1 px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
-                  activeMenuId === item.id
+                  activeMenuId === item.id || isActive(item.href)
                     ? 'text-copper'
-                    : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-paper/60 hover:text-paper',
+                    : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
                 ]"
                 @mouseenter="handleTriggerEnter(item.id)"
                 @mouseleave="schedulMenuClose"
@@ -75,9 +78,9 @@
                 <svg
                   :class="[
                     'h-3 w-3 shrink-0 transition-transform duration-fast',
-                    activeMenuId === item.id
+                    activeMenuId === item.id || isActive(item.href)
                       ? 'rotate-180 text-copper'
-                      : hasSolidBackground ? 'text-ink/30' : 'text-paper/30',
+                      : hasSolidBackground ? 'text-ink/30' : 'text-white/40',
                   ]"
                   viewBox="0 0 12 12"
                   fill="none"
@@ -103,75 +106,41 @@
           </template>
         </nav>
 
-        <!-- Right: reserve button + mobile hamburger -->
-        <div class="flex items-center gap-3">
-          <!-- Reserve: split control — label + bed icon behind one border -->
-          <NuxtLink
-            to="#reserve"
-            :class="[
-              'group hidden items-stretch border transition-colors duration-fast lg:flex',
-              hasSolidBackground
-                ? 'border-copper/60 text-ink hover:border-copper hover:bg-copper/10'
-                : 'border-champagne/60 text-paper hover:border-champagne hover:bg-champagne/10',
-            ]"
-          >
-            <span class="flex items-center px-5 py-2.5 text-sm font-semibold uppercase leading-5">
-              Reserve Now
-            </span>
+        <!-- Mobile hamburger -->
+        <button
+          type="button"
+          :class="[
+            'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast lg:hidden',
+            hasSolidBackground
+              ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
+              : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
+          ]"
+          :aria-expanded="isMobileOpen"
+          aria-controls="mobile-navigation"
+          aria-label="Toggle navigation"
+          @click="isMobileOpen = !isMobileOpen"
+        >
+          <span aria-hidden="true" class="relative h-3.5 w-5">
             <span
               :class="[
-                'flex items-center border-l px-3.5 transition-colors duration-fast',
-                hasSolidBackground
-                  ? 'border-copper/60 group-hover:border-copper'
-                  : 'border-champagne/60 group-hover:border-champagne',
+                'absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-fast',
+                isMobileOpen ? 'translate-y-[6px] rotate-45' : '',
               ]"
-              aria-hidden="true"
-            >
-              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2 20v-8a2 2 0 012-2h16a2 2 0 012 2v8" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v6" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
-              </svg>
-            </span>
-          </NuxtLink>
-
-          <!-- Mobile hamburger -->
-          <button
-            type="button"
-            :class="[
-              'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast lg:hidden',
-              hasSolidBackground
-                ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
-                : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
-            ]"
-            :aria-expanded="isMobileOpen"
-            aria-controls="mobile-navigation"
-            aria-label="Toggle navigation"
-            @click="isMobileOpen = !isMobileOpen"
-          >
-            <span aria-hidden="true" class="relative h-3.5 w-5">
-              <span
-                :class="[
-                  'absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-fast',
-                  isMobileOpen ? 'translate-y-[6px] rotate-45' : '',
-                ]"
-              />
-              <span
-                :class="[
-                  'absolute left-0 top-1/2 h-px w-5 bg-current -translate-y-px transition-opacity duration-fast',
-                  isMobileOpen ? 'opacity-0' : '',
-                ]"
-              />
-              <span
-                :class="[
-                  'absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-fast',
-                  isMobileOpen ? '-translate-y-[7px] -rotate-45' : '',
-                ]"
-              />
-            </span>
-          </button>
-        </div>
+            />
+            <span
+              :class="[
+                'absolute left-0 top-1/2 h-px w-5 bg-current -translate-y-px transition-opacity duration-fast',
+                isMobileOpen ? 'opacity-0' : '',
+              ]"
+            />
+            <span
+              :class="[
+                'absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-fast',
+                isMobileOpen ? '-translate-y-[7px] -rotate-45' : '',
+              ]"
+            />
+          </span>
+        </button>
       </div>
 
       <!-- Mobile drawer -->
@@ -205,12 +174,12 @@ const navigationItems: NavItemData[] = [
   {
     id: 'overview',
     label: 'Overview',
-    href: '#hero',
+    href: '/',
   },
   {
     id: 'rooms',
     label: 'Rooms & Suites',
-    href: '#rooms',
+    href: '/rooms',
   },
   {
     id: 'dining',
@@ -252,16 +221,26 @@ const isMobileOpen = ref(false)
 const isScrolledPastHero = ref(false)
 let closeTimer: ReturnType<typeof setTimeout> | undefined
 
-// Every page opens with the transparent nav over its dark cover media; the
+// Most pages open with the transparent nav over a dark cover photo; the
 // paper glass arrives on scroll. The home hero owns a longer runway (its
 // pinned journey plus the glass hold-off), while inner pages — whose dark
 // banner is only a few hundred pixels tall — go solid almost immediately.
 const isHome = computed(() => route.path === '/')
 
+// Pages with no dark cover media at the top (a plain paper background
+// instead of a hero photo) would render white-on-white nav text under this
+// scroll-threshold scheme, so they skip it and start solid immediately.
+const NO_DARK_HERO_ROUTES = new Set(['/booking'])
+const hasDarkHero = computed(() => !NO_DARK_HERO_ROUTES.has(route.path))
+
+// Only the home page runs the transparent header that gains a paper-glass
+// background on scroll. Every other page starts solid so the nav is always
+// readable over its non-hero, light-on-light content.
 const hasSolidBackground = computed(() =>
-  (isScrolledPastHero.value && isNavGlassAllowed.value)
-  || isMobileOpen.value
-  || activeMenuId.value !== null,
+  !isHome.value
+  || !hasDarkHero.value
+  || (isScrolledPastHero.value && isNavGlassAllowed.value)
+  || isMobileOpen.value,
 )
 
 function handleScroll() {
@@ -272,6 +251,16 @@ function handleScroll() {
 const activeMegaMenuItem = computed(() =>
   navigationItems.find(i => i.id === activeMenuId.value && i.megaMenu) ?? null
 )
+
+/** Active page detection: `/` matches the home root exactly, other paths
+ *  match their page and any nested route beneath it. In-page hash links
+ *  (`#dining`, `#meetings`, …) never count as a page, they stay on the
+ *  section of the current page. */
+function isActive(href: string) {
+  if (href.startsWith('#')) return false
+  if (href === '/') return route.path === '/'
+  return route.path === href || route.path.startsWith(`${href}/`)
+}
 
 function openMenu(id: string) {
   if (closeTimer) clearTimeout(closeTimer)
