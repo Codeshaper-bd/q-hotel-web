@@ -205,12 +205,12 @@ const navigationItems: NavItemData[] = [
   {
     id: 'overview',
     label: 'Overview',
-    href: '#hero',
+    href: '/',
   },
   {
     id: 'rooms',
     label: 'Rooms & Suites',
-    href: '#rooms',
+    href: '/rooms',
   },
   {
     id: 'dining',

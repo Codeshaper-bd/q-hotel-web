@@ -48,6 +48,7 @@
          after it, so nothing below needs absolute positioning to compensate -->
     <BaseContainer size="xl" class="relative z-10 -mt-14 pb-16 sm:-mt-16 sm:pb-20">
       <HeroBookingSearch
+        :key="route.fullPath"
         tone="light"
         submit-label="Modify Search"
         :initial-query="initialQuery"
@@ -60,12 +61,17 @@
 <script setup lang="ts">
 import type { BookingSearchQuery } from '~/types/booking'
 
-const bookingDraft = useState<BookingSearchQuery | null>('booking-search-draft', () => null)
-const initialQuery = bookingDraft.value ?? undefined
+const route = useRoute()
+
+// The URL is the source of truth for what this console displays: a plain
+// nav link to /rooms carries no query, so it correctly shows no stale
+// selection even if a search was made earlier in the session.
+const initialQuery = computed(() => parseBookingRouteQuery(route.query) ?? undefined)
 
 function handleSearch(query: BookingSearchQuery) {
   // OPERA PMS availability/rate integration lands here; until then the
   // listing below stays the same static catalog regardless of the query.
-  bookingDraft.value = query
+  useState<BookingSearchQuery | null>('booking-search-draft', () => null).value = query
+  navigateTo({ path: '/rooms', query: toBookingRouteQuery(query) }, { replace: true })
 }
 </script>

@@ -57,6 +57,6 @@ const message = computed(() => props.statusCode === 404
 
 function handleSearch(query: BookingSearchQuery) {
   useState<BookingSearchQuery | null>('booking-search-draft', () => null).value = query
-  navigateTo('/rooms')
+  navigateTo({ path: '/rooms', query: toBookingRouteQuery(query) })
 }
 </script>

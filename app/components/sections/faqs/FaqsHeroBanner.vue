@@ -54,9 +54,10 @@ import type { BookingSearchQuery } from '~/types/booking'
 
 function handleSearch(query: BookingSearchQuery) {
   // OPERA PMS availability/rate/reservation integration lands here.
-  // Until then, the selection is handed off to the room list via shared
-  // state, which seeds that page's own search console.
+  // Until then, the selection travels to /rooms as URL query params (so a
+  // refresh or share reproduces it) and also into shared state, which the
+  // later /booking step reads to carry the dates through checkout.
   useState<BookingSearchQuery | null>('booking-search-draft', () => null).value = query
-  navigateTo('/rooms')
+  navigateTo({ path: '/rooms', query: toBookingRouteQuery(query) })
 }
 </script>
