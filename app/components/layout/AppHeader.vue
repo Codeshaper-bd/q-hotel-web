@@ -25,12 +25,12 @@
     </a>
 
     <BaseContainer size="xl" class="relative">
-      <!-- Desktop: three-column bar -->
+      <!-- Desktop: logo left, navigation right -->
       <div class="flex min-h-[var(--header-height)] items-center justify-between gap-6">
         <!-- Left: logo -->
         <NavLogo :tone="hasSolidBackground ? 'on-light' : 'on-dark'" />
 
-        <!-- Centre: primary navigation (hidden on mobile) -->
+        <!-- Right: primary navigation (hidden on mobile) -->
         <nav
           class="hidden items-center gap-0 lg:flex"
           aria-label="Primary navigation"
@@ -42,7 +42,7 @@
               :to="item.href"
               :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
-                'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
+                'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-7 last:pr-0',
                 isActive(item.href)
                   ? 'text-copper'
                   : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
@@ -106,75 +106,41 @@
           </template>
         </nav>
 
-        <!-- Right: reserve button + mobile hamburger -->
-        <div class="flex items-center gap-3">
-          <!-- Reserve: split control — label + bed icon behind one border -->
-          <NuxtLink
-            to="#reserve"
-            :class="[
-              'group hidden items-stretch border transition-colors duration-fast lg:flex',
-              hasSolidBackground
-                ? 'border-copper/60 text-ink hover:border-copper hover:bg-copper/10'
-                : 'border-champagne/60 text-paper hover:border-champagne hover:bg-champagne/10',
-            ]"
-          >
-            <span class="flex items-center px-5 py-2.5 text-sm font-semibold uppercase leading-5">
-              Reserve Now
-            </span>
+        <!-- Mobile hamburger -->
+        <button
+          type="button"
+          :class="[
+            'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast lg:hidden',
+            hasSolidBackground
+              ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
+              : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
+          ]"
+          :aria-expanded="isMobileOpen"
+          aria-controls="mobile-navigation"
+          aria-label="Toggle navigation"
+          @click="isMobileOpen = !isMobileOpen"
+        >
+          <span aria-hidden="true" class="relative h-3.5 w-5">
             <span
               :class="[
-                'flex items-center border-l px-3.5 transition-colors duration-fast',
-                hasSolidBackground
-                  ? 'border-copper/60 group-hover:border-copper'
-                  : 'border-champagne/60 group-hover:border-champagne',
+                'absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-fast',
+                isMobileOpen ? 'translate-y-[6px] rotate-45' : '',
               ]"
-              aria-hidden="true"
-            >
-              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2 20v-8a2 2 0 012-2h16a2 2 0 012 2v8" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v6" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
-              </svg>
-            </span>
-          </NuxtLink>
-
-          <!-- Mobile hamburger -->
-          <button
-            type="button"
-            :class="[
-              'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast lg:hidden',
-              hasSolidBackground
-                ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
-                : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
-            ]"
-            :aria-expanded="isMobileOpen"
-            aria-controls="mobile-navigation"
-            aria-label="Toggle navigation"
-            @click="isMobileOpen = !isMobileOpen"
-          >
-            <span aria-hidden="true" class="relative h-3.5 w-5">
-              <span
-                :class="[
-                  'absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-fast',
-                  isMobileOpen ? 'translate-y-[6px] rotate-45' : '',
-                ]"
-              />
-              <span
-                :class="[
-                  'absolute left-0 top-1/2 h-px w-5 bg-current -translate-y-px transition-opacity duration-fast',
-                  isMobileOpen ? 'opacity-0' : '',
-                ]"
-              />
-              <span
-                :class="[
-                  'absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-fast',
-                  isMobileOpen ? '-translate-y-[7px] -rotate-45' : '',
-                ]"
-              />
-            </span>
-          </button>
-        </div>
+            />
+            <span
+              :class="[
+                'absolute left-0 top-1/2 h-px w-5 bg-current -translate-y-px transition-opacity duration-fast',
+                isMobileOpen ? 'opacity-0' : '',
+              ]"
+            />
+            <span
+              :class="[
+                'absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-fast',
+                isMobileOpen ? '-translate-y-[7px] -rotate-45' : '',
+              ]"
+            />
+          </span>
+        </button>
       </div>
 
       <!-- Mobile drawer -->
@@ -267,8 +233,12 @@ const isHome = computed(() => route.path === '/')
 const NO_DARK_HERO_ROUTES = new Set(['/booking'])
 const hasDarkHero = computed(() => !NO_DARK_HERO_ROUTES.has(route.path))
 
+// Only the home page runs the transparent header that gains a paper-glass
+// background on scroll. Every other page starts solid so the nav is always
+// readable over its non-hero, light-on-light content.
 const hasSolidBackground = computed(() =>
-  !hasDarkHero.value
+  !isHome.value
+  || !hasDarkHero.value
   || (isScrolledPastHero.value && isNavGlassAllowed.value)
   || isMobileOpen.value,
 )

@@ -2,10 +2,11 @@
   <!--
     Room details popup: a native <dialog> (same technique as BaseLightbox) so
     showModal() gives a real focus trap, an inert background, and Esc-to-close
-    for free. A photo gallery leads a grid of amenity categories grouped the
-    way the Figma "Room Details Pop-up" groups them — most categories are
-    standard across every room type; only Room Overview, Room Features, and
-    Beds and Bedding are derived from this specific room's own data.
+    for free. A photo slider sits on top, followed by a grid of amenity
+    categories grouped the way the Figma "Room Details Pop-up" groups them.
+    This popup takes no room data through props by design — every line here
+    is static placeholder copy until the rooms API is wired in, at which
+    point the content becomes data-driven again.
   -->
   <dialog
     ref="dialogRef"
@@ -14,10 +15,10 @@
     @close="emit('update:open', false)"
     @click="handleBackdropClick"
   >
-    <div class="room-details-panel bg-paper">
+    <div class="room-details-panel bg-paper" data-lenis-prevent>
       <div class="flex items-center justify-between gap-6 px-6 pt-6 sm:px-8 sm:pt-8">
         <p :id="titleId" class="text-xl text-ink">
-          {{ room.bedType }}, Guest Room
+          Room Details
         </p>
         <button
           ref="closeButtonRef"
@@ -34,16 +35,18 @@
 
       <div class="relative mt-6 aspect-[12/5] w-full overflow-hidden bg-line/40 sm:mx-8 sm:w-[calc(100%-4rem)]">
         <Transition name="room-details-image">
-          <img
-            :key="selectedImage.src"
-            :src="selectedImage.src"
-            :alt="selectedImage.alt"
+          <BaseImage
+            :key="selectedSlide.src"
+            :src="selectedSlide.src"
+            :alt="selectedSlide.alt"
+            :width="1200"
+            :height="500"
+            sizes="xs:100vw sm:100vw lg:1200px"
             class="absolute inset-0 h-full w-full object-cover"
-            decoding="async"
-          >
+          />
         </Transition>
 
-        <template v-if="room.images.length > 1">
+        <template v-if="slides.length > 1">
           <button
             type="button"
             class="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center bg-paper/90 text-ink transition-colors duration-fast hover:bg-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
@@ -67,16 +70,16 @@
 
           <div class="absolute inset-x-0 bottom-3 flex justify-center gap-1.5">
             <button
-              v-for="(image, imageIndex) in room.images"
-              :key="image.src"
+              v-for="(slide, slideIndex) in slides"
+              :key="slide.src"
               type="button"
               :class="[
                 'h-1.5 transition-[width,background-color] duration-fast',
-                imageIndex === selectedImageIndex ? 'w-7 bg-champagne' : 'w-1.5 bg-paper/70 hover:bg-paper',
+                slideIndex === selectedSlideIndex ? 'w-7 bg-champagne' : 'w-1.5 bg-paper/70 hover:bg-paper',
               ]"
-              :aria-label="`Show photo ${imageIndex + 1} of ${room.name}`"
-              :aria-pressed="imageIndex === selectedImageIndex"
-              @click="selectedImageIndex = imageIndex"
+              :aria-label="`Show photo ${slideIndex + 1}`"
+              :aria-pressed="slideIndex === selectedSlideIndex"
+              @click="selectedSlideIndex = slideIndex"
             />
           </div>
         </template>
@@ -105,10 +108,8 @@
 
 <script setup lang="ts">
 import type Lenis from 'lenis'
-import type { Room } from '~/types/room'
 
 const props = defineProps<{
-  room: Room
   /** Controls the popup (v-model:open) */
   open: boolean
 }>()
@@ -119,18 +120,21 @@ const emit = defineEmits<{
 
 const dialogRef = ref<HTMLDialogElement | null>(null)
 const closeButtonRef = ref<HTMLButtonElement | null>(null)
-const selectedImageIndex = ref(0)
 const titleId = useId()
 
-const selectedImage = computed(() =>
-  props.room.images[selectedImageIndex.value] ?? (props.room.images[0] as Room['images'][number]))
+/** Placeholder gallery — a single demo photo until the rooms API lands */
+const slides = [
+  { src: '/images/rooms/room-slider-1.png', alt: 'Guest room interior' },
+]
+const selectedSlideIndex = ref(0)
+const selectedSlide = computed(() => slides[selectedSlideIndex.value] ?? slides[0]!)
 
 function step(direction: number) {
-  const total = props.room.images.length
+  const total = slides.length
   if (total === 0) {
     return
   }
-  selectedImageIndex.value = (selectedImageIndex.value + direction + total) % total
+  selectedSlideIndex.value = (selectedSlideIndex.value + direction + total) % total
 }
 
 function close() {
@@ -172,7 +176,7 @@ watch(() => props.open, async (isOpen) => {
     return
   }
 
-  selectedImageIndex.value = 0
+  selectedSlideIndex.value = 0
   if (!dialog.open) {
     dialog.showModal()
     setPageFrozen(true)
@@ -186,7 +190,7 @@ onBeforeUnmount(() => {
   setPageFrozen(false)
 })
 
-/** Icon line-paths, shared across every room's popup */
+/** Icon line-paths, shared across every category */
 const ICONS = {
   overview: ['M2 7.5L8 2l6 5.5M3.5 6.5V13a.5.5 0 00.5.5h3v-4h2v4h3a.5.5 0 00.5-.5V6.5'],
   bell: ['M8 2a3 3 0 00-3 3v1.9c0 .6-.22 1.16-.62 1.6L3 10.5h10L11.62 8.5A2.4 2.4 0 0111 6.9V5a3 3 0 00-3-3z', 'M6.5 12.5a1.5 1.5 0 003 0'],
@@ -208,23 +212,22 @@ interface AmenityCategory {
   lines: string[]
 }
 
-/** Mostly hotel-wide standard amenities; only the three room-specific
- *  categories below draw from this room's own fields */
-const amenityRows = computed<AmenityCategory[][]>(() => [
+/** Static placeholder copy, grouped to match the Figma "Room Details Pop-up" */
+const amenityRows: AmenityCategory[][] = [
   [
-    { title: 'Room Overview', iconPaths: ICONS.overview, lines: [props.room.name] },
+    { title: 'Room Overview', iconPaths: ICONS.overview, lines: ['Deluxe Twin Room'] },
     { title: 'Special Benefits', iconPaths: ICONS.bell, lines: ['High-speed Wi-Fi'] },
     {
       title: 'Beds and Bedding',
       iconPaths: ICONS.bed,
-      lines: [`Maximum occupancy: ${props.room.maxOccupancy}`, props.room.bedType, 'Cribs available on request', 'Duvet'],
+      lines: ['Maximum occupancy: 2', 'Rollaway beds not permitted', 'Cribs permitted: 1', 'Duvet'],
     },
   ],
   [
     {
       title: 'Room Features',
       iconPaths: ICONS.overview,
-      lines: [`${props.room.areaSqFt} Sq Ft Room`, 'Air-conditioned', 'Individual climate control', 'This room is non-smoking', 'Windows, floor-to-ceiling'],
+      lines: ['32sqm/344sqft', 'Air-conditioned', 'Individual climate control', 'This room is non-smoking', 'Connecting rooms are available (for some rooms)', 'Windows, floor-to-ceiling', 'Hooks', 'USB outlets'],
     },
     {
       title: 'Bath and Bathroom Features',
@@ -234,19 +237,19 @@ const amenityRows = computed<AmenityCategory[][]>(() => [
     {
       title: 'Furniture and Furnishings',
       iconPaths: ICONS.sofa,
-      lines: ['Alarm clock', 'Safe, in room, for a fee', 'Desk, writing/work, electrical outlet', 'Iron and ironing board'],
+      lines: ['Alarm clock', 'Safe, in room, for a fee', 'Desk, writing/work, electrical outlet', 'Iron and ironing board', 'Trouser press'],
     },
   ],
   [
     {
       title: 'Food & Beverages',
       iconPaths: ICONS.dinner,
-      lines: ['Room Service, 24-hour', 'Bottled water, complimentary', 'Coffee/tea maker', 'Instant hot water'],
+      lines: ['Room Service, 24-hour', 'Bottled water, complimentary', 'Coffee/tea maker', 'Instant hot water', 'Minibar, for a fee'],
     },
     {
       title: 'Internet and Phones',
       iconPaths: ICONS.wifi,
-      lines: ['Phones: 2', 'Cordless phone, and speaker phone', 'Wireless internet, complimentary', 'Wi-Fi is always free for Q Hotel members'],
+      lines: ['Phones: 2', 'Cordless phone, and Speaker phone', 'Wireless internet, complimentary', 'Wi-Fi is always free for Q Hotel members'],
     },
     {
       title: 'Entertainment',
@@ -270,7 +273,7 @@ const amenityRows = computed<AmenityCategory[][]>(() => [
     },
     { title: 'Hotel Services & Amenities', iconPaths: ICONS.service, lines: ['Fitness center on-site', 'Housekeeping service daily', 'Full business center, onsite'] },
   ],
-])
+]
 </script>
 
 <style scoped>

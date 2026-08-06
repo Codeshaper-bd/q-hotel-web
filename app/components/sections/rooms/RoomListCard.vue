@@ -96,7 +96,7 @@
       </div>
     </div>
 
-    <RoomDetailsDialog v-model:open="isDetailsOpen" :room="room" />
+    <RoomDetailsDialog v-model:open="isDetailsOpen" />
   </article>
 </template>
 

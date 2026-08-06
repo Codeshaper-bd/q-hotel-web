@@ -377,7 +377,7 @@ const linkColumns = [
     title: 'Overview',
     links: [
       { label: 'Q Hotel Home', to: '/' },
-      { label: 'About Us', to: '/#about' },
+      { label: 'About Us', to: '/about' },
       { label: 'Rooms & Suites', to: '/rooms' },
       { label: 'Dining / Restaurant', to: '/dining' },
       { label: 'Services & Facilities', to: '/services' },

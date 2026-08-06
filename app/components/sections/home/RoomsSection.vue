@@ -136,13 +136,12 @@
                   </li>
                 </ul>
 
-                <!-- Rooms detail routes arrive with the reservations flow; the
-                     CTA hands off to the reserve entry point until then -->
+                <!-- "More Details" opens the full room-details popup -->
                 <div class="mt-6">
                   <BaseArrowCta
-                    to="#reserve"
                     variant="gold"
                     :tabindex="activeRoomId === room.id ? 0 : -1"
+                    @click="isDetailsOpen = true"
                   >
                     More Details
                   </BaseArrowCta>
@@ -154,6 +153,10 @@
       </div>
     </div>
   </BaseSection>
+
+  <!-- Dialog lives outside the pinned stack: a transformed ancestor would
+       otherwise become the containing block for the fixed overlay -->
+  <RoomDetailsDialog v-model:open="isDetailsOpen" />
 </template>
 
 <script setup lang="ts">
@@ -164,6 +167,7 @@ const rooms = useRoomsCatalog()
 
 const activeRoomId = ref(rooms[0]?.id ?? '')
 const activeImageIndexes = reactive<Record<string, number>>({})
+const isDetailsOpen = ref(false)
 const sectionRef = ref<HTMLElement | null>(null)
 const stackRef = ref<HTMLElement | null>(null)
 const trackRef = ref<HTMLElement | null>(null)

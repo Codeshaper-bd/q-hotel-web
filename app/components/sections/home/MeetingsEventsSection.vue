@@ -92,10 +92,10 @@
             </div>
 
             <div class="mt-8 flex flex-wrap gap-4 lg:mt-auto lg:pt-8">
-              <BaseArrowCta to="#reserve" variant="gold">
+              <BaseArrowCta to="/booking" variant="gold">
                 Book Space
               </BaseArrowCta>
-              <BaseArrowCta to="#reserve" variant="ghost">
+              <BaseArrowCta variant="ghost" @click="isDetailsOpen = true">
                 View Details
               </BaseArrowCta>
             </div>
@@ -110,6 +110,11 @@
       </div>
     </div>
   </BaseSection>
+
+  <!-- Venue details reuse the same shared popup as the rooms section: both
+       are static demo content today, so they stay visually identical until
+       each gets its own API-backed data. -->
+  <RoomDetailsDialog v-model:open="isDetailsOpen" />
 </template>
 
 <script setup lang="ts">
@@ -168,6 +173,9 @@ const venues: MeetingVenue[] = [
 const blockRef = ref<HTMLElement | null>(null)
 const headingRef = ref<HTMLElement | null>(null)
 const stackRef = ref<HTMLElement | null>(null)
+
+// ─── Venue details popup ────────────────────────────────────────────
+const isDetailsOpen = ref(false)
 
 const { gsap, createContext, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()
