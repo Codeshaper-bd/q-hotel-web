@@ -14,10 +14,10 @@
     >
       <dt>
         <button
-          :id="`faq-question-${index}`"
+          :id="`${idPrefix}-question-${index}`"
           type="button"
           :aria-expanded="openIndex === index"
-          :aria-controls="`faq-answer-${index}`"
+          :aria-controls="`${idPrefix}-answer-${index}`"
           class="flex w-full items-center gap-4 py-5 text-left"
           @click="toggle(index)"
         >
@@ -45,9 +45,9 @@
         </button>
       </dt>
       <dd
-        :id="`faq-answer-${index}`"
+        :id="`${idPrefix}-answer-${index}`"
         role="region"
-        :aria-labelledby="`faq-question-${index}`"
+        :aria-labelledby="`${idPrefix}-question-${index}`"
         :class="[
           'grid transition-[grid-template-rows] duration-normal ease-premium motion-reduce:transition-none',
           openIndex === index ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
@@ -66,9 +66,14 @@
 <script setup lang="ts">
 import type { FaqItem } from '~/types/faq'
 
-defineProps<{
+withDefaults(defineProps<{
   items: FaqItem[]
-}>()
+  /** Disambiguates element ids when several accordions render on one page
+   *  (e.g. one per category on /faqs) — defaults preserve prior ids exactly */
+  idPrefix?: string
+}>(), {
+  idPrefix: 'faq',
+})
 
 // Single-open accordion; first item open by default
 const openIndex = ref<number | null>(0)
