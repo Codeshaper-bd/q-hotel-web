@@ -40,9 +40,12 @@
             <NuxtLink
               v-if="!item.dropdown && !item.megaMenu"
               :to="item.href"
+              :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
                 'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
-                hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
+                isActive(item.href)
+                  ? 'text-copper'
+                  : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
               ]"
             >
               {{ item.label }}
@@ -58,7 +61,7 @@
                 :aria-controls="`nav-menu-${item.id}`"
                 :class="[
                   'flex items-center gap-1 px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
-                  activeMenuId === item.id
+                  activeMenuId === item.id || isActive(item.href)
                     ? 'text-copper'
                     : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
                 ]"
@@ -75,7 +78,7 @@
                 <svg
                   :class="[
                     'h-3 w-3 shrink-0 transition-transform duration-fast',
-                    activeMenuId === item.id
+                    activeMenuId === item.id || isActive(item.href)
                       ? 'rotate-180 text-copper'
                       : hasSolidBackground ? 'text-ink/30' : 'text-white/40',
                   ]"
@@ -278,6 +281,16 @@ function handleScroll() {
 const activeMegaMenuItem = computed(() =>
   navigationItems.find(i => i.id === activeMenuId.value && i.megaMenu) ?? null
 )
+
+/** Active page detection: `/` matches the home root exactly, other paths
+ *  match their page and any nested route beneath it. In-page hash links
+ *  (`#dining`, `#meetings`, …) never count as a page, they stay on the
+ *  section of the current page. */
+function isActive(href: string) {
+  if (href.startsWith('#')) return false
+  if (href === '/') return route.path === '/'
+  return route.path === href || route.path.startsWith(`${href}/`)
+}
 
 function openMenu(id: string) {
   if (closeTimer) clearTimeout(closeTimer)

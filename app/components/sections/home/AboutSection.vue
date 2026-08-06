@@ -56,6 +56,11 @@
           <p class="mt-8 font-display text-2xl font-semibold leading-9 text-ink sm:text-4xl sm:leading-[2.75rem]">
             Q Hotel Dhaka is a premier hospitality destination in Dhaka, offering refined comfort, exceptional service, and effortless access to the city's key business, shopping, and cultural attractions, crafted for discerning travelers and memorable stays.
           </p>
+          <div class="mt-10">
+            <BaseArrowCta to="/about">
+              Learn More
+            </BaseArrowCta>
+          </div>
         </div>
       </FadeReveal>
 

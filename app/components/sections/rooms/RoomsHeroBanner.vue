@@ -50,7 +50,7 @@
       <HeroBookingSearch
         :key="route.fullPath"
         tone="light"
-        submit-label="Modify Search"
+        :submit-label="initialQuery ? 'Modify Search' : 'Search'"
         :initial-query="initialQuery"
         @search="handleSearch"
       />
