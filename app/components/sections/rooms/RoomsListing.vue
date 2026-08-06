@@ -3,7 +3,7 @@
     <h2 id="room-list-title" class="sr-only">Available Rooms</h2>
 
     <div class="flex items-center justify-between gap-4">
-      <p class="font-medium text-ink">
+      <p v-if="hasQuery" class="font-medium text-ink">
         Search Result ({{ rooms.length }})
       </p>
 
@@ -12,7 +12,7 @@
            inert until there is a filter model to drive -->
       <button
         type="button"
-        class="flex items-center gap-2 border border-ink/15 px-5 py-3 text-sm uppercase tracking-[0.06em] text-ink transition-colors duration-fast hover:border-ink/40"
+        class="ml-auto flex items-center gap-2 border border-ink/15 px-5 py-3 text-sm uppercase tracking-[0.06em] text-ink transition-colors duration-fast hover:border-ink/40"
       >
         Filter
         <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
@@ -34,5 +34,7 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute()
 const rooms = useRoomsCatalog()
+const hasQuery = computed(() => !!parseBookingRouteQuery(route.query))
 </script>

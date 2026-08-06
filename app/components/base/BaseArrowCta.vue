@@ -10,10 +10,10 @@
     default) so dialog-openers and action controls stay semantically correct.
   -->
   <component
-    :is="to ? 'NuxtLink' : 'button'"
+    :is="to ? NuxtLink : 'button'"
     :to="to ?? undefined"
     :type="to ? undefined : 'button'"
-    :class="['arrow-cta group inline-flex items-stretch focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4', rootClasses[variant]]"
+    :class="['arrow-cta cursor-pointer group inline-flex items-stretch focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4', rootClasses[variant]]"
     @click="emit('click', $event)"
   >
     <span :class="['flex min-h-11 items-center px-6 text-[0.7rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-fast', labelClasses[variant]]">
@@ -38,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { NuxtLink } from '#components'
+
 const props = withDefaults(defineProps<{
   to?: string
   variant?: 'outline' | 'gold' | 'ghost'
