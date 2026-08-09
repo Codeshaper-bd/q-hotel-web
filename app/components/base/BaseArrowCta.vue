@@ -16,11 +16,11 @@
     :class="['arrow-cta cursor-pointer group inline-flex items-stretch focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4', rootClasses[variant]]"
     @click="emit('click', $event)"
   >
-    <span :class="['flex min-h-11 items-center px-6 text-[0.7rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-fast', labelClasses[variant]]">
+    <span :class="['flex min-h-11 items-center px-6 text-[0.7rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-fast', labelClasses[variant], labelClass, backgroundClass]">
       <slot />
     </span>
     <span
-      :class="['arrow-cta-icon relative flex min-h-11 w-12 items-center justify-center overflow-hidden transition-colors duration-fast', iconClasses[variant]]"
+      :class="['arrow-cta-icon relative flex min-h-11 w-12 items-center justify-center overflow-hidden transition-colors duration-fast', iconClasses[variant], backgroundClass]"
       aria-hidden="true"
     >
       <!-- Defaults to the signature diagonal arrow; `icon` swaps in a different
@@ -43,6 +43,8 @@ import { NuxtLink } from '#components'
 const props = withDefaults(defineProps<{
   to?: string
   variant?: 'outline' | 'gold' | 'ghost'
+  labelClass?: string
+  backgroundClass?: string
 }>(), {
   variant: 'gold'
 })

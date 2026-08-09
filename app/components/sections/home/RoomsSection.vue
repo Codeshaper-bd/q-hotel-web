@@ -15,7 +15,7 @@
         <BaseKicker>Select Your Room</BaseKicker>
         <h2
           id="rooms-title"
-          class="mt-6 font-display text-4xl text-ink sm:text-5xl"
+          class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px]"
         >
           Rooms and Suites
         </h2>
@@ -26,7 +26,7 @@
         <div
           role="tablist"
           aria-label="Room types"
-          class="mt-9 flex flex-wrap justify-center gap-2.5 lg:mt-6"
+          class=" flex flex-wrap justify-center gap-2.5 mt-10 mb-[60px]"
           @keydown="handleTablistKeydown"
         >
           <button
@@ -39,10 +39,10 @@
             :aria-controls="`room-panel-${room.id}`"
             :tabindex="activeRoomId === room.id ? 0 : -1"
             :class="[
-              'border px-4 py-2 text-sm font-semibold uppercase tracking-[0.16em] transition-colors duration-fast',
+              'border border-[#DFA558] px-6 py-4 text-base font-medium uppercase transition-colors duration-fast',
               activeRoomId === room.id
-                ? 'border-copper bg-copper/10 text-copper'
-                : 'border-line text-ink/60 hover:border-ink/40 hover:text-ink',
+                ? 'border-[#DFA558] bg-[#F9F0DB] text-[#DFA558]'
+                : 'border-[#DFA558] text-[#0F0F10] hover:border-[#DFA558] hover:text-[#DFA558]',
             ]"
             @click="handleTabClick(room.id)"
           >

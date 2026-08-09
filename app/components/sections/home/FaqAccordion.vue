@@ -18,12 +18,12 @@
           type="button"
           :aria-expanded="openIndex === index"
           :aria-controls="`${idPrefix}-answer-${index}`"
-          class="flex w-full items-center gap-4 py-5 text-left"
+          class="flex w-full items-start gap-4 py-5 text-left"
           @click="toggle(index)"
         >
           <span
             :class="[
-              'shrink-0 transition-colors duration-fast',
+              'shrink-0 transition-colors duration-fast mt-1.5',
               openIndex === index ? 'text-copper' : 'text-ink/40',
             ]"
             aria-hidden="true"
@@ -39,7 +39,7 @@
               <path stroke-linecap="round" d="M12 5v14M5 12h14" />
             </svg>
           </span>
-          <span class="font-display text-lg text-ink sm:text-xl">
+          <span class="font-display text-lg text-[#0F0F10] font-semibold sm:text-xl lg:text-[28px]">
             {{ item.question }}
           </span>
         </button>
@@ -54,7 +54,7 @@
         ]"
       >
         <div class="overflow-hidden">
-          <p class="max-w-xl pb-6 pl-8 text-sm leading-7 text-ink/60">
+          <p class="max-w-xl pb-4 pl-8 text-base leading-7 text-[#505155]">
             {{ item.answer }}
           </p>
         </div>

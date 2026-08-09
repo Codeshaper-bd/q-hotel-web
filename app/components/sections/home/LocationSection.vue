@@ -50,15 +50,15 @@
                 activeAttractionId === attraction.id ? 'shadow-[inset_0_0_0_1px_rgb(var(--color-champagne))]' : '',
               ]"
             >
-            <h3 class="font-display text-xl text-paper">
+            <h3 class="font-display text-xl text-paper lg:text-[28px] font-semibold">
               {{ attraction.name }}
             </h3>
 
-            <p class="mt-3 text-sm leading-6 text-paper/65">
+            <p class="mt-4 text-base font-normal leading-6 text-paper/70">
               {{ attraction.description }}
             </p>
 
-            <p class="mt-auto flex items-center gap-2.5 pt-5 text-xs text-champagne">
+            <p class="mt-auto flex items-center gap-2.5 pt-5 text-sm text-[#DFA558]">
               <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z" />
                 <circle cx="12" cy="10" r="2.5" />
@@ -72,7 +72,7 @@
               <button
                 type="button"
                 :aria-pressed="activeAttractionId === attraction.id"
-                class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-paper/60 underline-offset-4 transition-colors duration-fast hover:text-champagne hover:underline"
+                class="text-[0.65rem] font-semibold uppercase text-[#0F0F10] bg-[#E9C588] underline-offset-4 transition-colors duration-fast hover:text-[#DFA558] hover:underline"
                 @click="toggleAttraction(attraction.id)"
               >
                 {{ activeAttractionId === attraction.id ? 'Back to the hotel' : 'Show on map' }}

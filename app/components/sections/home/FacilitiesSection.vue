@@ -39,14 +39,14 @@
       <FadeReveal>
         <div class="flex flex-col items-center text-center">
           <BaseKicker tone="ink">What We Offer</BaseKicker>
-          <h2 id="facilities-title" class="mt-6 font-display text-4xl text-paper sm:text-5xl">
+          <h2 id="facilities-title" class="mt-6 font-display font-semibold text-4xl text-paper sm:text-5xl lg:text-[56px]">
             Facilities &amp; Amenities
           </h2>
         </div>
       </FadeReveal>
 
       <FadeReveal :stagger="0.06">
-        <div class="relative mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:mt-16 lg:grid-cols-6 lg:gap-5">
+        <div class="relative mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:mt-[60px] lg:grid-cols-6 lg:gap-5">
           <div
             v-for="amenity in amenities"
             :key="amenity.id"
@@ -86,17 +86,17 @@
             >
               <path v-for="(iconPath, index) in amenity.iconPaths" :key="index" :d="iconPath" />
             </svg>
-            <span class="font-display text-lg text-paper sm:text-xl">{{ amenity.label }}</span>
+            <span class="font-display text-lg text-paper sm:text-xl lg:text-[28px] font-semibold">{{ amenity.label }}</span>
           </div>
 
           <!-- Supporting copy + CTA share the final grid row on large screens -->
           <div data-reveal-item class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:mt-0 lg:px-2">
-            <p class="font-display text-lg leading-8 text-paper/80 sm:text-xl">
+            <p class="font-display text-lg leading-8 text-paper/80 sm:text-xl lg:text-2xl lg:font-semibold">
               From airport pickup to late-night dining, every facility is
               designed to make your stay effortless — quiet comfort, warm
               service, and real measured care.
             </p>
-            <BaseArrowCta to="#reserve" variant="gold">
+            <BaseArrowCta to="#reserve" variant="gold" label-class="!text-sm !font-medium">
               View All Facilities
             </BaseArrowCta>
           </div>

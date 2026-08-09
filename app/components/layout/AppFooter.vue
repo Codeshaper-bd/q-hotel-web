@@ -14,7 +14,7 @@
             <span class="text-xs uppercase tracking-[0.42em] text-paper/70">Dhaka</span>
           </p>
 
-          <p class="mt-5 max-w-sm text-sm leading-7 text-paper/60">
+          <p class="mt-5 max-w-sm text-base leading-7 text-[#ACACAC]">
             Q Hotel Dhaka offers a refined 5-star hospitality experience with
             elegant accommodations, premium wellness facilities, exceptional
             dining, and personalized service in the heart of the city.
@@ -238,12 +238,12 @@
           :key="column.title"
           :aria-label="column.title"
         >
-          <h2 class="font-display text-lg text-paper">{{ column.title }}</h2>
-          <ul class="mt-6 space-y-3.5 text-sm">
+          <h2 class="font-display font-semibold text-lg lg:text-[28px] text-[#FFFFFF]">{{ column.title }}</h2>
+          <ul class="mt-6 space-y-3.5 text-base text-[#ACACAC]">
             <li v-for="link in column.links" :key="link.label">
               <NuxtLink
                 :to="link.to"
-                class="text-paper/60 transition-colors duration-fast hover:text-champagne"
+                class=" transition-colors duration-fast hover:text-champagne"
               >
                 {{ link.label }}
               </NuxtLink>
@@ -253,16 +253,16 @@
 
         <!-- Nearby attractions: informational, not navigation -->
         <div>
-          <h2 class="font-display text-lg text-paper">Nearby Attractions</h2>
-          <ul class="mt-6 space-y-3.5 text-sm text-paper/60">
+          <h2 class="font-display font-semibold text-lg lg:text-[28px] text-[#FFFFFF]">Nearby Attractions</h2>
+          <ul class="mt-6 space-y-3.5 text-base text-[#ACACAC]">
             <li v-for="attraction in nearbyAttractions" :key="attraction">{{ attraction }}</li>
           </ul>
         </div>
 
         <!-- Hotel information: factual list with markers -->
         <div>
-          <h2 class="font-display text-lg text-paper">Hotel Information</h2>
-          <ul class="mt-6 space-y-3.5 text-sm text-paper/60">
+          <h2 class="font-display font-semibold text-lg lg:text-[28px] text-[#FFFFFF]">Hotel Information</h2>
+          <ul class="mt-6 space-y-3.5 text-base text-[#ACACAC]">
             <li v-for="info in hotelInformation" :key="info" class="flex items-start gap-2.5">
               <svg class="mt-0.5 h-3.5 w-3.5 shrink-0 text-champagne/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                 <circle cx="12" cy="12" r="9" />

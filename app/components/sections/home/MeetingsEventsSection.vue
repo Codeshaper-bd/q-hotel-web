@@ -12,7 +12,7 @@
         <FadeReveal>
           <div class="flex flex-col items-center text-center">
             <BaseKicker>Host With Us</BaseKicker>
-            <h2 id="meetings-events-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+            <h2 id="meetings-events-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold">
               Meetings &amp; Events
             </h2>
           </div>
@@ -47,22 +47,22 @@
           </div>
 
           <div class="flex flex-col">
-            <h3 class="font-display text-3xl text-ink sm:text-4xl">
+            <h3 class="font-display text-3xl text-ink sm:text-4xl lg:text-[44px] font-semibold">
               {{ venue.name }}
             </h3>
 
-            <p class="mt-4 text-sm leading-7 text-muted sm:text-base">
+            <p class="mt-4 text-sm leading-7 text-muted sm:text-base lg:text-lg font-medium">
               {{ venue.description }}
             </p>
 
             <div class="mt-8 grid gap-8 sm:grid-cols-2">
               <div>
-                <h4 class="font-display text-xl text-ink">Capacity:</h4>
+                <h4 class="font-display text-xl text-ink lg:text-2xl font-semibold">Capacity:</h4>
                 <ul class="mt-4 space-y-2.5 text-sm text-ink/80">
                   <li
                     v-for="capacity in venue.capacities"
                     :key="capacity.layout"
-                    class="flex items-center gap-2.5"
+                    class="flex items-center gap-2.5 text-base"
                   >
                     <svg class="h-4 w-4 shrink-0 text-copper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5" />
@@ -73,8 +73,8 @@
               </div>
 
               <div>
-                <h4 class="font-display text-xl text-ink">Venue Size:</h4>
-                <ul class="mt-4 space-y-2.5 text-sm text-ink/80">
+                <h4 class="font-display text-xl text-ink lg:text-2xl font-semibold">Venue Size:</h4>
+                <ul class="mt-4 space-y-2.5 text-base text-ink/80">
                   <li class="flex items-center gap-2.5">
                     <svg class="h-4 w-4 shrink-0 text-copper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5" />
