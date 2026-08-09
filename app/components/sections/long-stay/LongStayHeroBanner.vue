@@ -49,8 +49,8 @@
     >
       <div class="mx-auto flex max-w-[1316px] flex-col gap-6 border border-champagne bg-paper p-6 shadow-[0_28px_80px_-28px] shadow-ink/40 sm:p-8 lg:flex-row lg:items-center lg:gap-10">
         <div class="shrink-0 lg:max-w-[18rem]">
-          <h2 class="font-display text-2xl text-ink">Plan Your Long Stay</h2>
-          <p class="mt-2 text-sm leading-6 text-ink/70">
+          <h2 class="font-display font-semibold text-2xl  text-ink">Plan Your Long Stay</h2>
+          <p class="text-sm leading-6 text-ink/70">
             Tell us your stay details and we'll get back to you with the best offer.
           </p>
         </div>

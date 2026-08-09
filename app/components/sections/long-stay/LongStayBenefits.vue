@@ -7,7 +7,7 @@
     cell the Figma layout uses — see the comment above each item for its
     intended (col, row).
   -->
-  <BaseSection id="long-stay-benefits" labelled-by="long-stay-benefits-title" tone="paper" spacing="lg" container-size="xl">
+  <BaseSection id="long-stay-benefits" labelled-by="long-stay-benefits-title" tone="paper" spacing="lg" container-size="xl" class="!pt-[76px] sm:!pt-[60px]">
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
         <BaseKicker>Why Choose Long Stay</BaseKicker>
