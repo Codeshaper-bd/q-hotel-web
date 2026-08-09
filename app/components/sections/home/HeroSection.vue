@@ -6,8 +6,8 @@
     class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-night text-paper"
   >
     <!-- Full-bleed cover photo with a fixed dark scrim, server-rendered so the
-         hero reads instantly — no reveal choreography to wait through. -->
-    <div aria-hidden="true" class="absolute inset-0">
+         hero reads instantly — JS only adds a slow settle zoom on arrival. -->
+    <div ref="bgRef" aria-hidden="true" class="absolute inset-0">
       <BaseImage
         src="/images/hero/lounge-suite.jpg"
         alt=""
@@ -22,15 +22,35 @@
     <BaseContainer size="xl" class="relative w-full pb-12 pt-32 sm:pb-14">
       <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,56.125rem)] xl:gap-20">
         <div ref="textRef" class="max-w-2xl">
-          <h1
-            id="home-title"
-            class="font-display text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl xl:text-[4.5rem] xl:leading-[80px]"
-          >
-            Retreat To Our Stylish Hotel In Dhaka
-          </h1>
-          <p class="mt-4 max-w-xl text-lg xl:max-w-[41rem] xl:text-xl xl:leading-[30px]">
+          <!-- Word-level reveal: each word rises through its own clipped
+               window (built by JS on mount). -->
+          <div class="overflow-hidden pb-2">
+            <h1
+              id="home-title"
+              ref="headlineRef"
+              class="font-display text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl xl:text-[4.5rem] xl:leading-[80px]"
+            >
+              Retreat To Our Stylish Hotel In Dhaka
+            </h1>
+          </div>
+          <p ref="leadRef" class="mt-4 max-w-xl text-lg xl:max-w-[41rem] xl:text-xl xl:leading-[30px]">
             Whether you seek adventure, culture, or calm, we’ve got the perfect experience for every kind of traveler.
           </p>
+
+          <!-- Quiet scroll cue, flowing beneath the intro copy — anchored to
+               the text column so it never competes with the booking console
+               on the right. Hidden on small screens and for reduced-motion
+               users (motion-safe). -->
+          <div
+            ref="cueRef"
+            class="mt-9 hidden items-center gap-2.5 text-paper/50 motion-safe:lg:flex"
+            aria-hidden="true"
+          >
+            <span class="text-[0.6rem] font-semibold uppercase tracking-[0.3em]">Scroll</span>
+            <span class="relative block h-10 w-px overflow-hidden bg-paper/20">
+              <span class="scroll-cue absolute inset-x-0 h-full bg-champagne" />
+            </span>
+          </div>
         </div>
 
         <div ref="consoleRef">
@@ -38,6 +58,7 @@
         </div>
       </div>
     </BaseContainer>
+
   </section>
 </template>
 
@@ -46,28 +67,115 @@ import type { BookingSearchQuery } from '~/types/booking'
 import { toBookingRouteQuery } from '#imports'
 
 const sectionRef = ref<HTMLElement | null>(null)
-const textRef = ref<HTMLElement | null>(null)
+const bgRef = ref<HTMLElement | null>(null)
+const headlineRef = ref<HTMLElement | null>(null)
+const leadRef = ref<HTMLElement | null>(null)
 const consoleRef = ref<HTMLElement | null>(null)
+const cueRef = ref<HTMLElement | null>(null)
 
-const { gsap, createContext } = useGsap()
+const { gsap, createContext, prefersReducedMotion } = useGsap()
+
+/**
+ * Splits an element's plain text into word spans so each word can rise on
+ * its own. Headline words get an overflow-hidden mask (the word slides up
+ * through its own window); lead words are plain spans that just drift up.
+ * Text content is preserved, so nothing changes for SEO or screen readers.
+ */
+function splitIntoWords(element: HTMLElement, masked: boolean): HTMLElement[] {
+  const words = element.textContent?.trim().split(/\s+/) ?? []
+  element.textContent = ''
+
+  return words.map((word, index) => {
+    // Always `inline-block` — transforms (and therefore GSAP's y-drift) are
+    // ignored on plain inline elements, so every animated word must be
+    // transformable.
+    const inner = document.createElement('span')
+    inner.className = 'inline-block'
+    inner.textContent = word
+
+    if (masked) {
+      // Headline words rise through their own clipped window
+      const mask = document.createElement('span')
+      mask.className = 'inline-block overflow-hidden'
+      mask.appendChild(inner)
+      element.appendChild(mask)
+    } else {
+      // Lead words are plain spans that just drift up
+      element.appendChild(inner)
+    }
+
+    if (index < words.length - 1) {
+      element.appendChild(document.createTextNode(' '))
+    }
+
+    return inner
+  })
+}
 
 onMounted(() => {
-  if (!sectionRef.value || !gsap) {
+  if (
+    !sectionRef.value || !bgRef.value || !headlineRef.value
+    || !leadRef.value || !consoleRef.value || !cueRef.value || !gsap
+    || prefersReducedMotion.value
+  ) {
     return
   }
 
-  // A quiet arrival, not a scroll-driven journey: the hero is fully usable
-  // the instant it paints, and this just softens the first frame.
-  // A no-op under reduced motion (createContext short-circuits), so the
-  // headline, lead and console simply render in place.
+  // Turn the plain text into word spans — visually identical at rest, but it
+  // lets each word rise through its own mask. Skipped under reduced motion.
+  const headlineWords = splitIntoWords(headlineRef.value, true)
+  const leadWords = splitIntoWords(leadRef.value, false)
+
+  // A quiet, cinematic arrival — not a scroll journey: the hero is fully
+  // usable the instant it paints, and this just softens the first frames.
   createContext(() => {
-    gsap.from([textRef.value, consoleRef.value], {
-      opacity: 0,
-      y: 24,
-      duration: 0.8,
-      ease: 'power3.out',
-      stagger: 0.12,
+    // Park every layer in its starting pose up front so nothing flashes
+    // before the timeline plays.
+    gsap.set(bgRef.value, { scale: 1.12 })
+    gsap.set(consoleRef.value, { autoAlpha: 0, y: 32 })
+    gsap.set(cueRef.value, { autoAlpha: 0 })
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+    // The photograph arrives slightly oversized and breathes into rest — a
+    // subtle Ken Burns settle that keeps the first frame cinematic.
+    tl.to(bgRef.value, { scale: 1, duration: 2.4, ease: 'power2.out' }, 0)
+    tl.to(consoleRef.value, { autoAlpha: 1, y: 0, duration: 1 }, 1)
+    tl.to(cueRef.value, { autoAlpha: 1, duration: 0.8 }, 1.2)
+
+    // The words replay every time the hero returns to the viewport (the
+    // same restart/reset pattern as the About brand mark), so the entrance
+    // is easy to catch — reload the page, or scroll down and back up.
+    const wordsTimeline = gsap.timeline({
+      defaults: { ease: 'expo.out' },
+      scrollTrigger: {
+        trigger: sectionRef.value,
+        start: 'top 85%',
+        toggleActions: 'restart reset restart reset',
+      },
     })
+
+    // Headline words rise one by one through their masks
+    wordsTimeline.fromTo(headlineWords, {
+      yPercent: 110,
+      autoAlpha: 0,
+    }, {
+      yPercent: 0,
+      autoAlpha: 1,
+      duration: 1.1,
+      stagger: 0.09,
+    }, 0)
+    // Lead words drift up in a quiet ripple
+    wordsTimeline.fromTo(leadWords, {
+      autoAlpha: 0,
+      y: 14,
+    }, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.028,
+      ease: 'power3.out',
+    }, 0.65)
   }, sectionRef.value)
 })
 
@@ -80,3 +188,23 @@ function handleSearch(query: BookingSearchQuery) {
   navigateTo({ path: '/rooms', query: toBookingRouteQuery(query) })
 }
 </script>
+
+<style scoped>
+/* Scroll cue: a champagne pulse travelling down a hairline track. The parent
+   is hidden with motion-safe:lg:flex, so reduced-motion users never see it
+   animate (and never see it at all). transform-only, no layout shift. */
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-101%);
+  }
+
+  55%,
+  100% {
+    transform: translateY(101%);
+  }
+}
+
+.scroll-cue {
+  animation: scroll-cue 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+</style>

@@ -396,8 +396,10 @@ onMounted(async () => {
         0,
       );
 
-      // Subtle counter-drift on each photo while its card crosses the frame;
-      // the slight overscale hides the edges the drift would expose
+      // Subtle counter-drift on each photo while its card crosses the frame,
+      // plus a gentle scale settle: the photo starts a touch oversized and
+      // breathes into rest as the card centers. The overscale both hides the
+      // edges the drift would expose and lends a push-in depth.
       cards.forEach((card, index) => {
         const mediaElement =
           card.querySelector<HTMLElement>("[data-room-media]");
@@ -405,7 +407,7 @@ onMounted(async () => {
           return;
         }
 
-        gsap.set(mediaElement, { scale: 1.1 });
+        gsap.set(mediaElement, { scale: 1.16 });
 
         const isFirst = index === 0;
         const isLast = index === cards.length - 1;
@@ -413,10 +415,13 @@ onMounted(async () => {
           mediaElement,
           {
             xPercent: isFirst ? 0 : 4,
+            scale: 1.16,
           },
           {
             xPercent: isLast ? 0 : -4,
+            scale: 1.1,
             duration: isFirst || isLast ? 1 : 2,
+            ease: "power1.inOut",
           },
           isFirst ? 0 : index - 1,
         );

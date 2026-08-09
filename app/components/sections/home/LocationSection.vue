@@ -31,7 +31,7 @@
         </div>
       </FadeReveal>
 
-      <FadeReveal>
+      <FadeReveal :stagger="0.07">
         <div class="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2">
           <!-- Left column is deliberately empty: it is the window onto the map,
                and it must not swallow the pointer events the map needs -->
@@ -44,6 +44,7 @@
             <article
               v-for="attraction in nearbyAttractions"
               :key="attraction.id"
+              data-reveal-item
               :class="[
                 'surface-grain flex flex-col bg-ink/70 p-6 backdrop-blur-sm transition-shadow duration-normal ease-premium',
                 activeAttractionId === attraction.id ? 'shadow-[inset_0_0_0_1px_rgb(var(--color-champagne))]' : '',

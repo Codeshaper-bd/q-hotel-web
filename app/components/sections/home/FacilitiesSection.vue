@@ -45,11 +45,12 @@
         </div>
       </FadeReveal>
 
-      <FadeReveal>
+      <FadeReveal :stagger="0.06">
         <div class="relative mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:mt-16 lg:grid-cols-6 lg:gap-5">
           <div
             v-for="amenity in amenities"
             :key="amenity.id"
+            data-reveal-item
             :class="['surface-grain relative isolate flex aspect-square flex-col items-center justify-center gap-4 overflow-hidden bg-paper/10 px-4 text-center', amenity.gridClass]"
             @mouseenter="handleTileEnter"
             @mouseleave="handleTileLeave"
@@ -89,7 +90,7 @@
           </div>
 
           <!-- Supporting copy + CTA share the final grid row on large screens -->
-          <div class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:mt-0 lg:px-2">
+          <div data-reveal-item class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:mt-0 lg:px-2">
             <p class="font-display text-lg leading-8 text-paper/80 sm:text-xl">
               From airport pickup to late-night dining, every facility is
               designed to make your stay effortless — quiet comfort, warm
