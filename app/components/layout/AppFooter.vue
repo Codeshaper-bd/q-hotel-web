@@ -376,7 +376,7 @@ const linkColumns = [
   {
     title: 'Overview',
     links: [
-      { label: 'Overview', to: '/' },
+      { label: 'Home', to: '/' },
       { label: 'About Us', to: '/about' },
       { label: 'Rooms & Suites', to: '/rooms' },
       { label: 'Dining / Restaurant', to: '/dining' },
@@ -387,7 +387,7 @@ const linkColumns = [
   {
     title: 'Discover',
     links: [
-      { label: 'Long Stay', to: '/long-stay' },
+      { label: 'Long Stays', to: '/long-stays' },
       { label: 'Meetings & Events', to: '/meetings-events' },
       { label: 'Offer & Packages', to: '/offers' },
       { label: 'Gallery', to: '/gallery' },
