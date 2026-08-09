@@ -4,7 +4,7 @@
     checkout is for, plus a real countdown so "held" reads as literally true
     rather than decorative copy.
   -->
-  <div class="border-b border-line bg-paper pb-5 pt-[calc(var(--header-height)+1.5rem)]">
+  <div class="bg-white pb-5 pt-[calc(var(--header-height)+1.5rem)]">
     <BaseContainer size="xl">
       <div class="flex flex-wrap items-center justify-between gap-x-10 gap-y-3">
         <div class="flex flex-wrap items-center gap-x-10 gap-y-3">

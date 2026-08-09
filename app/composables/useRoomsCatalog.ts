@@ -69,7 +69,7 @@ const rooms: Room[] = [
     maxOccupancy: 4,
     bedType: '1 King Bed',
     images: [
-      { src: '/images/rooms/executive-suite.jpg', alt: 'Executive Suite with king bed and a city-view workspace behind a walnut partition' },
+      { src: '/images/rooms/standard-double.jpg', alt: 'Executive Suite with king bed and a city-view workspace behind a walnut partition' },
     ],
   },
 ]

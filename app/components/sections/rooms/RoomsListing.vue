@@ -1,5 +1,5 @@
 <template>
-  <BaseSection id="room-list" labelled-by="room-list-title" tone="paper" spacing="md" container-size="xl">
+  <BaseSection id="room-list" labelled-by="room-list-title" tone="paper" spacing="md" container-size="xl" class="!pt-8 sm:!pt-0">
     <h2 id="room-list-title" class="sr-only">Available Rooms</h2>
 
     <div class="flex items-center justify-between gap-4">
