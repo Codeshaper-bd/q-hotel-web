@@ -220,7 +220,7 @@ const navigationItems: NavItemData[] = [
   {
     id: "longstay",
     label: "Long Stays",
-    href: "/long-stay",
+    href: "/long-stays",
   },
 ];
 
