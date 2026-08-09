@@ -19,7 +19,7 @@
       <div class="absolute inset-0 bg-ink/40" />
     </div>
 
-    <BaseContainer size="xl" class="relative w-full pb-12 pt-32 sm:pb-14">
+    <BaseContainer size="xl" class="relative w-full pb-12 pt-32 sm:pb-24">
       <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,56.125rem)] xl:gap-20">
         <div ref="textRef" class="max-w-2xl">
           <!-- Word-level reveal: each word rises through its own clipped
@@ -37,20 +37,6 @@
             Whether you seek adventure, culture, or calm, we’ve got the perfect experience for every kind of traveler.
           </p>
 
-          <!-- Quiet scroll cue, flowing beneath the intro copy — anchored to
-               the text column so it never competes with the booking console
-               on the right. Hidden on small screens and for reduced-motion
-               users (motion-safe). -->
-          <div
-            ref="cueRef"
-            class="mt-9 hidden items-center gap-2.5 text-paper/50 motion-safe:lg:flex"
-            aria-hidden="true"
-          >
-            <span class="text-[0.6rem] font-semibold uppercase tracking-[0.3em]">Scroll</span>
-            <span class="relative block h-10 w-px overflow-hidden bg-paper/20">
-              <span class="scroll-cue absolute inset-x-0 h-full bg-champagne" />
-            </span>
-          </div>
         </div>
 
         <div ref="consoleRef">
