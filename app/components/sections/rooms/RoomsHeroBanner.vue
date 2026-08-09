@@ -15,15 +15,13 @@
       class="relative flex min-h-[26rem] items-center justify-center overflow-hidden py-24 sm:min-h-[28rem]"
     >
       <BaseImage
-        src="/images/hero/lounge-suite.jpg"
+        src="/images/hero/hero-bannar.png"
         alt=""
         :width="1920"
-        :height="800"
+        :height="400"
         priority
-        sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px"
         class="absolute inset-0"
       />
-      <div class="absolute inset-0 bg-ink/70" aria-hidden="true" />
 
       <div class="relative z-10 flex flex-col items-center gap-4 text-center">
         <nav aria-label="Breadcrumb">
