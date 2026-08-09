@@ -9,7 +9,7 @@
   >
     <!-- Glass background: same treatment as the booking bar, crossfaded as a
          layer so the backdrop blur eases in rather than snapping on -->
-<div
+    <div
       :class="[
         'absolute inset-0 border-b bg-paper/90 backdrop-blur-md transition-[opacity,border-color] duration-normal ease-premium',
         hasSolidBackground ? 'opacity-100' : 'opacity-0',
@@ -27,7 +27,9 @@
 
     <BaseContainer size="xl" class="relative">
       <!-- Desktop: logo left, navigation right -->
-      <div class="flex min-h-[var(--header-height)] items-center justify-between gap-6">
+      <div
+        class="flex min-h-[var(--header-height)] items-center justify-between gap-6"
+      >
         <!-- Left: logo -->
         <NavLogo :tone="hasSolidBackground ? 'on-light' : 'on-dark'" />
 
@@ -46,7 +48,9 @@
                 'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-7 last:pr-0',
                 isActive(item.href)
                   ? 'text-copper'
-                  : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
+                  : hasSolidBackground
+                    ? 'text-ink/70 hover:text-ink'
+                    : 'text-white hover:text-white/80',
               ]"
             >
               {{ item.label }}
@@ -64,7 +68,9 @@
                   'flex items-center gap-1 px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
                   activeMenuId === item.id || isActive(item.href)
                     ? 'text-copper'
-                    : hasSolidBackground ? 'text-ink/70 hover:text-ink' : 'text-white hover:text-white/80',
+                    : hasSolidBackground
+                      ? 'text-ink/70 hover:text-ink'
+                      : 'text-white hover:text-white/80',
                 ]"
                 @mouseenter="handleTriggerEnter(item.id)"
                 @mouseleave="schedulMenuClose"
@@ -74,20 +80,33 @@
                 @keydown.space.prevent="toggleMenu(item.id)"
               >
                 {{ item.label }}
-                <span v-if="item.badge" class="ml-0.5 text-copper" aria-hidden="true">{{ item.badge }}</span>
+                <span
+                  v-if="item.badge"
+                  class="ml-0.5 text-copper"
+                  aria-hidden="true"
+                  >{{ item.badge }}</span
+                >
                 <!-- Chevron indicator -->
                 <svg
                   :class="[
                     'h-3 w-3 shrink-0 transition-transform duration-fast',
                     activeMenuId === item.id || isActive(item.href)
                       ? 'rotate-180 text-copper'
-                      : hasSolidBackground ? 'text-ink/30' : 'text-white/40',
+                      : hasSolidBackground
+                        ? 'text-ink/30'
+                        : 'text-white/40',
                   ]"
                   viewBox="0 0 12 12"
                   fill="none"
                   aria-hidden="true"
                 >
-                  <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M3 4.5l3 3 3-3"
+                    stroke="currentColor"
+                    stroke-width="1.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
               </button>
 
@@ -168,162 +187,168 @@
 </template>
 
 <script setup lang="ts">
-import type { NavItemData } from '~/types/navigation'
+import type { NavItemData } from "~/types/navigation";
 
 // ─── Navigation data ──────────────────────────────────────────────
 const navigationItems: NavItemData[] = [
   {
-    id: 'overview',
-    label: 'Overview',
-    href: '/',
+    id: "overview",
+    label: "Overview",
+    href: "/",
   },
   {
-    id: 'rooms',
-    label: 'Rooms & Suites',
-    href: '/rooms',
+    id: "rooms",
+    label: "Rooms & Suites",
+    href: "/rooms",
   },
   {
-    id: 'dining',
-    label: 'Dining',
-    href: '#dining',
+    id: "dining",
+    label: "Dining",
+    href: "#dining",
     dropdown: [
-      { label: 'Restaurants', href: '#restaurants' },
-      { label: 'Bar & Lounge', href: '#bar' },
-      { label: 'Room Service', href: '#room-service' },
-      { label: 'Private Dining', href: '#private-dining' },
+      { label: "Restaurants", href: "#restaurants" },
+      { label: "Bar & Lounge", href: "#bar" },
+      { label: "Room Service", href: "#room-service" },
+      { label: "Private Dining", href: "#private-dining" },
     ],
   },
   {
-    id: 'meetings',
-    label: 'Meetings & Events',
-    href: '#meetings',
+    id: "meetings",
+    label: "Meetings & Events",
+    href: "#meetings",
   },
   {
-    id: 'longstay',
-    label: 'Long Stay',
-    href: '/long-stay',
+    id: "longstay",
+    label: "Long Stays",
+    href: "/long-stay",
   },
-]
+];
 
 // ─── Menu state ───────────────────────────────────────────────────
-const route = useRoute()
-const headerRef = ref<HTMLElement | null>(null)
+const route = useRoute();
+const headerRef = ref<HTMLElement | null>(null);
 
 // Hidden while the home hero's Q reveal plays; HeroSection owns this state
 // (defaults to visible for SSR, no-JS, reduced motion, and non-home pages).
 // `inert` keeps the hidden nav out of tab order — pointer-events-none wouldn't.
-const isMenuRevealed = useState('hero-menu-revealed', () => true)
+const isMenuRevealed = useState("hero-menu-revealed", () => true);
 
 // Glass backdrop is held off while the home hero plays its full-bleed footage;
 // HeroSection allows it again near the journey's end (default: allowed)
-const isNavGlassAllowed = useState('hero-nav-glass', () => true)
-const activeMenuId = ref<string | null>(null)
-const isMobileOpen = ref(false)
-const isScrolledPastHero = ref(false)
-let closeTimer: ReturnType<typeof setTimeout> | undefined
+const isNavGlassAllowed = useState("hero-nav-glass", () => true);
+const activeMenuId = ref<string | null>(null);
+const isMobileOpen = ref(false);
+const isScrolledPastHero = ref(false);
+let closeTimer: ReturnType<typeof setTimeout> | undefined;
 
 // The hairline under the header only draws once the user has actually
 // scrolled, even on pages whose nav starts solid (e.g. /booking)
-const hasScrolledPastCover = computed(() => isScrolledPastHero.value)
+const hasScrolledPastCover = computed(() => isScrolledPastHero.value);
 
 // Most pages open with the transparent nav over a dark cover photo; the
 // paper glass arrives on scroll. The home hero owns a longer runway (its
 // pinned journey plus the glass hold-off), while inner pages — whose dark
 // banner is only a few hundred pixels tall — go solid almost immediately.
-const isHome = computed(() => route.path === '/')
+const isHome = computed(() => route.path === "/");
 
 // Pages with no dark cover media at the top (a plain paper background
 // instead of a hero photo) would render white-on-white nav text under this
 // scroll-threshold scheme, so they skip it and start solid immediately.
-const NO_DARK_HERO_ROUTES = new Set(['/booking'])
-const hasDarkHero = computed(() => !NO_DARK_HERO_ROUTES.has(route.path))
+const NO_DARK_HERO_ROUTES = new Set(["/booking"]);
+const hasDarkHero = computed(() => !NO_DARK_HERO_ROUTES.has(route.path));
 
 // Only the home page runs the transparent header that gains a paper-glass
 // background on scroll. Every other page starts solid so the nav is always
 // readable over its non-hero, light-on-light content.
-const hasSolidBackground = computed(() =>
-  !isHome.value
-  || !hasDarkHero.value
-  || (isScrolledPastHero.value && isNavGlassAllowed.value)
-  || isMobileOpen.value,
-)
+const hasSolidBackground = computed(
+  () =>
+    !isHome.value ||
+    !hasDarkHero.value ||
+    (isScrolledPastHero.value && isNavGlassAllowed.value) ||
+    isMobileOpen.value,
+);
 
 function handleScroll() {
-  const threshold = isHome.value ? window.innerHeight * 0.5 : 80
-  isScrolledPastHero.value = window.scrollY > threshold
+  const threshold = isHome.value ? window.innerHeight * 0.5 : 80;
+  isScrolledPastHero.value = window.scrollY > threshold;
 }
 
-const activeMegaMenuItem = computed(() =>
-  navigationItems.find(i => i.id === activeMenuId.value && i.megaMenu) ?? null
-)
+const activeMegaMenuItem = computed(
+  () =>
+    navigationItems.find((i) => i.id === activeMenuId.value && i.megaMenu) ??
+    null,
+);
 
 /** Active page detection: `/` matches the home root exactly, other paths
  *  match their page and any nested route beneath it. In-page hash links
  *  (`#dining`, `#meetings`, …) never count as a page, they stay on the
  *  section of the current page. */
 function isActive(href: string) {
-  if (href.startsWith('#')) return false
-  if (href === '/') return route.path === '/'
-  return route.path === href || route.path.startsWith(`${href}/`)
+  if (href.startsWith("#")) return false;
+  if (href === "/") return route.path === "/";
+  return route.path === href || route.path.startsWith(`${href}/`);
 }
 
 function openMenu(id: string) {
-  if (closeTimer) clearTimeout(closeTimer)
-  activeMenuId.value = id
+  if (closeTimer) clearTimeout(closeTimer);
+  activeMenuId.value = id;
 }
 
 function closeMenu() {
-  if (closeTimer) clearTimeout(closeTimer)
-  activeMenuId.value = null
+  if (closeTimer) clearTimeout(closeTimer);
+  activeMenuId.value = null;
 }
 
 function toggleMenu(id: string) {
-  activeMenuId.value === id ? closeMenu() : openMenu(id)
+  activeMenuId.value === id ? closeMenu() : openMenu(id);
 }
 
 function handleTriggerEnter(id: string) {
-  openMenu(id)
+  openMenu(id);
 }
 
 function schedulMenuClose() {
-  closeTimer = setTimeout(closeMenu, 140)
+  closeTimer = setTimeout(closeMenu, 140);
 }
 
 function cancelMenuClose() {
-  if (closeTimer) clearTimeout(closeTimer)
+  if (closeTimer) clearTimeout(closeTimer);
 }
 
 function handleTriggerClick(id: string) {
   // On touch/keyboard: toggle the menu
-  toggleMenu(id)
+  toggleMenu(id);
 }
 
 // Close menus on outside click
 function handleDocumentClick(event: MouseEvent) {
   if (headerRef.value && !headerRef.value.contains(event.target as Node)) {
-    closeMenu()
+    closeMenu();
   }
 }
 
 // Close mobile drawer on route change; re-read the scroll state once the new
 // page has settled, since the solid-background threshold differs per route
-watch(() => route.fullPath, () => {
-  isMobileOpen.value = false
-  closeMenu()
-  nextTick(() => handleScroll())
-})
+watch(
+  () => route.fullPath,
+  () => {
+    isMobileOpen.value = false;
+    closeMenu();
+    nextTick(() => handleScroll());
+  },
+);
 
 onMounted(() => {
-  document.addEventListener('click', handleDocumentClick)
-  window.addEventListener('scroll', handleScroll, { passive: true })
-  handleScroll()
-})
+  document.addEventListener("click", handleDocumentClick);
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  handleScroll();
+});
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleDocumentClick)
-  window.removeEventListener('scroll', handleScroll)
-  if (closeTimer) clearTimeout(closeTimer)
-})
+  document.removeEventListener("click", handleDocumentClick);
+  window.removeEventListener("scroll", handleScroll);
+  if (closeTimer) clearTimeout(closeTimer);
+});
 </script>
 
 <style scoped>
