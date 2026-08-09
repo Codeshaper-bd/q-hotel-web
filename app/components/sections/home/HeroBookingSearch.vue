@@ -31,7 +31,7 @@
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span :class="['whitespace-nowrap text-base leading-6', valueClass]">{{ formatBookingDateLong(checkIn) }}</span>
+            <span :class="['whitespace-nowrap text-sm font-medium leading-6', valueClass]">{{ formatBookingDateLong(checkIn) }}</span>
           </span>
         </button>
 
