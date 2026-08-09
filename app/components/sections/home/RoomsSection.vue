@@ -3,22 +3,30 @@
     Rooms and Suites showcase: scroll-pinned stacked room panels on desktop,
     with a readable vertical flow fallback for mobile and reduced motion.
   -->
-  <BaseSection id="rooms" labelled-by="rooms-title" tone="paper" spacing="lg" container-size="xl">
-    <div ref="sectionRef">
-      <FadeReveal>
-        <div class="flex flex-col items-center text-center">
-          <BaseKicker>Select Your Room</BaseKicker>
-          <h2 id="rooms-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
-            Rooms and Suites
-          </h2>
-        </div>
-      </FadeReveal>
-
-      <FadeReveal>
+  <BaseSection
+    id="rooms"
+    labelled-by="rooms-title"
+    tone="paper"
+    spacing="lg"
+    container-size="xl"
+  >
+    <FadeReveal>
+      <div class="flex flex-col items-center text-center">
+        <BaseKicker>Select Your Room</BaseKicker>
+        <h2
+          id="rooms-title"
+          class="mt-6 font-display text-4xl text-ink sm:text-5xl"
+        >
+          Rooms and Suites
+        </h2>
+      </div>
+    </FadeReveal>
+    <div ref="sectionRef" class="rooms-pin-wrap">
+      <FadeReveal class="shrink-0">
         <div
           role="tablist"
           aria-label="Room types"
-          class="mt-9 flex flex-wrap justify-center gap-2.5"
+          class="mt-9 flex flex-wrap justify-center gap-2.5 lg:mt-6"
           @keydown="handleTablistKeydown"
         >
           <button
@@ -43,10 +51,7 @@
         </div>
       </FadeReveal>
 
-      <div
-        ref="stackRef"
-        class="rooms-stack mt-10 lg:mt-8"
-      >
+      <div ref="stackRef" class="rooms-stack mt-10">
         <div ref="trackRef" class="rooms-track">
           <article
             v-for="(room, roomIndex) in rooms"
@@ -60,14 +65,17 @@
             class="room-showcase-card relative overflow-hidden bg-ink"
           >
             <!-- Full-bleed photography with quiet dot navigation -->
-            <div data-room-media class="relative aspect-[4/3] overflow-hidden bg-line/40 motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:aspect-auto">
+            <div
+              data-room-media
+              class="relative aspect-[16/10] overflow-hidden bg-line/40 motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:aspect-auto"
+            >
               <Transition name="room-image">
                 <BaseImage
                   :key="selectedImage(room).src"
                   :src="selectedImage(room).src"
                   :alt="selectedImage(room).alt"
                   :width="1600"
-                  :height="1200"
+                  :height="1000"
                   sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1280px"
                   class="absolute inset-0 h-full w-full object-cover"
                 />
@@ -82,7 +90,9 @@
                   type="button"
                   :class="[
                     'h-2 transition-[width,background-color] duration-fast',
-                    imageIndex === selectedImageIndex(room.id) ? 'w-9 bg-copper' : 'w-2 bg-paper/80 hover:bg-paper',
+                    imageIndex === selectedImageIndex(room.id)
+                      ? 'w-9 bg-copper'
+                      : 'w-2 bg-paper/80 hover:bg-paper',
                   ]"
                   :aria-label="`Show photo ${imageIndex + 1} of ${room.name}`"
                   :aria-pressed="imageIndex === selectedImageIndex(room.id)"
@@ -96,13 +106,21 @@
                  scrim overlay on desktop (frame inset from the tinted edge,
                  matching the Figma room card). No inner scroll: the stack
                  height below is sized to fit every room's content. -->
-            <div class="relative flex flex-col bg-ink p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-4 motion-safe:lg:right-4 motion-safe:lg:w-[27rem] motion-safe:lg:bg-night/70 motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]">
-              <div class="motion-safe:lg:absolute motion-safe:lg:inset-4 motion-safe:lg:flex motion-safe:lg:flex-col motion-safe:lg:border motion-safe:lg:border-copper motion-safe:lg:p-7 motion-safe:xl:inset-5 motion-safe:xl:p-8">
-                <span class="self-start border border-paper/70 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-paper">
+            <div
+              class="relative flex flex-col bg-ink p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-4 motion-safe:lg:right-4 motion-safe:lg:w-[27rem] motion-safe:lg:bg-night/70 motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]"
+            >
+              <div
+                class="motion-safe:lg:absolute motion-safe:lg:inset-4 motion-safe:lg:flex motion-safe:lg:flex-col motion-safe:lg:border motion-safe:lg:border-copper motion-safe:lg:p-7 motion-safe:xl:inset-5 motion-safe:xl:p-8"
+              >
+                <span
+                  class="self-start border border-paper/70 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-paper"
+                >
                   ${{ room.nightlyRateUsd }} / Night
                 </span>
 
-                <h3 class="mt-4 font-display text-3xl leading-tight sm:text-4xl">
+                <h3
+                  class="mt-4 font-display text-3xl leading-tight sm:text-4xl"
+                >
                   {{ room.name }}
                 </h3>
 
@@ -110,25 +128,67 @@
                   {{ room.description }}
                 </p>
 
-                <ul class="mt-6 space-y-3 text-sm text-paper/80 motion-safe:lg:mt-auto motion-safe:lg:pt-6">
+                <ul
+                  class="mt-6 space-y-3 text-sm text-paper/80 motion-safe:lg:mt-auto motion-safe:lg:pt-6"
+                >
                   <li class="flex items-center gap-3">
-                    <svg class="h-5 w-5 shrink-0 text-paper" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M13.333 10.001v1.667a1.667 1.667 0 01-1.666 1.666H7.5a.833.833 0 00-.833.834v2.5a1.667 1.667 0 001.666 1.666h8.334a1.667 1.667 0 001.666-1.666V8.335a1.667 1.667 0 00-1.666-1.667" />
-                      <path d="M3.334 13.335a1.667 1.667 0 01-1.667-1.667V3.335a1.667 1.667 0 011.667-1.667h8.333a1.667 1.667 0 011.666 1.667v2.5a.833.833 0 01-.833.833H8.334a1.667 1.667 0 00-1.667 1.667v1.666" />
+                    <svg
+                      class="h-5 w-5 shrink-0 text-paper"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M13.333 10.001v1.667a1.667 1.667 0 01-1.666 1.666H7.5a.833.833 0 00-.833.834v2.5a1.667 1.667 0 001.666 1.666h8.334a1.667 1.667 0 001.666-1.666V8.335a1.667 1.667 0 00-1.666-1.667"
+                      />
+                      <path
+                        d="M3.334 13.335a1.667 1.667 0 01-1.667-1.667V3.335a1.667 1.667 0 011.667-1.667h8.333a1.667 1.667 0 011.666 1.667v2.5a.833.833 0 01-.833.833H8.334a1.667 1.667 0 00-1.667 1.667v1.666"
+                      />
                     </svg>
                     {{ room.areaSqFt }} Sq Ft Room
                   </li>
                   <li class="flex items-center gap-3">
-                    <svg class="h-5 w-5 shrink-0 text-paper" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M15.834 17.5v-1.667a3.333 3.333 0 00-3.334-3.333H7.5a3.333 3.333 0 00-3.334 3.333V17.5" />
-                      <path d="M10 9.167a3.333 3.333 0 100-6.667 3.333 3.333 0 000 6.667z" />
+                    <svg
+                      class="h-5 w-5 shrink-0 text-paper"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M15.834 17.5v-1.667a3.333 3.333 0 00-3.334-3.333H7.5a3.333 3.333 0 00-3.334 3.333V17.5"
+                      />
+                      <path
+                        d="M10 9.167a3.333 3.333 0 100-6.667 3.333 3.333 0 000 6.667z"
+                      />
                     </svg>
-                    {{ room.maxOccupancy }} {{ room.maxOccupancy === 1 ? 'Person' : 'Persons' }}
+                    {{ room.maxOccupancy }}
+                    {{ room.maxOccupancy === 1 ? "Person" : "Persons" }}
                   </li>
                   <li class="flex items-center gap-3">
-                    <svg class="h-5 w-5 shrink-0 text-paper" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M1.667 16.665V9.999c0-.442.176-.866.488-1.179.313-.312.737-.488 1.179-.488h13.333c.442 0 .866.176 1.179.488.312.313.488.737.488 1.179v6.666" />
-                      <path d="M3.333 8.332v-3.333c0-.442.176-.867.488-1.179.313-.313.737-.488 1.179-.488h10c.442 0 .866.175 1.179.488.312.312.488.737.488 1.179v3.333" />
+                    <svg
+                      class="h-5 w-5 shrink-0 text-paper"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.667 16.665V9.999c0-.442.176-.866.488-1.179.313-.312.737-.488 1.179-.488h13.333c.442 0 .866.176 1.179.488.312.313.488.737.488 1.179v6.666"
+                      />
+                      <path
+                        d="M3.333 8.332v-3.333c0-.442.176-.867.488-1.179.313-.313.737-.488 1.179-.488h10c.442 0 .866.175 1.179.488.312.312.488.737.488 1.179v3.333"
+                      />
                       <path d="M10 3.332v5" />
                       <path d="M1.667 15h16.667" />
                     </svg>
@@ -160,130 +220,146 @@
 </template>
 
 <script setup lang="ts">
-import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-import type { Room } from '~/types/room'
-import { useRoomsCatalog } from '#imports'
+import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
+import type { Room } from "~/types/room";
+import { useRoomsCatalog } from "#imports";
 
-const rooms = useRoomsCatalog()
+const rooms = useRoomsCatalog();
 
-const activeRoomId = ref(rooms[0]?.id ?? '')
-const activeImageIndexes = reactive<Record<string, number>>({})
-const isDetailsOpen = ref(false)
-const sectionRef = ref<HTMLElement | null>(null)
-const stackRef = ref<HTMLElement | null>(null)
-const trackRef = ref<HTMLElement | null>(null)
+const activeRoomId = ref(rooms[0]?.id ?? "");
+const activeImageIndexes = reactive<Record<string, number>>({});
+const isDetailsOpen = ref(false);
+const sectionRef = ref<HTMLElement | null>(null);
+const stackRef = ref<HTMLElement | null>(null);
+const trackRef = ref<HTMLElement | null>(null);
 
-const { gsap, createContext, prefersReducedMotion } = useGsap()
-const { addCleanup } = useAnimationCleanup()
-const nuxtApp = useNuxtApp()
-const ScrollTrigger = nuxtApp.$ScrollTrigger as typeof ScrollTriggerType | undefined
+const { gsap, createContext, prefersReducedMotion } = useGsap();
+const { addCleanup } = useAnimationCleanup();
+const nuxtApp = useNuxtApp();
+const ScrollTrigger = nuxtApp.$ScrollTrigger as
+  | typeof ScrollTriggerType
+  | undefined;
 
-let roomStackTrigger: ScrollTriggerType | undefined
+let roomStackTrigger: ScrollTriggerType | undefined;
 
 function selectedImageIndex(roomId: string) {
-  return activeImageIndexes[roomId] ?? 0
+  return activeImageIndexes[roomId] ?? 0;
 }
 
 function selectedImage(room: Room) {
-  return room.images[selectedImageIndex(room.id)] ?? (room.images[0] as Room['images'][number])
+  return (
+    room.images[selectedImageIndex(room.id)] ??
+    (room.images[0] as Room["images"][number])
+  );
 }
 
 function selectRoom(roomId: string) {
-  activeRoomId.value = roomId
-  activeImageIndexes[roomId] = selectedImageIndex(roomId)
+  activeRoomId.value = roomId;
+  activeImageIndexes[roomId] = selectedImageIndex(roomId);
 }
 
 function handleImageSelect(roomId: string, imageIndex: number) {
-  activeRoomId.value = roomId
-  activeImageIndexes[roomId] = imageIndex
+  activeRoomId.value = roomId;
+  activeImageIndexes[roomId] = imageIndex;
 }
 
 function scrollToRoom(roomId: string) {
   if (!roomStackTrigger || prefersReducedMotion.value) {
-    return
+    return;
   }
 
-  const roomIndex = rooms.findIndex(room => room.id === roomId)
+  const roomIndex = rooms.findIndex((room) => room.id === roomId);
   if (roomIndex < 0) {
-    return
+    return;
   }
 
-  const progress = rooms.length > 1 ? roomIndex / (rooms.length - 1) : 0
-  const targetY = roomStackTrigger.start + (roomStackTrigger.end - roomStackTrigger.start) * progress
+  const progress = rooms.length > 1 ? roomIndex / (rooms.length - 1) : 0;
+  const targetY =
+    roomStackTrigger.start +
+    (roomStackTrigger.end - roomStackTrigger.start) * progress;
   window.scrollTo({
     top: targetY,
-    behavior: 'smooth',
-  })
+    behavior: "smooth",
+  });
 }
 
 function handleTabClick(roomId: string) {
-  selectRoom(roomId)
-  scrollToRoom(roomId)
+  selectRoom(roomId);
+  scrollToRoom(roomId);
 }
 
 /** Roving-focus keyboard support for the tablist (Left/Right/Home/End) */
 function handleTablistKeydown(event: KeyboardEvent) {
-  const handledKeys = ['ArrowLeft', 'ArrowRight', 'Home', 'End']
+  const handledKeys = ["ArrowLeft", "ArrowRight", "Home", "End"];
   if (!handledKeys.includes(event.key)) {
-    return
+    return;
   }
-  event.preventDefault()
+  event.preventDefault();
 
-  const currentIndex = rooms.findIndex(room => room.id === activeRoomId.value)
-  let nextIndex = currentIndex
-  if (event.key === 'ArrowLeft') {
-    nextIndex = (currentIndex - 1 + rooms.length) % rooms.length
-  }
-  else if (event.key === 'ArrowRight') {
-    nextIndex = (currentIndex + 1) % rooms.length
-  }
-  else if (event.key === 'Home') {
-    nextIndex = 0
-  }
-  else {
-    nextIndex = rooms.length - 1
+  const currentIndex = rooms.findIndex(
+    (room) => room.id === activeRoomId.value,
+  );
+  let nextIndex = currentIndex;
+  if (event.key === "ArrowLeft") {
+    nextIndex = (currentIndex - 1 + rooms.length) % rooms.length;
+  } else if (event.key === "ArrowRight") {
+    nextIndex = (currentIndex + 1) % rooms.length;
+  } else if (event.key === "Home") {
+    nextIndex = 0;
+  } else {
+    nextIndex = rooms.length - 1;
   }
 
-  const nextRoom = rooms[nextIndex]
+  const nextRoom = rooms[nextIndex];
   if (nextRoom) {
-    selectRoom(nextRoom.id)
-    scrollToRoom(nextRoom.id)
+    selectRoom(nextRoom.id);
+    scrollToRoom(nextRoom.id);
     nextTick(() => {
-      document.getElementById(`room-tab-${nextRoom.id}`)?.focus()
-    })
+      document.getElementById(`room-tab-${nextRoom.id}`)?.focus();
+    });
   }
 }
 
 onMounted(async () => {
-  await nextTick()
+  await nextTick();
 
-  const sectionElement = sectionRef.value
-  const stackElement = stackRef.value
+  const sectionElement = sectionRef.value;
+  const stackElement = stackRef.value;
 
-  if (!sectionElement || !stackElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
-    return
+  if (
+    !sectionElement ||
+    !stackElement ||
+    !gsap ||
+    !ScrollTrigger ||
+    prefersReducedMotion.value
+  ) {
+    return;
   }
 
-  const mediaMatcher = gsap.matchMedia()
+  const mediaMatcher = gsap.matchMedia();
 
-  mediaMatcher.add('(min-width: 1024px)', () => {
+  mediaMatcher.add("(min-width: 1024px)", () => {
     const context = createContext(() => {
-      const trackElement = trackRef.value
-      const cards = gsap.utils.toArray<HTMLElement>('[data-room-card]', stackElement)
+      const trackElement = trackRef.value;
+      const cards = gsap.utils.toArray<HTMLElement>(
+        "[data-room-card]",
+        stackElement,
+      );
 
       if (!trackElement || cards.length < 2) {
-        return
+        return;
       }
 
-      const slideCount = cards.length - 1
+      const slideCount = cards.length - 1;
 
       const timeline = gsap.timeline({
-        defaults: { ease: 'none' },
+        defaults: { ease: "none" },
         scrollTrigger: {
-          // Pin the whole section block (kicker, title, tabs, and card stack)
-          // so the heading stays on screen while the cards slide through.
+          // Pin the tabs and card stack together: the heading scrolls away,
+          // then the tab switcher holds under the fixed header while the
+          // cards slide through the rest of the viewport.
           trigger: sectionElement,
-          start: 'top top+=30',
+          start: () => `top top+=${readHeaderHeight()}`,
           end: () => `+=${cards.length * window.innerHeight * 0.72}`,
           pin: true,
           scrub: 0.85,
@@ -291,7 +367,7 @@ onMounted(async () => {
           snap: {
             snapTo: 1 / slideCount,
             duration: { min: 0.25, max: 0.6 },
-            ease: 'power2.out',
+            ease: "power2.out",
           },
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -299,55 +375,70 @@ onMounted(async () => {
             const activeIndex = Math.min(
               rooms.length - 1,
               Math.max(0, Math.round(self.progress * (rooms.length - 1))),
-            )
-            const activeRoom = rooms[activeIndex]
+            );
+            const activeRoom = rooms[activeIndex];
             if (activeRoom && activeRoomId.value !== activeRoom.id) {
-              activeRoomId.value = activeRoom.id
+              activeRoomId.value = activeRoom.id;
             }
           },
         },
-      })
+      });
 
-      roomStackTrigger = timeline.scrollTrigger
+      roomStackTrigger = timeline.scrollTrigger;
 
       // Cinematic horizontal slide: one card width per snap step
-      timeline.to(trackElement, {
-        xPercent: -100 * slideCount,
-        duration: slideCount,
-      }, 0)
+      timeline.to(
+        trackElement,
+        {
+          xPercent: -100 * slideCount,
+          duration: slideCount,
+        },
+        0,
+      );
 
-      // Subtle counter-drift on each photo while its card crosses the frame;
-      // the slight overscale hides the edges the drift would expose
+      // Subtle counter-drift on each photo while its card crosses the frame,
+      // plus a gentle scale settle: the photo starts a touch oversized and
+      // breathes into rest as the card centers. The overscale both hides the
+      // edges the drift would expose and lends a push-in depth.
       cards.forEach((card, index) => {
-        const mediaElement = card.querySelector<HTMLElement>('[data-room-media]')
+        const mediaElement =
+          card.querySelector<HTMLElement>("[data-room-media]");
         if (!mediaElement) {
-          return
+          return;
         }
 
-        gsap.set(mediaElement, { scale: 1.1 })
+        gsap.set(mediaElement, { scale: 1.16 });
 
-        const isFirst = index === 0
-        const isLast = index === cards.length - 1
-        timeline.fromTo(mediaElement, {
-          xPercent: isFirst ? 0 : 4,
-        }, {
-          xPercent: isLast ? 0 : -4,
-          duration: isFirst || isLast ? 1 : 2,
-        }, isFirst ? 0 : index - 1)
-      })
-    }, sectionElement)
+        const isFirst = index === 0;
+        const isLast = index === cards.length - 1;
+        timeline.fromTo(
+          mediaElement,
+          {
+            xPercent: isFirst ? 0 : 4,
+            scale: 1.16,
+          },
+          {
+            xPercent: isLast ? 0 : -4,
+            scale: 1.1,
+            duration: isFirst || isLast ? 1 : 2,
+            ease: "power1.inOut",
+          },
+          isFirst ? 0 : index - 1,
+        );
+      });
+    }, sectionElement);
 
     return () => {
-      roomStackTrigger = undefined
-      context?.revert()
-    }
-  })
+      roomStackTrigger = undefined;
+      context?.revert();
+    };
+  });
 
   addCleanup(() => {
-    roomStackTrigger = undefined
-    mediaMatcher.revert()
-  })
-})
+    roomStackTrigger = undefined;
+    mediaMatcher.revert();
+  });
+});
 </script>
 
 <style scoped>
@@ -368,14 +459,27 @@ onMounted(async () => {
 }
 
 /* The pinned horizontal slider only exists when motion is allowed; reduced
-   motion keeps the readable vertical flow at every width */
+     motion keeps the readable vertical flow at every width */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  /* Pin group: tabs and card stack together fill the viewport below the
+     fixed header. Flex column keeps the tab row a fixed height and lets the
+     stack claim everything that remains, so the photograph is as tall as the
+     room allows on every screen. */
+  .rooms-pin-wrap {
+    display: flex;
+    flex-direction: column;
+    height: calc(100svh - var(--header-height));
+  }
+
   .rooms-stack {
-    /* Leave room for the fixed header, section heading, and tabs above the
-       pinned stack, and a visible gap below it, so the whole block fits
-       inside the viewport - with breathing room - while pinned. Tall enough
-       that the details panel never needs to scroll internally. */
-    height: clamp(34rem, calc(100vh - 19rem), 46rem);
+    /* The photograph rests centered in the space the tabs leave, with equal
+       breathing room above and below instead of touching the viewport edges.
+       The floor keeps the card tall enough that the details panel never needs
+       to scroll internally on short viewports. */
+    flex: 0 1 auto;
+    height: clamp(32rem, calc(100svh - var(--header-height) - 9rem), 48rem);
+    min-height: 32rem;
+    margin-block: auto;
     overflow: hidden;
     position: relative;
   }

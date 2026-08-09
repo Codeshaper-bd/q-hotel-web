@@ -1,11 +1,11 @@
 <template>
   <!--
     Dining showcase: a full-screen (viewport minus header) image stage that the
-    scroll pins, stepping through one outlet at a time. The background
-    photograph is static — it cuts instantly between outlets, no crossfade or
-    scale — while the copy is the only thing that animates: it fades/slides
-    out, the background swaps underneath while it's fully hidden, then the
-    next outlet's copy fades/slides in.
+    scroll pins, stepping through one outlet at a time. The photographs simply
+    crossfade in place (no scale — the frame swaps at the same size) while the
+    copy fades and slides out, gives the swap a beat to settle, then the next
+    outlet's copy fades/slides in. Everything is scrub-synced to scroll, so
+    nothing moves while the page is still.
 
     Composes <section> directly (not BaseSection) because the stage must bleed
     to both viewport edges while the copy stays on the xl container grid.
@@ -38,9 +38,11 @@
             class="absolute inset-0"
           />
 
-          <!-- Legibility: an even wash plus a heavier foot under the copy -->
-          <div class="absolute inset-0 bg-night/30" aria-hidden="true" />
-          <div class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-night/90 via-night/40 to-transparent" aria-hidden="true" />
+          <!-- Legibility: the shade starts at the bottom-left corner (where
+               the copy sits) and fades diagonally to fully transparent, so
+               the photograph stays fully visible while the text reads
+               clearly -->
+          <div class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-night/95 via-night/70 to-transparent" aria-hidden="true" />
         </div>
 
         <div class="absolute inset-0 flex items-end">
@@ -112,7 +114,7 @@ const venues: DiningVenue[] = [
     id: 'sky-lounge',
     name: 'Sky Lounge & Bar',
     description: 'Dhaka at dusk from the top floor: a low-lit bar of brass and smoked glass, where a short list of classics and a longer one of rare malts carry the evening past midnight.',
-    poster: { src: '/images/dining/bbq-restaurant.jpg', alt: 'Rooftop lounge and bar with brass detailing and city views at dusk' },
+    poster: { src: '/images/dining/bbq-restaurant-2.png', alt: 'Rooftop lounge and bar with brass detailing and city views at dusk' },
   },
   {
     id: 'atrium-cafe',
@@ -172,11 +174,13 @@ onMounted(async () => {
       const stepCount = mediaLayers.length - 1
       const headerHeight = readHeaderHeight()
 
-      // Only the first outlet's photograph is visible at rest. No scale/zoom —
-      // the background is static, never animated.
-      gsap.set(mediaLayers, { autoAlpha: (index: number) => (index === 0 ? 1 : 0) })
+      // Only the first outlet's photograph is visible at rest; the rest fade
+      // in at the same size (no scale, no zoom — the image never grows).
+      gsap.set(mediaLayers, {
+        autoAlpha: (index: number) => (index === 0 ? 1 : 0),
+      })
       copyLayers.forEach((layer, index) => {
-        gsap.set(layer, { autoAlpha: index === 0 ? 1 : 0, y: index === 0 ? 0 : 28 })
+        gsap.set(layer, { autoAlpha: index === 0 ? 1 : 0, y: index === 0 ? 0 : 32 })
       })
 
       const timeline = gsap.timeline({
@@ -209,24 +213,34 @@ onMounted(async () => {
         const step = index - 1
 
         timeline
-          // Copy leaves first — the background hasn't cut yet
+          // Copy leaves first, so the frame change reads as a shift in mood
+          // rather than a jump
           .to(copyLayers[step] as HTMLElement, {
             autoAlpha: 0,
-            y: -28,
+            y: -32,
             duration: 0.4,
             ease: 'power2.in',
           }, step)
-          // Background cut: instant swap while the copy is fully hidden — no
-          // crossfade, no scale, the photograph is never mid-transition
-          .set(mediaLayers[step] as HTMLElement, { autoAlpha: 0 }, step + 0.45)
-          .set(mediaLayers[index] as HTMLElement, { autoAlpha: 1 }, step + 0.45)
-          // ...and the new copy arrives once the new frame has taken hold
+          // Photographs crossfade in place: outgoing fades out, incoming
+          // fades in — same size throughout, no scale (still scrub-synced
+          // to scroll, so nothing moves while the page is still).
+          .to(mediaLayers[step] as HTMLElement, {
+            autoAlpha: 0,
+            duration: 0.9,
+            ease: 'power1.inOut',
+          }, step + 0.15)
+          .to(mediaLayers[index] as HTMLElement, {
+            autoAlpha: 1,
+            duration: 1,
+            ease: 'power1.inOut',
+          }, step + 0.15)
+          // ...and the new copy arrives as the frame settles into place
           .to(copyLayers[index] as HTMLElement, {
             autoAlpha: 1,
             y: 0,
-            duration: 0.5,
+            duration: 0.55,
             ease: 'power2.out',
-          }, step + 0.5)
+          }, step + 0.45)
       }
 
       timeline.fromTo(progressRef.value, {

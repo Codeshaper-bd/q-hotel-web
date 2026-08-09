@@ -1,5 +1,5 @@
 <template>
-  <div id="reservation-summary" class="scroll-mt-28 bg-white">
+  <div id="reservation-summary" class="scroll-mt-28 bg-white p-6">
     <div class="relative aspect-[5/3]">
       <BaseImage
         :src="room.images[0]?.src ?? ''"
@@ -11,7 +11,7 @@
       />
     </div>
 
-    <div class="border-b border-line p-6">
+    <div class="border-b border-line py-6">
       <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-ink/50">
         <svg class="h-4 w-4 text-copper" viewBox="0 0 51 50" fill="currentColor" aria-hidden="true">
           <path v-for="(markPath, index) in qHotelLogoPaths" :key="index" :d="markPath" />

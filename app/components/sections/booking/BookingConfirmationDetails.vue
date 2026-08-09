@@ -20,7 +20,7 @@
 
     <div class="mt-10 flex items-center justify-between border-t border-line pt-6">
       <h2 class="font-display text-2xl text-ink sm:text-[1.75rem]">Payment Summary</h2>
-      <span class="border border-moss/40 bg-moss/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.06em] text-moss">Paid</span>
+      <span class="border border-[#008000] px-3 py-1 text-sm font-medium rounded-[6px] uppercase tracking-[0.06em] text-[#008000]">Paid</span>
     </div>
     <div class="mt-4 space-y-3 text-sm">
       <div class="flex items-center justify-between text-ink/70">

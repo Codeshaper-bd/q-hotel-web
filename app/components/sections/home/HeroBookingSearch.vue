@@ -91,7 +91,7 @@
               <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span :class="['truncate text-base leading-6', valueClass]">{{ guestsSummary }}</span>
+            <span :class="['truncate text-base leading-6 min-w-[140px]', valueClass]">{{ guestsSummary }}</span>
             <svg :class="['h-4 w-4 shrink-0', chevronClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -116,7 +116,7 @@
             >
               <div>
                 <p class="text-xs text-paper">{{ stepper.title }}</p>
-                <p class="text-[0.65rem] text-paper/45">{{ stepper.hint }}</p>
+                <p class="text-[0.65rem] text-paper/60">{{ stepper.hint }}</p>
               </div>
               <div class="flex items-center gap-3">
                 <button

@@ -9,10 +9,11 @@
   >
     <!-- Glass background: same treatment as the booking bar, crossfaded as a
          layer so the backdrop blur eases in rather than snapping on -->
-    <div
+<div
       :class="[
-        'absolute inset-0 border-b border-line/70 bg-paper/90 backdrop-blur-md transition-opacity duration-normal ease-premium',
+        'absolute inset-0 border-b bg-paper/90 backdrop-blur-md transition-[opacity,border-color] duration-normal ease-premium',
         hasSolidBackground ? 'opacity-100' : 'opacity-0',
+        hasScrolledPastCover ? 'border-line/70' : 'border-transparent',
       ]"
       aria-hidden="true"
     />
@@ -200,7 +201,7 @@ const navigationItems: NavItemData[] = [
   {
     id: 'longstay',
     label: 'Long Stay',
-    href: '#longstay',
+    href: '/long-stay',
   },
 ]
 
@@ -220,6 +221,10 @@ const activeMenuId = ref<string | null>(null)
 const isMobileOpen = ref(false)
 const isScrolledPastHero = ref(false)
 let closeTimer: ReturnType<typeof setTimeout> | undefined
+
+// The hairline under the header only draws once the user has actually
+// scrolled, even on pages whose nav starts solid (e.g. /booking)
+const hasScrolledPastCover = computed(() => isScrolledPastHero.value)
 
 // Most pages open with the transparent nav over a dark cover photo; the
 // paper glass arrives on scroll. The home hero owns a longer runway (its
