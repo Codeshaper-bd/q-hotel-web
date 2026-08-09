@@ -48,18 +48,19 @@
         <div class="absolute inset-0 flex items-end">
           <BaseContainer size="xl">
             <div :data-dining-copy="venueIndex" class="max-w-xl pb-14 sm:pb-20 lg:pb-28">
-              <h3 class="font-display text-4xl text-paper sm:text-5xl">
+              <h3 class="font-display text-4xl text-paper sm:text-5xl lg:text-[56px] font-semibold">
                 {{ venue.name }}
               </h3>
-              <p class="mt-5 text-sm leading-7 text-paper/80 sm:text-base">
+              <p class="mt-4 text-sm leading-7 text-paper/80 sm:text-base lg:text-[18px] lg:font-medium">
                 {{ venue.description }}
               </p>
-              <div class="mt-8">
+              <div class="mt-12">
                 <!-- Dining detail routes arrive with the restaurant pages; the
                      CTA hands off to the reserve entry point until then -->
                 <BaseArrowCta
                   to="#reserve"
                   variant="gold"
+                  background-class="!bg-[#E9C588]"
                   :tabindex="isSlideInert(venueIndex) ? -1 : 0"
                 >
                   Explore Now
