@@ -200,7 +200,7 @@ const navigationItems: NavItemData[] = [
   {
     id: 'longstay',
     label: 'Long Stay',
-    href: '#longstay',
+    href: '/long-stay',
   },
 ]
 

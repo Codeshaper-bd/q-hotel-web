@@ -15,6 +15,12 @@
   --color-champagne: 238 212 163;
   /* Deep olive-brown: cinematic scrim/grade tone for hero media overlays */
   --color-olive: 47 42 30;
+  /* Long Stay benefit cards: two alternating warm-cream surfaces (card bg
+     paired with the opposite shade for the icon badge) */
+  --color-cream: 252 248 240;
+  --color-sand: 249 240 219;
+  /* Long Stay savings table: vivid discount-value accent */
+  --color-flame: 255 148 5;
 
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 220ms;
