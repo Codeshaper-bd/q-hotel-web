@@ -6,7 +6,7 @@
     pixel widths so proportions match precisely at the `lg` container width.
     Stacks to a single column below `lg`, where fixed ratios stop applying.
   -->
-  <BaseSection id="gallery-highlights" labelled-by="gallery-highlights-title" tone="paper" spacing="lg" container-size="xl" class="!pb-[70px]">
+  <BaseSection id="gallery-highlights" labelled-by="gallery-highlights-title" tone="paper" spacing="lg" container-size="xl"     class="!pt-16 !pb-16 sm:!pt-32 sm:!pb-[70px]">
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
         <BaseKicker>Featured</BaseKicker>

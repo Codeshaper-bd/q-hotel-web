@@ -8,7 +8,7 @@
     tone="paper"
     spacing="lg"
     container-size="xl"
-    class="!pt-[70px] !pb-[70px]"
+    class="!pt-16 !pb-16 sm:!pt-[70px] sm:!pb-[70px]"
   >
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
