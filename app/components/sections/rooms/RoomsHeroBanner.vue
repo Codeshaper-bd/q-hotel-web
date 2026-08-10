@@ -7,10 +7,7 @@
     viewport edges while the breadcrumb/title and the console share the xl
     container grid.
   -->
-  <section
-    aria-labelledby="rooms-banner-title"
-    class="relative text-paper"
-  >
+  <section aria-labelledby="rooms-banner-title" class="relative text-paper">
     <div
       class="relative flex min-h-[26rem] items-center justify-center overflow-hidden py-24 sm:min-h-[28rem]"
     >
@@ -25,10 +22,7 @@
 
       <div class="relative z-10 flex flex-col items-center gap-4 text-center">
         <BaseBreadcrumb
-          :items="[
-            { label: 'Home', to: '/' },
-            { label: 'Room List' },
-          ]"
+          :items="[{ label: 'Home', to: '/' }, { label: 'Room List' }]"
         />
 
         <h1
@@ -45,10 +39,7 @@
          No z-index here (and no isolate on the section above): a stacking
          context would cap the search console's popover panels below the fixed
          header's z-40, hiding the calendar behind it. -->
-    <BaseContainer
-      size="xl"
-      class="relative -mt-14 pb-16 sm:-mt-12 sm:pb-20"
-    >
+    <BaseContainer size="xl" class="relative -mt-14 pb-16 sm:-mt-12 sm:pb-20">
       <div class="max-w-[1316px] mx-auto">
         <HeroBookingSearch
           :key="route.fullPath"
@@ -66,7 +57,7 @@
 
 <script setup lang="ts">
 import type { BookingSearchQuery } from "~/types/booking";
-import { parseBookingRouteQuery, toBookingRouteQuery } from '#imports'
+import { parseBookingRouteQuery, toBookingRouteQuery } from "#imports";
 
 const route = useRoute();
 

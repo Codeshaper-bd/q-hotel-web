@@ -36,7 +36,7 @@
         </BaseArrowCta>
       </div>
 
-      <HeroBookingSearch @search="handleSearch" />
+      <HeroBookingSearch tone="light" @search="handleSearch" />
     </BaseContainer>
   </section>
 </template>

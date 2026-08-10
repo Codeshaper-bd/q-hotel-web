@@ -31,7 +31,7 @@
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span :class="['whitespace-nowrap text-sm font-medium leading-6', checkIn ? valueClass : mutedValueClass]">{{ checkIn ? formatBookingDateLong(checkIn) : 'Select date' }}</span>
+            <span :class="['whitespace-nowrap leading-6', checkInValueClass]">{{ checkIn ? formatBookingDateLong(checkIn) : checkInPlaceholder }}</span>
           </span>
         </button>
 
@@ -67,8 +67,8 @@
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class="whitespace-nowrap text-base leading-6" :class="checkOut ? valueClass : mutedValueClass">
-              {{ checkOut ? formatBookingDateLong(checkOut) : 'Select date' }}
+            <span class="whitespace-nowrap leading-6" :class="checkOutValueClass">
+              {{ checkOut ? formatBookingDateLong(checkOut) : checkOutPlaceholder }}
             </span>
           </span>
         </button>
@@ -158,10 +158,13 @@
         </div>
       </div>
 
-      <div class="hero-bar-divider" aria-hidden="true" />
+      <div v-if="showSpecialRates" class="hero-bar-divider" aria-hidden="true" />
 
       <!-- Special Rates -->
-      <div :class="['hero-bar-field border-t xl:flex-1 xl:border-t-0', dividerBorderClass]">
+      <div
+        v-if="showSpecialRates"
+        :class="['hero-bar-field border-t xl:flex-1 xl:border-t-0', dividerBorderClass]"
+      >
         <label for="hero-special-rates" :class="['hero-bar-label', labelClass]">Special Rates</label>
         <div :class="['mt-1.5 flex h-[30px] items-center mr-10', rateFieldClass]">
           <input
@@ -197,6 +200,17 @@ const props = withDefaults(defineProps<{
    *  near the viewport bottom) or `down` (the /rooms banner bar sits near
    *  the page top, so an upward panel would extend off the viewport) */
   popoverDirection?: 'up' | 'down'
+  /** Hides the Special Rates promo-code field (and its divider) — used on
+   *  the long-stays banner, where rate offers are handled differently */
+  showSpecialRates?: boolean
+  /** Placeholder text in the check-in field until a date is picked (only
+   *  visible with `emptyState` and no handed-off search) */
+  checkInPlaceholder?: string
+  /** Same for the check-out field */
+  checkOutPlaceholder?: string
+  /** Extra classes for the date placeholder text; when set, they replace the
+   *  default typography (size/weight/color) so custom styling wins cleanly */
+  placeholderClass?: string
   /** Starts the console empty: check-in, check-out and guests fields show
    *  "Select date" / "Select guests & rooms" placeholders until the guest
    *  picks something. Used on the /rooms banner, where a plain nav link must
@@ -207,6 +221,10 @@ const props = withDefaults(defineProps<{
   submitLabel: 'Search',
   emptyState: false,
   popoverDirection: 'up',
+  showSpecialRates: true,
+  checkInPlaceholder: 'Select date',
+  checkOutPlaceholder: 'Select date',
+  placeholderClass: '',
 })
 
 const emit = defineEmits<{
@@ -238,7 +256,7 @@ const placeholders = ref(startEmpty)
 // Tone-driven class lookups (mirrors BaseArrowCta's variant maps): the dark
 // glass hero bar vs. the white, champagne-bordered bar on the /rooms banner
 const barClass = computed(() => props.tone === 'light'
-  ? 'border-champagne bg-paper shadow-ink/15'
+  ? 'border-champagne bg-white shadow-ink/15'
   : 'border-champagne/45 bg-ink/60 shadow-ink/90')
 const labelClass = computed(() => props.tone === 'light' ? 'text-ink/60' : 'text-paper/70')
 const iconClass = computed(() => props.tone === 'light' ? 'text-ink/70' : 'text-paper')
@@ -247,8 +265,18 @@ const mutedValueClass = computed(() => props.tone === 'light' ? 'text-ink/40' : 
 const chevronClass = computed(() => props.tone === 'light' ? 'text-ink/50' : 'text-paper/70')
 const dividerBorderClass = computed(() => props.tone === 'light' ? 'border-ink/10' : 'border-paper/10')
 const rateFieldClass = computed(() => props.tone === 'light'
-  ? 'bg-paper'
+  ? 'bg-white'
   : 'bg-ink/50')
+
+// A custom `placeholderClass` fully replaces the default typography (it
+// carries its own size/weight/color), avoiding utility-cascade conflicts
+const checkInValueClass = computed(() => checkIn.value
+  ? ['text-sm font-medium', valueClass.value]
+  : [props.placeholderClass || ['text-sm font-medium', mutedValueClass.value]])
+
+const checkOutValueClass = computed(() => checkOut.value
+  ? ['text-base', valueClass.value]
+  : [props.placeholderClass || ['text-base', mutedValueClass.value]])
 
 const totalGuests = computed(() => adults.value + children.value)
 
