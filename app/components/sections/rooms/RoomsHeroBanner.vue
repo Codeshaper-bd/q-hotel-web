@@ -9,7 +9,7 @@
   -->
   <section
     aria-labelledby="rooms-banner-title"
-    class="relative isolate text-paper"
+    class="relative text-paper"
   >
     <div
       class="relative flex min-h-[26rem] items-center justify-center overflow-hidden py-24 sm:min-h-[28rem]"
@@ -41,15 +41,20 @@
     </div>
 
     <!-- Pulled up over the banner's bottom edge; normal flow resumes right
-         after it, so nothing below needs absolute positioning to compensate -->
+         after it, so nothing below needs absolute positioning to compensate.
+         No z-index here (and no isolate on the section above): a stacking
+         context would cap the search console's popover panels below the fixed
+         header's z-40, hiding the calendar behind it. -->
     <BaseContainer
       size="xl"
-      class="relative z-10 -mt-14 pb-16 sm:-mt-12 sm:pb-20"
+      class="relative -mt-14 pb-16 sm:-mt-12 sm:pb-20"
     >
       <div class="max-w-[1316px] mx-auto">
         <HeroBookingSearch
           :key="route.fullPath"
           tone="light"
+          empty-state
+          popover-direction="down"
           :submit-label="initialQuery ? 'Modify Search' : 'Search'"
           :initial-query="initialQuery"
           @search="handleSearch"

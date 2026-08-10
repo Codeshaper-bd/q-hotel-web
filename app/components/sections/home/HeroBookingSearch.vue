@@ -15,7 +15,7 @@
     @submit.prevent="handleSubmit"
     @keydown.escape="openPanel = null"
   >
-    <div :class="['grid grid-cols-1 border shadow-[0_28px_80px_-28px] backdrop-blur-[5px] sm:grid-cols-2 xl:flex xl:h-[94px] xl:flex-1', barClass]">
+    <div :class="['hero-bar-glass grid grid-cols-1 border shadow-[0_28px_80px_-28px] sm:grid-cols-2 xl:flex xl:h-[94px] xl:flex-1', barClass]">
       <!-- Check-In -->
       <div class="relative xl:flex-1">
         <button
@@ -31,13 +31,13 @@
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span :class="['whitespace-nowrap text-sm font-medium leading-6', valueClass]">{{ formatBookingDateLong(checkIn) }}</span>
+            <span :class="['whitespace-nowrap text-sm font-medium leading-6', checkIn ? valueClass : mutedValueClass]">{{ checkIn ? formatBookingDateLong(checkIn) : 'Select date' }}</span>
           </span>
         </button>
 
         <div
           v-if="openPanel === 'dates'"
-          class="absolute bottom-full left-0 z-30 mb-3 w-[19.5rem] max-w-[calc(100vw-2rem)] md:w-[34rem]"
+          :class="['absolute left-0 z-50 w-[19.5rem] max-w-[calc(100vw-2rem)] md:w-[34rem]', popoverDirection === 'down' ? 'top-full mt-3' : 'bottom-full mb-3']"
           role="dialog"
           aria-label="Select stay dates"
         >
@@ -91,7 +91,7 @@
               <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span :class="['truncate text-base leading-6 min-w-[140px]', valueClass]">{{ guestsSummary }}</span>
+            <span :class="['truncate text-base leading-6 min-w-[140px]', placeholders ? mutedValueClass : valueClass]">{{ placeholders ? 'Select guests & rooms' : guestsSummary }}</span>
             <svg :class="['h-4 w-4 shrink-0', chevronClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -100,7 +100,7 @@
 
         <div
           v-if="openPanel === 'guests'"
-          class="absolute bottom-full left-0 z-30 mb-3 w-[19.5rem] max-w-[calc(100vw-2rem)]"
+          :class="['absolute left-0 z-50 w-[19.5rem] max-w-[calc(100vw-2rem)]', popoverDirection === 'down' ? 'top-full mt-3' : 'bottom-full mb-3']"
           role="dialog"
           aria-label="Select rooms and guests"
         >
@@ -193,9 +193,20 @@ const props = withDefaults(defineProps<{
   /** Seeds the console from a previously submitted search (e.g. handed off
    *  from the hero into the /rooms page) instead of today/tomorrow defaults */
   initialQuery?: BookingSearchQuery
+  /** Which way the popover panels open: `up` (default — the hero bar sits
+   *  near the viewport bottom) or `down` (the /rooms banner bar sits near
+   *  the page top, so an upward panel would extend off the viewport) */
+  popoverDirection?: 'up' | 'down'
+  /** Starts the console empty: check-in, check-out and guests fields show
+   *  "Select date" / "Select guests & rooms" placeholders until the guest
+   *  picks something. Used on the /rooms banner, where a plain nav link must
+   *  never display a stale or assumed selection. */
+  emptyState?: boolean
 }>(), {
   tone: 'dark',
   submitLabel: 'Search',
+  emptyState: false,
+  popoverDirection: 'up',
 })
 
 const emit = defineEmits<{
@@ -211,13 +222,18 @@ const openPanel = ref<'dates' | 'guests' | null>(null)
 
 // Default stay: tonight, one night — the console is always submittable.
 // A handed-off `initialQuery` (e.g. from the hero into the /rooms page)
-// seeds these instead.
-const checkIn = ref(props.initialQuery?.checkIn ?? todayIsoDate())
-const checkOut = ref(props.initialQuery?.checkOut ?? addDaysIso(todayIsoDate(), 1))
+// seeds these instead; with `emptyState` and no handed-off search the
+// fields start blank and only show a real value once something is chosen.
+const startEmpty = props.emptyState && !props.initialQuery
+const checkIn = ref(props.initialQuery?.checkIn ?? (startEmpty ? '' : todayIsoDate()))
+const checkOut = ref(props.initialQuery?.checkOut ?? (startEmpty ? '' : addDaysIso(todayIsoDate(), 1)))
 const rooms = ref(props.initialQuery?.rooms ?? 1)
 const adults = ref(props.initialQuery?.adults ?? 2)
 const children = ref(props.initialQuery?.children ?? 0)
 const promoCode = ref(props.initialQuery?.promoCode ?? '')
+
+/** The guests field shows placeholders until the guest makes a selection */
+const placeholders = ref(startEmpty)
 
 // Tone-driven class lookups (mirrors BaseArrowCta's variant maps): the dark
 // glass hero bar vs. the white, champagne-bordered bar on the /rooms banner
@@ -263,7 +279,10 @@ const steppers = computed<StepperRow[]>(() => [
     value: rooms.value,
     canDecrease: rooms.value > 1 && totalGuests.value <= MAX_GUESTS_PER_ROOM * (rooms.value - 1),
     canIncrease: rooms.value < MAX_ROOMS,
-    change: delta => (rooms.value += delta),
+    change: delta => {
+      rooms.value += delta
+      placeholders.value = false
+    },
   },
   {
     key: 'adults',
@@ -272,7 +291,10 @@ const steppers = computed<StepperRow[]>(() => [
     value: adults.value,
     canDecrease: adults.value > 1,
     canIncrease: totalGuests.value < guestCapacity.value,
-    change: delta => (adults.value += delta),
+    change: delta => {
+      adults.value += delta
+      placeholders.value = false
+    },
   },
   {
     key: 'children',
@@ -281,7 +303,10 @@ const steppers = computed<StepperRow[]>(() => [
     value: children.value,
     canDecrease: children.value > 0,
     canIncrease: children.value < MAX_CHILDREN && totalGuests.value < guestCapacity.value,
-    change: delta => (children.value += delta),
+    change: delta => {
+      children.value += delta
+      placeholders.value = false
+    },
   },
 ])
 
@@ -292,6 +317,7 @@ function togglePanel(panel: 'dates' | 'guests') {
 function applyDates(range: { checkIn: string, checkOut: string }) {
   checkIn.value = range.checkIn
   checkOut.value = range.checkOut
+  placeholders.value = false
 }
 
 function handleSubmit() {
@@ -328,6 +354,24 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Glass blur on a dedicated ::before instead of backdrop-filter on the bar
+   itself: backdrop-filter would make the bar a stacking context and cap the
+   calendar/guests popovers below the fixed header's z-index, hiding the
+   calendar behind it. The ::before blurs the same backdrop while leaving
+   the bar's stacking order untouched. */
+.hero-bar-glass {
+  position: relative;
+}
+
+.hero-bar-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
 /* Bar field: no box of its own — the bar is one surface, fields separated by
    hairline dividers, warming softly under the pointer */
 .hero-bar-field {
@@ -353,11 +397,12 @@ onUnmounted(() => {
 .hero-bar-label {
   display: block;
   font-family: Satoshi, ui-sans-serif, system-ui, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 18px;
   text-transform: uppercase;
   white-space: nowrap;
+  color:#8A8A8A;
 }
 
 /* Vertical hairline between fields — hidden on stacked mobile/tablet rows,
