@@ -3,6 +3,7 @@
     <RoomsHeroBanner />
     <RoomsListing />
     <FaqSection />
+    <div class="h-[100px]"></div>
   </div>
 </template>
 

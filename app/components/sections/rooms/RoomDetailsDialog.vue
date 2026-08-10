@@ -15,24 +15,24 @@
     @close="emit('update:open', false)"
     @click="handleBackdropClick"
   >
-    <div class="room-details-panel bg-paper" data-lenis-prevent>
+    <div class="room-details-panel bg-white" data-lenis-prevent>
       <div
         class="flex items-center justify-between gap-6 px-6 pt-6 sm:px-8 sm:pt-8"
       >
-        <p :id="titleId" class="text-xl text-ink">Room Details</p>
+        <p :id="titleId" class="text-2xl leading-9 text-ink">2 Double Beds, Guest Room</p>
         <button
           ref="closeButtonRef"
           type="button"
-          class="flex h-8 w-8 shrink-0 items-center justify-center bg-champagne/25 text-ink transition-colors duration-fast hover:bg-champagne/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
+          class="flex h-8 w-8 shrink-0 items-center justify-center bg-sand/70 text-ink transition-colors duration-fast hover:bg-sand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
           aria-label="Close room details"
           @click="close"
         >
           <svg
-            class="h-3.5 w-3.5"
+            class="h-5 w-5"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.5"
+            stroke-width="1.25"
             aria-hidden="true"
           >
             <path
@@ -62,12 +62,12 @@
         <template v-if="slides.length > 1">
           <button
             type="button"
-            class="absolute left-3 top-1/2 flex h-9 w-9 rounded-full -translate-y-1/2 items-center justify-center bg-paper/90 text-ink transition-colors duration-fast hover:bg-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
+            class="absolute left-3 top-1/2 flex h-[42px] w-[42px] rounded-full -translate-y-1/2 items-center justify-center bg-white/95 text-ink transition-colors duration-fast hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
             aria-label="Previous photo"
             @click="step(-1)"
           >
             <svg
-              class="h-4 w-4"
+              class="h-[18px] w-[18px]"
               viewBox="0 0 16 16"
               fill="none"
               stroke="currentColor"
@@ -83,12 +83,12 @@
           </button>
           <button
             type="button"
-            class="absolute right-3 top-1/2 flex h-9 w-9 rounded-full -translate-y-1/2 items-center justify-center bg-paper/90 text-ink transition-colors duration-fast hover:bg-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
+            class="absolute right-3 top-1/2 flex h-[42px] w-[42px] rounded-full -translate-y-1/2 items-center justify-center bg-white/95 text-ink transition-colors duration-fast hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
             aria-label="Next photo"
             @click="step(1)"
           >
             <svg
-              class="h-4 w-4"
+              class="h-[18px] w-[18px]"
               viewBox="0 0 16 16"
               fill="none"
               stroke="currentColor"
@@ -140,7 +140,7 @@
             <div v-for="category in row" :key="category.title">
               <p class="flex items-center gap-2 text-base text-ink">
                 <svg
-                  class="h-4 w-4 shrink-0 text-ink/60"
+                  class="h-4 w-4 shrink-0 text-ink"
                   viewBox="0 0 20 20"
                   fill="none"
                   stroke="currentColor"
@@ -157,7 +157,7 @@
                 </svg>
                 {{ category.title }}
               </p>
-              <ul class="mt-3 space-y-3 text-sm leading-5 text-ink/65">
+              <ul class="mt-3 space-y-3 text-sm leading-5 text-[#505155]">
                 <li v-for="line in category.lines" :key="line">{{ line }}</li>
               </ul>
             </div>
