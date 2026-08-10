@@ -2,7 +2,7 @@
   <!-- Recommended Rooms & Suites: reuses the /rooms listing's RoomListCard
        and shared catalog, filtered to the rooms best suited for extended
        stays, instead of introducing a parallel card component. -->
-  <BaseSection id="long-stay-rooms" labelled-by="long-stay-rooms-title" tone="paper" spacing="lg" container-size="xl">
+  <BaseSection id="long-stay-rooms" labelled-by="long-stay-rooms-title" tone="paper" spacing="lg" container-size="xl" class="-mt-24">
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
         <BaseKicker>Perfect For Long Stays</BaseKicker>
