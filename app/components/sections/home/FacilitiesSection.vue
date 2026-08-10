@@ -243,8 +243,8 @@ const amenities: FacilityAmenity[] = [
     ],
   },
   {
-    id: 'two-restaurants',
-    label: 'Two Restaurants',
+    id: 'dining',
+    label: 'Dining',
     image: '/images/dining/bbq-restaurant.jpg',
     iconPaths: [
       'M7 3.5v5.5M10 3.5v5.5M7 9a1.5 1.5 0 003 0M8.5 10.5V20.5',

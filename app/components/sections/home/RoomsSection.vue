@@ -114,9 +114,9 @@
                 class="motion-safe:lg:absolute motion-safe:lg:inset-4 motion-safe:lg:flex motion-safe:lg:flex-col motion-safe:lg:border motion-safe:lg:border-copper motion-safe:lg:p-7 motion-safe:xl:inset-5 motion-safe:xl:p-8"
               >
                 <span
-                  class="self-start border border-paper/70 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-paper"
+                  class="self-start border border-paper/70 px-3 py-1.5 text-sm font-semibold uppercase text-paper"
                 >
-                  ${{ room.nightlyRateUsd }} / Night
+                  ${{ room.nightlyRateUsd }} ++ / Night
                 </span>
 
                 <h3
