@@ -17,6 +17,7 @@
       >
         <div class="flex flex-col gap-8">
           <BookingGuestForm />
+          <BookingRoomRequests />
           <BookingPolicies
             :room="room"
             :check-in="checkIn"
