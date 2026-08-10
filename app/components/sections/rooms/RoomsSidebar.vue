@@ -24,26 +24,26 @@
       </div>
 
       <div class="p-5">
-        <h3 class="font-display text-2xl text-ink">Q Hotel Dhaka, Bangladesh</h3>
-        <p class="mt-3 text-sm leading-6 text-ink/65">
+        <h3 class="font-display text-2xl lg:text-[28px] font-semibold text-ink">Q Hotel Dhaka, Bangladesh</h3>
+        <p class="mt-3 text-base leading-6 text-[#505155]">
           Q Hotel Dhaka offers a refined 5-star hospitality experience with elegant accommodations, premium wellness facilities, exceptional dining, and personalized service in the heart of the city.
         </p>
 
-        <ul class="mt-5 space-y-3 text-sm text-ink/75">
+        <ul class="mt-5 space-y-3 text-base text-[#373737]">
           <li class="flex items-center gap-2.5">
-            <svg class="h-4 w-4 shrink-0 text-ink/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <svg class="h-4 w-4 shrink-0 text-[#D78C38]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.28 6.72 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.37a1.5 1.5 0 00-1.14-1.46l-4.06-1.01a1.5 1.5 0 00-1.58.62l-.83 1.24a11.3 11.3 0 01-5-5l1.24-.83a1.5 1.5 0 00.62-1.58l-1.01-4.06A1.5 1.5 0 007.12 2.25H5.75A2.25 2.25 0 003.5 4.5" />
             </svg>
             <a class="transition-colors duration-fast hover:text-copper" href="tel:+8801866227696">01866-227696</a>
           </li>
           <li class="flex items-center gap-2.5">
-            <svg class="h-4 w-4 shrink-0 text-ink/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <svg class="h-4 w-4 shrink-0 text-[#D78C38]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75A2.25 2.25 0 014.5 4.5h15a2.25 2.25 0 012.25 2.25m-19.5 0v10.5A2.25 2.25 0 004.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75m-19.5 0l9.75 6.75 9.75-6.75" />
             </svg>
             <a class="transition-colors duration-fast hover:text-copper" href="mailto:info@qfl.com.bd">info@qfl.com.bd</a>
           </li>
           <li class="flex items-center gap-2.5">
-            <svg class="h-4 w-4 shrink-0 text-ink/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <svg class="h-4 w-4 shrink-0 text-[#D78C38]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.14-7.5 11.25-7.5 11.25S4.5 17.64 4.5 10.5a7.5 7.5 0 1115 0z" />
             </svg>
@@ -51,28 +51,37 @@
           </li>
         </ul>
 
-        <div class="mt-5 flex items-center gap-4 border-t border-line pt-5">
-          <p class="flex items-center gap-1.5 text-sm font-semibold text-ink">
-            <svg class="h-4 w-4 shrink-0 text-ink/70" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-4.4 12.9a2.4 2.4 0 110-4.8 2.4 2.4 0 010 4.8zm8.8 0a2.4 2.4 0 110-4.8 2.4 2.4 0 010 4.8zm-8.8-3.6a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zm8.8 0a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z" />
-            </svg>
-            5.0
-          </p>
-          <span class="flex gap-1" aria-hidden="true">
-            <svg v-for="starIndex in 5" :key="starIndex" class="h-3.5 w-3.5 text-gold" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" />
-            </svg>
-          </span>
-          <span class="text-sm text-ink/60">Based on 165 reviews</span>
+        <div class="mt-5 flex items-center gap-6 border-t border-line pt-5">
+          <img
+            src="/images/brand/tripadvisor-logo.svg"
+            alt="TripAdvisor"
+            width="152"
+            height="34"
+            loading="lazy"
+            class="h-[34px] w-auto shrink-0"
+          >
+          <span class="h-14 w-px shrink-0 bg-line" aria-hidden="true" />
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-lg font-semibold text-ink">5.0</span>
+              <span class="h-5 w-px shrink-0 bg-line" aria-hidden="true" />
+              <span class="flex items-center gap-1" aria-hidden="true">
+                <svg v-for="starIndex in 5" :key="starIndex" class="h-4 w-4 text-gold" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" />
+                </svg>
+              </span>
+            </div>
+            <span class="text-sm text-ink/60">Based on 165 reviews</span>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="bg-white p-5">
-      <h3 class="font-display text-2xl text-ink">Hotel Information</h3>
+      <h3 class="font-display font-semibold text-2xl lg:text-[28px] text-[#0F0F10]">Hotel Information</h3>
       <hr class="mt-4 border-line">
 
-      <ul class="mt-4 space-y-3 text-sm text-ink/75">
+      <ul class="mt-4 space-y-3 text-base text-ink/75">
         <li v-for="item in policyItems" :key="item.label" class="flex items-center gap-2.5">
           <svg class="h-4 w-4 shrink-0 text-ink/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path v-for="(iconPath, pathIndex) in item.iconPaths" :key="pathIndex" :d="iconPath" />
