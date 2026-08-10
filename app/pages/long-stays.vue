@@ -4,7 +4,7 @@
     <LongStayBenefits />
     <LongStaySavings />
     <LongStayAmenities />
-    <LongStayRecommendedRooms />
+    <RoomsSection :show-tabs="false" spacing="sm" />
   </div>
 </template>
 

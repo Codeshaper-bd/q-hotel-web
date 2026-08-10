@@ -72,7 +72,7 @@
               <button
                 type="button"
                 :aria-pressed="activeAttractionId === attraction.id"
-                class="text-[0.65rem] font-semibold uppercase text-[#0F0F10] bg-[#E9C588] underline-offset-4 transition-colors duration-fast hover:text-[#DFA558] hover:underline"
+                class="text-[0.65rem] font-semibold uppercase text-[#0F0F10] bg-[#E9C588] px-2 py-0.5 underline-offset-4 transition-colors duration-fast hover:text-[#DFA558] hover:underline"
                 @click="toggleAttraction(attraction.id)"
               >
                 {{ activeAttractionId === attraction.id ? 'Back to the hotel' : 'Show on map' }}

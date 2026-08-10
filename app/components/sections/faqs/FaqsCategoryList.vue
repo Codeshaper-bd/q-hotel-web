@@ -36,7 +36,7 @@ const categories: FaqCategory[] = [
     items: [
       {
         question: 'How can I book a room at Q Hotel Dhaka?',
-        answer: 'You can reserve directly through the "Reserve Now" button or the search console on our website, by calling our reservations desk, or by emailing info@qfl.com.bd. Booking direct guarantees our best available rate.',
+        answer: 'You can reserve directly through the "Reserve Now" button or the search console on our website, by calling our reservations desk, or by emailing info@qhl.com.bd. Booking direct guarantees our best available rate.',
       },
       {
         question: 'Can I modify or cancel my reservation?',
@@ -57,7 +57,7 @@ const categories: FaqCategory[] = [
     items: [
       {
         question: 'What are the check-in and check-out times?',
-        answer: 'Check-in begins at 3:00 PM and check-out is until 12:00 noon. Early check-in and late check-out can be arranged on request, subject to availability.',
+        answer: 'Check-in begins at 2:00 PM and check-out is until 12:00 noon. Early check-in and late check-out can be arranged on request, subject to availability.',
       },
       {
         question: 'Does Q Hotel Dhaka have in-room Wi-Fi?',

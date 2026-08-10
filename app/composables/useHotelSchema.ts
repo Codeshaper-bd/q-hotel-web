@@ -48,7 +48,7 @@ export const useHotelSchema = (options: HotelSchemaOptions = {}) => {
     },
     image: `${siteUrl}/og-image.jpg`,  // TODO: real OG/hero image
     priceRange: '$$$$',
-    checkinTime: '15:00',
+    checkinTime: '14:00',
     checkoutTime: '11:00',
     amenityFeature: [
       { '@type': 'LocationFeatureSpecification', name: 'Free Wi-Fi', value: true },

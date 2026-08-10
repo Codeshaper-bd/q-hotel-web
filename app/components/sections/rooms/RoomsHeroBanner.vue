@@ -7,10 +7,7 @@
     viewport edges while the breadcrumb/title and the console share the xl
     container grid.
   -->
-  <section
-    aria-labelledby="rooms-banner-title"
-    class="relative isolate text-paper"
-  >
+  <section aria-labelledby="rooms-banner-title" class="relative text-paper">
     <div
       class="relative flex min-h-[26rem] items-center justify-center overflow-hidden py-24 sm:min-h-[28rem]"
     >
@@ -25,10 +22,7 @@
 
       <div class="relative z-10 flex flex-col items-center gap-4 text-center">
         <BaseBreadcrumb
-          :items="[
-            { label: 'Home', to: '/' },
-            { label: 'Room List' },
-          ]"
+          :items="[{ label: 'Home', to: '/' }, { label: 'Room List' }]"
         />
 
         <h1
@@ -41,15 +35,17 @@
     </div>
 
     <!-- Pulled up over the banner's bottom edge; normal flow resumes right
-         after it, so nothing below needs absolute positioning to compensate -->
-    <BaseContainer
-      size="xl"
-      class="relative z-10 -mt-14 pb-16 sm:-mt-12 sm:pb-20"
-    >
+         after it, so nothing below needs absolute positioning to compensate.
+         No z-index here (and no isolate on the section above): a stacking
+         context would cap the search console's popover panels below the fixed
+         header's z-40, hiding the calendar behind it. -->
+    <BaseContainer size="xl" class="relative -mt-14 pb-16 sm:-mt-12 sm:pb-20">
       <div class="max-w-[1316px] mx-auto">
         <HeroBookingSearch
           :key="route.fullPath"
           tone="light"
+          empty-state
+          popover-direction="down"
           :submit-label="initialQuery ? 'Modify Search' : 'Search'"
           :initial-query="initialQuery"
           @search="handleSearch"
@@ -61,7 +57,7 @@
 
 <script setup lang="ts">
 import type { BookingSearchQuery } from "~/types/booking";
-import { parseBookingRouteQuery, toBookingRouteQuery } from '#imports'
+import { parseBookingRouteQuery, toBookingRouteQuery } from "#imports";
 
 const route = useRoute();
 

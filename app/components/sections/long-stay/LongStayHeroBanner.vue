@@ -7,7 +7,7 @@
   -->
   <section
     aria-labelledby="long-stay-banner-title"
-    class="relative isolate text-paper"
+    class="relative text-paper"
   >
     <div class="relative flex min-h-[26rem] items-center justify-center overflow-hidden py-24 sm:min-h-[28rem]">
       <BaseImage
@@ -42,21 +42,30 @@
     </div>
 
     <!-- Pulled up over the banner's bottom edge; normal flow resumes right
-         after it, so nothing below needs absolute positioning to compensate -->
+         after it, so nothing below needs absolute positioning to compensate.
+         No z-index here (and no isolate on the section above): a stacking
+         context would cap the search console's popover panels below the
+         following sections, hiding the calendar behind them. -->
     <BaseContainer
       size="xl"
-      class="relative z-10 -mt-14 pb-16 sm:-mt-12 sm:pb-20"
+      class="relative -mt-14 pb-16 sm:-mt-12 sm:pb-20"
     >
-      <div class="mx-auto flex max-w-[1316px] flex-col gap-6 border border-champagne bg-paper p-6 shadow-[0_28px_80px_-28px] shadow-ink/40 sm:p-8 lg:flex-row lg:items-center lg:gap-10">
-        <div class="shrink-0 lg:max-w-[18rem]">
-          <h2 class="font-display font-semibold text-2xl  text-ink">Plan Your Long Stay</h2>
-          <p class="text-sm leading-6 text-ink/70">
+      <div class="mx-auto flex max-w-[1316px] flex-col gap-6 border border-champagne bg-white p-2.5 lg:flex-row lg:items-center lg:gap-10">
+        <div class="shrink-0 lg:max-w-[18rem] bg-[#F9F0DB] p-2.5">
+          <h2 class="font-display font-semibold text-2xl  text-ink mb-1">Plan Your Long Stay</h2>
+          <p class="text-sm leading-6 text-[#505155]">
             Tell us your stay details and we'll get back to you with the best offer.
           </p>
         </div>
         <div class="hidden h-16 w-px shrink-0 bg-line lg:block" aria-hidden="true" />
         <HeroBookingSearch
           tone="light"
+          popover-direction="down"
+          :show-special-rates="false"
+          empty-state
+          check-in-placeholder="Check in Date"
+          check-out-placeholder="Check Out Date"
+          placeholder-class="text-[18px] font-semibold text-[#505155]"
           submit-label="Search"
           @search="handleSearch"
         />

@@ -6,7 +6,7 @@
     visible in the list at once rather than stepped through.
   -->
   <article
-    class="flex flex-col bg-transparent sm:h-[26rem] sm:flex-row sm:gap-6 lg:h-[28rem]"
+    class="flex flex-col bg-transparent sm:h-[500px] sm:flex-row sm:gap-6"
   >
     <div
       class="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-line/40 sm:aspect-auto sm:h-full sm:w-[58%]"
@@ -53,20 +53,20 @@
         class="flex flex-col sm:absolute sm:inset-5 sm:border sm:border-copper sm:p-7"
       >
         <span
-          class="self-start border border-paper/70 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-paper"
+          class="self-start border border-[#F9F0DB] px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.18em] text-paper"
         >
           ${{ room.nightlyRateUsd }} / Night
         </span>
 
-        <h3 class="mt-4 font-display text-3xl leading-tight">
+        <h3 class="mt-5 font-display text-[28px] font-semibold">
           {{ room.name }}
         </h3>
 
-        <p class="mt-3 text-sm leading-7 text-paper/80">
+        <p class="mt-2.5 text-base text-paper">
           {{ room.description }}
         </p>
 
-        <ul class="mt-6 space-y-3 text-sm text-paper/80 sm:mt-auto sm:pt-6">
+        <ul class="mt-6 space-y-2.5 text-base text-paper">
           <li class="flex items-center gap-3">
             <svg
               class="h-5 w-5 shrink-0 text-paper"
@@ -132,8 +132,10 @@
           </li>
         </ul>
 
-        <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <BaseArrowCta :to="`/booking?room=${room.id}`" variant="gold">
+        <!-- Pinned to the panel's bottom: mt-auto absorbs any space the
+             copy leaves, so the actions always rest on the lower edge -->
+        <div class="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-6">
+          <BaseArrowCta :to="`/booking?room=${room.id}`" variant="gold" label-class="text-[13px] leading-[20px] font-medium">
             Book Now
           </BaseArrowCta>
           <button

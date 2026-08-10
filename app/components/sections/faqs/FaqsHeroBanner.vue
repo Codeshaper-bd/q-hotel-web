@@ -34,7 +34,7 @@
     <!-- Pulled up over the banner's bottom edge; normal flow resumes right
          after it, so nothing below needs absolute positioning to compensate -->
     <BaseContainer size="xl" class="relative z-10 -mt-14 pb-16 sm:-mt-16 sm:pb-20">
-      <HeroBookingSearch @search="handleSearch" />
+      <HeroBookingSearch tone="light" @search="handleSearch" />
     </BaseContainer>
   </section>
 </template>

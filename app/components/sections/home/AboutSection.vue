@@ -9,44 +9,8 @@
     id="about"
     ref="sectionRef"
     aria-labelledby="about-title"
-    class="relative overflow-hidden bg-paper py-20 pb-0 text-ink sm:py-24 sm:pb-0"
+    class="relative overflow-hidden bg-[#F8F6F2] py-20 pb-0 text-ink sm:py-24"
   >
-    <!-- Brand mark half-cropped at the viewport edge — texture, not content.
-         Self-draws on scroll-in (same stroke-then-fill motion as the preloader),
-         then fills solid; renders solid without JS / under reduced motion. -->
-    <svg
-      ref="brandMarkRef"
-      class="brand-mark pointer-events-none absolute -left-16 -top-10 h-64 w-64 text-line/70 sm:-left-12 sm:h-72 sm:w-72"
-      viewBox="0 0 51 50"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <!-- Outline layer: drawn first via pathLength-normalised dashoffset -->
-      <g ref="strokeGroupRef">
-        <path
-          v-for="(markPath, index) in qHotelLogoPaths"
-          :key="`stroke-${index}`"
-          :d="markPath"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="0.5"
-          pathLength="1"
-          stroke-dasharray="1"
-          stroke-dashoffset="0"
-        />
-      </g>
-
-      <!-- Fill layer: takes over from the outline (hidden by JS until drawn) -->
-      <g ref="fillGroupRef">
-        <path
-          v-for="(markPath, index) in qHotelLogoPaths"
-          :key="`fill-${index}`"
-          :d="markPath"
-          fill="currentColor"
-        />
-      </g>
-    </svg>
 
     <BaseContainer size="lg">
       <FadeReveal>
@@ -63,9 +27,6 @@
           </div>
         </div>
       </FadeReveal>
-
-      <!-- Thematic break into the rooms showcase -->
-      <hr class="mt-20 border-line sm:mt-24">
     </BaseContainer>
   </section>
 </template>

@@ -7,7 +7,7 @@
     id="rooms"
     labelled-by="rooms-title"
     tone="paper"
-    spacing="lg"
+    :spacing="spacing"
     container-size="xl"
   >
     <FadeReveal>
@@ -22,7 +22,7 @@
       </div>
     </FadeReveal>
     <div ref="sectionRef" class="rooms-pin-wrap">
-      <FadeReveal class="shrink-0">
+      <FadeReveal v-if="showTabs" class="shrink-0">
         <div
           role="tablist"
           aria-label="Room types"
@@ -58,8 +58,9 @@
             :id="`room-panel-${room.id}`"
             :key="room.id"
             :data-room-card="roomIndex"
-            role="tabpanel"
-            :aria-labelledby="`room-tab-${room.id}`"
+            :role="showTabs ? 'tabpanel' : undefined"
+            :aria-labelledby="showTabs ? `room-tab-${room.id}` : undefined"
+            :aria-label="showTabs ? undefined : room.name"
             :aria-hidden="activeRoomId === room.id ? undefined : 'true'"
             :tabindex="activeRoomId === room.id ? 0 : -1"
             class="room-showcase-card relative overflow-hidden bg-ink"
@@ -107,15 +108,15 @@
                  matching the Figma room card). No inner scroll: the stack
                  height below is sized to fit every room's content. -->
             <div
-              class="relative flex flex-col bg-ink p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-4 motion-safe:lg:right-4 motion-safe:lg:w-[27rem] motion-safe:lg:bg-night/70 motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]"
+              class="relative flex flex-col p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-4 motion-safe:lg:right-4 motion-safe:lg:w-[27rem] room-card motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]"
             >
               <div
                 class="motion-safe:lg:absolute motion-safe:lg:inset-4 motion-safe:lg:flex motion-safe:lg:flex-col motion-safe:lg:border motion-safe:lg:border-copper motion-safe:lg:p-7 motion-safe:xl:inset-5 motion-safe:xl:p-8"
               >
                 <span
-                  class="self-start border border-paper/70 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-paper"
+                  class="self-start border border-paper/70 px-3 py-1.5 text-sm font-semibold uppercase text-paper"
                 >
-                  ${{ room.nightlyRateUsd }} / Night
+                  ${{ room.nightlyRateUsd }} ++ / Night
                 </span>
 
                 <h3
@@ -223,6 +224,21 @@
 import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
 import type { Room } from "~/types/room";
 import { useRoomsCatalog } from "#imports";
+
+const { showTabs = true, spacing = 'lg' } = defineProps<{
+  /**
+   * Show the room-type tab switcher above the stack. Defaults to true
+   * (the home page's behavior). Set false to present just the
+   * scroll-pinned showcase without direct-jump tabs, e.g. on the Long
+   * Stays page — the pinned scroll still advances through every room.
+   */
+  showTabs?: boolean;
+  /**
+   * BaseSection vertical spacing. Pass a smaller step when the showcase
+   * is the page's last section so it sits closer to the footer.
+   */
+  spacing?: 'sm' | 'md' | 'lg';
+}>();
 
 const rooms = useRoomsCatalog();
 
@@ -442,6 +458,18 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.room-card {
+  background: rgba(15, 15, 15, 0.82);
+
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 20px 50px rgba(0, 0, 0, 0.2);
+}
 .rooms-track {
   display: grid;
   gap: 1.5rem;

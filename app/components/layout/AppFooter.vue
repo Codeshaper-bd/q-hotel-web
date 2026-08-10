@@ -91,7 +91,7 @@
               <svg class="h-4 w-4 shrink-0 text-paper/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75A2.25 2.25 0 014.5 4.5h15a2.25 2.25 0 012.25 2.25m-19.5 0v10.5A2.25 2.25 0 004.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75m-19.5 0l9.75 6.75 9.75-6.75" />
               </svg>
-              <a class="transition-colors duration-fast hover:text-champagne" href="mailto:info@qfl.com.bd">info@qfl.com.bd</a>
+              <a class="transition-colors duration-fast hover:text-champagne" href="mailto:info@qhl.com.bd">info@qhl.com.bd</a>
             </li>
             <li class="flex items-start gap-3">
               <svg class="mt-0.5 h-4 w-4 shrink-0 text-paper/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -103,23 +103,6 @@
           </ul>
 
           <div class="mt-auto flex flex-wrap items-stretch gap-3 pt-10">
-            <!-- Reserve: gold split control with bed icon -->
-            <NuxtLink
-              to="#reserve"
-              class="group inline-flex min-h-11 items-stretch bg-champagne text-night transition-colors duration-fast hover:bg-gold"
-            >
-              <span class="flex items-center px-5 text-[0.7rem] font-semibold uppercase tracking-[0.14em]">
-                Reserve Now
-              </span>
-              <span class="flex items-center border-l border-night/20 px-3.5" aria-hidden="true">
-                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2 20v-8a2 2 0 012-2h16a2 2 0 012 2v8" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
-                </svg>
-              </span>
-            </NuxtLink>
-
             <!-- Directions: outline split control with arrow -->
             <a
               :href="directionsUrl"
@@ -171,7 +154,7 @@
           </div>
 
           <!-- Newsletter -->
-          <p class="mt-10 max-w-xs text-sm leading-7 text-paper/60">
+          <p class="mt-10 max-w-xs text-base text-paper">
             Subscribe to receive exclusive offers, special promotions, and the
             latest updates from Q Hotel Dhaka.
           </p>
@@ -191,7 +174,7 @@
             </div>
             <button
               type="submit"
-              class="shrink-0 pb-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-champagne transition-colors duration-fast hover:text-gold"
+              class="shrink-0 pb-2 text-base font-bold uppercase text-paper transition-colors duration-fast hover:text-gold"
             >
               Subscribe
             </button>
@@ -253,7 +236,7 @@
 
         <!-- Nearby attractions: informational, not navigation -->
         <div>
-          <h2 class="font-display font-semibold text-lg lg:text-[28px] text-[#FFFFFF]">Nearby Attractions</h2>
+          <h2 class="font-display font-semibold text-lg lg:text-[28px] text-[#FFFFFF]">Facilities & Amenities</h2>
           <ul class="mt-6 space-y-3.5 text-base text-[#ACACAC]">
             <li v-for="attraction in nearbyAttractions" :key="attraction">{{ attraction }}</li>
           </ul>
@@ -277,7 +260,7 @@
       <!-- Accepted payment methods -->
       <div class="flex flex-col gap-4 border-t border-paper/10 py-7 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex flex-wrap items-center gap-4">
-          <span class="shrink-0 text-xs font-semibold uppercase tracking-[0.14em] text-paper/50">We Accept:</span>
+          <span class="shrink-0 text-sm lg:text-2xl font-display font-semibold  text-paper">We Accept:</span>
           <img
             src="/images/footer/visa_cards.png"
             alt="Accepted payment methods: Visa, Nagad, bKash, American Express, Mastercard, DBBL, Upay, Apple Pay, NexusPay, iPay, cityBank, Brac Bank, Bank Asia, Islami Bank, Q-Cash, fastcash, Upay, and City Bank Direct"
@@ -286,11 +269,11 @@
             loading="lazy"
             class="h-6 w-auto max-w-full sm:h-7"
           >
-          <span class="shrink-0 text-xs text-paper/40">and more........</span>
+          <span class="shrink-0 text-base text-paper">and more........</span>
         </div>
 
-        <div class="flex shrink-0 flex-col items-center gap-1.5">
-          <span class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-paper/50">Verified By</span>
+        <div class="flex shrink-0 flex-col items-center justify-center gap-1.5">
+          <span class="text-base text-paper">Verified By</span>
           <img
             src="/images/footer/verified_ssl_commerz.png"
             alt="SSLCommerz"
@@ -303,7 +286,7 @@
       </div>
 
       <!-- Legal bar -->
-      <div class="flex flex-col gap-3 border-t border-paper/10 py-7 text-xs text-paper/50 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex flex-col gap-3 border-t border-paper/10 py-7 text-sm text-paper/50 sm:flex-row sm:items-center sm:justify-between">
         <p>© {{ copyrightYear }} <span class="text-paper/70">Q Hotel Dhaka</span>. All Rights Reserved</p>
         <p>
           Designed &amp; Developed by
@@ -391,7 +374,6 @@ const linkColumns = [
       { label: 'Meetings & Events', to: '/meetings-events' },
       { label: 'Offer & Packages', to: '/offers' },
       { label: 'Gallery', to: '/gallery' },
-      { label: 'Careers', to: '/careers' },
       { label: 'Site Map', to: '/sitemap' },
     ],
   },
@@ -416,11 +398,13 @@ const nearbyAttractions = [
 ]
 
 const hotelInformation = [
-  'Check-In: 3:00 PM',
-  'Check-Out: 12:00 PM',
-  'Minimum age to Check In 18',
-  'Pets are not allowed.',
-  'Complimentary On-Site Parking',
+  'Outdoor Swimming Pool',
+  'Free Wifi',
+  'Airport Shuttle',
+  'Free Parking',
+  'Fitness Center & Spa',
+  'Restaurants & Bar',
+  '24-Hours Security & More...',
 ]
 
 // Newsletter submission is not yet wired to a backend; prevent the default

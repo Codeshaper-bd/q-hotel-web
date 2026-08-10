@@ -34,7 +34,6 @@ const mainPages = [
   { label: 'Nearby Attractions', to: '/#location' },
   { label: 'Blogs & Articles', to: '/blog' },
   { label: 'Blog Details', to: '/blog' },
-  { label: 'Careers', to: '/careers' },
 ]
 
 const helpAndSupport = [
