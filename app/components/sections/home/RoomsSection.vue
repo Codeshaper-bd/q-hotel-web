@@ -7,7 +7,7 @@
     id="rooms"
     labelled-by="rooms-title"
     tone="paper"
-    spacing="lg"
+    :spacing="spacing"
     container-size="xl"
   >
     <FadeReveal>
@@ -22,7 +22,7 @@
       </div>
     </FadeReveal>
     <div ref="sectionRef" class="rooms-pin-wrap">
-      <FadeReveal class="shrink-0">
+      <FadeReveal v-if="showTabs" class="shrink-0">
         <div
           role="tablist"
           aria-label="Room types"
@@ -58,8 +58,9 @@
             :id="`room-panel-${room.id}`"
             :key="room.id"
             :data-room-card="roomIndex"
-            role="tabpanel"
-            :aria-labelledby="`room-tab-${room.id}`"
+            :role="showTabs ? 'tabpanel' : undefined"
+            :aria-labelledby="showTabs ? `room-tab-${room.id}` : undefined"
+            :aria-label="showTabs ? undefined : room.name"
             :aria-hidden="activeRoomId === room.id ? undefined : 'true'"
             :tabindex="activeRoomId === room.id ? 0 : -1"
             class="room-showcase-card relative overflow-hidden bg-ink"
@@ -223,6 +224,21 @@
 import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
 import type { Room } from "~/types/room";
 import { useRoomsCatalog } from "#imports";
+
+const { showTabs = true, spacing = 'lg' } = defineProps<{
+  /**
+   * Show the room-type tab switcher above the stack. Defaults to true
+   * (the home page's behavior). Set false to present just the
+   * scroll-pinned showcase without direct-jump tabs, e.g. on the Long
+   * Stays page — the pinned scroll still advances through every room.
+   */
+  showTabs?: boolean;
+  /**
+   * BaseSection vertical spacing. Pass a smaller step when the showcase
+   * is the page's last section so it sits closer to the footer.
+   */
+  spacing?: 'sm' | 'md' | 'lg';
+}>();
 
 const rooms = useRoomsCatalog();
 
