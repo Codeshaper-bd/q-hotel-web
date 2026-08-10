@@ -1,4 +1,4 @@
-1. The current tagline does not align with our positioning as a business hotel; please revise it to better reflect our brand identity.
+1. The current tagline does not align with our positioning as a business hotel; please revise it to better reflect our brand identity.(DONE)
 2. Under the "About Us" section, please replace "Two Restaurants" with "Food and Beverage." -- Dining (DONE)
 3. Update the room rates as follows: Standard: USD 75++, Deluxe: USD 95++, Executive Suite: USD 125++, and Presidential: USD 350++. (DONE)
 4. Update the room sizes to: Standard: 300 sft, Deluxe: 345 sft, Executive Suite: 645 sft, and Presidential: 3,775 sft. (DONE)

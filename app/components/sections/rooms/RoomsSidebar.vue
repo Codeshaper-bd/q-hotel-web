@@ -107,7 +107,7 @@ interface PolicyItem {
 
 const policyItems: PolicyItem[] = [
   {
-    label: 'Check-in: 3:00 pm',
+    label: 'Check-in: 2:00 pm',
     iconPaths: ['M12 7v5l3 2', 'M12 21a9 9 0 100-18 9 9 0 000 18z'],
   },
   {

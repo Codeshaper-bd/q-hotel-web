@@ -1,7 +1,7 @@
 <template>
   <!--
     Static full-bleed cover with a breadcrumb, matching the other secondary
-    page banners (Rooms, Careers, Contact): a photo, the trail back to Home,
+    page banners (Rooms, Contact): a photo, the trail back to Home,
     and the page title.
   -->
   <section aria-labelledby="sitemap-banner-title" class="relative isolate bg-ink text-paper">

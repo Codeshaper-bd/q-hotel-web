@@ -391,7 +391,6 @@ const linkColumns = [
       { label: 'Meetings & Events', to: '/meetings-events' },
       { label: 'Offer & Packages', to: '/offers' },
       { label: 'Gallery', to: '/gallery' },
-      { label: 'Careers', to: '/careers' },
       { label: 'Site Map', to: '/sitemap' },
     ],
   },
