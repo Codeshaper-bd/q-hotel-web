@@ -5,8 +5,6 @@
     aria-labelledby="home-title"
     class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-night text-paper"
   >
-    <!-- Full-bleed cover photo with a fixed dark scrim, server-rendered so the
-         hero reads instantly — JS only adds a slow settle zoom on arrival. -->
     <div ref="bgRef" aria-hidden="true" class="absolute inset-0">
       <BaseImage
         src="/images/hero/lounge-suite.jpg"
@@ -21,16 +19,14 @@
 
     <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-24">
       <div class="relative">
-        <div ref="textRef" class="max-w-2xl xl:max-w-[900px]">
-          <!-- Word-level reveal: each word rises through its own clipped
-               window (built by JS on mount). -->
+        <div ref="textRef" >
           <div class="overflow-hidden pb-2">
             <h1
               id="home-title"
               ref="headlineRef"
               class="font-display text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl xl:text-[64px] xl:leading-[80px]"
             >
-              A new hospitality destination where glamour meets tranquility
+              A new hospitality destination where <br/> glamour meets tranquility
             </h1>
           </div>
           <p
@@ -44,7 +40,7 @@
 
         <div
           ref="consoleRef"
-          class="mt-10 w-full xl:absolute xl:bottom-0 xl:right-0 xl:mt-0 xl:w-[40rem]"
+          class="mt-10 w-full xl:absolute xl:bottom-0 xl:right-28 xl:mt-0 xl:w-[40rem]"
         >
           <HeroBookingSearch @search="handleSearch" />
         </div>
