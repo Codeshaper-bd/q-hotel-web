@@ -2,12 +2,13 @@
 2. Under the "About Us" section, please replace "Two Restaurants" with "Food and Beverage." -- Dining (DONE)
 3. Update the room rates as follows: Standard: USD 75++, Deluxe: USD 95++, Executive Suite: USD 125++, and Presidential: USD 350++. (DONE)
 4. Update the room sizes to: Standard: 300 sft, Deluxe: 345 sft, Executive Suite: 645 sft, and Presidential: 3,775 sft. (DONE)
-5. Set the official check-in time to 2:00 PM.
-6. Remove the "Careers" page from the website.
-7. Add a note stating that smoking rooms are available, subject to advance booking.
+5. Set the official check-in time to 2:00 PM. (DONE)
+6. Remove the "Careers" page from the website. (DONE)
+7. Add a note stating that smoking rooms are available, subject to advance booking. (DONE)
 8. Indicate that the distance to the airport is 10.5 km (approximately 15 minutes).
-9. Restrict the "Reserve Now" button to the room reservation page only, rather than including it on multiple pages.
-10. Update the contact email address to info@qhl.com.bd.
-11. Update the additional charges to: Service Charge: 12.5%, City Tax: 1.5%, and VAT: 15%.
+9. Restrict the "Reserve Now" button to the room reservation page only, rather than including it on multiple pages. (DONE)
+10. Update the contact email address to info@qhl.com.bd. (DONE)
+11. Update the additional charges to: Service Charge: 12.5%, City Tax: 1.5%, and VAT: 15%. (Booking Page)
 12. Update the cancellation policy to the following: "Standard reservations may be cancelled free of charge up to 24 hours prior to the scheduled check-in date. Cancellations made within 24 hours of arrival, as well as no-shows, will incur a charge equivalent to one night’s room rate plus applicable taxes. Please note that certain promotional or special rates may be non-refundable and subject to different cancellation terms."
-13. Correct the spelling error in the "Long Stay Special Rates" box, updating the term to "optional."
+(Booking Page)
+13. Correct the spelling error in the "Long Stay Special Rates" box, updating the term to "optional." (Sukanto Bhai Bujena )

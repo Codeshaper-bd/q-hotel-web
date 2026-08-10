@@ -36,7 +36,7 @@ const categories: FaqCategory[] = [
     items: [
       {
         question: 'How can I book a room at Q Hotel Dhaka?',
-        answer: 'You can reserve directly through the "Reserve Now" button or the search console on our website, by calling our reservations desk, or by emailing info@qfl.com.bd. Booking direct guarantees our best available rate.',
+        answer: 'You can reserve directly through the "Reserve Now" button or the search console on our website, by calling our reservations desk, or by emailing info@qhl.com.bd. Booking direct guarantees our best available rate.',
       },
       {
         question: 'Can I modify or cancel my reservation?',

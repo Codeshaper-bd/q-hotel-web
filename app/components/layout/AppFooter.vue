@@ -91,7 +91,7 @@
               <svg class="h-4 w-4 shrink-0 text-paper/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75A2.25 2.25 0 014.5 4.5h15a2.25 2.25 0 012.25 2.25m-19.5 0v10.5A2.25 2.25 0 004.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75m-19.5 0l9.75 6.75 9.75-6.75" />
               </svg>
-              <a class="transition-colors duration-fast hover:text-champagne" href="mailto:info@qfl.com.bd">info@qfl.com.bd</a>
+              <a class="transition-colors duration-fast hover:text-champagne" href="mailto:info@qhl.com.bd">info@qhl.com.bd</a>
             </li>
             <li class="flex items-start gap-3">
               <svg class="mt-0.5 h-4 w-4 shrink-0 text-paper/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -103,23 +103,6 @@
           </ul>
 
           <div class="mt-auto flex flex-wrap items-stretch gap-3 pt-10">
-            <!-- Reserve: gold split control with bed icon -->
-            <NuxtLink
-              to="#reserve"
-              class="group inline-flex min-h-11 items-stretch bg-champagne text-night transition-colors duration-fast hover:bg-gold"
-            >
-              <span class="flex items-center px-5 text-[0.7rem] font-semibold uppercase tracking-[0.14em]">
-                Reserve Now
-              </span>
-              <span class="flex items-center border-l border-night/20 px-3.5" aria-hidden="true">
-                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2 20v-8a2 2 0 012-2h16a2 2 0 012 2v8" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20" />
-                </svg>
-              </span>
-            </NuxtLink>
-
             <!-- Directions: outline split control with arrow -->
             <a
               :href="directionsUrl"

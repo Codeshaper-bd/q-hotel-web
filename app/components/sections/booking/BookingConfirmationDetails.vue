@@ -109,7 +109,7 @@
             Call <a href="tel:+8801713377700" class="text-copper">+88-01713377700</a>
           </p>
           <p class="text-sm text-ink/60">
-            Or, email <a href="mailto:info@qfl.com.bd" class="text-copper">info@qfl.com.bd</a>
+            Or, email <a href="mailto:info@qhl.com.bd" class="text-copper">info@qhl.com.bd</a>
           </p>
         </div>
       </div>

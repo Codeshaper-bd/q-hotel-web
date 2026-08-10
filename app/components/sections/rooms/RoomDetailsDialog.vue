@@ -162,6 +162,53 @@
               </ul>
             </div>
           </div>
+
+          <div
+            v-if="getRowNote(row)"
+            class="mt-8 flex items-start gap-3 bg-[#F9F0DB] py-6 px-4"
+          >
+            <svg
+              class="h-6 w-6 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <rect width="24" height="24" rx="12" fill="#23272E" />
+              <path
+                d="M14.9167 12H6.75008C6.59537 12 6.447 12.0615 6.3376 12.1709C6.22821 12.2803 6.16675 12.4286 6.16675 12.5833V13.75C6.16675 13.9047 6.22821 14.0531 6.3376 14.1625C6.447 14.2719 6.59537 14.3333 6.75008 14.3333H14.9167"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15.4999 9.66667C15.4999 8.20833 14.3333 8.20833 14.3333 6.75"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M17.25 14.3333C17.4047 14.3333 17.5531 14.2719 17.6625 14.1625C17.7719 14.0531 17.8333 13.9047 17.8333 13.75V12.5833C17.8333 12.4286 17.7719 12.2803 17.6625 12.1709C17.5531 12.0615 17.4047 12 17.25 12"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M17.8334 9.66667C17.8334 8.20833 16.6667 8.20833 16.6667 6.75"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9.08325 12V14.3333"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <p class="text-lg leading-5 text-[#0F0F10]">
+              {{ getRowNote(row) }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -329,9 +376,14 @@ interface AmenityCategory {
   title: string;
   iconPaths: readonly string[];
   lines: string[];
+  note?: string;
 }
 
 /** Static placeholder copy, grouped to match the Figma "Room Details Pop-up" */
+function getRowNote(row: AmenityCategory[]): string | undefined {
+  return row.find((category) => category.note)?.note;
+}
+
 const amenityRows: AmenityCategory[][] = [
   [
     {
@@ -369,6 +421,7 @@ const amenityRows: AmenityCategory[][] = [
         "Hooks",
         "USB outlets",
       ],
+      note: "Smoking rooms available upon advance request, subject to availability.",
     },
     {
       title: "Bath and Bathroom Features",

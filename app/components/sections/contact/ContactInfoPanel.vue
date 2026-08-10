@@ -16,11 +16,11 @@
 
       <div>
         <p class="text-base text-ink/65">Email Address</p>
-        <a href="mailto:info@qfl.com.bd" class="mt-2 flex items-center gap-3 font-display text-2xl text-ink transition-colors duration-fast hover:text-copper">
+        <a href="mailto:info@qhl.com.bd" class="mt-2 flex items-center gap-3 font-display text-2xl text-ink transition-colors duration-fast hover:text-copper">
           <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.5 6.5h17v11h-17v-11zM3.5 6.5l8.5 7 8.5-7" />
           </svg>
-          info@qfl.com.bd
+          info@qhl.com.bd
         </a>
       </div>
     </div>
