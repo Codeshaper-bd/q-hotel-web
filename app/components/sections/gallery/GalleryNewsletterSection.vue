@@ -2,7 +2,7 @@
   <!-- Stay Connected: newsletter/social CTA band closing the gallery page —
        tagline + heading + photo strip on a cream surface, a sand social-links
        bar, and three feature blurbs. -->
-  <BaseSection id="gallery-connect" labelled-by="gallery-connect-title" tone="paper" spacing="lg" container-size="xl">
+  <BaseSection id="gallery-connect" labelled-by="gallery-connect-title" tone="paper" spacing="lg" container-size="xl" class="!pt-[70px]">
     <FadeReveal>
       <div class="bg-cream p-8 sm:p-12">
         <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
