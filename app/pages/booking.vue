@@ -7,12 +7,12 @@
     />
 
     <BaseSection container-size="xl" tone="paper" spacing="md">
-      <h1 class="font-display text-4xl text-ink sm:text-5xl">
+      <h1 class="font-display font-semibold text-4xl text-[#0F0F10] sm:text-5xl lg:text-[56px]">
         Complete Your Booking
       </h1>
 
       <form
-        class="mt-10 lg:grid lg:grid-cols-[1fr_26rem] lg:items-start lg:gap-8"
+        class="mt-10 lg:grid lg:grid-cols-[1fr_36rem] lg:items-start lg:gap-8"
         @submit.prevent="handleSubmit"
       >
         <div class="flex flex-col gap-8">

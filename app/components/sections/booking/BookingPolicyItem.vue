@@ -14,7 +14,7 @@
       class="flex w-full items-center justify-between gap-4 text-left"
       @click="emit('update:modelValue', !modelValue)"
     >
-      <span class="font-display text-2xl text-ink sm:text-3xl">{{ title }}</span>
+      <span class="font-display text-2xl sm:text-3xl md:text-[32px] font-semibold text-[#0F0F10]">{{ title }}</span>
       <svg
         class="h-6 w-6 shrink-0 text-ink/50 transition-transform duration-normal ease-premium motion-reduce:transition-none"
         :class="modelValue ? 'rotate-180' : ''"

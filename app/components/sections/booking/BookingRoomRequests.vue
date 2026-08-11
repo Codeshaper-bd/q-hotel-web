@@ -8,13 +8,43 @@
   <div class="bg-white p-7 pb-2 sm:p-10 sm:pb-2">
     <BookingPolicyItem v-model="open" title="Room Requests and Accessibility">
       <div>
-        <p
-          class="text-xs font-medium uppercase tracking-[0.06em] text-ink/60"
+        <div
+          class="text-sm font-normal uppercase tracking-[0.06em] text-[#373737] flex items-center gap-2"
         >
           Smoking Preference
-        </p>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+              stroke="#A75B27"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 16H12.01V16.01H12V16Z"
+              stroke="#A75B27"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 12V8"
+              stroke="#A75B27"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
 
-        <div class="mt-3 flex items-start gap-3 bg-[#F9F0DB] p-4 sm:p-5">
+        <div
+          class="mt-3 flex items-start gap-3 bg-[#F9F0DB] border-b-2 border-[#EED4A3] p-4 sm:p-5"
+        >
           <svg
             class="h-6 w-6 shrink-0"
             viewBox="0 0 24 24"
@@ -69,10 +99,17 @@
                 type="radio"
                 name="smokingPreference"
                 value="non-smoking"
+              />
+              <span
+                :class="
+                  form.smokingPreference === 'non-smoking'
+                    ? 'text-[#A75B27]'
+                    : 'text-[#505155]'
+                "
+                class="text-base font-medium"
               >
-              <span class="text-sm leading-6 text-ink">
                 Non-smoking room
-                <span class="text-ink/55">(Default)</span>
+                <span>(Default)</span>
               </span>
             </label>
             <label class="flex cursor-pointer items-start gap-3">
@@ -82,10 +119,17 @@
                 type="radio"
                 name="smokingPreference"
                 value="smoking"
+              />
+              <span
+                :class="
+                  form.smokingPreference === 'smoking'
+                    ? 'text-[#A75B27]'
+                    : 'text-[#505155]'
+                "
+                class="text-base font-medium"
               >
-              <span class="text-sm leading-6 text-ink">
                 Smoking room
-                <span class="text-ink/55">(Upon advanced request)</span>
+                <span>(Upon advanced request)</span>
               </span>
             </label>
           </div>
@@ -93,9 +137,10 @@
       </div>
 
       <div>
+        <div class="mt-8"></div>
         <label
           for="special-request"
-          class="mb-2.5 block text-xs font-medium uppercase tracking-[0.06em] text-ink/60"
+          class="mb-2.5 block text-sm font-normal uppercase tracking-[0.06em] text-[#373737]"
         >
           Special Request (Optional)
         </label>
@@ -105,7 +150,7 @@
           name="specialRequest"
           rows="4"
           placeholder="Write what you need..."
-          class="w-full resize-y border border-ink/40 bg-white px-4 py-3.5 text-base text-ink placeholder:text-ink/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean"
+          class="w-full resize-y border border-ink/40 bg-white px-4 py-3.5 text-base text-ink placeholder:text-[#373737] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean"
         />
       </div>
     </BookingPolicyItem>
@@ -113,12 +158,12 @@
 </template>
 
 <script setup lang="ts">
-const open = ref(false)
+const open = ref(false);
 
 // Controlled state (like BookingGuestForm): submitted with the parent form
 // via the inputs' `name` attributes; no backend target exists yet.
 const form = reactive({
-  smokingPreference: 'non-smoking',
-  specialRequest: '',
-})
+  smokingPreference: "non-smoking",
+  specialRequest: "",
+});
 </script>

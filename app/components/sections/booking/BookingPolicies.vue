@@ -5,11 +5,11 @@
         v-model="openSections.deposit"
         title="Deposit and Cancellation Policy"
       >
-        <p class="text-base text-ink">{{ room.name }}</p>
-        <p class="text-xs font-semibold uppercase text-[#373737]">
+        <p class="text-lg font-medium text-[#373737]">{{ room.name }}</p>
+        <p class="text-base font-normal uppercase text-[#373737]">
           Book Now Pay Later — Member Exclusive
         </p>
-        <p>
+        <p class="text-base text-[#505155]">
           Standard reservations may be cancelled free of charge up to 24 hours
           prior to the scheduled check-in date. Cancellations made within 24
           hours of arrival, as well as no-shows, will incur a charge equivalent
@@ -23,27 +23,32 @@
         v-model="openSections.taxes"
         title="Description of Taxes and Additional Charges"
       >
-        <p class="text-base text-ink">{{ room.name }}</p>
-        <p>Best Flexible Member Exclusive Rate</p>
-        <ul class="list-disc space-y-2 pl-5">
-          <li>12.5% Service Charge</li>
-          <li>City Tax: 1.5%, and VAT: 15%.</li>
-          <li>Security deposit: applicable for all bookings.</li>
-        </ul>
+        <p class="text-lg font-medium text-[#373737]">{{ room.name }}</p>
+        <p class="text-base text-[#505155]">
+          Best Flexible Member Exclusive Rate
+        </p>
+        <div>
+          <p class="text-base">12.5% Service Charge</p>
+          <p class="text-base">City Tax: 1.5%, and VAT: 15%.</p>
+          <p class="text-base">
+            Security deposit: applicable for all bookings.
+          </p>
+        </div>
       </BookingPolicyItem>
 
       <BookingPolicyItem
         v-model="openSections.otherCharges"
         title="Other Charges That May Apply"
       >
-        <p>
+        <p class="text-lg font-medium text-[#373737]">
           Some services may be charged separately during your stay. Check if it
           applies to you:
         </p>
-        <ul class="list-disc space-y-2 pl-5">
-          <li>12.5% Service Charge</li>
-          <li>Early Departure Fee — $90</li>
-        </ul>
+        <p class="text-base text-[#505155]">12.5% Service Charge</p>
+        <div>
+          <p class="text-lg font-medium text-[#373737]">Early Departure Fee</p>
+          <p class="text-base text-[#505155] mt-0.5">10,000 BDT</p>
+        </div>
       </BookingPolicyItem>
 
       <BookingPolicyItem
@@ -51,10 +56,10 @@
         title="Payment Policies"
       >
         <div>
-          <p class="text-base text-ink">
+          <p class="text-lg font-medium text-[#373737]">
             Why do we require a payment card for internet reservations?
           </p>
-          <p class="mt-2">
+          <p class="mt-2 text-base text-[#505155]">
             By securing your online reservation with a payment method, you are
             eligible for our Reservations Guarantee. If your reservation cannot
             be honored, the host hotel will provide a room at, and
@@ -65,11 +70,11 @@
           </p>
         </div>
         <div>
-          <p class="text-base text-ink">
+          <p class="text-lg font-medium text-[#373737]">
             A credit or debit card must be presented upon check-in at the hotel.
             Booking with a debit card?
           </p>
-          <p class="mt-2">
+          <p class="mt-2 text-base text-[#505155]">
             Most Q Hotel properties place a hold on a debit card when it is
             presented at check-in. The hold amount varies depending on the rate
             type booked and can include the entire price of the stay, plus
@@ -86,12 +91,12 @@
       </BookingPolicyItem>
 
       <BookingPolicyItem v-model="openSections.pet" title="Pet Policy">
-        <p>Pets are not allowed in the hotel.</p>
+        <p class="text-xl font-medium text-[#373737]">Pets are not allowed in the hotel.</p>
       </BookingPolicyItem>
 
       <BookingPolicyItem v-model="openSections.disclaimers" title="Disclaimers">
-        <p class="text-base text-ink">Taxes and charges may fluctuate:</p>
-        <p>
+        <p class="text-lg text-[#373737] font-medium">Taxes and charges may fluctuate:</p>
+        <p class="text-base text-[#505155]">
           As taxes and additional charges may fluctuate from the time a
           reservation is made until the actual stay and during the actual stay,
           the Total Price is an estimate. Estimated price includes room rate,
@@ -107,37 +112,37 @@
         Terms and Conditions
       </h2>
 
-      <p class="mt-6 text-base leading-8 text-ink/70">
+      <p class="mt-6 text-lg font-medium  text-[#373737]">
         By booking I certify that I have read and accept the
-        <NuxtLink to="/terms" class="text-copper underline underline-offset-2"
+        <NuxtLink to="/terms" class="text-[#864926] underline underline-offset-2"
           >Terms of Use</NuxtLink
         >
         and
         <NuxtLink
           to="/privacy-policy"
-          class="text-copper underline underline-offset-2"
+          class="text-[#864926] underline underline-offset-2"
           >Privacy Statement</NuxtLink
         >
         and I have read and understand the Rate Description and Rate Rules for
         my reservation.
       </p>
-      <p class="mt-4 text-base leading-8 text-ink/70">
+      <p class="mt-4 text-lg font-medium  text-[#373737]">
         By joining Q Hotel Rewards, I confirm that I have read, understood, and
         agree to the Q Hotel Rewards
-        <NuxtLink to="/terms" class="text-copper underline underline-offset-2"
+        <NuxtLink to="/terms" class="text-[#864926] underline underline-offset-2"
           >Membership Terms &amp; Conditions</NuxtLink
         >
         and
         <NuxtLink
           to="/privacy-policy"
-          class="text-copper underline underline-offset-2"
+          class="text-[#864926] underline underline-offset-2"
           >Privacy Policy</NuxtLink
         >
         applicable in Bangladesh.
       </p>
 
       <p
-        class="mt-8 flex items-center justify-center gap-2 text-center text-base font-medium text-moss"
+        class="mt-8 flex items-center justify-center gap-2 text-center text-lg font-medium text-[#008000]"
       >
         <svg
           class="h-4 w-4 shrink-0"
@@ -158,10 +163,10 @@
       <div class="mt-6 flex justify-center">
         <button
           type="submit"
-          class="group inline-flex min-h-[60px] items-stretch bg-champagne text-ink transition-colors duration-fast hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
+          class="group bg-[#EED4A3] inline-flex min-h-[60px] items-stretch  text-ink transition-colors duration-fast hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
         >
           <span
-            class="flex items-center px-8 text-sm font-semibold uppercase tracking-[0.1em]"
+            class="flex items-center px-8 text-sm font-semibold text-[#0F0F10] uppercase"
           >
             Payment Now
           </span>

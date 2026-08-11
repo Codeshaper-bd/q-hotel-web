@@ -1,16 +1,14 @@
 <template>
-  <!--
-    One row of the room list: a photo beside a copper-framed dark details
-    panel — the same panel language as the home page's RoomsSection card,
-    laid out side by side instead of pinned/overlaid since every room is
-    visible in the list at once rather than stepped through.
-  -->
+  <!-- Full-bleed room photography with the existing details panel inset
+       over the right side, matching the gallery-led room card design. -->
   <article
-    class="flex flex-col bg-transparent sm:h-[500px] sm:flex-row sm:gap-6"
+    class="relative flex h-[820px] flex-col justify-end overflow-hidden bg-ink sm:items-end sm:justify-center lg:h-[620px]"
+    @mouseenter="pauseSlider"
+    @mouseleave="startSlider"
+    @focusin="pauseSlider"
+    @focusout="handleFocusOut"
   >
-    <div
-      class="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-line/40 sm:aspect-auto sm:h-full sm:w-[58%]"
-    >
+    <div class="absolute inset-0 overflow-hidden bg-line/40">
       <Transition name="room-image">
         <BaseImage
           :key="selectedImage.src"
@@ -24,12 +22,14 @@
       </Transition>
 
       <div
-        v-if="room.images.length > 1"
-        class="absolute inset-x-0 bottom-4 flex justify-center gap-1"
+        v-if="slideImages.length > 1"
+        class="absolute top-4 right-4 z-20 flex gap-1 lg:inset-x-0 lg:bottom-4 lg:top-auto lg:right-[42%] lg:justify-center"
       >
-        <div class="rounded-full bg-black/50 py-1.5 px-2.5 flex items-center gap-1.5">
+        <div
+          class="rounded-full bg-black/50 py-1.5 px-2.5 flex items-center gap-1.5"
+        >
           <button
-            v-for="(image, imageIndex) in room.images"
+            v-for="(image, imageIndex) in slideImages"
             :key="image.src"
             type="button"
             :class="[
@@ -47,10 +47,10 @@
     </div>
 
     <div
-      class="relative flex w-full flex-col bg-ink p-7 text-paper sm:h-full sm:w-[42%] sm:p-0"
+      class="absolute bottom-0 left-0 right-0 z-10 flex flex-col p-7 text-paper sm:p-9 motion-safe:lg:inset-y-4 motion-safe:lg:left-auto motion-safe:lg:right-4 motion-safe:lg:w-[27rem] room-card motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]"
     >
       <div
-        class="flex flex-col sm:absolute sm:inset-5 sm:border sm:border-copper sm:p-7"
+        class="motion-safe:lg:absolute motion-safe:lg:inset-4 motion-safe:lg:flex motion-safe:lg:flex-col motion-safe:lg:border motion-safe:lg:border-copper motion-safe:lg:p-7 motion-safe:xl:inset-5 motion-safe:xl:p-8"
       >
         <span
           class="self-start border border-[#F9F0DB] px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.18em] text-paper"
@@ -66,8 +66,13 @@
           {{ room.description }}
         </p>
 
-        <ul class="mt-6 space-y-2.5 text-base text-paper">
-          <li class="flex items-center gap-3">
+        <div
+          class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 lg:mt-6 lg:block"
+        >
+          <ul
+            class="flex flex-wrap items-center gap-x-6 gap-y-2.5 text-base text-paper lg:block lg:space-y-2.5"
+          >
+            <li class="flex items-center gap-3">
             <svg
               class="h-5 w-5 shrink-0 text-paper"
               viewBox="0 0 20 20"
@@ -132,10 +137,16 @@
           </li>
         </ul>
 
-        <!-- Pinned to the panel's bottom: mt-auto absorbs any space the
-             copy leaves, so the actions always rest on the lower edge -->
-        <div class="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-6">
-          <BaseArrowCta :to="`/booking?room=${room.id}`" variant="gold" label-class="text-[13px] leading-[20px] font-medium">
+        <!-- Below lg the features and actions share one wrapping row;
+             from lg, mt-auto pins the actions to the panel's lower edge -->
+        <div
+          class="flex flex-wrap items-center gap-x-6 gap-y-3 lg:mt-auto lg:pt-6"
+        >
+          <BaseArrowCta
+            :to="`/booking?room=${room.id}`"
+            variant="gold"
+            label-class="text-[13px] leading-[20px] font-medium"
+          >
             Book Now
           </BaseArrowCta>
           <button
@@ -159,6 +170,7 @@
               />
             </svg>
           </button>
+          </div>
         </div>
       </div>
     </div>
@@ -176,15 +188,82 @@ const props = defineProps<{
 
 const selectedImageIndex = ref(0);
 const isDetailsOpen = ref(false);
+const { prefersReducedMotion } = useReducedMotion();
+
+const demoImages: Room["images"] = [
+  { src: "/images/rooms/standard-double.jpg", alt: "Standard Double Room with warm wood finishes" },
+  { src: "/images/rooms/deluxe-twin-1.jpg", alt: "Deluxe Twin Room with premium single beds" },
+  { src: "/images/rooms/deluxe-twin-2.jpg", alt: "Deluxe Twin Room seating and work area" },
+  { src: "/images/rooms/deluxe-double.jpg", alt: "Deluxe Double Room with a king bed" },
+  { src: "/images/rooms/executive-suite.jpg", alt: "Executive Suite with a spacious bedroom" },
+  { src: "/images/rooms/presidential-suite.jpg", alt: "Presidential Suite living area" },
+];
+
+const slideImages = computed(() => {
+  const imagesBySource = new Map(
+    [...props.room.images, ...demoImages].map((image) => [image.src, image]),
+  );
+  return [...imagesBySource.values()];
+});
 
 const selectedImage = computed(
   () =>
-    props.room.images[selectedImageIndex.value] ??
-    (props.room.images[0] as Room["images"][number]),
+    slideImages.value[selectedImageIndex.value] ??
+    (slideImages.value[0] as Room["images"][number]),
 );
+
+let sliderInterval: ReturnType<typeof setInterval> | undefined;
+
+function pauseSlider() {
+  if (sliderInterval) {
+    clearInterval(sliderInterval);
+    sliderInterval = undefined;
+  }
+}
+
+function startSlider() {
+  pauseSlider();
+  if (prefersReducedMotion.value || slideImages.value.length < 2) return;
+  sliderInterval = setInterval(() => {
+    selectedImageIndex.value =
+      (selectedImageIndex.value + 1) % slideImages.value.length;
+  }, 5000);
+}
+
+function handleFocusOut(event: FocusEvent) {
+  const nextTarget = event.relatedTarget;
+  const sliderElement = event.currentTarget;
+  if (
+    !(sliderElement instanceof HTMLElement) ||
+    !(nextTarget instanceof Node) ||
+    !sliderElement.contains(nextTarget)
+  ) {
+    startSlider();
+  }
+}
+
+watch(() => props.room.id, () => {
+  selectedImageIndex.value = 0;
+  startSlider();
+});
+
+onMounted(startSlider);
+onBeforeUnmount(pauseSlider);
 </script>
 
 <style scoped>
+.room-card {
+  background: rgba(15, 15, 15, 0.82);
+
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 20px 50px rgba(0, 0, 0, 0.2);
+}
 .room-image-enter-active,
 .room-image-leave-active {
   transition: opacity var(--duration-normal) var(--ease-premium);

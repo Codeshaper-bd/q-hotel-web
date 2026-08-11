@@ -348,51 +348,58 @@
             <ul class="mt-6 space-y-3.5 text-base text-[#ACACAC]">
               <li
                 v-for="info in hotelInformation"
-                :key="info"
+                :key="info.label"
                 class="flex items-start gap-2.5"
               >
                 <svg
-                  class="mt-0.5 h-3.5 w-3.5 shrink-0 text-champagne/70"
-                  viewBox="0 0 24 24"
+                  class="mt-[3px] size-4 shrink-0 text-[#ACACAC]"
+                  :viewBox="info.viewBox"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="1.5"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                   aria-hidden="true"
                 >
-                  <circle cx="12" cy="12" r="9" />
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M8.5 12.5l2.5 2.5 4.5-5"
+                    v-for="path in info.paths"
+                    :key="path"
+                    :d="path"
                   />
                 </svg>
-                {{ info }}
+                {{ info.label }}
               </li>
             </ul>
           </div>
         </div>
 
         <div
-          class="flex flex-col gap-4 border-t border-paper/10 py-7 sm:flex-row sm:items-center sm:justify-between"
+          class="flex flex-col gap-4 border-t border-paper/10 py-7 lg:flex-row lg:items-center lg:justify-between"
         >
-          <div class="flex flex-wrap items-center gap-4">
+          <div
+            class="flex w-full flex-col items-start gap-3 sm:w-auto sm:flex-1 lg:flex-row lg:items-center lg:gap-4"
+          >
             <span
-              class="shrink-0 text-sm lg:text-2xl font-display font-semibold text-paper"
+              class="shrink-0 text-sm font-display font-semibold text-paper sm:text-lg lg:text-2xl"
               >We Accept:</span
             >
-            <img
-              src="/images/footer/visa_cards.png"
-              alt="Accepted payment methods: Visa, Nagad, bKash, American Express, Mastercard, DBBL, Upay, Apple Pay, NexusPay, iPay, cityBank, Brac Bank, Bank Asia, Islami Bank, Q-Cash, fastcash, Upay, and City Bank Direct"
-              width="1244"
-              height="48"
-              loading="lazy"
-              class="h-6 w-auto max-w-full sm:h-7"
-            />
-            <span class="shrink-0 text-base text-paper">and more........</span>
+            <div class="sm:flex-1 flex items-center gap-3">
+              <img
+                src="/images/footer/visa_cards.png"
+                alt="Accepted payment methods: Visa, Nagad, bKash, American Express, Mastercard, DBBL, Upay, Apple Pay, NexusPay, iPay, cityBank, Brac Bank, Bank Asia, Islami Bank, Q-Cash, fastcash, Upay, and City Bank Direct"
+                width="1244"
+                height="48"
+                loading="lazy"
+                class="h-auto w-full max-w-full min-w-0 sm:w-auto "
+              />
+              <span class="shrink-0 text-sm text-paper sm:text-base"
+                >and more........</span
+              >
+            </div>
           </div>
 
           <div
-            class="flex shrink-0 flex-col items-center justify-center gap-1.5"
+            class="flex shrink-0 flex-col lg:items-center lg:justify-center gap-1.5"
           >
             <span class="text-base text-paper">Verified By</span>
             <img
@@ -401,7 +408,7 @@
               width="145"
               height="31"
               loading="lazy"
-              class="h-6 w-auto sm:h-7"
+              class="h-6 lg:w-auto sm:h-7"
             />
           </div>
         </div>
@@ -542,11 +549,49 @@ const nearbyAttractions = [
 ];
 
 const hotelInformation = [
-  "Check-In: 2:00 PM",
-  "Check-Out: 12:00 PM",
-  "Minimum age to Check In: 18",
-  "Pets are not allowed.",
-  "Complimentary On-Site Parking"
+  {
+    label: 'Check-In: 2:00 PM',
+    viewBox: '0 0 16 16',
+    paths: [
+      'M8 4V8H11M14 8C14 8.78793 13.8448 9.56815 13.5433 10.2961 13.2417 11.0241 12.2426 11.6855 12.2426 12.2426C11.6855 12.7998 11.0241 13.2417 10.2961 13.5433C9.56815 13.8448 8.78793 14 8 14C7.21207 14 6.43185 13.8448 5.7039 13.5433C4.97595 13.2417 4.31451 12.7998 3.75736 12.2426C3.20021 11.6855 2.75825 11.0241 2.45672 10.2961C2.15519 9.56815 2 8.78793 2 8C2 6.4087 2.63214 4.88258 3.75736 3.75736C4.88258 2.63214 6.4087 2 8 2C9.5913 2 11.1174 2.63214 12.2426 3.75736C13.3679 4.88258 14 6.4087 14 8Z',
+    ],
+  },
+  {
+    label: 'Check-Out: 12:00 PM',
+    viewBox: '0 0 16 16',
+    paths: [
+      'M8 4V8H11M14 8C14 8.78793 13.8448 9.56815 13.5433 10.2961 13.2417 11.0241 12.2426 11.6855 12.2426 12.2426C11.6855 12.7998 11.0241 13.2417 10.2961 13.5433C9.56815 13.8448 8.78793 14 8 14C7.21207 14 6.43185 13.8448 5.7039 13.5433C4.97595 13.2417 4.31451 12.7998 3.75736 12.2426C3.20021 11.6855 2.75825 11.0241 2.45672 10.2961C2.15519 9.56815 2 8.78793 2 8C2 6.4087 2.63214 4.88258 3.75736 3.75736C4.88258 2.63214 6.4087 2 8 2C9.5913 2 11.1174 2.63214 12.2426 3.75736C13.3679 4.88258 14 6.4087 14 8Z',
+    ],
+  },
+  {
+    label: 'Minimum age to Check In: 18',
+    viewBox: '0 0 16 16',
+    paths: [
+      'M10.667 7.33333L12.0003 8.66667L14.667 6',
+      'M10.6663 14V12.6667C10.6663 11.9594 10.3854 11.2811 9.88529 10.781C9.3852 10.281 8.70692 10 7.99967 10H3.99967C3.29243 10 2.61415 10.281 2.11406 10.781C1.61396 11.2811 1.33301 11.9594 1.33301 12.6667V14',
+      'M5.99967 7.33333C7.47243 7.33333 8.66634 6.13943 8.66634 4.66667C8.66634 3.19391 7.47243 2 5.99967 2C4.52692 2 3.33301 3.19391 3.33301 4.66667C3.33301 6.13943 4.52692 7.33333 5.99967 7.33333Z',
+    ],
+  },
+  {
+    label: 'Pets are not allowed.',
+    viewBox: '0 0 16 16',
+    paths: [
+      'M7.33333 3.9987C8.06971 3.9987 8.66667 3.40174 8.66667 2.66536C8.66667 1.92898 8.06971 1.33203 7.33333 1.33203C6.59695 1.33203 6 1.92898 6 2.66536C6 3.40174 6.59695 3.9987 7.33333 3.9987Z',
+      'M12.0003 6.66667C12.7367 6.66667 13.3337 6.06971 13.3337 5.33333C13.3337 4.59695 12.7367 4 12.0003 4C11.2639 4 10.667 4.59695 10.667 5.33333C10.667 6.06971 11.2639 6.66667 12.0003 6.66667Z',
+      'M13.3333 11.9987C14.0697 11.9987 14.6667 11.4017 14.6667 10.6654C14.6667 9.92898 14.0697 9.33203 13.3333 9.33203C12.597 9.33203 12 9.92898 12 10.6654C12 11.4017 12.597 11.9987 13.3333 11.9987Z',
+      'M6.00048 6.66797C6.43822 6.66797 6.87168 6.75419 7.27609 6.9217C7.68051 7.08922 8.04798 7.33475 8.35751 7.64428C8.66703 7.95381 8.91257 8.32127 9.08008 8.72569C9.2476 9.13011 9.33382 9.56356 9.33382 10.0013V12.3346C9.33364 12.8923 9.13375 13.4314 8.77036 13.8544C8.40698 14.2774 7.90412 14.5562 7.35288 14.6404C6.80163 14.7247 6.23845 14.6087 5.76535 14.3135C5.29224 14.0183 4.94049 13.5635 4.77382 13.0313C4.48937 12.1135 3.88937 11.5124 2.97382 11.228C2.44194 11.0614 1.98726 10.7099 1.69206 10.2371C1.39685 9.76439 1.28063 9.20158 1.36441 8.65055C1.44819 8.09953 1.72644 7.5967 2.14882 7.23305C2.5712 6.86939 3.1098 6.66894 3.66715 6.66797H6.00048Z',
+    ],
+  },
+  {
+    label: 'Complimentary On-Site Parking',
+    viewBox: '0 0 16 16',
+    paths: [
+      'M12.6663 11.3346H13.9997C14.3997 11.3346 14.6663 11.068 14.6663 10.668V8.66797C14.6663 8.06797 14.1997 7.53464 13.6663 7.4013C12.4663 7.06797 10.6663 6.66797 10.6663 6.66797C10.6663 6.66797 9.79967 5.73464 9.19967 5.13464C8.86634 4.86797 8.46634 4.66797 7.99967 4.66797H3.33301C2.93301 4.66797 2.59967 4.93464 2.39967 5.26797L1.46634 7.2013C1.37806 7.45879 1.33301 7.72911 1.33301 8.0013V10.668C1.33301 11.068 1.59967 11.3346 1.99967 11.3346H3.33301',
+      'M4.66634 12.6667C5.40272 12.6667 5.99967 12.0697 5.99967 11.3333C5.99967 10.597 5.40272 10 4.66634 10C3.92996 10 3.33301 10.597 3.33301 11.3333C3.33301 12.0697 3.92996 12.6667 4.66634 12.6667Z',
+      'M6 11.332H10',
+      'M11.3333 12.6667C12.0697 12.6667 12.6667 12.0697 12.6667 11.3333C12.6667 10.597 12.0697 10 11.3333 10C10.597 10 10 10.597 10 11.3333C10 12.0697 10.597 12.6667 11.3333 12.6667Z',
+    ],
+  },
 ];
 
 // Newsletter submission is not yet wired to a backend; prevent the default
