@@ -45,7 +45,7 @@
               :to="item.href"
               :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
-                'mr-20 last:mr-0 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast  last:pr-0',
+                'lg:mr-12 xl:mr-20 last:mr-0 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast  last:pr-0',
                 isActive(item.href)
                   ? activeLinkColor
                   : hasSolidBackground
