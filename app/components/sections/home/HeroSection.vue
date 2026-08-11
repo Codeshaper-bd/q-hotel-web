@@ -7,31 +7,35 @@
   >
     <div ref="bgRef" aria-hidden="true" class="absolute inset-0">
       <BaseImage
-        src="/images/hero/lounge-suite.jpg"
+        src="/images/hero/bg-hero-1.png"
         alt=""
-        :width="2500"
-        :height="1567"
+        :width="1920"
+        :height="980"
         priority
         class="h-full w-full"
       />
-      <div class="absolute inset-0 bg-ink/40" />
+
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.70)_0%,rgba(0,0,0,0.00)_48.9%,#000_100%)]"
+      />
     </div>
 
-    <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-24">
-      <div class="relative">
-        <div ref="textRef" >
+    <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-12">
+      <div class="relative grid grid-cols-12 gap-3">
+        <div ref="textRef" class="col-span-12  xl:col-span-5 2xl:col-span-6">
           <div class="overflow-hidden pb-2">
             <h1
               id="home-title"
               ref="headlineRef"
-              class="font-display text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl xl:text-[64px] xl:leading-[80px]"
+              class="font-display text-4xl font-bold sm:text-[40px] sm:leading-[48px] max-w-[600px] capitalize mt-10"
             >
-              A new hospitality destination where <br/> glamour meets tranquility
+              A new hospitality destination where glamour meets tranquility
             </h1>
           </div>
           <p
             ref="leadRef"
-            class="mt-4 max-w-xl text-lg xl:max-w-[41rem] xl:text-xl xl:leading-[30px]"
+            class="max-w-xl text-lg xl:max-w-[41rem] xl:text-xl xl:leading-[30px] font-normal"
           >
             Whether you seek adventure, culture, or calm, we’ve got the perfect
             experience for every kind of traveler.
@@ -40,7 +44,7 @@
 
         <div
           ref="consoleRef"
-          class="mt-10 w-full xl:absolute xl:bottom-0 xl:right-28 xl:mt-0 xl:w-[40rem]"
+          class="mt-10 w-full col-span-12 xl:col-span-7 2xl:col-span-6 self-end"
         >
           <HeroBookingSearch @search="handleSearch" />
         </div>

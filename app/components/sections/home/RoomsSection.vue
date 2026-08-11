@@ -26,7 +26,7 @@
         <div
           role="tablist"
           aria-label="Room types"
-          class=" flex flex-wrap justify-center gap-2.5 mt-10 mb-[60px]"
+          class=" flex flex-wrap justify-center gap-2.5 mt-10 mb-4"
           @keydown="handleTablistKeydown"
         >
           <button
@@ -39,7 +39,7 @@
             :aria-controls="`room-panel-${room.id}`"
             :tabindex="activeRoomId === room.id ? 0 : -1"
             :class="[
-              'border border-[#DFA558] px-6 py-4 text-base font-medium uppercase transition-colors duration-fast',
+              'border border-[#DFA558] px-6 py-2 text-sm font-medium uppercase transition-colors duration-fast',
               activeRoomId === room.id
                 ? 'border-[#DFA558] bg-[#F9F0DB] text-[#DFA558]'
                 : 'border-[#DFA558] text-[#0F0F10] hover:border-[#DFA558] hover:text-[#DFA558]',
@@ -120,12 +120,12 @@
                 </span>
 
                 <h3
-                  class="mt-4 font-display text-3xl leading-tight sm:text-4xl"
+                  class="mt-4 font-display font-semibold text-3xl sm:text-4xl"
                 >
                   {{ room.name }}
                 </h3>
 
-                <p class="mt-3 text-sm leading-7 text-paper/80">
+                <p class="mt-3 text-base  text-paper">
                   {{ room.description }}
                 </p>
 
@@ -505,7 +505,7 @@ onMounted(async () => {
        The floor keeps the card tall enough that the details panel never needs
        to scroll internally on short viewports. */
     flex: 0 1 auto;
-    height: clamp(32rem, calc(100svh - var(--header-height) - 9rem), 48rem);
+    height: clamp(32rem, calc(100svh - var(--header-height) - 9rem - 10px), 48rem);
     min-height: 32rem;
     margin-block: auto;
     overflow: hidden;
