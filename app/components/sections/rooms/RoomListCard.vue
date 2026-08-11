@@ -3,6 +3,10 @@
        over the right side, matching the gallery-led room card design. -->
   <article
     class="relative flex h-[620px] flex-col justify-end overflow-hidden bg-ink sm:items-end sm:justify-center"
+    @mouseenter="pauseSlider"
+    @mouseleave="startSlider"
+    @focusin="pauseSlider"
+    @focusout="handleFocusOut"
   >
     <div class="absolute inset-0 overflow-hidden bg-line/40">
       <Transition name="room-image">
@@ -18,14 +22,14 @@
       </Transition>
 
       <div
-        v-if="room.images.length > 1"
+        v-if="slideImages.length > 1"
         class="absolute inset-x-0 bottom-4 z-20 flex justify-center gap-1 sm:right-[42%]"
       >
         <div
           class="rounded-full bg-black/50 py-1.5 px-2.5 flex items-center gap-1.5"
         >
           <button
-            v-for="(image, imageIndex) in room.images"
+            v-for="(image, imageIndex) in slideImages"
             :key="image.src"
             type="button"
             :class="[
@@ -176,12 +180,67 @@ const props = defineProps<{
 
 const selectedImageIndex = ref(0);
 const isDetailsOpen = ref(false);
+const { prefersReducedMotion } = useReducedMotion();
+
+const demoImages: Room["images"] = [
+  { src: "/images/rooms/standard-double.jpg", alt: "Standard Double Room with warm wood finishes" },
+  { src: "/images/rooms/deluxe-twin-1.jpg", alt: "Deluxe Twin Room with premium single beds" },
+  { src: "/images/rooms/deluxe-twin-2.jpg", alt: "Deluxe Twin Room seating and work area" },
+  { src: "/images/rooms/deluxe-double.jpg", alt: "Deluxe Double Room with a king bed" },
+  { src: "/images/rooms/executive-suite.jpg", alt: "Executive Suite with a spacious bedroom" },
+  { src: "/images/rooms/presidential-suite.jpg", alt: "Presidential Suite living area" },
+];
+
+const slideImages = computed(() => {
+  const imagesBySource = new Map(
+    [...props.room.images, ...demoImages].map((image) => [image.src, image]),
+  );
+  return [...imagesBySource.values()];
+});
 
 const selectedImage = computed(
   () =>
-    props.room.images[selectedImageIndex.value] ??
-    (props.room.images[0] as Room["images"][number]),
+    slideImages.value[selectedImageIndex.value] ??
+    (slideImages.value[0] as Room["images"][number]),
 );
+
+let sliderInterval: ReturnType<typeof setInterval> | undefined;
+
+function pauseSlider() {
+  if (sliderInterval) {
+    clearInterval(sliderInterval);
+    sliderInterval = undefined;
+  }
+}
+
+function startSlider() {
+  pauseSlider();
+  if (prefersReducedMotion.value || slideImages.value.length < 2) return;
+  sliderInterval = setInterval(() => {
+    selectedImageIndex.value =
+      (selectedImageIndex.value + 1) % slideImages.value.length;
+  }, 5000);
+}
+
+function handleFocusOut(event: FocusEvent) {
+  const nextTarget = event.relatedTarget;
+  const sliderElement = event.currentTarget;
+  if (
+    !(sliderElement instanceof HTMLElement) ||
+    !(nextTarget instanceof Node) ||
+    !sliderElement.contains(nextTarget)
+  ) {
+    startSlider();
+  }
+}
+
+watch(() => props.room.id, () => {
+  selectedImageIndex.value = 0;
+  startSlider();
+});
+
+onMounted(startSlider);
+onBeforeUnmount(pauseSlider);
 </script>
 
 <style scoped>
