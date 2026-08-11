@@ -45,9 +45,9 @@
               :to="item.href"
               :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
-                'px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-7 last:pr-0',
+                'mr-20 last:mr-0 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast  last:pr-0',
                 isActive(item.href)
-                  ? 'text-copper'
+                  ? activeLinkColor
                   : hasSolidBackground
                     ? 'text-ink/70 hover:text-ink'
                     : 'text-white hover:text-white/80',
@@ -67,7 +67,7 @@
                 :class="[
                   'flex items-center gap-1 px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
                   activeMenuId === item.id || isActive(item.href)
-                    ? 'text-copper'
+                    ? activeLinkColor
                     : hasSolidBackground
                       ? 'text-ink/70 hover:text-ink'
                       : 'text-white hover:text-white/80',
@@ -91,7 +91,7 @@
                   :class="[
                     'h-3 w-3 shrink-0 transition-transform duration-fast',
                     activeMenuId === item.id || isActive(item.href)
-                      ? 'rotate-180 text-copper'
+                      ? `rotate-180 ${activeLinkColor}`
                       : hasSolidBackground
                         ? 'text-ink/30'
                         : 'text-white/40',
@@ -205,12 +205,6 @@ const navigationItems: NavItemData[] = [
     id: "dining",
     label: "Dining",
     href: "#dining",
-    dropdown: [
-      { label: "Restaurants", href: "#restaurants" },
-      { label: "Bar & Lounge", href: "#bar" },
-      { label: "Room Service", href: "#room-service" },
-      { label: "Private Dining", href: "#private-dining" },
-    ],
   },
   {
     id: "meetings",
@@ -250,6 +244,10 @@ const hasScrolledPastCover = computed(() => isScrolledPastHero.value);
 // pinned journey plus the glass hold-off), while inner pages — whose dark
 // banner is only a few hundred pixels tall — go solid almost immediately.
 const isHome = computed(() => route.path === "/");
+
+// Active nav item accent: champagne on the home page's dark hero, copper
+// elsewhere once the paper glass is in play
+const activeLinkColor = computed(() => (isHome.value ? "text-[#A75B27]" : "text-[#A75B27]"));
 
 // Pages with no dark cover media at the top (a plain paper background
 // instead of a hero photo) would render white-on-white nav text under this
