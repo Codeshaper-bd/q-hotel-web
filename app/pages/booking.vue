@@ -7,7 +7,7 @@
     />
 
     <BaseSection container-size="xl" tone="paper" spacing="md">
-      <h1 class="font-display text-4xl text-ink sm:text-5xl">
+      <h1 class="font-display font-semibold text-4xl text-[#0F0F10] sm:text-5xl lg:text-[56px]">
         Complete Your Booking
       </h1>
 

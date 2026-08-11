@@ -6,8 +6,8 @@
   -->
   <div class="bg-white p-7 sm:p-10">
     <div class="flex flex-wrap items-baseline gap-3">
-      <h2 class="font-display text-2xl text-ink sm:text-[1.75rem]">Guest Information</h2>
-      <p class="text-sm text-ink/55">(All fields are required unless otherwise stated.)</p>
+      <h2 class="font-display font-semibold text-2xl text-ink sm:text-[1.75rem]">Guest Information</h2>
+      <p class="text-base font-normal text-[#505155]">(All fields are required unless otherwise stated.)</p>
     </div>
 
     <div class="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <h2 class="mt-12 font-display text-2xl text-ink sm:text-[1.75rem]">Additional Address Information</h2>
+    <h2 class="mt-12 font-display font-semibold text-2xl text-ink sm:text-[1.75rem]">Additional Address Information</h2>
     <div class="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2">
       <div>
         <label :class="labelClass" for="guest-city">City / Town</label>
@@ -70,7 +70,7 @@
         name="note"
         rows="4"
         placeholder="Write what you need..."
-        class="w-full resize-y border border-ink/40 bg-white px-4 py-3.5 text-base text-ink placeholder:text-ink/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean"
+        class="w-full resize-y border border-ink/40 bg-white px-4 py-3.5 text-base text-ink placeholder:text-[#373737] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean"
       />
     </div>
   </div>
@@ -79,8 +79,8 @@
 <script setup lang="ts">
 import { countries, phoneCountryCodes } from '~/utils/contactOptions'
 
-const labelClass = 'mb-2.5 block text-xs font-medium uppercase tracking-[0.06em] text-ink/60'
-const inputClass = 'h-[52px] w-full border border-ink/40 bg-white px-4 text-base text-ink placeholder:text-ink/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean'
+const labelClass = 'mb-2.5 block text-sm font-normal uppercase tracking-[0.06em] text-[#373737]'
+const inputClass = 'h-[52px] w-full border border-ink/40 bg-white px-4 text-base text-ink placeholder:text-[#373737] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean'
 
 // No submission target exists yet (payment gateway integration lands with
 // the PMS work); this state exists purely so the fields are controlled.
