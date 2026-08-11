@@ -55,9 +55,6 @@
             @mouseenter="handleTileEnter"
             @mouseleave="handleTileLeave"
           >
-            <!-- Hover media: slides in from the edge the cursor crossed, so a
-                 left-to-right sweep reads as the photo arriving from the left.
-                 Decorative — the label below always carries the meaning. -->
             <span
               data-facility-media
               class="facility-media pointer-events-none absolute inset-0 -z-10"
@@ -92,9 +89,7 @@
           <!-- Supporting copy + CTA share the final grid row on large screens -->
           <div data-reveal-item class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:mt-0 lg:px-2">
             <p class="font-display text-lg leading-8 text-paper/80 sm:text-xl lg:text-2xl lg:font-semibold">
-              From airport pickup to late-night dining, every facility is
-              designed to make your stay effortless — quiet comfort, warm
-              service, and real measured care.
+              We offers, a full range of digital services designed to help brands grow with clarity and confidence. from  deliver real measurable value.
             </p>
             <BaseArrowCta to="#reserve" variant="gold" label-class="!text-sm !font-medium">
               View All Facilities
@@ -318,17 +313,18 @@ const amenities: FacilityAmenity[] = [
     ],
   },
   {
-    id: 'smoke-free',
-    label: 'Smoke-Free Hotel',
+    id: 'laundry-service',
+    label: 'Laundry Service',
     image: '/images/rooms/deluxe-double.jpg',
     gridClass: 'lg:col-start-5 lg:row-start-3',
     iconPaths: [
-      'M4 14.5h12v3H4zM18.5 14.5v3M21 14.5v3',
-      'M17 11c0-1.5-1.2-2-2.5-2M18 7.5c2 .3 3 1.6 3 3.5',
-      'M3.5 3.5l17 17',
+      'M22 7h-2',
+      'M6.5 3H17.5C18.16 3 18.8 3.26 19.27 3.73C19.74 4.2 20 4.84 20 5.5V20C20 20.27 19.89 20.52 19.71 20.71C19.52 20.89 19.26 21 19 21H10C9.73 21 9.48 20.89 9.29 20.71C9.11 20.52 9 20.27 9 20V5.5C9 4.84 8.74 4.2 8.27 3.73C7.8 3.26 7.16 3 6.5 3ZM6.5 3C5.84 3 5.2 3.26 4.73 3.73C4.26 4.2 4 4.84 4 5.5V17C4 17.27 4.11 17.52 4.29 17.71C4.48 17.89 4.73 18 5 18H9',
+      'M9 7H2',
     ],
   },
 ]
+
 </script>
 
 <style scoped>

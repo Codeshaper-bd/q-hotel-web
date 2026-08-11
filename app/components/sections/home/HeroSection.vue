@@ -7,7 +7,7 @@
   >
     <div ref="bgRef" aria-hidden="true" class="absolute inset-0">
       <BaseImage
-        src="/images/hero/bg-hero.jpg"
+        src="/images/hero/bg-hero-1.png"
         alt=""
         :width="1920"
         :height="980"
@@ -17,7 +17,7 @@
 
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_44.61%,#000_100%)]"
+        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.70)_0%,rgba(0,0,0,0.00)_48.9%,#000_100%)]"
       />
     </div>
 
