@@ -372,7 +372,6 @@
           </div>
         </div>
 
-        <!-- Accepted payment methods -->
         <div
           class="flex flex-col gap-4 border-t border-paper/10 py-7 sm:flex-row sm:items-center sm:justify-between"
         >
