@@ -14,7 +14,7 @@
           Smoking Preference
         </p>
 
-        <div class="mt-3 flex items-start gap-3 bg-[#F9F0DB] p-4 sm:p-5">
+        <div class="mt-3 flex items-start gap-3 bg-[#F9F0DB] border-b-2 border-[#EED4A3] p-4 sm:p-5">
           <svg
             class="h-6 w-6 shrink-0"
             viewBox="0 0 24 24"
@@ -70,9 +70,16 @@
                 name="smokingPreference"
                 value="non-smoking"
               >
-              <span class="text-sm leading-6 text-ink">
+              <span
+                :class="
+                  form.smokingPreference === 'non-smoking'
+                    ? 'text-[#A75B27]'
+                    : 'text-[#505155]'
+                "
+                class="text-base font-medium"
+              >
                 Non-smoking room
-                <span class="text-ink/55">(Default)</span>
+                <span>(Default)</span>
               </span>
             </label>
             <label class="flex cursor-pointer items-start gap-3">
@@ -83,9 +90,16 @@
                 name="smokingPreference"
                 value="smoking"
               >
-              <span class="text-sm leading-6 text-ink">
+              <span
+                :class="
+                  form.smokingPreference === 'smoking'
+                    ? 'text-[#A75B27]'
+                    : 'text-[#505155]'
+                "
+                class="text-base font-medium"
+              >
                 Smoking room
-                <span class="text-ink/55">(Upon advanced request)</span>
+                <span>(Upon advanced request)</span>
               </span>
             </label>
           </div>

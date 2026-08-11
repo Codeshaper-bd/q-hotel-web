@@ -2,7 +2,7 @@
   <!-- Full-bleed room photography with the existing details panel inset
        over the right side, matching the gallery-led room card design. -->
   <article
-    class="relative flex h-[620px] flex-col justify-end overflow-hidden bg-ink sm:items-end sm:justify-center"
+    class="relative flex h-[820px] flex-col justify-end overflow-hidden bg-ink sm:items-end sm:justify-center lg:h-[620px]"
     @mouseenter="pauseSlider"
     @mouseleave="startSlider"
     @focusin="pauseSlider"
@@ -23,7 +23,7 @@
 
       <div
         v-if="slideImages.length > 1"
-        class="absolute inset-x-0 bottom-4 z-20 flex justify-center gap-1 sm:right-[42%]"
+        class="absolute top-4 right-4 z-20 flex gap-1 lg:inset-x-0 lg:bottom-4 lg:top-auto lg:right-[42%] lg:justify-center"
       >
         <div
           class="rounded-full bg-black/50 py-1.5 px-2.5 flex items-center gap-1.5"
@@ -47,7 +47,7 @@
     </div>
 
     <div
-      class="relative flex flex-col p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-4 motion-safe:lg:right-4 motion-safe:lg:w-[27rem] room-card motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]"
+      class="absolute bottom-0 left-0 right-0 z-10 flex flex-col p-7 text-paper sm:p-9 motion-safe:lg:inset-y-4 motion-safe:lg:left-auto motion-safe:lg:right-4 motion-safe:lg:w-[27rem] room-card motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]"
     >
       <div
         class="motion-safe:lg:absolute motion-safe:lg:inset-4 motion-safe:lg:flex motion-safe:lg:flex-col motion-safe:lg:border motion-safe:lg:border-copper motion-safe:lg:p-7 motion-safe:xl:inset-5 motion-safe:xl:p-8"
@@ -66,8 +66,13 @@
           {{ room.description }}
         </p>
 
-        <ul class="mt-6 space-y-2.5 text-base text-paper">
-          <li class="flex items-center gap-3">
+        <div
+          class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 lg:mt-6 lg:block"
+        >
+          <ul
+            class="flex flex-wrap items-center gap-x-6 gap-y-2.5 text-base text-paper lg:block lg:space-y-2.5"
+          >
+            <li class="flex items-center gap-3">
             <svg
               class="h-5 w-5 shrink-0 text-paper"
               viewBox="0 0 20 20"
@@ -132,9 +137,11 @@
           </li>
         </ul>
 
-        <!-- Pinned to the panel's bottom: mt-auto absorbs any space the
-             copy leaves, so the actions always rest on the lower edge -->
-        <div class="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-6">
+        <!-- Below lg the features and actions share one wrapping row;
+             from lg, mt-auto pins the actions to the panel's lower edge -->
+        <div
+          class="flex flex-wrap items-center gap-x-6 gap-y-3 lg:mt-auto lg:pt-6"
+        >
           <BaseArrowCta
             :to="`/booking?room=${room.id}`"
             variant="gold"
@@ -163,6 +170,7 @@
               />
             </svg>
           </button>
+          </div>
         </div>
       </div>
     </div>
