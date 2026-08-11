@@ -12,7 +12,7 @@
       </h1>
 
       <form
-        class="mt-10 lg:grid lg:grid-cols-[1fr_26rem] lg:items-start lg:gap-8"
+        class="mt-10 lg:grid lg:grid-cols-[1fr_36rem] lg:items-start lg:gap-8"
         @submit.prevent="handleSubmit"
       >
         <div class="flex flex-col gap-8">
