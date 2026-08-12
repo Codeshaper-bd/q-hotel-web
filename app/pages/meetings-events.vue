@@ -27,6 +27,7 @@
     </PageBanner>
     <BusinessLoungeSection />
     <CapacityOverviewSection/>
+    <MeetingSetupSection />
     <!-- <FaqSection /> -->
   </div>
 </template>
