@@ -5,10 +5,18 @@
     the main image is fixed at 740px tall and the top/bottom pair splits the
     right column so their combined height matches it exactly. Grid gap 16px.
   -->
-  <BaseSection tone="paper" spacing="lg" container-size="xl" aria-labelledby="dining-section-title">
+  <BaseSection
+    tone="paper"
+    spacing="lg"
+    container-size="xl"
+    aria-labelledby="dining-section-title"
+  >
     <div class="flex flex-col items-center text-center">
       <BaseKicker>Dine With Us</BaseKicker>
-      <h2 id="dining-section-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+      <h2
+        id="dining-section-title"
+        class="mt-6 font-display text-4xl text-ink sm:text-5xl"
+      >
         Restaurants &amp; Lounges
       </h2>
     </div>
@@ -50,9 +58,46 @@
         </div>
       </div>
     </div>
+    <div class="mt-14 grid gap-4 md:grid-cols-2">
+      <div class="col-span-2 md:col-span-1">
+        <div class="bg-[#FCF8F0] p-5">
+          <h3 class="text-2xl font-semibold text-[#0F0F10] mb-2 font-display">
+            A vibrant all-day dining restaurant featuring an extensive menu of
+            international and local favorites.
+          </h3>
+          <p class="text-sm text-[#505155]">
+            Enjoy a diverse culinary experience inspired by international
+            favorites and authentic local flavors. From fresh breakfasts and
+            leisurely brunches to flavorful lunches, elegant dinners, high tea,
+            and refreshing cocktails, every meal is thoughtfully prepared for
+            every taste and occasion.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-span-2 md:col-span-1">
+        <div class="bg-[#FCF8F0] p-5">
+          <h3 class="text-2xl font-semibold text-[#0F0F10] mb-2 font-display">
+            A vibrant all-day dining restaurant featuring an extensive menu of
+            international and local favorites.
+          </h3>
+          <p class="text-sm text-[#505155]">
+            Enjoy a diverse culinary experience inspired by international
+            favorites and authentic local flavors. From fresh breakfasts and
+            leisurely brunches to flavorful lunches, elegant dinners, high tea,
+            and refreshing cocktails, every meal is thoughtfully prepared for
+            every taste and occasion.
+          </p>
+        </div>
+      </div>
+    </div>
 
     <div class="mt-12 flex justify-center">
-      <BaseArrowCta to="#reserve" variant="gold" background-class="!bg-[#E9C588]">
+      <BaseArrowCta
+        to="#reserve"
+        variant="gold"
+        background-class="!bg-[#E9C588]"
+      >
         Reserve a Table
       </BaseArrowCta>
     </div>
