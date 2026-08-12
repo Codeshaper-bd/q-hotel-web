@@ -19,19 +19,24 @@
       />
       <div class="absolute inset-0 bg-ink/70" aria-hidden="true" />
 
-      <div class="relative z-10 flex flex-col items-center gap-4 text-center">
-        <BaseBreadcrumb :items="breadcrumb" />
+      <FadeReveal :stagger="0.12" :blur="6" class="relative z-10">
+        <div class="flex flex-col items-center gap-4 text-center">
+          <div data-reveal-item>
+            <BaseBreadcrumb :items="breadcrumb" />
+          </div>
 
-        <h1
-          :id="bannerTitleId"
-          class="font-display text-4xl text-paper sm:text-5xl lg:text-[56px] lg:font-semibold"
-        >
-          {{ title }}
-        </h1>
-        <p v-if="description" class="max-w-xl text-lg font-medium text-paper">
-          {{ description }}
-        </p>
-      </div>
+          <h1
+            data-reveal-item
+            :id="bannerTitleId"
+            class="font-display text-4xl text-paper sm:text-5xl lg:text-[56px] lg:font-semibold"
+          >
+            {{ title }}
+          </h1>
+          <p v-if="description" data-reveal-item class="max-w-xl text-lg font-medium text-paper">
+            {{ description }}
+          </p>
+        </div>
+      </FadeReveal>
     </div>
 
     <!-- Pulled up over the banner's bottom edge; normal flow resumes right

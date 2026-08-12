@@ -5,47 +5,57 @@
 -->
 <template>
   <div class="bg-[#FDFBF7] py-10 px-10">
-    <h2 class="text-[44px] font-semibold text-[#000000]">{{ name }}</h2>
-    <p class="text-sm text-[#A75B27] uppercase">all-day dining</p>
-    <div class="mt-6 grid gap-4 md:grid-cols-2">
-      <!-- Left column: main image, fixed 740px on desktop -->
-      <div class="col-span-2 md:col-span-1">
-        <div class="aspect-[4/3] md:aspect-auto md:h-[560px] lg:h-[740px]">
-          <BaseImage
-            :src="mainImage"
-            :alt="`${name} at Q Hotel Dhaka`"
-            :width="1200"
-            :height="900"
-            sizes="xs:100vw sm:100vw lg:50vw"
-          />
+    <FadeReveal>
+      <h2 class="text-[44px] font-semibold text-[#000000]">{{ name }}</h2>
+      <p class="text-sm text-[#A75B27] uppercase">all-day dining</p>
+    </FadeReveal>
+
+    <FadeReveal direction="up" :distance="32" start="top 92%">
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <!-- Left column: main image, fixed 740px on desktop -->
+        <div class="col-span-2 md:col-span-1">
+          <div class="aspect-[4/3] md:aspect-auto md:h-[560px] lg:h-[740px]">
+            <BaseImage
+              :src="mainImage"
+              :alt="`${name} at Q Hotel Dhaka`"
+              :width="1200"
+              :height="900"
+              sizes="xs:100vw sm:100vw lg:50vw"
+            />
+          </div>
+        </div>
+
+        <!-- Right column: top + bottom, combined height equals the main image -->
+        <div class="col-span-2 flex flex-col gap-4 md:col-span-1">
+          <FadeReveal direction="up" :distance="24" start="top 92%">
+            <div class="h-64 sm:h-80 md:h-[272px] lg:h-[362px]">
+              <BaseImage
+                :src="topImage"
+                alt="Q Hotel rooftop lounge and bar at dusk"
+                :width="800"
+                :height="600"
+                sizes="xs:100vw sm:100vw lg:50vw"
+              />
+            </div>
+          </FadeReveal>
+
+          <FadeReveal direction="up" :distance="24" start="top 92%">
+            <div class="h-64 sm:h-80 md:h-[272px] lg:h-[362px]">
+              <BaseImage
+                :src="bottomImage"
+                alt="Q Hotel café with marble tables and patisserie counter"
+                :width="800"
+                :height="600"
+                sizes="xs:100vw sm:100vw lg:50vw"
+              />
+            </div>
+          </FadeReveal>
         </div>
       </div>
+    </FadeReveal>
 
-      <!-- Right column: top + bottom, combined height equals the main image -->
-      <div class="col-span-2 flex flex-col gap-4 md:col-span-1">
-        <div class="h-64 sm:h-80 md:h-[272px] lg:h-[362px]">
-          <BaseImage
-            :src="topImage"
-            alt="Q Hotel rooftop lounge and bar at dusk"
-            :width="800"
-            :height="600"
-            sizes="xs:100vw sm:100vw lg:50vw"
-          />
-        </div>
-
-        <div class="h-64 sm:h-80 md:h-[272px] lg:h-[362px]">
-          <BaseImage
-            :src="bottomImage"
-            alt="Q Hotel café with marble tables and patisserie counter"
-            :width="800"
-            :height="600"
-            sizes="xs:100vw sm:100vw lg:50vw"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-4 grid gap-4 md:grid-cols-2">
+    <FadeReveal direction="up" :distance="28" start="top 92%">
+      <div class="mt-4 grid gap-4 md:grid-cols-2">
       <div class="col-span-2 md:col-span-1">
         <div class="bg-[#FCF8F0] p-5">
           <h3 class="mb-2 font-display text-2xl font-semibold text-[#0F0F10]">
@@ -84,9 +94,11 @@
         />
       </div>
     </div>
+    </FadeReveal>
 
-    <div class="h-11"></div>
-    <BaseDetailsGrid
+    <FadeReveal direction="up" :distance="28" start="top 92%">
+      <div class="h-11"></div>
+      <BaseDetailsGrid
       :items="[
         {
           label: 'Cuisine',
@@ -145,6 +157,7 @@
         },
       ]"
     />
+    </FadeReveal>
   </div>
 </template>
 
