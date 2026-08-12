@@ -4,7 +4,7 @@
   Responsive: stacks on mobile, 2 columns on md+.
 -->
 <template>
-  <div class="rounded-md bg-cream p-6 sm:p-8">
+ 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
       <div
         v-for="item in items"
@@ -14,18 +14,22 @@
         <div class="mb-3 flex items-center gap-2">
           <component
             :is="item.icon"
+            v-bind="item.iconProps"
             class="h-5 w-5 text-ink/60"
           />
-          <span class="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink/70">
+          <span class="text-base text-[#0F0F10] uppercase">
             {{ item.label }}
           </span>
         </div>
-        <p class="text-sm leading-relaxed text-ink/80">
-          {{ item.values.join(' • ') }}
+        <p class="flex flex-wrap items-center gap-2 text-sm text-[#373737]">
+          <template v-for="(value, index) in item.values" :key="value">
+            <span>{{ value }}</span>
+            <span v-if="index < item.values.length - 1" aria-hidden="true">•</span>
+          </template>
         </p>
       </div>
     </div>
-  </div>
+
 </template>
 
 <script setup lang="ts">
@@ -35,6 +39,7 @@ type DetailItem = {
   label: string
   values: string[]
   icon: Component
+  iconProps?: Record<string, unknown>
 }
 
 defineProps<{
