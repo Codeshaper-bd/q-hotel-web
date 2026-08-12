@@ -4,57 +4,33 @@
   Each card shows category tag, name (link), and distance.
 -->
 <template>
-  <BaseSection
-    tone="paper"
-    spacing="lg"
-    container-size="xl"
-    aria-labelledby="explore-dining-title"
-  >
-    <!-- Search / filter bar -->
-    <div class="flex justify-center">
-      <div class="inline-flex items-center gap-2 rounded-sm border border-line bg-paper px-4 py-2">
-        <svg class="h-4 w-4 text-ink/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-        <button
-          type="button"
-          class="text-xs font-medium uppercase tracking-wider text-ink/70 hover:text-ink"
-        >
-          More Option
-        </button>
-      </div>
-    </div>
+  <BaseSection tone="paper" spacing="lg" container-size="xl" class="!pt-20 !pb-[140px]" aria-labelledby="explore-dining-title">
 
-    <!-- Heading -->
-    <h2
-      id="explore-dining-title"
-      class="mt-8 text-center font-display text-3xl text-ink sm:text-4xl"
-    >
-      Explore Dining Nearby
-    </h2>
+    <FadeReveal>
+      <div class="mb-14 flex flex-col items-center text-center">
+        <BaseKicker> More Option</BaseKicker>
+        <h2 id="dining-section-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+          Explore Dining Nearby
+        </h2>
+      </div>
+    </FadeReveal>
 
     <!-- Cards grid -->
     <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <article
-        v-for="venue in venues"
-        :key="venue.name"
-        class="rounded-sm border border-line bg-paper p-5 transition-colors duration-fast hover:border-ink/30"
-      >
-        <span class="mb-3 block text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-ink/50">
+      <article v-for="venue in venues" :key="venue.name"
+        class="bg-white p-6 transition-colors duration-fast hover:border-ink/30">
+        <span class="mb-4 block text-sm text-[#373737] uppercase">
           {{ venue.category }}
         </span>
-        <a
-          :href="venue.url"
-          class="inline-flex items-center gap-1.5 text-base font-medium text-ink hover:text-ocean"
-        >
+        <a :href="venue.url" class="inline-flex items-center gap-1.5 text-xl text-[#0F0F10] underline font-medium hover:text-ocean">
           {{ venue.name }}
-          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <line x1="7" y1="17" x2="17" y2="7" />
             <polyline points="7 7 17 7 17 17" />
           </svg>
         </a>
-        <p class="mt-2 text-xs text-ink/50">
+        <p class="mt-5 text-sm text-[#373737]">
           {{ venue.distance }}
         </p>
       </article>

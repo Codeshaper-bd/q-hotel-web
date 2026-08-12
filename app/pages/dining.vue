@@ -26,6 +26,7 @@
       </template>
     </PageBanner>
     <DiningVenues />
+    <ExploreDinings />
     <FaqSection />
     <div class="h-20"></div>
   </div>

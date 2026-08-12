@@ -8,12 +8,37 @@
         { label: 'Home', to: '/' },
         { label: 'Meetings & Events' },
       ]"
-    />
-    <FaqSection />
+    >
+      <template #console>
+        <div class="mx-auto max-w-[1316px]">
+          <HeroBookingSearch
+            tone="light"
+            popover-direction="down"
+            empty-state
+            :show-special-rates="false"
+            check-in-placeholder="Check in Date"
+            check-out-placeholder="Check Out Date"
+            placeholder-class="text-[18px] font-semibold text-[#505155]"
+            submit-label="Search"
+            @search="handleSearch"
+          />
+        </div>
+      </template>
+    </PageBanner>
+    <BusinessLoungeSection />
+    <CapacityOverviewSection/>
+    <!-- <FaqSection /> -->
   </div>
 </template>
 
 <script setup lang="ts">
+import type { BookingSearchQuery } from '~/types/booking'
+import { toBookingRouteQuery } from '#imports'
+
+function handleSearch(query: BookingSearchQuery) {
+  navigateTo({ path: '/rooms', query: toBookingRouteQuery(query) })
+}
+
 useSeoMetaData({
   title: 'Meetings & Events',
   description: 'Meetings and events at Q Hotel Dhaka — versatile venues, dedicated planning, and catering for conferences, weddings, and private celebrations.',
