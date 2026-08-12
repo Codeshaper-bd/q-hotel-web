@@ -1,6 +1,7 @@
 <template>
   <div>
     <DiningHeroBanner />
+    <DiningVenues />
     <FaqSection />
   </div>
 </template>
