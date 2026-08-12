@@ -209,7 +209,7 @@ const navigationItems: NavItemData[] = [
   {
     id: "meetings",
     label: "Meetings & Events",
-    href: "#meetings",
+    href: "/meetings-events",
   },
   {
     id: "longstay",
