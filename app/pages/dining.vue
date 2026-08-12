@@ -2,6 +2,7 @@
   <div>
     <DiningHeroBanner />
     <DiningVenues />
+    <ExploreDinings />
     <FaqSection />
   </div>
 </template>

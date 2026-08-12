@@ -76,20 +76,41 @@
       </div>
 
       <div class="col-span-2 md:col-span-1">
-        <div class="bg-[#FCF8F0] p-5">
-          <h3 class="text-2xl font-semibold text-[#0F0F10] mb-2 font-display">
-            A vibrant all-day dining restaurant featuring an extensive menu of
-            international and local favorites.
-          </h3>
-          <p class="text-sm text-[#505155]">
-            Enjoy a diverse culinary experience inspired by international
-            favorites and authentic local flavors. From fresh breakfasts and
-            leisurely brunches to flavorful lunches, elegant dinners, high tea,
-            and refreshing cocktails, every meal is thoughtfully prepared for
-            every taste and occasion.
-          </p>
-        </div>
+        <BaseInfoCard
+          :items="[
+            { label: 'Contact', lines: ['Phone: +88-01713377700', 'Email: info@qhl.com.bd'], icon: IconContact },
+            { label: 'Opening Hours', value: '6:00 AM to 11:00 PM', icon: IconClock },
+            { label: 'Dress Code', value: 'Smart casual', icon: IconDressCode },
+          ]"
+        />
       </div>
+    </div>
+
+    <div class="mt-8">
+      <BaseDetailsGrid
+        :items="[
+          {
+            label: 'Cuisine',
+            values: ['Indian', 'Indonesian', 'Irish', 'Italian', 'Japanese', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Pizza', 'Seafood', 'Steakhouse', 'Sushi', 'Tex-Mex', 'Thai', 'Local', 'Asian', 'International', 'European'],
+            icon: IconCuisine
+          },
+          {
+            label: 'Open For (Everyday)',
+            values: ['Breakfast', 'Brunch', 'Lunch', 'Dinner', 'High Tea', 'Cocktail Hour'],
+            icon: IconClock
+          },
+          {
+            label: 'Ambience',
+            values: ['Family-friendly', 'Traditional', 'Modern', 'Romantic'],
+            icon: IconAmbience
+          },
+          {
+            label: 'Dietary Options',
+            values: ['Halal', 'Kosher', 'Vegetarian', 'Vegan', 'Gluten-free', 'Dairy-free'],
+            icon: IconClock
+          },
+        ]"
+      />
     </div>
 
     <div class="mt-12 flex justify-center">
@@ -103,3 +124,11 @@
     </div>
   </BaseSection>
 </template>
+
+<script setup lang="ts">
+import IconContact from '~/components/base/IconContact.vue'
+import IconClock from '~/components/base/IconClock.vue'
+import IconDressCode from '~/components/base/IconDressCode.vue'
+import IconCuisine from '~/components/base/IconCuisine.vue'
+import IconAmbience from '~/components/base/IconAmbience.vue'
+</script>
