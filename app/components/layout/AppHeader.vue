@@ -204,7 +204,7 @@ const navigationItems: NavItemData[] = [
   {
     id: "dining",
     label: "Dining",
-    href: "#dining",
+    href: "/dining",
   },
   {
     id: "meetings",
