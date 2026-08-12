@@ -27,6 +27,7 @@
     </PageBanner>
     <DiningVenues />
     <FaqSection />
+    <div class="h-20"></div>
   </div>
 </template>
 
