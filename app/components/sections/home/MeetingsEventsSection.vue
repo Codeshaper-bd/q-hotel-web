@@ -6,13 +6,22 @@
     (position: sticky, each card resting a little lower than the one before);
     small screens and reduced-motion keep a plain readable flow.
   -->
-  <BaseSection id="meetings-events" labelled-by="meetings-events-title" tone="paper" spacing="lg" container-size="xl">
+  <BaseSection
+    id="meetings-events"
+    labelled-by="meetings-events-title"
+    tone="paper"
+    spacing="lg"
+    container-size="xl"
+  >
     <div ref="blockRef" class="venue-block">
       <div ref="headingRef" class="venue-heading">
         <FadeReveal>
           <div class="flex flex-col items-center text-center">
             <BaseKicker>Host With Us</BaseKicker>
-            <h2 id="meetings-events-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold">
+            <h2
+              id="meetings-events-title"
+              class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold"
+            >
               Meetings &amp; Events
             </h2>
           </div>
@@ -47,25 +56,44 @@
           </div>
 
           <div class="flex flex-col">
-            <h3 class="font-display text-3xl text-ink sm:text-4xl lg:text-[44px] font-semibold">
+            <h3
+              class="font-display text-3xl text-ink sm:text-4xl lg:text-[44px] font-semibold"
+            >
               {{ venue.name }}
             </h3>
 
-            <p class="mt-4 text-sm leading-7 text-muted sm:text-base lg:text-lg font-medium">
+            <p
+              class="mt-4 text-sm leading-7 text-muted sm:text-base lg:text-lg font-medium"
+            >
               {{ venue.description }}
             </p>
 
             <div class="mt-8 grid gap-8 sm:grid-cols-2">
               <div>
-                <h4 class="font-display text-xl text-ink lg:text-2xl font-semibold">Capacity:</h4>
+                <h4
+                  class="font-display text-xl text-ink lg:text-2xl font-semibold"
+                >
+                  Capacity:
+                </h4>
                 <ul class="mt-4 space-y-2.5 text-sm text-ink/80">
                   <li
                     v-for="capacity in venue.capacities"
                     :key="capacity.layout"
                     class="flex items-center gap-2.5 text-base"
                   >
-                    <svg class="h-4 w-4 shrink-0 text-copper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5" />
+                    <svg
+                      class="h-4 w-4 shrink-0 text-copper"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5"
+                      />
                     </svg>
                     {{ capacity.layout }}: {{ capacity.guests }} Guests
                   </li>
@@ -73,17 +101,43 @@
               </div>
 
               <div>
-                <h4 class="font-display text-xl text-ink lg:text-2xl font-semibold">Venue Size:</h4>
+                <h4
+                  class="font-display text-xl text-ink lg:text-2xl font-semibold"
+                >
+                  Venue Size:
+                </h4>
                 <ul class="mt-4 space-y-2.5 text-base text-ink/80">
                   <li class="flex items-center gap-2.5">
-                    <svg class="h-4 w-4 shrink-0 text-copper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5" />
+                    <svg
+                      class="h-4 w-4 shrink-0 text-copper"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5"
+                      />
                     </svg>
                     Area: {{ venue.areaLabel }}
                   </li>
                   <li class="flex items-center gap-2.5">
-                    <svg class="h-4 w-4 shrink-0 text-copper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5" />
+                    <svg
+                      class="h-4 w-4 shrink-0 text-copper"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5"
+                      />
                     </svg>
                     Dimensions: {{ venue.dimensionsLabel }}
                   </li>
@@ -118,69 +172,83 @@
 </template>
 
 <script setup lang="ts">
-import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-import type { MeetingVenue } from '~/types/venue'
+import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
+import type { MeetingVenue } from "~/types/venue";
 
 /** Static showcase content (CMS-ready shape); venue detail pages come later */
 const venues: MeetingVenue[] = [
   {
-    id: 'business-class-lounge',
-    name: 'Business Class Lounge',
-    description: 'Adjacent to the Business Class lounge, this private space on the eighth floor accommodates intimate gatherings and full receptions alike. High-speed Wi-Fi and secretarial facilities are available on request.',
-    image: { src: '/images/meetings/business-class-lounge.jpg', alt: 'Business Class Lounge with warm armchairs arranged around a round table under a coved ceiling' },
+    id: "business-class-lounge",
+    name: "Business Class Lounge",
+    description:
+      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
+    image: {
+      src: "/images/meetings/business-class-lounge.png",
+      alt: "Business Class Lounge with warm armchairs arranged around a round table under a coved ceiling",
+    },
     capacities: [
-      { layout: 'Theater', guests: 400 },
-      { layout: 'Classroom', guests: 170 },
-      { layout: 'U-Shape', guests: 120 },
-      { layout: 'Reception', guests: 500 },
-      { layout: 'Banquet', guests: 200 },
+      { layout: "Theater", guests: 400 },
+      { layout: "Classroom", guests: 170 },
+      { layout: "U-Shape", guests: 120 },
+      { layout: "Reception", guests: 500 },
+      { layout: "Banquet", guests: 200 },
     ],
-    areaLabel: '5,721 sq. ft.',
-    dimensionsLabel: '99.6 ft × 57.6 ft × 22 ft',
+    areaLabel: "5,721 sq. ft.",
+    dimensionsLabel: "99.6 ft × 57.6 ft × 22 ft",
   },
   {
-    id: 'grand-ballroom',
-    name: 'Grand Ballroom',
-    description: 'Our largest pillar-free venue, suited to weddings, galas, and conferences. Dedicated pre-function space, staging, and in-house catering let one team carry an event from arrival to last dance.',
-    image: { src: '/images/meetings/business-class-lounge.jpg', alt: 'Grand Ballroom seating arranged banquet-style beneath warm cove lighting' },
+    id: "utshab-banquet-hall",
+    name: "Utshab Banquet Hall",
+    description:
+      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
+    image: {
+      src: "/images/meetings/utshab-banquet-hall.png",
+      alt: "Utshab Banquet Hall with warm armchairs arranged around a round table under a coved ceiling",
+    },
     capacities: [
-      { layout: 'Theater', guests: 650 },
-      { layout: 'Classroom', guests: 300 },
-      { layout: 'U-Shape', guests: 160 },
-      { layout: 'Reception', guests: 800 },
-      { layout: 'Banquet', guests: 400 },
+      { layout: "Theater", guests: 400 },
+      { layout: "Classroom", guests: 170 },
+      { layout: "U-Shape", guests: 120 },
+      { layout: "Reception", guests: 500 },
+      { layout: "Banquet", guests: 200 },
     ],
-    areaLabel: '8,940 sq. ft.',
-    dimensionsLabel: '124 ft × 72 ft × 24 ft',
+    areaLabel: "8,940 sq. ft.",
+    dimensionsLabel: "99.6 ft × 57.6 ft × 22 ft",
   },
   {
-    id: 'executive-boardroom',
-    name: 'Executive Boardroom',
-    description: 'A quiet, fixed-table boardroom for leadership meetings and private negotiations — video conferencing, writable walls, and butler service within arm’s reach.',
-    image: { src: '/images/meetings/business-class-lounge.jpg', alt: 'Executive Boardroom with a fixed conference table and upholstered chairs' },
+    id: "royal-lounge",
+    name: "Royal Lounge",
+    description:
+      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
+    image: {
+      src: "/images/meetings/royel-lounge.png",
+      alt: "Royal Lounge with warm armchairs arranged around a round table under a coved ceiling",
+    },
     capacities: [
-      { layout: 'Boardroom', guests: 18 },
-      { layout: 'U-Shape', guests: 14 },
-      { layout: 'Theater', guests: 30 },
-      { layout: 'Classroom', guests: 20 },
-      { layout: 'Reception', guests: 40 },
+      { layout: "Theater", guests: 400 },
+      { layout: "Classroom", guests: 170 },
+      { layout: "U-Shape", guests: 120 },
+      { layout: "Reception", guests: 500 },
+      { layout: "Banquet", guests: 200 },
     ],
-    areaLabel: '780 sq. ft.',
-    dimensionsLabel: '36 ft × 22 ft × 12 ft',
+    areaLabel: "5,721 sq. ft.",
+    dimensionsLabel: "99.6 ft × 57.6 ft × 22 ft",
   },
-]
+];
 
-const blockRef = ref<HTMLElement | null>(null)
-const headingRef = ref<HTMLElement | null>(null)
-const stackRef = ref<HTMLElement | null>(null)
+const blockRef = ref<HTMLElement | null>(null);
+const headingRef = ref<HTMLElement | null>(null);
+const stackRef = ref<HTMLElement | null>(null);
 
 // ─── Venue details popup ────────────────────────────────────────────
-const isDetailsOpen = ref(false)
+const isDetailsOpen = ref(false);
 
-const { gsap, createContext, prefersReducedMotion } = useGsap()
-const { addCleanup } = useAnimationCleanup()
-const nuxtApp = useNuxtApp()
-const ScrollTrigger = nuxtApp.$ScrollTrigger as typeof ScrollTriggerType | undefined
+const { gsap, createContext, prefersReducedMotion } = useGsap();
+const { addCleanup } = useAnimationCleanup();
+const nuxtApp = useNuxtApp();
+const ScrollTrigger = nuxtApp.$ScrollTrigger as
+  | typeof ScrollTriggerType
+  | undefined;
 
 /**
  * Distance the heading must stop sticking early so it leaves with the deck.
@@ -194,22 +262,27 @@ const ScrollTrigger = nuxtApp.$ScrollTrigger as typeof ScrollTriggerType | undef
  * margin shrinks its rect by the same amount, and the two release together.
  */
 function measureHeadingHold() {
-  const blockElement = blockRef.value
-  const headingElement = headingRef.value
-  const stackElement = stackRef.value
-  const cards = stackElement?.querySelectorAll<HTMLElement>('[data-venue-card]')
-  const lastCard = cards?.[cards.length - 1]
+  const blockElement = blockRef.value;
+  const headingElement = headingRef.value;
+  const stackElement = stackRef.value;
+  const cards =
+    stackElement?.querySelectorAll<HTMLElement>("[data-venue-card]");
+  const lastCard = cards?.[cards.length - 1];
 
   if (!blockElement || !headingElement || !stackElement || !lastCard) {
-    return
+    return;
   }
 
-  const headingTop = Number.parseFloat(window.getComputedStyle(headingElement).top) || 0
-  const cardTop = Number.parseFloat(window.getComputedStyle(lastCard).top) || 0
-  const headingBottom = headingTop + headingElement.offsetHeight
-  const cardBottom = cardTop + lastCard.offsetHeight
+  const headingTop =
+    Number.parseFloat(window.getComputedStyle(headingElement).top) || 0;
+  const cardTop = Number.parseFloat(window.getComputedStyle(lastCard).top) || 0;
+  const headingBottom = headingTop + headingElement.offsetHeight;
+  const cardBottom = cardTop + lastCard.offsetHeight;
 
-  blockElement.style.setProperty('--venue-heading-hold', `${Math.max(0, cardBottom - headingBottom)}px`)
+  blockElement.style.setProperty(
+    "--venue-heading-hold",
+    `${Math.max(0, cardBottom - headingBottom)}px`,
+  );
 
   // The first card must never rest beneath the heading band, or its top
   // border hides behind the paper band while the deck holds on scroll-up.
@@ -218,76 +291,80 @@ function measureHeadingHold() {
   // a beat of breathing room, never less than the designed 10rem runway.
   // Anchored to the heading's own top (= header height), never to a card's
   // current top — that value already includes the deck offset itself.
-  const designedRunway = headingTop + 10 * 16
-  const deckTop = Math.max(designedRunway, headingBottom + 8)
-  stackElement.style.setProperty('--venue-deck-top', `${deckTop}px`)
+  const designedRunway = headingTop + 10 * 16;
+  const deckTop = Math.max(designedRunway, headingBottom + 8);
+  stackElement.style.setProperty("--venue-deck-top", `${deckTop}px`);
 }
 
 onMounted(async () => {
-  await nextTick()
+  await nextTick();
 
-  const stackElement = stackRef.value
+  const stackElement = stackRef.value;
 
   if (!stackElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
-    return
+    return;
   }
 
-  const mediaMatcher = gsap.matchMedia()
+  const mediaMatcher = gsap.matchMedia();
 
   // The deck only exists where the cards are sticky (lg and up); everywhere
   // else the plain vertical flow stays untouched.
-  mediaMatcher.add('(min-width: 1024px)', () => {
+  mediaMatcher.add("(min-width: 1024px)", () => {
     // Remeasure before ScrollTrigger takes its own measurements, so a resize
     // or a font swap cannot leave the heading holding the wrong distance
-    measureHeadingHold()
-    ScrollTrigger.addEventListener('refreshInit', measureHeadingHold)
+    measureHeadingHold();
+    ScrollTrigger.addEventListener("refreshInit", measureHeadingHold);
 
     const context = createContext(() => {
-      const cards = gsap.utils.toArray<HTMLElement>('[data-venue-card]', stackElement)
+      const cards = gsap.utils.toArray<HTMLElement>(
+        "[data-venue-card]",
+        stackElement,
+      );
 
       if (cards.length < 2) {
-        return
+        return;
       }
 
       // Each card recedes and dims while the next one travels up and covers
       // it, so the resting deck reads as depth rather than a flat pile.
       cards.forEach((card, index) => {
-        const nextCard = cards[index + 1]
+        const nextCard = cards[index + 1];
         if (!nextCard) {
-          return
+          return;
         }
 
         const timeline = gsap.timeline({
-          defaults: { ease: 'none' },
+          defaults: { ease: "none" },
           scrollTrigger: {
             trigger: nextCard,
-            start: 'top bottom',
+            start: "top bottom",
             // The next card stops at its own sticky offset, so the cover is
             // complete there — reading it back keeps CSS the single source.
-            end: () => `top ${Number.parseFloat(window.getComputedStyle(nextCard).top) || 0}px`,
+            end: () =>
+              `top ${Number.parseFloat(window.getComputedStyle(nextCard).top) || 0}px`,
             scrub: 0.6,
             invalidateOnRefresh: true,
           },
-        })
+        });
 
         // Shrink from the top edge so the strip left peeking above the
         // covering card stays put while the card settles back into the deck
         timeline
-          .to(card, { scale: 0.94, transformOrigin: 'center top' }, 0)
-          .to(card.querySelector('[data-venue-scrim]'), { opacity: 0.55 }, 0)
-      })
-    }, stackElement)
+          .to(card, { scale: 0.94, transformOrigin: "center top" }, 0)
+          .to(card.querySelector("[data-venue-scrim]"), { opacity: 0.55 }, 0);
+      });
+    }, stackElement);
 
     return () => {
-      ScrollTrigger.removeEventListener('refreshInit', measureHeadingHold)
-      blockRef.value?.style.removeProperty('--venue-heading-hold')
-      stackRef.value?.style.removeProperty('--venue-deck-top')
-      context?.revert()
-    }
-  })
+      ScrollTrigger.removeEventListener("refreshInit", measureHeadingHold);
+      blockRef.value?.style.removeProperty("--venue-heading-hold");
+      stackRef.value?.style.removeProperty("--venue-deck-top");
+      context?.revert();
+    };
+  });
 
-  addCleanup(() => mediaMatcher.revert())
-})
+  addCleanup(() => mediaMatcher.revert());
+});
 </script>
 
 <style scoped>
