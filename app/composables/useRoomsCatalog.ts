@@ -40,7 +40,7 @@ const rooms: Room[] = [
     description: 'A generous king-bedded room layered in ivory and soft beige, with a reading corner and dusk-lit windows made for slow evenings.',
     nightlyRateUsd: 95,
     areaSqFt: 345,
-    maxOccupancy: 3,
+    maxOccupancy: 2,
     bedType: '1 King Bed',
     images: [
       { src: '/images/rooms/deluxe-double.jpg', alt: 'Deluxe Double Room with a king bed, cove-lit walnut headboard, and lounge chair' },
@@ -66,7 +66,7 @@ const rooms: Room[] = [
     description: 'Business-first luxury: a king bedroom beside a proper workspace with a city-view desk, tuned for long stays and productive evenings.',
     nightlyRateUsd: 125,
     areaSqFt: 645,
-    maxOccupancy: 4,
+    maxOccupancy: 2,
     bedType: '1 King Bed',
     images: [
       { src: '/images/rooms/standard-double.jpg', alt: 'Executive Suite with king bed and a city-view workspace behind a walnut partition' },

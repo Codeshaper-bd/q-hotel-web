@@ -28,7 +28,10 @@
         class="dining-slide relative min-h-[34rem] motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:min-h-0"
         :aria-hidden="isSlideInert(venueIndex) ? 'true' : undefined"
       >
-        <div :data-dining-media="venueIndex" class="absolute inset-0 overflow-hidden bg-night">
+        <div
+          :data-dining-media="venueIndex"
+          class="absolute inset-0 overflow-hidden bg-night"
+        >
           <BaseImage
             :src="venue.poster.src"
             :alt="venue.poster.alt"
@@ -42,16 +45,26 @@
                the copy sits) and fades diagonally to fully transparent, so
                the photograph stays fully visible while the text reads
                clearly -->
-          <div class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-night/95 via-night/70 to-transparent" aria-hidden="true" />
+          <div
+            class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-night/95 via-night/70 to-transparent"
+            aria-hidden="true"
+          />
         </div>
 
         <div class="absolute inset-0 flex items-end">
           <BaseContainer size="xl">
-            <div :data-dining-copy="venueIndex" class="max-w-xl pb-14 sm:pb-20 lg:pb-28">
-              <h3 class="font-display text-4xl text-paper sm:text-5xl lg:text-[56px] font-semibold">
+            <div
+              :data-dining-copy="venueIndex"
+              class="max-w-xl pb-14 sm:pb-20 lg:pb-28"
+            >
+              <h3
+                class="font-display text-4xl text-paper sm:text-5xl lg:text-[56px] font-semibold"
+              >
                 {{ venue.name }}
               </h3>
-              <p class="mt-4 text-sm leading-7 text-paper/80 sm:text-base lg:text-[18px] lg:font-medium">
+              <p
+                class="mt-4 text-sm leading-7 text-paper/80 sm:text-base lg:text-[18px] lg:font-medium"
+              >
                 {{ venue.description }}
               </p>
               <div class="mt-12">
@@ -72,14 +85,21 @@
       </article>
 
       <!-- Position readout: only meaningful while the stage is pinned -->
-      <div class="pointer-events-none absolute inset-x-0 bottom-10 hidden motion-safe:lg:block">
+      <div
+        class="pointer-events-none absolute inset-x-0 bottom-10 hidden motion-safe:lg:block"
+      >
         <BaseContainer size="xl">
           <div class="flex items-center justify-end gap-5">
-            <span class="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-paper/70">
+            <span
+              class="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-paper/70"
+            >
               {{ counterLabel }}
             </span>
             <span class="h-px w-40 bg-paper/25 xl:w-56" aria-hidden="true">
-              <span ref="progressRef" class="block h-px w-full origin-left bg-champagne" />
+              <span
+                ref="progressRef"
+                class="block h-px w-full origin-left bg-champagne"
+              />
             </span>
           </div>
         </BaseContainer>
@@ -89,8 +109,8 @@
 </template>
 
 <script setup lang="ts">
-import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-import type { DiningVenue } from '~/types/dining'
+import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
+import type { DiningVenue } from "~/types/dining";
 
 /**
  * Static showcase content (CMS-ready shape).
@@ -106,83 +126,112 @@ import type { DiningVenue } from '~/types/dining'
  */
 const venues: DiningVenue[] = [
   {
-    id: 'bbq-restaurant',
-    name: 'BBQ Restaurant',
-    description: 'Charcoal-grilled specialties in a double-height dining room of stone, timber, and low evening light — our signature restaurant pairs bold flavors with an unhurried, convivial setting.',
-    poster: { src: '/images/dining/bbq-restaurant.jpg', alt: 'Q Hotel BBQ Restaurant dining room with ring chandeliers, stone feature wall, and city-view windows' },
+    id: "bbq-restaurant",
+    name: "BBQ Restaurant",
+    description:
+      "Charcoal-grilled specialties in a double-height dining room of stone, timber, and low evening light — our signature restaurant pairs bold flavors with an unhurried, convivial setting.",
+    poster: {
+      src: "/images/dining/bbq-restaurant.jpg",
+      alt: "Q Hotel BBQ Restaurant dining room with ring chandeliers, stone feature wall, and city-view windows",
+    },
   },
   {
-    id: 'sky-lounge',
-    name: 'Sky Lounge & Bar',
-    description: 'Dhaka at dusk from the top floor: a low-lit bar of brass and smoked glass, where a short list of classics and a longer one of rare malts carry the evening past midnight.',
-    poster: { src: '/images/dining/bbq-restaurant-2.png', alt: 'Rooftop lounge and bar with brass detailing and city views at dusk' },
+    id: "sky-lounge",
+    name: "Sky Lounge & Bar",
+    description:
+      "Dhaka at dusk from the top floor: a low-lit bar of brass and smoked glass, where a short list of classics and a longer one of rare malts carry the evening past midnight.",
+    poster: {
+      src: "/images/dining/bbq-restaurant-2.png",
+      alt: "Rooftop lounge and bar with brass detailing and city views at dusk",
+    },
   },
   {
-    id: 'atrium-cafe',
-    name: 'The Atrium Café',
-    description: 'An all-day room under glass — breakfast that runs long, a patisserie counter worth the detour, and coffee served with the kind of quiet that makes a table hard to leave.',
-    poster: { src: '/images/dining/bbq-restaurant.jpg', alt: 'All-day café under a glass atrium with a patisserie counter and marble tables' },
+    id: "atrium-cafe",
+    name: "The Atrium Café",
+    description:
+      "An all-day room under glass — breakfast that runs long, a patisserie counter worth the detour, and coffee served with the kind of quiet that makes a table hard to leave.",
+    poster: {
+      src: "/images/dining/bbq-restaurant.jpg",
+      alt: "All-day café under a glass atrium with a patisserie counter and marble tables",
+    },
   },
-]
+];
 
-const sectionRef = ref<HTMLElement | null>(null)
-const stageRef = ref<HTMLElement | null>(null)
-const progressRef = ref<HTMLElement | null>(null)
+const sectionRef = ref<HTMLElement | null>(null);
+const stageRef = ref<HTMLElement | null>(null);
+const progressRef = ref<HTMLElement | null>(null);
 
-const activeIndex = ref(0)
+const activeIndex = ref(0);
 /** True once the slides are stacked on top of each other, so only one shows */
-const isStageStacked = ref(false)
+const isStageStacked = ref(false);
 
-const { gsap, createContext, prefersReducedMotion } = useGsap()
-const { addCleanup } = useAnimationCleanup()
-const nuxtApp = useNuxtApp()
-const ScrollTrigger = nuxtApp.$ScrollTrigger as typeof ScrollTriggerType | undefined
+const { gsap, createContext, prefersReducedMotion } = useGsap();
+const { addCleanup } = useAnimationCleanup();
+const nuxtApp = useNuxtApp();
+const ScrollTrigger = nuxtApp.$ScrollTrigger as
+  | typeof ScrollTriggerType
+  | undefined;
 
 const counterLabel = computed(() => {
-  const current = String(activeIndex.value + 1).padStart(2, '0')
-  const total = String(venues.length).padStart(2, '0')
-  return `${current} — ${total}`
-})
+  const current = String(activeIndex.value + 1).padStart(2, "0");
+  const total = String(venues.length).padStart(2, "0");
+  return `${current} — ${total}`;
+});
 
 /** Hidden from assistive tech and taken out of the tab order while covered */
 function isSlideInert(index: number) {
-  return isStageStacked.value && index !== activeIndex.value
+  return isStageStacked.value && index !== activeIndex.value;
 }
 
 onMounted(async () => {
-  await nextTick()
+  await nextTick();
 
-  const sectionElement = sectionRef.value
-  const stageElement = stageRef.value
+  const sectionElement = sectionRef.value;
+  const stageElement = stageRef.value;
 
-  if (!sectionElement || !stageElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
-    return
+  if (
+    !sectionElement ||
+    !stageElement ||
+    !gsap ||
+    !ScrollTrigger ||
+    prefersReducedMotion.value
+  ) {
+    return;
   }
 
-  const mediaMatcher = gsap.matchMedia()
+  const mediaMatcher = gsap.matchMedia();
 
   // The pinned stage only exists on large screens; narrower viewports keep the
   // readable stacked panels
-  mediaMatcher.add('(min-width: 1024px)', () => {
+  mediaMatcher.add("(min-width: 1024px)", () => {
     const context = createContext(() => {
-      const mediaLayers = gsap.utils.toArray<HTMLElement>('[data-dining-media]', stageElement)
-      const copyLayers = gsap.utils.toArray<HTMLElement>('[data-dining-copy]', stageElement)
+      const mediaLayers = gsap.utils.toArray<HTMLElement>(
+        "[data-dining-media]",
+        stageElement,
+      );
+      const copyLayers = gsap.utils.toArray<HTMLElement>(
+        "[data-dining-copy]",
+        stageElement,
+      );
 
       if (mediaLayers.length < 2) {
-        return
+        return;
       }
 
-      const stepCount = mediaLayers.length - 1
-      const headerHeight = readHeaderHeight()
+      const stepCount = mediaLayers.length - 1;
+      const headerHeight = readHeaderHeight();
 
       // Only the first outlet's photograph is visible at rest; the rest fade
       // in at the same size (no scale, no zoom — the image never grows).
       gsap.set(mediaLayers, {
         autoAlpha: (index: number) => (index === 0 ? 1 : 0),
-      })
+      });
       copyLayers.forEach((layer, index) => {
-        gsap.set(layer, { autoAlpha: index === 0 ? 1 : 0, y: index === 0 ? 0 : 32 })
-      })
+        gsap.set(layer, {
+          autoAlpha: index === 0 ? 1 : 0,
+          y: index === 0 ? 0 : 32,
+        });
+      });
 
       const timeline = gsap.timeline({
         scrollTrigger: {
@@ -197,7 +246,7 @@ onMounted(async () => {
           snap: {
             snapTo: 1 / stepCount,
             duration: { min: 0.25, max: 0.6 },
-            ease: 'power2.out',
+            ease: "power2.out",
           },
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -205,65 +254,85 @@ onMounted(async () => {
             activeIndex.value = Math.min(
               venues.length - 1,
               Math.max(0, Math.round(self.progress * stepCount)),
-            )
+            );
           },
         },
-      })
+      });
 
       for (let index = 1; index < mediaLayers.length; index += 1) {
-        const step = index - 1
+        const step = index - 1;
 
         timeline
           // Copy leaves first, so the frame change reads as a shift in mood
           // rather than a jump
-          .to(copyLayers[step] as HTMLElement, {
-            autoAlpha: 0,
-            y: -32,
-            duration: 0.4,
-            ease: 'power2.in',
-          }, step)
+          .to(
+            copyLayers[step] as HTMLElement,
+            {
+              autoAlpha: 0,
+              y: -32,
+              duration: 0.4,
+              ease: "power2.in",
+            },
+            step,
+          )
           // Photographs crossfade in place: outgoing fades out, incoming
           // fades in — same size throughout, no scale (still scrub-synced
           // to scroll, so nothing moves while the page is still).
-          .to(mediaLayers[step] as HTMLElement, {
-            autoAlpha: 0,
-            duration: 0.9,
-            ease: 'power1.inOut',
-          }, step + 0.15)
-          .to(mediaLayers[index] as HTMLElement, {
-            autoAlpha: 1,
-            duration: 1,
-            ease: 'power1.inOut',
-          }, step + 0.15)
+          .to(
+            mediaLayers[step] as HTMLElement,
+            {
+              autoAlpha: 0,
+              duration: 0.9,
+              ease: "power1.inOut",
+            },
+            step + 0.15,
+          )
+          .to(
+            mediaLayers[index] as HTMLElement,
+            {
+              autoAlpha: 1,
+              duration: 1,
+              ease: "power1.inOut",
+            },
+            step + 0.15,
+          )
           // ...and the new copy arrives as the frame settles into place
-          .to(copyLayers[index] as HTMLElement, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.55,
-            ease: 'power2.out',
-          }, step + 0.45)
+          .to(
+            copyLayers[index] as HTMLElement,
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.55,
+              ease: "power2.out",
+            },
+            step + 0.45,
+          );
       }
 
-      timeline.fromTo(progressRef.value, {
-        scaleX: 1 / mediaLayers.length,
-      }, {
-        scaleX: 1,
-        duration: stepCount,
-        ease: 'none',
-      }, 0)
+      timeline.fromTo(
+        progressRef.value,
+        {
+          scaleX: 1 / mediaLayers.length,
+        },
+        {
+          scaleX: 1,
+          duration: stepCount,
+          ease: "none",
+        },
+        0,
+      );
+    }, sectionElement);
 
-    }, sectionElement)
-
-    isStageStacked.value = true
+    isStageStacked.value = true;
 
     return () => {
-      isStageStacked.value = false
-      context?.revert()
-    }
-  })
+      isStageStacked.value = false;
+      context?.revert();
+    };
+  });
 
-  addCleanup(() => mediaMatcher.revert())
-})
+  addCleanup(() => mediaMatcher.revert());
+});
 </script>
 
 <style scoped>

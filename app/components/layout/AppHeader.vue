@@ -204,12 +204,12 @@ const navigationItems: NavItemData[] = [
   {
     id: "dining",
     label: "Dining",
-    href: "#dining",
+    href: "/dining",
   },
   {
     id: "meetings",
     label: "Meetings & Events",
-    href: "#meetings",
+    href: "/meetings-events",
   },
   {
     id: "longstay",

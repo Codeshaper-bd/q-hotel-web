@@ -26,11 +26,13 @@
 
       <!-- Heading + accordion, aligned to the xl container's right edge -->
       <div class="px-5 sm:px-6 lg:max-h-full lg:self-center lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
-        <div data-faq-reveal class="flex flex-col items-center text-center">
-          <BaseKicker>Related Question</BaseKicker>
-          <h2 id="faq-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold">
-            Frequently Asked Questions
-          </h2>
+        <div class="mx-auto w-fit lg:ml-0 lg:mr-auto lg:-translate-x-1/2">
+          <div data-faq-reveal class="flex flex-col items-center text-center">
+            <BaseKicker>Good To Know</BaseKicker>
+            <h2 id="faq-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold">
+              Frequently<br>Asked Questions
+            </h2>
+          </div>
         </div>
 
         <FaqAccordion :items="faqs" class="mt-10" />
@@ -41,38 +43,20 @@
 
 <script setup lang="ts">
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-import type { FaqItem } from '~/types/faq'
 
-const faqs: FaqItem[] = [
-  {
-    question: 'What are the check-in and check-out times at Q Hotel Dhaka?',
-    answer: 'Check-in begins at 2:00 PM and check-out is until 12:00 noon. Early check-in and late check-out can be arranged on request, subject to availability.',
-  },
-  {
-    question: 'Does Q Hotel Dhaka have in-room Wi-Fi?',
-    answer: 'Yes. Complimentary high-speed Wi-Fi is available throughout the hotel — in every guest room and across all public areas — for all guests at no additional charge.',
-  },
-  {
-    question: 'What is the closest airport near Q Hotel Dhaka?',
-    answer: 'Hazrat Shahjalal International Airport (DAC) is the nearest airport, roughly 30 to 45 minutes away by car depending on traffic conditions.',
-  },
-  {
-    question: 'What property amenities are available at Q Hotel Dhaka?',
-    answer: 'Guests enjoy an outdoor swimming pool, a fitness centre and spa, multiple dining venues, 24-hour room service, and dedicated meeting and event spaces.',
-  },
-  {
-    question: 'Does Q Hotel Dhaka have an airport shuttle to Hazrat Shahjalal International Airport (DAC)?',
-    answer: 'Yes. A private airport shuttle to and from Hazrat Shahjalal International Airport can be arranged. Please contact our concierge in advance to schedule your transfer.',
-  },
-  {
-    question: 'What are the parking options at Q Hotel Dhaka?',
-    answer: 'Complimentary on-site parking is available for all guests, with 24-hour security and valet service offered on request.',
-  },
-]
+const faqs = useFaqs('home')
 
 const sectionRef = ref<HTMLElement | null>(null)
 /** 1 (completed) is the resting truth: SSR, mobile, and reduced motion never move it */
 const visualProgress = ref(1)
+
+const props = withDefaults(defineProps<{
+  /** Set false to keep the static completed layout (no pin/scrub) — used on pages
+   *  where a fixed overlay would clash with controls below the fold */
+  pinned?: boolean
+}>(), {
+  pinned: true,
+})
 
 const { gsap, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()
@@ -112,7 +96,7 @@ onMounted(async () => {
 
   const sectionElement = sectionRef.value
 
-  if (!sectionElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
+  if (!sectionElement || !gsap || !ScrollTrigger || prefersReducedMotion.value || !props.pinned) {
     return
   }
 

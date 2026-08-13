@@ -28,12 +28,16 @@
 /** `paper` sits on light sections; `ink` sits on dark (ink/night) sections */
 const props = withDefaults(defineProps<{
   tone?: 'paper' | 'ink'
+  transparent?: boolean
 }>(), {
-  tone: 'paper'
+  tone: 'paper',
+  transparent: false,
 })
 
 const kickerClass = computed(() => [
   'inline-flex items-stretch border',
-  props.tone === 'ink' ? 'border-paper/20 bg-paper/5' : 'border-line bg-paper'
+  props.transparent
+    ? (props.tone === 'ink' ? 'border-paper/20' : 'border-line')
+    : (props.tone === 'ink' ? 'border-paper/20 bg-paper/5' : 'border-line bg-paper'),
 ])
 </script>
