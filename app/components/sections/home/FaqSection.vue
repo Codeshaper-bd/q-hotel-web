@@ -74,6 +74,14 @@ const sectionRef = ref<HTMLElement | null>(null)
 /** 1 (completed) is the resting truth: SSR, mobile, and reduced motion never move it */
 const visualProgress = ref(1)
 
+const props = withDefaults(defineProps<{
+  /** Set false to keep the static completed layout (no pin/scrub) — used on pages
+   *  where a fixed overlay would clash with controls below the fold */
+  pinned?: boolean
+}>(), {
+  pinned: true,
+})
+
 const { gsap, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()
 const nuxtApp = useNuxtApp()
@@ -112,7 +120,7 @@ onMounted(async () => {
 
   const sectionElement = sectionRef.value
 
-  if (!sectionElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
+  if (!sectionElement || !gsap || !ScrollTrigger || prefersReducedMotion.value || !props.pinned) {
     return
   }
 

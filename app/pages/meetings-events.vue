@@ -28,7 +28,7 @@
     <BusinessLoungeSection />
     <CapacityOverviewSection />
     <FaqSection />
-
+    <div class="h-[100px]" aria-hidden="true" />
   </div>
 </template>
 
