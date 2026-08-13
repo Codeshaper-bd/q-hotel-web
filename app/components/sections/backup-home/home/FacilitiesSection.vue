@@ -95,7 +95,7 @@
               designed to make your stay effortless — quiet comfort, warm
               service, and real measured care.
             </p>
-            <BaseArrowCta to="#reserve" variant="gold">
+            <BaseArrowCta to="facilities-amenities" variant="gold">
               View All Facilities
             </BaseArrowCta>
           </div>

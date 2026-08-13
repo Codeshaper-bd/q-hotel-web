@@ -91,7 +91,7 @@
             <p class="font-display text-lg leading-8 text-paper/80 sm:text-xl lg:text-2xl lg:font-semibold">
               We offers, a full range of digital services designed to help brands grow with clarity and confidence. from  deliver real measurable value.
             </p>
-            <BaseArrowCta to="#reserve" variant="gold" label-class="!text-sm !font-medium">
+            <BaseArrowCta to="facilities-amenities" variant="gold" label-class="!text-sm !font-medium">
               View All Facilities
             </BaseArrowCta>
           </div>
