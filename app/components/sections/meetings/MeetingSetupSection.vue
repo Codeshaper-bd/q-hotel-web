@@ -4,9 +4,9 @@
   no cards or shadows. Plain static markup by design.
 -->
 <template>
-  <section aria-labelledby="meeting-setup-title" class="bg-[#F5F1E9]">
-    <div class="mx-auto w-full max-w-[800px] px-5 py-16 sm:px-6 lg:py-24">
-      <h2 id="meeting-setup-title" class="sr-only">Meeting Set-Up Examples</h2>
+  <div :class="embedded ? '' : 'bg-[#F5F1E9]'">
+    <div :class="embedded ? '' : 'mx-auto w-full max-w-[800px] px-5 py-16 sm:px-6 lg:py-24'">
+      <h2 v-if="!embedded" id="meeting-setup-title" class="sr-only">Meeting Set-Up Examples</h2>
 
       <!-- Theater -->
       <div class="border-t border-[#d8d3cb] py-7">
@@ -16,7 +16,7 @@
           </div>
           <div class="min-w-0">
             <h3 class="text-sm font-medium text-[#282522] sm:text-base">
-              Theater
+              Theater 
             </h3>
             <p class="mt-1.5 text-xs leading-[1.6] text-[#6b645c] sm:text-[13px]">
               Ideal for presentations, seminars, product launches, and large meetings where guests face a central stage or speaker. This setup maximizes seating capacity while keeping the focus on the presentation.
@@ -93,5 +93,11 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
+
+<script setup lang="ts">
+defineProps<{
+  embedded?: boolean
+}>()
+</script>
