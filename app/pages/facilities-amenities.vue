@@ -8,10 +8,13 @@
         { label: 'Home', to: '/' },
         { label: 'Facilities & Amenities' },
       ]"
-    />
+    >
+      <template #console>
+        <FacilitiesHighlights />
+      </template>
+    </PageBanner>
     <FacilitiesAmenitiesSection />
-    <FaqSection />
-    <div class="h-[100px]" aria-hidden="true" />
+    <FacilitiesRelaxationSection />
   </div>
 </template>
 
