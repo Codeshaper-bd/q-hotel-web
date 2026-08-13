@@ -26,11 +26,13 @@
 
       <!-- Heading + accordion, aligned to the xl container's right edge -->
       <div class="px-5 sm:px-6 lg:max-h-full lg:self-center lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
-        <div data-faq-reveal class="flex flex-col items-center text-center">
-          <BaseKicker>Related Question</BaseKicker>
-          <h2 id="faq-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold">
-            Frequently Asked Questions
-          </h2>
+        <div class="mx-auto w-fit lg:ml-0 lg:mr-auto lg:-translate-x-1/2">
+          <div data-faq-reveal class="flex flex-col items-center text-center">
+            <BaseKicker>Good To Know</BaseKicker>
+            <h2 id="faq-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold">
+              Frequently<br>Asked Questions
+            </h2>
+          </div>
         </div>
 
         <FaqAccordion :items="faqs" class="mt-10" />
@@ -50,23 +52,23 @@ const faqs: FaqItem[] = [
   },
   {
     question: 'Does Q Hotel Dhaka have in-room Wi-Fi?',
-    answer: 'Yes. Complimentary high-speed Wi-Fi is available throughout the hotel — in every guest room and across all public areas — for all guests at no additional charge.',
+    answer: 'Yes. Complimentary high-speed Wi-Fi is available in every guest room and throughout the hotel’s public areas.',
   },
   {
     question: 'What is the closest airport near Q Hotel Dhaka?',
     answer: 'Hazrat Shahjalal International Airport (DAC) is the nearest airport, roughly 30 to 45 minutes away by car depending on traffic conditions.',
   },
   {
-    question: 'What property amenities are available at Q Hotel Dhaka?',
-    answer: 'Guests enjoy an outdoor swimming pool, a fitness centre and spa, multiple dining venues, 24-hour room service, and dedicated meeting and event spaces.',
+    question: 'Is Q Hotel Dhaka a five-star hotel?',
+    answer: 'Q Hotel Dhaka delivers a premium, full-service hospitality experience with thoughtfully designed rooms, attentive service, dining, wellness, and business facilities.',
   },
   {
-    question: 'Does Q Hotel Dhaka have an airport shuttle to Hazrat Shahjalal International Airport (DAC)?',
-    answer: 'Yes. A private airport shuttle to and from Hazrat Shahjalal International Airport can be arranged. Please contact our concierge in advance to schedule your transfer.',
+    question: 'Does Q Hotel Dhaka offer a buffet?',
+    answer: 'Yes. Buffet selections are offered at designated dining times and for selected events. Availability may vary, so please contact the hotel for the current schedule.',
   },
   {
-    question: 'What are the parking options at Q Hotel Dhaka?',
-    answer: 'Complimentary on-site parking is available for all guests, with 24-hour security and valet service offered on request.',
+    question: 'Is breakfast available at Q Hotel Dhaka?',
+    answer: 'Yes. Fresh local and continental breakfast options are available each morning, with service details provided during booking or at check-in.',
   },
 ]
 

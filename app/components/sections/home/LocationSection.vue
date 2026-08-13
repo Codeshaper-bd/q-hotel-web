@@ -1,3 +1,70 @@
+<script setup lang="ts">
+import type { HotelLocation, NearbyAttraction } from "~/types/location";
+
+const hotel: HotelLocation = {
+  name: "Q Hotel Dhaka",
+  address: "Uttara, Dhaka, Bangladesh",
+  coordinates: [23.8377208, 90.4572272],
+  directionsUrl: "https://maps.app.goo.gl/KAggvEKj6dWVGrQE9",
+};
+
+/**
+ * Static showcase content (CMS-ready shape). Coordinates mark each landmark's
+ * location; displayed distances are concise, approximate road distances from
+ * the hotel for guest-facing wayfinding.
+ */
+const nearbyAttractions: NearbyAttraction[] = [
+  {
+    id: "hazrat-shahjalal-airport",
+    name: "Hazrat Shahjalal International Airport (HSIA)",
+    description:
+      "Dhaka's primary international airport, providing convenient connectivity for domestic and international business travelers visiting the capital.",
+    distanceMiles: 5,
+    distanceKm: 8,
+    coordinates: [23.8433472, 90.3977833],
+  },
+  {
+    id: "international-convention-city-bashundhara",
+    name: "International Convention City Bashundhara (ICCB)",
+    description:
+      "One of Dhaka's leading venues for major conferences, exhibitions, corporate events, trade shows, and large-scale business gatherings.",
+    distanceMiles: 3.5,
+    distanceKm: 5.5,
+    coordinates: [23.8276, 90.42718],
+  },
+  {
+    id: "bangladesh-china-friendship-conference-center",
+    name: "Bangladesh-China Friendship Conference Center (BCFCC)",
+    description:
+      "A prominent conference and event destination in Dhaka, hosting business conferences, exhibitions, seminars, and important institutional events.",
+    distanceMiles: 7.5,
+    distanceKm: 12,
+    coordinates: [23.76936, 90.37929],
+  },
+  {
+    id: "adamjee-epz",
+    name: "Adamjee EPZ (AEPZ)",
+    description:
+      "A major export-processing and industrial hub in Narayanganj, serving corporate visitors, investors, suppliers, and business travelers.",
+    distanceMiles: 12,
+    distanceKm: 19,
+    coordinates: [23.67673, 90.52335],
+  },
+];
+
+/** null centres the hotel; an id frames that landmark against the hotel */
+const activeAttractionId = ref<string | null>(null);
+
+function toggleAttraction(id: string) {
+  activeAttractionId.value = activeAttractionId.value === id ? null : id;
+}
+
+function formatDistance(attraction: NearbyAttraction) {
+  return `${attraction.distanceMiles} mi / ${attraction.distanceKm} km from the hotel`;
+}
+</script>
+
+
 <template>
   <!--
     Explore / Location: a dark band pairing the hotel's interactive map with the
@@ -119,69 +186,3 @@
     </BaseContainer>
   </section>
 </template>
-
-<script setup lang="ts">
-import type { HotelLocation, NearbyAttraction } from "~/types/location";
-
-const hotel: HotelLocation = {
-  name: "Q Hotel Dhaka",
-  address: "Uttara, Dhaka, Bangladesh",
-  coordinates: [23.8377208, 90.4572272],
-  directionsUrl: "https://maps.app.goo.gl/KAggvEKj6dWVGrQE9",
-};
-
-/**
- * Static showcase content (CMS-ready shape). Coordinates are the landmarks'
- * real positions and the distances are the straight-line distances computed
- * from them — the map and the copy have to agree, or one of them is lying.
- */
-const nearbyAttractions: NearbyAttraction[] = [
-  {
-    id: "army-golf-club",
-    name: "Army Golf Club",
-    description:
-      "A premier nine-hole course spanning fifty-eight scenic acres, with a swimming pool and the well-loved Palm View Restaurant — conveniently close to the airport.",
-    distanceMiles: 3.05,
-    distanceKm: 4.91,
-    coordinates: [23.8199143, 90.4130827],
-  },
-  {
-    id: "jamuna-future-park",
-    name: "Jamuna Future Park",
-    description:
-      "One of South Asia's largest shopping malls: hundreds of retailers, a cinema, and a food court, all a short drive from the hotel lobby.",
-    distanceMiles: 2.68,
-    distanceKm: 4.31,
-    coordinates: [23.8134982, 90.4240893],
-  },
-  {
-    id: "lalbagh-fort",
-    name: "Lalbagh Fort",
-    description:
-      "The beautiful remnants of an unfinished Mughal fort. The grounds still hold gardens, fortifications, a mosque, and a mausoleum, with excavation ongoing.",
-    distanceMiles: 9.3,
-    distanceKm: 14.97,
-    coordinates: [23.718843, 90.3881528],
-  },
-  {
-    id: "ramna-park",
-    name: "Ramna Park",
-    description:
-      "Dhaka's favourite green retreat — a serene lake, mature trees, and long walking paths, ideal for an unhurried morning away from the traffic.",
-    distanceMiles: 7.66,
-    distanceKm: 12.33,
-    coordinates: [23.7402535, 90.3995197],
-  },
-];
-
-/** null centres the hotel; an id frames that landmark against the hotel */
-const activeAttractionId = ref<string | null>(null);
-
-function toggleAttraction(id: string) {
-  activeAttractionId.value = activeAttractionId.value === id ? null : id;
-}
-
-function formatDistance(attraction: NearbyAttraction) {
-  return `${attraction.distanceMiles} mi / ${attraction.distanceKm} km from the hotel`;
-}
-</script>
