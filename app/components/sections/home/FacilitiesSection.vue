@@ -230,7 +230,7 @@ const amenities: FacilityAmenity[] = [
   },
   {
     id: 'vehicle-parking',
-    label: 'Free Vehicle Parking',
+    label: 'Parking',
     image: '/images/hero/lobby-interior.jpg',
     iconPaths: [
       'M4.5 4.5h15v15h-15z',

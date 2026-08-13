@@ -1,5 +1,5 @@
 <template>
-  <section aria-labelledby="facilities-amenities-title" class="pt-20 text-ink sm:pt-24 lg:pt-32">
+  <section aria-labelledby="facilities-amenities-title" class="pt-20 text-ink sm:pt-24">
     <BaseContainer size="xl">
       <FadeReveal>
         <div class="text-center">

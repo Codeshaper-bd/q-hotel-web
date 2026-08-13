@@ -5,20 +5,26 @@
     Composes <section> directly instead of BaseSection because the brand
     watermark must hang off the viewport's left edge, outside the container.
   -->
-  <section
-    id="about"
-    ref="sectionRef"
-    aria-labelledby="about-title"
-    class="relative overflow-hidden bg-[#F8F6F2] py-20 pb-0 text-ink sm:py-24"
-  >
+  <section id="about" ref="sectionRef" aria-labelledby="about-title"
+    class="relative overflow-hidden bg-[#F8F6F2] py-20 pb-0 text-ink sm:py-24">
 
     <BaseContainer size="lg">
       <FadeReveal>
         <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
           <h2 id="about-title" class="sr-only">Who we are</h2>
-          <BaseKicker>Who We Are</BaseKicker>
-          <p class="mt-8 font-display text-2xl font-semibold leading-9 text-ink sm:text-4xl sm:leading-[2.75rem]">
-            Q Hotel Dhaka is a premier hospitality destination in Dhaka, offering refined comfort, exceptional service, and effortless access to the city's key business, shopping, and cultural attractions, crafted for discerning travelers and memorable stays.
+          <BaseKicker transparent>Who We Are</BaseKicker>
+          <div class="mt-8 flex w-full justify-center items-center gap-2" aria-hidden="true">
+            <span class="h-0.5 bg-[#C9752D] w-6"></span>
+            <div class="flex items-center gap-0.5">
+              <Star v-for="n in 5" :key="n" class="size-5" />
+            </div>
+            <span class="h-0.5 bg-[#C9752D] w-6"></span>
+          </div>
+          <p class="text-center text-sm font-medium uppercase text-[#505155] tracking-widest mb-5 mt-2.5">FIVE-STAR HOSPITALITY IN DHAKA</p>
+          <p class="mt-3 font-display text-2xl font-semibold leading-9 text-ink sm:text-4xl sm:leading-[2.75rem]">
+            Q Hotel Dhaka is a premier hospitality destination in Dhaka, offering refined comfort, exceptional service,
+            and effortless access to the city's key business, shopping, and cultural attractions, crafted for discerning
+            travelers and memorable stays.
           </p>
           <div class="mt-10">
             <BaseArrowCta to="/about" label-class="!text-sm !font-medium !text-[#0F0F10]">
@@ -32,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import Star from "~/components/icons/Star.vue"
+
 const sectionRef = ref<HTMLElement | null>(null)
 const brandMarkRef = ref<SVGSVGElement | null>(null)
 const strokeGroupRef = ref<SVGGElement | null>(null)
