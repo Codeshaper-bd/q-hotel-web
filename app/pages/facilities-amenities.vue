@@ -20,8 +20,9 @@
 
 <script setup lang="ts">
 useSeoMetaData({
-  title: 'Facilities & Amenities',
-  description: 'Explore the facilities and amenities at Q Hotel Dhaka — swimming pool, fitness and spa, dining, parking, Wi-Fi, airport shuttle, and more.',
-  path: '/facilities-amenities',
-})
+  title: "Facilities & Amenities",
+  description:
+    "Explore the facilities and amenities at Q Hotel Dhaka — swimming pool, fitness and spa, dining, parking, Wi-Fi, airport shuttle, and more.",
+  path: "/facilities-amenities",
+});
 </script>

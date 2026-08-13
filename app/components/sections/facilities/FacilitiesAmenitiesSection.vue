@@ -1,16 +1,10 @@
 <template>
-  <section
-    aria-labelledby="facilities-amenities-title"
-    class="py-20 text-ink sm:py-24 lg:py-32"
-  >
+  <section aria-labelledby="facilities-amenities-title" class="pt-20 text-ink sm:pt-24 lg:pt-32">
     <BaseContainer size="xl">
       <FadeReveal>
         <div class="text-center">
           <BaseKicker>Facilities</BaseKicker>
-          <h2
-            id="facilities-amenities-title"
-            class="mt-5 font-display text-4xl font-semibold sm:text-5xl"
-          >
+          <h2 id="facilities-amenities-title" class="mt-5 font-display text-4xl font-semibold sm:text-5xl">
             Our Hotel Facilities
           </h2>
         </div>
@@ -18,13 +12,9 @@
 
       <FadeReveal :stagger="0.045" :distance="24">
         <div class="mt-12 grid gap-1.5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-          <div
-            data-reveal-item
-            class="flex min-h-72 flex-col justify-center px-5 py-10 sm:px-8 lg:aspect-[4/5] lg:px-5 xl:px-8"
-          >
-            <h3
-              class="font-display text-xl lg:text-[28px] text-[#A75B27] font-semibold"
-            >
+          <div data-reveal-item
+            class="flex min-h-72 flex-col justify-center px-5 py-10 sm:px-8 lg:aspect-[4/5] lg:px-5 xl:px-8">
+            <h3 class="font-display text-xl lg:text-[28px] text-[#A75B27] font-semibold">
               Everything You Need,<br />All in One Place
             </h3>
             <div class="mt-4 h-1 w-20 bg-[#C9752D]"></div>
@@ -34,43 +24,21 @@
             </p>
           </div>
 
-          <div
-            v-for="(facility, index) in facilities"
-            :key="facility.title"
-            data-reveal-item
-          >
-            <article
-              class="group relative isolate aspect-[4/5] overflow-hidden text-paper"
-            >
-              <BaseImage
-                :src="facility.image"
-                :alt="facility.title"
-                :width="640"
-                :height="800"
+          <div v-for="(facility, index) in facilities" :key="facility.title" data-reveal-item>
+            <article class="group relative isolate aspect-[4/5] overflow-hidden text-paper">
+              <BaseImage :src="facility.image" :alt="facility.title" :width="640" :height="800"
                 sizes="xs:100vw sm:50vw lg:25vw"
-                class="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-[1.035]"
-              />
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-[1.035]" />
 
               <div class="absolute inset-x-0 bottom-0 z-10 px-6 pb-12">
                 <div class="py-1.5 px-2.5 bg-[#23272E] inline-block">
-                  <component
-                    v-if="facility.icon"
-                    :is="facility.icon"
-                    class="size-8"
-                    aria-hidden="true"
-                  />
-                     <p
-                  v-if="facility.icon"
-                  class="mt-3 text-center text-sm  text-white"
-                  aria-hidden="true"
-                >
-                  {{ String(index + 1).padStart(2, "0") }}
-                </p>
+                  <component v-if="facility.icon" :is="facility.icon" class="size-8" aria-hidden="true" />
+                  <p v-if="facility.icon" class="mt-3 text-center text-sm  text-white" aria-hidden="true">
+                    {{ String(index + 1).padStart(2, "0") }}
+                  </p>
                 </div>
-             
-                <h3
-                  class="mt-4 font-display text-xl lg:text-[28px] text-[#EED4A3] font-semibold"
-                >
+
+                <h3 class="mt-4 font-display text-xl lg:text-[28px] text-[#EED4A3] font-semibold">
                   {{ facility.title }}
                 </h3>
                 <p class="mt-4 text-sm text-white/80">
@@ -80,20 +48,6 @@
             </article>
           </div>
 
-          <div
-            data-reveal-item
-            class="hidden aspect-[4/5] items-end justify-center overflow-hidden lg:flex"
-            aria-hidden="true"
-          >
-            <img
-              src="/images/facilities-skyline.svg"
-              alt=""
-              width="916"
-              height="508"
-              loading="lazy"
-              class="w-[145%] max-w-none translate-y-3 opacity-30"
-            />
-          </div>
         </div>
       </FadeReveal>
     </BaseContainer>
