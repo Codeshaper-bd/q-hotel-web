@@ -71,6 +71,66 @@ const faqs = {
         "The Executive and Presidential suites provide more spacious accommodation with elevated comfort and additional living space or premium features. The exact inclusions are listed in each suite’s details and can be confirmed during booking.",
     },
   ],
+  booking: [
+    {
+      question: 'How can I book a room at Q Hotel Dhaka?',
+      answer: 'You can reserve directly through the "Reserve Now" button or the search console on our website, by calling our reservations desk, or by emailing info@qhl.com.bd. Booking direct guarantees our best available rate.',
+    },
+    {
+      question: 'Can I modify or cancel my reservation?',
+      answer: 'Yes. Most rates allow free changes or cancellation up to 48 hours before arrival. Non-refundable promotional rates may carry different terms, which are always shown before you confirm your booking.',
+    },
+    {
+      question: 'Do you require a deposit at the time of booking?',
+      answer: 'A valid credit card is required to guarantee your reservation. Depending on the rate and length of stay, a partial or full prepayment may be requested at booking.',
+    },
+    {
+      question: 'Is it cheaper to book directly with the hotel?',
+      answer: 'Yes. Booking through our official website or reservations desk guarantees the lowest available rate, along with member perks not offered through third-party channels.',
+    },
+  ],
+  dining: [
+    {
+      question: 'What dining options are available at Q Hotel Dhaka?',
+      answer: 'Q Hotel Dhaka features multiple restaurants and lounges serving local and international cuisine, alongside 24-hour in-room dining for guests.',
+    },
+    {
+      question: 'What are the restaurant opening hours?',
+      answer: 'Restaurant opening hours vary by venue and service period. Please contact Q Hotel Dhaka for the latest breakfast, lunch, dinner, and lounge schedules.',
+    },
+    {
+      question: 'Does Q Hotel Dhaka offer buffet dining?',
+      answer: 'Yes. Buffet selections are offered at designated dining times and for selected events. Availability may vary, so please contact the hotel for the current schedule.',
+    },
+  ],
+  policies: [
+    {
+      question: 'What is your pet policy?',
+      answer: 'Q Hotel Dhaka does not currently accommodate pets, with the exception of registered service animals. Please contact us in advance if you have specific accessibility needs.',
+    },
+    {
+      question: 'Is smoking permitted on the property?',
+      answer: 'Q Hotel Dhaka is a smoke-free property. Designated outdoor smoking areas are available; a cleaning fee applies for smoking inside guest rooms.',
+    },
+    {
+      question: 'What identification do I need to check in?',
+      answer: 'A valid government-issued photo ID (passport or national ID) is required at check-in for every registered guest, in line with local hospitality regulations.',
+    },
+  ],
+  location: [
+    {
+      question: 'What is the closest airport near Q Hotel Dhaka?',
+      answer: 'Hazrat Shahjalal International Airport (DAC) is the nearest airport, roughly 30 to 45 minutes away by car depending on traffic conditions.',
+    },
+    {
+      question: 'Does Q Hotel Dhaka have an airport shuttle?',
+      answer: 'Yes. A private airport shuttle to and from Hazrat Shahjalal International Airport can be arranged. Please contact our concierge in advance to schedule your transfer.',
+    },
+    {
+      question: 'What are the parking options at the hotel?',
+      answer: 'Complimentary on-site parking is available for all guests, with 24-hour security and valet service offered on request.',
+    },
+  ],
 } satisfies Record<string, FaqItem[]>;
 
 export type FaqPage = keyof typeof faqs;
