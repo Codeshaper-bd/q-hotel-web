@@ -35,7 +35,11 @@
           </div>
         </div>
 
-        <FaqAccordion :items="faqs" class="mt-10" />
+        <FaqAccordion
+          :items="faqs"
+          :initial-open-index="initialOpenIndex"
+          class="mt-10"
+        />
       </div>
     </div>
   </section>
@@ -43,20 +47,25 @@
 
 <script setup lang="ts">
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-
-const faqs = useFaqs('home')
+import type { FaqPage } from '~/composables/useFaqs'
 
 const sectionRef = ref<HTMLElement | null>(null)
 /** 1 (completed) is the resting truth: SSR, mobile, and reduced motion never move it */
 const visualProgress = ref(1)
 
 const props = withDefaults(defineProps<{
+  page?: FaqPage
+  initialOpenIndex?: number | null
   /** Set false to keep the static completed layout (no pin/scrub) — used on pages
    *  where a fixed overlay would clash with controls below the fold */
   pinned?: boolean
 }>(), {
+  page: 'home',
+  initialOpenIndex: 0,
   pinned: true,
 })
+
+const faqs = useFaqs(props.page)
 
 const { gsap, prefersReducedMotion } = useGsap()
 const { addCleanup } = useAnimationCleanup()

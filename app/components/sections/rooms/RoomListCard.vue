@@ -136,47 +136,47 @@
             {{ room.bedType }}
           </li>
         </ul>
+      </div>
 
-        <!-- Below lg the features and actions share one wrapping row;
-             from lg, mt-auto pins the actions to the panel's lower edge -->
-        <div
-          class="flex flex-wrap items-center gap-x-6 gap-y-3 lg:mt-auto lg:pt-6"
+      <!-- Below lg the actions follow the features; from lg, mt-auto
+           pins the actions to the panel's lower edge -->
+      <div
+        class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 lg:mt-auto lg:pt-6"
+      >
+        <BaseArrowCta
+          :to="`/booking?room=${room.id}`"
+          variant="gold"
+          label-class="text-[13px] leading-[20px] font-medium"
         >
-          <BaseArrowCta
-            :to="`/booking?room=${room.id}`"
-            variant="gold"
-            label-class="text-[13px] leading-[20px] font-medium"
+          Book Now
+        </BaseArrowCta>
+        <button
+          type="button"
+          class="flex items-center gap-1.5 text-sm font-medium uppercase tracking-[0.08em] text-paper transition-colors duration-fast hover:text-champagne"
+          @click="isDetailsOpen = true"
+        >
+          Room Details
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            aria-hidden="true"
           >
-            Book Now
-          </BaseArrowCta>
-          <button
-            type="button"
-            class="flex items-center gap-1.5 text-sm font-medium uppercase tracking-[0.08em] text-paper transition-colors duration-fast hover:text-champagne"
-            @click="isDetailsOpen = true"
-          >
-            Room Details
-            <svg
-              class="h-4 w-4"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.4"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 3l5 5-5 5"
-              />
-            </svg>
-          </button>
-          </div>
-        </div>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 3l5 5-5 5"
+            />
+          </svg>
+        </button>
       </div>
     </div>
+  </div>
 
-    <RoomDetailsDialog v-model:open="isDetailsOpen" />
-  </article>
+  <RoomDetailsDialog v-model:open="isDetailsOpen" />
+</article>
 </template>
 
 <script setup lang="ts">

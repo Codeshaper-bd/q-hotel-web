@@ -31,7 +31,7 @@ const directionsUrl =
         <li class="flex items-center gap-2.5">
           <EighteenPlus />
 
-          <span>Minimum age to Check In 18</span>
+          <span>Minimum age to Check In: 18</span>
         </li>
         <li class="flex items-center gap-2.5">
           <NoPets />

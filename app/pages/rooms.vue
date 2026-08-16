@@ -2,7 +2,7 @@
   <div>
     <RoomsHeroBanner />
     <RoomsListing />
-    <FaqSection />
+    <FaqSection page="rooms" :initial-open-index="1" />
     <div class="h-[100px]"></div>
   </div>
 </template>
