@@ -96,11 +96,23 @@ const faqs = {
     },
     {
       question: 'What are the restaurant opening hours?',
-      answer: 'Restaurant opening hours vary by venue and service period. Please contact Q Hotel Dhaka for the latest breakfast, lunch, dinner, and lounge schedules.',
+      answer: 'Our restaurants are open daily, providing flexible dining options throughout your stay. Restaurant 01 is open from 6:00 AM to 11:00 PM, serving guests from breakfast through dinner, while Restaurant 02 is open from 12:00 PM to 11:00 PM, offering lunch, dinner, and relaxed evening dining. Opening hours may vary on special occasions or public holidays.',
+    },
+    {
+      question: 'Is breakfast available at Q Hotel Dhaka?',
+      answer: 'Yes. Fresh local and continental breakfast options are available each morning, with service details provided during booking or at check-in.',
     },
     {
       question: 'Does Q Hotel Dhaka offer buffet dining?',
       answer: 'Yes. Buffet selections are offered at designated dining times and for selected events. Availability may vary, so please contact the hotel for the current schedule.',
+    },
+    {
+      question: 'Do I need to make a reservation before dining?',
+      answer: 'Reservations are recommended, especially for dinner, weekends, and special occasions. Walk-in guests are welcome and will be accommodated subject to table availability.',
+    },
+    {
+      question: 'Are vegetarian, vegan, and other dietary options available?',
+      answer: 'Yes. Vegetarian, vegan, and other dietary options are available. Please share any allergies or dietary requirements with our team when booking or before ordering so we can assist you.',
     },
   ],
   policies: [

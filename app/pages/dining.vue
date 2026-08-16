@@ -13,19 +13,12 @@
     >
     </PageBanner>
     <DiningVenues />
-    <FaqSection />
+    <FaqSection page="dining" />
     <div class="h-20"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { BookingSearchQuery } from '~/types/booking'
-import { toBookingRouteQuery } from '#imports'
-
-function handleSearch(query: BookingSearchQuery) {
-  navigateTo({ path: '/rooms', query: toBookingRouteQuery(query) })
-}
-
 useSeoMetaData({
   title: 'Dining',
   description: 'From international favorites to local delicacies, Q Hotel Dhaka restaurants and lounges offer exceptional dining experiences in elegant settings.',
