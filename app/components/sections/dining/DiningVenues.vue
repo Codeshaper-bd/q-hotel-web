@@ -8,13 +8,14 @@
     spacing="sm"
     container-size="xl"
     aria-labelledby="dining-section-title"
+    class="!py-[140px]"
   >
     <FadeReveal>
       <div class="mb-14 flex flex-col items-center text-center">
         <BaseKicker>Dine With Us</BaseKicker>
         <h2
           id="dining-section-title"
-          class="mt-6 font-display text-4xl text-ink sm:text-5xl"
+          class="mt-6 font-display font-semibold text-4xl sm:text-5xl text-[#0F0F10] lg:text-[56px]"
         >
           Exceptional Dining, Every Time
         </h2>
@@ -34,6 +35,7 @@
           :main-image="restaurant.mainImage"
           :top-image="restaurant.topImage"
           :bottom-image="restaurant.bottomImage"
+          :reservation-recommended="restaurant.reservationRecommended"
         />
       </FadeReveal>
     </div>
@@ -47,6 +49,7 @@ interface Restaurant {
   mainImage: string;
   topImage: string;
   bottomImage: string;
+  reservationRecommended?: boolean;
 }
 
 const restaurants: Restaurant[] = [
@@ -61,6 +64,7 @@ const restaurants: Restaurant[] = [
     mainImage: "/images/dining/dining-02-main.png",
     topImage: "/images/dining/dining-02-top.png",
     bottomImage: "/images/dining/dining-02-bottom.png",
+    reservationRecommended: true,
   },
 ];
 </script>

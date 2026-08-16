@@ -38,7 +38,7 @@
           >
             {{ title }}
           </h1>
-          <p v-if="description" data-reveal-item class="max-w-xl text-lg font-medium text-paper">
+          <p v-if="description" data-reveal-item :class="['text-lg font-medium text-paper', descriptionClass ?? 'max-w-xl']">
             {{ description }}
           </p>
         </div>
@@ -74,6 +74,8 @@ defineProps<{
   overlayClass?: string
   /** Optional classes overriding the default title size/weight. */
   titleClass?: string
+  /** Optional classes overriding the default description width. */
+  descriptionClass?: string
 }>()
 
 const bannerTitleId = useId()

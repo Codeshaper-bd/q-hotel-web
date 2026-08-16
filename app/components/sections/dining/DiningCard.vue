@@ -6,7 +6,18 @@
 <template>
   <div class="bg-[#FDFBF7] py-10 px-10">
     <FadeReveal>
-      <h2 class="text-[44px] font-semibold text-[#000000]">{{ name }}</h2>
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+        <h2 class="text-[44px] font-semibold text-[#000000]">{{ name }}</h2>
+        <span
+          v-if="reservationRecommended"
+          class="inline-flex items-center gap-2 border border-copper px-4 py-2 text-sm font-medium uppercase text-copper sm:text-base"
+        >
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="m10 1.5 2.55 5.17 5.7.83-4.13 4.02.98 5.68L10 14.52 4.9 17.2l.98-5.68L1.75 7.5l5.7-.83L10 1.5Z" />
+          </svg>
+          Reservation Recommended
+        </span>
+      </div>
       <p class="text-sm text-[#A75B27] uppercase">all-day dining</p>
     </FadeReveal>
 
@@ -157,6 +168,11 @@
         },
       ]"
     />
+      <div class="mt-8 md:ml-[calc(50%+1.25rem)]">
+        <BaseArrowCta to="/contact" variant="gold">
+          Book a Table
+        </BaseArrowCta>
+      </div>
     </FadeReveal>
   </div>
 </template>
@@ -173,5 +189,6 @@ defineProps<{
   mainImage: string
   topImage: string
   bottomImage: string
+  reservationRecommended?: boolean
 }>()
 </script>

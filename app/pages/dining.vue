@@ -3,30 +3,16 @@
     <PageBanner
       title="Savor Every Moment"
       description="From international favorites to local delicacies, our restaurants and lounges offer exceptional dining experiences in elegant settings."
-      image="/images/dining/bbq-restaurant.jpg"
+      image="/images/dining/dining-hero.png"
       :breadcrumb="[
         { label: 'Home', to: '/' },
         { label: 'Dining' },
       ]"
+      title-class="lg:text-[72px] font-bold  text-white"
+      description-class="max-w-[830px]"
     >
-      <template #console>
-        <div class="mx-auto max-w-[1316px]">
-          <HeroBookingSearch
-            tone="light"
-            popover-direction="down"
-            empty-state
-            :show-special-rates="false"
-            check-in-placeholder="Check in Date"
-            check-out-placeholder="Check Out Date"
-            placeholder-class="text-[18px] font-semibold text-[#505155]"
-            submit-label="Search"
-            @search="handleSearch"
-          />
-        </div>
-      </template>
     </PageBanner>
     <DiningVenues />
-    <ExploreDinings />
     <FaqSection />
     <div class="h-20"></div>
   </div>
