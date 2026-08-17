@@ -50,9 +50,7 @@
         <span class="font-medium uppercase tracking-[0.06em] text-ink"
           >Total Price</span
         >
-        <span class="text-base text-[#373737]"
-          >${{ totalPrice.toLocaleString("en-US") }}</span
-        >
+        <span class="text-base text-[#373737]">95,000 BDT</span>
       </div>
     </div>
 
@@ -74,11 +72,10 @@
         <span class="font-medium uppercase text-[#0F0F10]">Dates</span>
         <span class="text-right">
           <span class="block text-base text-[#373737]"
-            >{{ dateRangeLabel }} ({{ nights }}
-            {{ nights === 1 ? "Night" : "Nights" }})</span
+            >Jul 12-14, 2026 (2 Night)</span
           >
           <span class="mt-1 block text-sm text-[#505155]"
-            >Check In 2:00 pm</span
+            >Check In 2:00 PM</span
           >
         </span>
       </div>
@@ -87,88 +84,77 @@
     <div class="border-b border-line py-[18px]">
       <div class="flex items-center justify-between text-sm">
         <span class="font-medium uppercase text-[#0F0F10]">Reservation</span>
-        <span class="text-base text-[#373737]"
-          >{{ roomsCount }} {{ roomsCount === 1 ? "Room" : "Rooms" }},
-          {{ guestsCount }} {{ guestsCount === 1 ? "Guest" : "Guests" }}</span
-        >
+        <span class="text-base text-[#373737]">1 Room, 1 Guest</span>
       </div>
     </div>
 
     <div class="border-b border-line py-[18px]">
       <div class="flex items-center justify-between text-sm">
         <span class="font-medium uppercase text-[#0F0F10]">Room Type</span>
-        <span class="text-base text-[#373737]">{{ room.name }}</span>
+        <span class="text-base text-[#373737]">1 King Premium</span>
       </div>
     </div>
 
     <div class="border-b border-line py-[18px]">
       <div class="flex items-start justify-between gap-4 text-sm">
         <span>
-          <span class="font-medium uppercase text-[#0F0F10]"
-            >{{ nights }} {{ nights === 1 ? "Night" : "Nights" }} Stay</span
-          >
-          <span class="mt-1.5 block text-sm text-ink/55">{{
-            dateRangeLabel
-          }}</span>
+          <span class="font-medium uppercase text-[#0F0F10]">2 Night Stay</span>
+          <span class="mt-1.5 block text-sm text-ink/55">Jul 12 - Jul 14</span>
         </span>
         <span class="text-base text-[#0F0F10] block mt-auto">93,500 BDT</span>
       </div>
     </div>
 
     <div class="border-b border-line py-[18px]">
-      <div class="flex items-start justify-between gap-4 text-sm">
-        <span>
-          <span class="font-medium uppercase text-[#0F0F10]">Taxes</span>
-          <span class="mt-1.5 block text-sm text-ink/55"
-            >Tax ({{ taxRatePercent }}%)</span
-          >
-        </span>
-        <span class="text-base text-ink">1500 BDT</span>
+      <p class="text-sm font-medium uppercase text-[#0F0F10]">
+        Room Request &amp; Accessible
+      </p>
+      <div class="mt-3 flex flex-col gap-3">
+        <div class="flex items-start justify-between gap-4 text-sm">
+          <span class="text-base text-[#0F0F10]">Rollaway Beds</span>
+          <span class="text-base text-[#373737]">2,000 BDT</span>
+        </div>
+        <div class="flex items-start justify-between gap-4 text-sm">
+          <span class="text-base text-[#0F0F10]">Baby Cribs</span>
+          <span class="text-base text-[#373737]">1,500 BDT</span>
+        </div>
+        <div class="flex items-start justify-between gap-4 text-sm">
+          <span class="text-base text-[#0F0F10]">Accessible Room</span>
+          <span class="text-base text-[#373737]">0 BDT</span>
+        </div>
+        <div class="flex items-start justify-between gap-4 text-sm">
+          <span class="text-base text-[#0F0F10]">Early Check-In</span>
+          <span class="text-base text-[#373737]">3,000 BDT</span>
+        </div>
       </div>
     </div>
 
     <div class="border-b border-line py-[18px]">
-      <div class="flex items-center justify-between">
-        <span class="font-medium uppercase text-[#0F0F10] text-sm">Total Price</span>
-        <span class="text-base text-[#373737]">95,000 BDT</span>
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center justify-between gap-4 text-sm">
+          <span class="font-medium uppercase text-[#0F0F10]"
+            >City Taxes (1.5%)</span
+          >
+          <span class="text-base text-[#373737]">1,485 BDT</span>
+        </div>
+        <div class="flex items-center justify-between gap-4 text-sm">
+          <span class="font-medium uppercase text-[#0F0F10]">VAT (15%)</span>
+          <span class="text-base text-[#373737]">14,850 BDT</span>
+        </div>
+        <div class="flex items-center justify-between gap-4 text-sm">
+          <span class="font-medium uppercase text-[#0F0F10]"
+            >Service Charge (12.5%)</span
+          >
+          <span class="text-base text-[#373737]">12,375 BDT</span>
+        </div>
       </div>
     </div>
 
-    <div class="flex items-center gap-2 py-[18px] text-base text-[#0F0F10]">
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+    <div class="flex items-center justify-between py-[18px] pb-0">
+      <span class="text-[28px] font-semibold text-[##000000]"
+        >Total Amount</span
       >
-        <g clip-path="url(#clip0_4383_7151)">
-          <path
-            d="M7.9987 14.6654C8.87434 14.6664 9.74156 14.4945 10.5505 14.1594C11.3595 13.8243 12.0943 13.3326 12.7127 12.7127C13.3326 12.0943 13.8243 11.3595 14.1594 10.5505C14.4945 9.74156 14.6664 8.87434 14.6654 7.9987C14.6664 7.12307 14.4945 6.25585 14.1594 5.44687C13.8243 4.63789 13.3326 3.90309 12.7127 3.2847C12.0943 2.66476 11.3595 2.17311 10.5505 1.83801C9.74156 1.50291 8.87434 1.33096 7.9987 1.33204C7.12307 1.33096 6.25585 1.50291 5.44687 1.83801C4.63789 2.17311 3.90309 2.66476 3.2847 3.2847C2.66476 3.90309 2.17311 4.63789 1.83801 5.44687C1.50291 6.25585 1.33096 7.12307 1.33204 7.9987C1.33096 8.87434 1.50291 9.74156 1.83801 10.5505C2.17311 11.3595 2.66476 12.0943 3.2847 12.7127C3.90309 13.3326 4.63789 13.8243 5.44687 14.1594C6.25585 14.4945 7.12307 14.6664 7.9987 14.6654Z"
-            stroke="#0F0F10"
-            stroke-linejoin="round"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M7.9974 12.3307C8.21841 12.3307 8.43037 12.2429 8.58665 12.0867C8.74293 11.9304 8.83073 11.7184 8.83073 11.4974C8.83073 11.2764 8.74293 11.0644 8.58665 10.9081C8.43037 10.7519 8.21841 10.6641 7.9974 10.6641C7.77638 10.6641 7.56442 10.7519 7.40814 10.9081C7.25186 11.0644 7.16406 11.2764 7.16406 11.4974C7.16406 11.7184 7.25186 11.9304 7.40814 12.0867C7.56442 12.2429 7.77638 12.3307 7.9974 12.3307Z"
-            fill="#0F0F10"
-          />
-          <path
-            d="M8 4V9.33333"
-            stroke="#0F0F10"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </g>
-        <defs>
-          <clipPath id="clip0_4383_7151">
-            <rect width="16" height="16" fill="white" />
-          </clipPath>
-        </defs>
-      </svg>
-
-      Earn an estimated 1,558 points for this stay.
+      <span class="text-xl font-medium text-[##000000]">113,563 BDT</span>
     </div>
   </div>
 </template>
@@ -188,10 +174,4 @@ const props = defineProps<{
   totalPrice: number;
   taxRatePercent: number;
 }>();
-
-const dateRangeLabel = computed(
-  () =>
-    `${formatBookingDay(props.checkIn)} – ${formatBookingDay(props.checkOut)}`,
-);
-const points = computed(() => Math.round(props.totalPrice * 4));
 </script>

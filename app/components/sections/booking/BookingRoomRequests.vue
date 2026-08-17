@@ -393,7 +393,7 @@
 </template>
 
 <script setup lang="ts">
-const open = ref(true);
+const open = ref(false);
 
 const labelClass =
   "mb-2.5 block text-sm font-normal uppercase tracking-[0.06em] text-[#373737]";

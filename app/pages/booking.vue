@@ -17,12 +17,13 @@
       >
         <div class="flex flex-col gap-8">
           <BookingGuestForm />
-          <BookingPaymentMethod />
+          <BookingPaymentMethod v-model="paymentMethod" />
           <BookingRoomRequests />
           <BookingPolicies
             :room="room"
             :check-in="checkIn"
             :tax-rate-percent="TAX_RATE_PERCENT"
+            :payment-method="paymentMethod"
           />
         </div>
 
@@ -95,6 +96,8 @@ const confirmation = useState<BookingConfirmation | null>(
   "booking-confirmation",
   () => null,
 );
+
+const paymentMethod = ref<'pay_now' | 'pay_at_property'>('pay_now');
 
 function handleSubmit(event: Event) {
   // Payment gateway + PMS integration land here. Until then, a valid native

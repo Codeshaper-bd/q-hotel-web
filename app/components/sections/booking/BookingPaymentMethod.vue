@@ -16,11 +16,12 @@
         :class="paymentMethod === 'pay_now' ? 'border-flame' : 'border-line'"
       >
         <input
-          v-model="paymentMethod"
           class="sr-only"
           type="radio"
           name="paymentMethod"
           value="pay_now"
+          :checked="paymentMethod === 'pay_now'"
+          @change="selectPaymentMethod('pay_now')"
         />
         <span class="relative flex w-full items-center gap-4 p-5 pr-14 sm:p-6 sm:pr-16">
           <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-champagne/25">
@@ -59,11 +60,12 @@
         :class="paymentMethod === 'pay_at_property' ? 'border-flame' : 'border-line'"
       >
         <input
-          v-model="paymentMethod"
           class="sr-only"
           type="radio"
           name="paymentMethod"
           value="pay_at_property"
+          :checked="paymentMethod === 'pay_at_property'"
+          @change="selectPaymentMethod('pay_at_property')"
         />
         <span class="relative flex w-full items-center gap-4 p-5 pr-14 sm:p-6 sm:pr-16">
           <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-champagne/25">
@@ -109,5 +111,17 @@
 </template>
 
 <script setup lang="ts">
-const paymentMethod = ref<'pay_now' | 'pay_at_property'>('pay_now')
+const props = defineProps<{
+  modelValue: 'pay_now' | 'pay_at_property'
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': [value: 'pay_now' | 'pay_at_property']
+}>()
+
+const paymentMethod = computed(() => props.modelValue)
+
+function selectPaymentMethod(value: 'pay_now' | 'pay_at_property') {
+  emit('update:modelValue', value)
+}
 </script>
