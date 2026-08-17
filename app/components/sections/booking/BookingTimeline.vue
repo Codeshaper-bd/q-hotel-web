@@ -2,7 +2,7 @@
   <div class="bg-white p-7 sm:p-10">
     <h2 class="font-display text-2xl text-ink sm:text-3xl">Reservation Timeline</h2>
 
-    <ol class="mt-8 space-y-8">
+    <ol class="mt-8 space-y-4">
       <li v-for="(step, index) in steps" :key="step.title" class="relative flex gap-4 pb-8 last:pb-0">
         <span v-if="index < steps.length - 1" class="absolute left-[0.6875rem] top-7 h-full w-px bg-line" aria-hidden="true" />
         <span

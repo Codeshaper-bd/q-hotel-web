@@ -6,7 +6,7 @@
       :total-price="totalPrice"
     />
 
-    <BaseSection container-size="xl" tone="paper" spacing="md">
+    <BaseSection container-size="xl" tone="paper" spacing="md" class="!pt-10 sm:!pt-12">
       <h1 class="font-display font-semibold text-4xl text-[#0F0F10] sm:text-5xl lg:text-[56px]">
         Complete Your Booking
       </h1>

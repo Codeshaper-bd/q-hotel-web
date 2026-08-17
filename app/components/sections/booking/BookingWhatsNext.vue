@@ -5,14 +5,14 @@
       <p class="mt-3 text-base text-ink/60">Everything you need for a seamless stay.</p>
     </div>
 
-    <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-[60px] grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <div v-for="card in cards" :key="card.title" class="flex flex-col items-center bg-white px-6 py-10 text-center">
         <span class="flex h-16 w-16 items-center justify-center rounded-full bg-champagne/20 text-copper" aria-hidden="true">
           <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path v-for="(iconPath, pathIndex) in card.iconPaths" :key="pathIndex" :d="iconPath" />
           </svg>
         </span>
-        <h3 class="mt-5 font-display text-xl text-ink">{{ card.title }}</h3>
+        <h3 class="mt-5 font-display text-xl lg:text-[28px] font-semibold text-[#0F0F10]">{{ card.title }}</h3>
         <p class="mt-2 text-sm leading-6 text-ink/60">{{ card.description }}</p>
         <NuxtLink v-if="card.link" :to="card.link.to" class="mt-3 flex items-center gap-1.5 text-sm font-medium uppercase tracking-[0.06em] text-copper">
           {{ card.link.label }}
