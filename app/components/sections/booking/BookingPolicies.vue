@@ -113,6 +113,8 @@
       </h2>
 
       <p class="mt-6 text-lg font-medium  text-[#373737]">
+
+        
         By booking I certify that I have read and accept the
         <NuxtLink to="/terms" class="text-[#864926] underline underline-offset-2"
           >Terms of Use</NuxtLink
@@ -126,20 +128,7 @@
         and I have read and understand the Rate Description and Rate Rules for
         my reservation.
       </p>
-      <p class="mt-4 text-lg font-medium  text-[#373737]">
-        By joining Q Hotel Rewards, I confirm that I have read, understood, and
-        agree to the Q Hotel Rewards
-        <NuxtLink to="/terms" class="text-[#864926] underline underline-offset-2"
-          >Membership Terms &amp; Conditions</NuxtLink
-        >
-        and
-        <NuxtLink
-          to="/privacy-policy"
-          class="text-[#864926] underline underline-offset-2"
-          >Privacy Policy</NuxtLink
-        >
-        applicable in Bangladesh.
-      </p>
+  
 
       <p
         class="mt-8 flex items-center justify-center gap-2 text-center text-lg font-medium text-[#008000]"

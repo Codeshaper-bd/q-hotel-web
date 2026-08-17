@@ -20,6 +20,13 @@ export interface GuestDetails {
   note: string
 }
 
+export interface BookingRoomRequests {
+  smokingPreference: 'non_smoking' | 'smoking'
+  additionalRequests: string[]
+  earlyCheckInTime: string
+  specialRequest: string
+}
+
 /**
  * A completed checkout, handed from /booking to /booking-confirmed.
  * Static/local only — no PMS or payment gateway sits behind it yet.
@@ -28,6 +35,8 @@ export interface BookingConfirmation {
   reservationNumber: string
   roomId: string
   guest: GuestDetails
+  paymentMethod: 'pay_now' | 'pay_at_property'
+  roomRequests: BookingRoomRequests
   checkIn: string
   checkOut: string
   roomsCount: number

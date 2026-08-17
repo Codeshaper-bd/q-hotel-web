@@ -17,6 +17,7 @@
       >
         <div class="flex flex-col gap-8">
           <BookingGuestForm />
+          <BookingPaymentMethod />
           <BookingRoomRequests />
           <BookingPolicies
             :room="room"
@@ -45,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BookingConfirmation, BookingSearchQuery } from "~/types/booking";
+import type { BookingConfirmation, BookingRoomRequests, BookingSearchQuery } from "~/types/booking";
 import { useRoomsCatalog } from "#imports";
 
 // Checkout: never worth indexing, and query-param room variants would
@@ -113,6 +114,15 @@ function handleSubmit(event: Event) {
       phone: readField("phone"),
       country: readField("country"),
       note: readField("note"),
+    },
+    paymentMethod: readField("paymentMethod") as BookingConfirmation["paymentMethod"],
+    roomRequests: {
+      smokingPreference: readField("smokingPreference") as BookingRoomRequests["smokingPreference"],
+      additionalRequests: formData
+        .getAll("additionalRequests")
+        .map((value) => String(value)),
+      earlyCheckInTime: readField("earlyCheckInTime"),
+      specialRequest: readField("specialRequest"),
     },
     checkIn: checkIn.value,
     checkOut: checkOut.value,
