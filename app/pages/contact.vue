@@ -1,9 +1,16 @@
 <template>
   <div>
-    <ContactHeroBanner />
+    <PageBanner
+      title="Contact Us"
+      image="/images/contact/hero-lounge.jpg"
+      :breadcrumb="[
+        { label: 'Home', to: '/' },
+        { label: 'Contact' },
+      ]"
+    />
     <ContactSection />
     <ContactMapSection />
-    <FaqSection />
+    <div class="h-10"></div>
   </div>
 </template>
 
