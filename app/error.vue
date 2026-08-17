@@ -2,8 +2,8 @@
   <div class="min-h-screen bg-paper text-ink">
     <AppHeader />
     <main id="main-content">
-      <ErrorHeroBanner :status-code="error.status" />
-      <FaqSection />
+      <PageBanner title="Our Apologies!" image="/images/error/404-bannar.png" />
+      <ErrorContentSection />
     </main>
     <AppFooter />
   </div>
