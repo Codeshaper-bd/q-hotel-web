@@ -10,13 +10,13 @@
         <h2 class="text-[44px] font-semibold text-[#000000]">{{ name }}</h2>
         <span
           v-if="reservationRecommended"
-          class="inline-flex items-center gap-2 border border-copper px-4 py-2 text-sm font-medium uppercase text-copper sm:text-base"
+          class="inline-flex items-center gap-2 border border-copper px-4 py-2 text-sm font-medium uppercase text-copper"
         >
           <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
             <path d="m10 1.5 2.55 5.17 5.7.83-4.13 4.02.98 5.68L10 14.52 4.9 17.2l.98-5.68L1.75 7.5l5.7-.83L10 1.5Z" />
           </svg>
           Reservation Recommended
-        </span>
+        </      span>
       </div>
       <p class="text-sm text-[#A75B27] uppercase">all-day dining</p>
     </FadeReveal>
@@ -169,11 +169,17 @@
       ]"
     />
       <div class="mt-8 md:ml-[calc(50%+1.25rem)]">
-        <BaseArrowCta to="/contact" variant="gold">
+        <BaseArrowCta variant="gold" @click="isReservationOpen = true">
           Book a Table
         </BaseArrowCta>
       </div>
     </FadeReveal>
+
+    <DiningReservationDialog
+      v-model:open="isReservationOpen"
+      :restaurant="name"
+      :image="mainImage"
+    />
   </div>
 </template>
 
@@ -183,6 +189,8 @@ import IconClock from "~/components/base/IconClock.vue";
 import IconDressCode from "~/components/base/IconDressCode.vue";
 import IconCuisine from "~/components/base/IconCuisine.vue";
 import IconAmbience from "~/components/base/IconAmbience.vue";
+
+const isReservationOpen = ref(false)
 
 defineProps<{
   name: string

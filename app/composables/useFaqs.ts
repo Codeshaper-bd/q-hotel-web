@@ -115,6 +115,32 @@ const faqs = {
       answer: 'Yes. Vegetarian, vegan, and other dietary options are available. Please share any allergies or dietary requirements with our team when booking or before ordering so we can assist you.',
     },
   ],
+  meetings: [
+    {
+      question: 'What types of meetings and events can I host at Q Hotel Dhaka?',
+      answer: 'Q Hotel Dhaka can host corporate meetings, conferences, seminars, workshops, receptions, banquets, private gatherings, and other professional or social events.',
+    },
+    {
+      question: 'What meeting and event venues are available at Q Hotel Dhaka?',
+      answer: 'Q Hotel Dhaka offers a selection of versatile venues designed for business meetings, corporate events, conferences, and private gatherings. Guests can choose from the Business Class Lounge, Utshab Banquet Hall, and Royal Lounge, each offering flexible setups, modern facilities, and dedicated support to create a seamless event experience.',
+    },
+    {
+      question: 'How many guests can your meeting and event spaces accommodate?',
+      answer: 'Capacity varies by venue and room setup. Our event spaces can accommodate intimate meetings as well as receptions and banquets for up to 500 guests.',
+    },
+    {
+      question: 'Do you provide catering services for meetings and events?',
+      answer: 'Yes. Our team can arrange catering for meetings and events, with menus tailored to your schedule, service style, guest count, and dietary requirements.',
+    },
+    {
+      question: 'What equipment and facilities are available for business meetings and conferences?',
+      answer: 'Available facilities include high-speed Wi-Fi, audio-visual equipment, presentation support, event supplies, flexible room setups, and business services. Specific inclusions depend on the selected venue and event package.',
+    },
+    {
+      question: 'How can I reserve a venue or request a proposal for my event?',
+      answer: 'Contact our events team with your preferred date, guest count, venue requirements, and event details. We will confirm availability and prepare a tailored proposal for your event.',
+    },
+  ],
   policies: [
     {
       question: 'What is your pet policy?',
