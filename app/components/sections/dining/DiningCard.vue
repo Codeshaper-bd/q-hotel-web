@@ -175,28 +175,71 @@
       </div>
     </FadeReveal>
 
-    <DiningReservationDialog
-      v-model:open="isReservationOpen"
-      :restaurant="name"
-      :image="mainImage"
+    <RestaurantReservationModal
+      v-model="isReservationOpen"
+      :restaurant-name="name"
+      :restaurant-image="mainImage"
+      phone-number="+88-01713377700"
+      @submit="handleReservationSubmit"
+    />
+
+    <ReservationSubmittedModal
+      v-model="isSubmittedOpen"
+      :details="submittedDetails"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { RestaurantReservationData, ReservationDetails } from "~/types/dining";
 import IconContact from "~/components/base/IconContact.vue";
 import IconClock from "~/components/base/IconClock.vue";
 import IconDressCode from "~/components/base/IconDressCode.vue";
 import IconCuisine from "~/components/base/IconCuisine.vue";
 import IconAmbience from "~/components/base/IconAmbience.vue";
 
-const isReservationOpen = ref(false)
-
-defineProps<{
+const props = defineProps<{
   name: string
   mainImage: string
   topImage: string
   bottomImage: string
   reservationRecommended?: boolean
 }>()
+
+const isReservationOpen = ref(false)
+const isSubmittedOpen = ref(false)
+const submittedDetails = ref<ReservationDetails | undefined>(undefined)
+
+function handleReservationSubmit(data: RestaurantReservationData) {
+  submittedDetails.value = {
+    date: formatDate(data.date),
+    time: formatTime(data.time),
+    guests: `${data.guests} ${data.guests === '1' ? 'Guest' : 'Guests'}`,
+    restaurant: props.name,
+    referenceId: `QHD-${data.date.replaceAll('-', '').slice(2)}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
+  }
+  isReservationOpen.value = false
+  isSubmittedOpen.value = true
+}
+
+/** "2025-05-24" -> "May 24, 2025" */
+function formatDate(value: string) {
+  if (!value) {
+    return ''
+  }
+  const [year, month, day] = value.split('-')
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    .format(new Date(Number(year), Number(month) - 1, Number(day)))
+}
+
+/** "19:00" -> "7:00 PM" */
+function formatTime(value: string) {
+  if (!value) {
+    return ''
+  }
+  const [hours, minutes] = value.split(':')
+  const period = Number(hours) >= 12 ? 'PM' : 'AM'
+  const hour = Number(hours) % 12 || 12
+  return `${hour}:${String(minutes).padStart(2, '0')} ${period}`
+}
 </script>
