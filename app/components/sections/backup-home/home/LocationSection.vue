@@ -113,6 +113,7 @@ const hotel: HotelLocation = {
 const nearbyAttractions: NearbyAttraction[] = [
   {
     id: 'army-golf-club',
+    image: '/images/hero/aerial-terrain.jpg',
     name: 'Army Golf Club',
     description: 'A premier nine-hole course spanning fifty-eight scenic acres, with a swimming pool and the well-loved Palm View Restaurant — conveniently close to the airport.',
     distanceMiles: 3.05,
@@ -121,6 +122,7 @@ const nearbyAttractions: NearbyAttraction[] = [
   },
   {
     id: 'jamuna-future-park',
+    image: '/images/dining/dining-01-main.png',
     name: 'Jamuna Future Park',
     description: 'One of South Asia\'s largest shopping malls: hundreds of retailers, a cinema, and a food court, all a short drive from the hotel lobby.',
     distanceMiles: 2.68,
@@ -129,6 +131,7 @@ const nearbyAttractions: NearbyAttraction[] = [
   },
   {
     id: 'lalbagh-fort',
+    image: '/images/gallery/feature-01.jpg',
     name: 'Lalbagh Fort',
     description: 'The beautiful remnants of an unfinished Mughal fort. The grounds still hold gardens, fortifications, a mosque, and a mausoleum, with excavation ongoing.',
     distanceMiles: 9.30,
@@ -137,6 +140,7 @@ const nearbyAttractions: NearbyAttraction[] = [
   },
   {
     id: 'ramna-park',
+    image: '/images/gallery/feature-02.jpg',
     name: 'Ramna Park',
     description: 'Dhaka\'s favourite green retreat — a serene lake, mature trees, and long walking paths, ideal for an unhurried morning away from the traffic.',
     distanceMiles: 7.66,

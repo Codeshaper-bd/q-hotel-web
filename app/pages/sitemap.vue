@@ -31,7 +31,7 @@ const mainPages = [
   { label: 'Dining / Restaurant', to: '/dining' },
   { label: 'Long Stay', to: '/long-stay' },
   { label: 'Gallery Preview', to: '/gallery' },
-  { label: 'Nearby Attractions', to: '/#location' },
+  { label: 'Nearby Attractions', to: '/nearby-attractions' },
   { label: 'Blogs & Articles', to: '/blog' },
   { label: 'Blog Details', to: '/blog' },
 ]

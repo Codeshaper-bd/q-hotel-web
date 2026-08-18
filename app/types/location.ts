@@ -12,6 +12,8 @@ export interface NearbyAttraction {
   distanceKm: number
   /** Pin position on the location map */
   coordinates: LatLngTuple
+  /** Landscape card image for the landmark */
+  image: string
 }
 
 /** The hotel itself: the map's anchor and its highlighted card */

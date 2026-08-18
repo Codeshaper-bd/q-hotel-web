@@ -1,66 +1,11 @@
 <script setup lang="ts">
-import type { HotelLocation, NearbyAttraction } from "~/types/location";
-
-const hotel: HotelLocation = {
-  name: "Q Hotel Dhaka",
-  address: "Uttara, Dhaka, Bangladesh",
-  coordinates: [23.8377208, 90.4572272],
-  directionsUrl: "https://maps.app.goo.gl/KAggvEKj6dWVGrQE9",
-};
-
-/**
- * Static showcase content (CMS-ready shape). Coordinates mark each landmark's
- * location; displayed distances are concise, approximate road distances from
- * the hotel for guest-facing wayfinding.
- */
-const nearbyAttractions: NearbyAttraction[] = [
-  {
-    id: "hazrat-shahjalal-airport",
-    name: "Hazrat Shahjalal International Airport (HSIA)",
-    description:
-      "Dhaka's primary international airport, providing convenient connectivity for domestic and international business travelers visiting the capital.",
-    distanceMiles: 5,
-    distanceKm: 8,
-    coordinates: [23.8433472, 90.3977833],
-  },
-  {
-    id: "international-convention-city-bashundhara",
-    name: "International Convention City Bashundhara (ICCB)",
-    description:
-      "One of Dhaka's leading venues for major conferences, exhibitions, corporate events, trade shows, and large-scale business gatherings.",
-    distanceMiles: 3.5,
-    distanceKm: 5.5,
-    coordinates: [23.8276, 90.42718],
-  },
-  {
-    id: "bangladesh-china-friendship-conference-center",
-    name: "Bangladesh-China Friendship Conference Center (BCFCC)",
-    description:
-      "A prominent conference and event destination in Dhaka, hosting business conferences, exhibitions, seminars, and important institutional events.",
-    distanceMiles: 7.5,
-    distanceKm: 12,
-    coordinates: [23.76936, 90.37929],
-  },
-  {
-    id: "adamjee-epz",
-    name: "Adamjee EPZ (AEPZ)",
-    description:
-      "A major export-processing and industrial hub in Narayanganj, serving corporate visitors, investors, suppliers, and business travelers.",
-    distanceMiles: 12,
-    distanceKm: 19,
-    coordinates: [23.67673, 90.52335],
-  },
-];
+const { hotel, attractions: nearbyAttractions, formatDistance } = useNearbyAttractions();
 
 /** null centres the hotel; an id frames that landmark against the hotel */
 const activeAttractionId = ref<string | null>(null);
 
 function toggleAttraction(id: string) {
   activeAttractionId.value = activeAttractionId.value === id ? null : id;
-}
-
-function formatDistance(attraction: NearbyAttraction) {
-  return `${attraction.distanceMiles} mi / ${attraction.distanceKm} km from the hotel`;
 }
 </script>
 
@@ -176,9 +121,8 @@ function formatDistance(attraction: NearbyAttraction) {
 
       <FadeReveal>
         <div class="pointer-events-auto mt-12 flex justify-center">
-          <!-- The attractions page arrives with the rest of the content routes;
-               the CTA hands off to the reserve entry point until then -->
-          <BaseArrowCta to="#reserve" variant="gold">
+          <!-- The attractions page holds the full neighbourhood guide -->
+          <BaseArrowCta to="/nearby-attractions" variant="gold">
             Near By Attraction
           </BaseArrowCta>
         </div>
