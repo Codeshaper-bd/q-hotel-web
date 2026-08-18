@@ -9,7 +9,6 @@
       ]"
       image="/images/nearby/nearby-hero.png"
       title-class="lg:text-[72px] font-bold"
-      overlay-class="bg-ink/20"
       description-class="max-w-[905px]"
     />
     <section aria-labelledby="terms-title" class="px-5 sm:px-8">

@@ -19,7 +19,7 @@
         sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px"
         class="absolute inset-0"
       />
-      <div :class="['absolute inset-0', overlayClass ?? 'bg-ink/70']" aria-hidden="true" />
+      <div class="absolute inset-0 bg-[#0F0F10]/40" aria-hidden="true" />
 
       <FadeReveal :stagger="0.12" :blur="6" class="relative z-10">
         <div class="flex flex-col items-center gap-4 text-center">
@@ -69,9 +69,6 @@ defineProps<{
   description?: string
   breadcrumb?: PageBreadcrumbItem[]
   image: string
-  /** Optional classes replacing the default dark overlay (e.g. none for the
-      about page). Position classes always apply. */
-  overlayClass?: string
   /** Optional classes overriding the default title size/weight. */
   titleClass?: string
   /** Optional classes overriding the default description width. */

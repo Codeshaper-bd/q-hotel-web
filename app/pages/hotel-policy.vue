@@ -4,7 +4,6 @@
       title="Hotel Policy"
       :breadcrumb="[{ label: 'Home', to: '/' }, { label: 'Hotel Policy' }]"
       image="/images/terms/priveccy-hero-bannar.png"
-      overlay-class="bg-ink/40"
     />
     <section
       aria-labelledby="terms-title"
