@@ -16,6 +16,16 @@
       <BookingGuestInfoRecap :guest="guest" />
     </div>
 
+    <h2 class="mt-10 font-display text-2xl text-ink sm:text-[1.75rem]">Flight Details</h2>
+    <div class="mt-6 border-t border-line pt-6">
+      <BookingFlightInformation />
+    </div>
+
+    <h2 class="mt-10 font-display text-2xl text-ink sm:text-[1.75rem]">Room Requests and Accessibility</h2>
+    <div class="mt-6 border-t border-line pt-6">
+      <BookingRoomRequestsRecap />
+    </div>
+
     <h2 class="mt-10 font-display text-2xl text-ink sm:text-[1.75rem]">Payment Status</h2>
     <div class="mt-4 space-y-3 border-t border-line pt-6 text-sm">
       <div class="flex items-center justify-between text-ink/70">

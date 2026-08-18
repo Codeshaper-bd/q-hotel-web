@@ -1,29 +1,52 @@
 <template>
-  <section id="hero" ref="sectionRef" aria-labelledby="home-title"
-    class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-night text-paper">
+  <section
+    id="hero"
+    ref="sectionRef"
+    aria-labelledby="home-title"
+    class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-night text-paper"
+  >
     <div ref="bgRef" aria-hidden="true" class="absolute inset-0">
-      <BaseImage src="/images/hero/bg-hero-1.png" alt="" :width="1920" :height="980" priority class="h-full w-full" />
+      <BaseImage
+        src="/images/hero/q-hotel-hero-v2.jpg"
+        alt=""
+        :width="1920"
+        :height="980"
+        priority
+        class="h-full w-full"
+      />
 
-      <div aria-hidden="true"
-        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.70)_0%,rgba(0,0,0,0.00)_48.9%,#000_100%)]" />
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.70)_0%,rgba(0,0,0,0.00)_48.9%,#000_100%)]"
+      />
     </div>
 
     <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-12">
       <div class="relative grid grid-cols-12 gap-3">
-        <div ref="textRef" class="col-span-12  xl:col-span-5 2xl:col-span-6">
+        <div ref="textRef" class="col-span-12 xl:col-span-5 2xl:col-span-6">
           <div class="overflow-hidden pb-2">
-            <h1 id="home-title" ref="headlineRef"
-              class="font-display text-4xl font-bold sm:text-[40px] sm:leading-[48px] max-w-[600px] capitalize mt-10">
+            <h1
+              id="home-title"
+              ref="headlineRef"
+              class="font-display text-4xl font-bold sm:text-[44px] sm:leading-[48px] max-w-[620px] capitalize mt-10"
+            >
               A new hospitality destination where glamour meets tranquility
             </h1>
           </div>
-          <p ref="leadRef" class="max-w-xl text-lg xl:max-w-[700px] xl:text-xl xl:leading-[30px] font-normal">
-            A refined stay for today’s business traveler, combining effortless convenience, exceptional comfort, and
-            thoughtful services for work and relaxation
+          <p
+            ref="leadRef"
+            class="max-w-xl text-lg xl:max-w-[700px] xl:text-xl xl:leading-[30px] font-medium mt-[18px]"
+          >
+            A refined stay for today’s business traveler, combining effortless
+            convenience, exceptional comfort, and thoughtful services for work
+            and relaxation
           </p>
         </div>
 
-        <div ref="consoleRef" class="mt-10 w-full col-span-12 xl:col-span-7 2xl:col-span-6 self-end">
+        <div
+          ref="consoleRef"
+          class="mt-10 w-full col-span-12 xl:col-span-7 2xl:col-span-6 self-end"
+        >
           <HeroBookingSearch @search="handleSearch" />
         </div>
       </div>
