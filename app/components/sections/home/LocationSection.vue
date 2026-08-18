@@ -1,14 +1,21 @@
 <script setup lang="ts">
-const { hotel, attractions: nearbyAttractions, formatDistance } = useNearbyAttractions();
+const {
+  hotel,
+  attractions: nearbyAttractions,
+  formatDistance,
+} = useNearbyAttractions();
 
 /** null centres the hotel; an id frames that landmark against the hotel */
 const activeAttractionId = ref<string | null>(null);
+
+/** The home section spotlights the first four landmarks; the full
+ *  neighbourhood guide lives on /nearby-attractions */
+const featuredAttractions = computed(() => nearbyAttractions.slice(0, 4));
 
 function toggleAttraction(id: string) {
   activeAttractionId.value = activeAttractionId.value === id ? null : id;
 }
 </script>
-
 
 <template>
   <!--
@@ -57,7 +64,7 @@ function toggleAttraction(id: string) {
                  these now stand ON the map: the ink base and blur are what keep
                  the copy readable over live tiles -->
             <article
-              v-for="attraction in nearbyAttractions"
+              v-for="attraction in featuredAttractions"
               :key="attraction.id"
               data-reveal-item
               :class="[
@@ -100,11 +107,11 @@ function toggleAttraction(id: string) {
 
               <!-- Drives the map beside it; a real button, so it is reachable by
                  keyboard and announces its pressed state -->
-              <p class="mt-4">
+              <!-- <p class="mt-4">
                 <button
                   type="button"
                   :aria-pressed="activeAttractionId === attraction.id"
-                  class="text-[0.65rem] font-semibold uppercase text-[#0F0F10] bg-[#E9C588] hover:bg-[#DFA558] px-2 py-0.5  transition-colors duration-fast "
+                  class="text-[0.65rem] font-semibold uppercase text-[#0F0F10] bg-[#E9C588] hover:bg-[#DFA558] px-2 py-0.5 transition-colors duration-fast"
                   @click="toggleAttraction(attraction.id)"
                 >
                   {{
@@ -113,7 +120,7 @@ function toggleAttraction(id: string) {
                       : "Show on map"
                   }}
                 </button>
-              </p>
+              </p> -->
             </article>
           </div>
         </div>
@@ -123,7 +130,7 @@ function toggleAttraction(id: string) {
         <div class="pointer-events-auto mt-12 flex justify-center">
           <!-- The attractions page holds the full neighbourhood guide -->
           <BaseArrowCta to="/nearby-attractions" variant="gold">
-            Near By Attraction
+            Nearby Locations
           </BaseArrowCta>
         </div>
       </FadeReveal>

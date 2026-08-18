@@ -16,7 +16,7 @@
     :class="['arrow-cta cursor-pointer group inline-flex items-stretch focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4', rootClasses[variant]]"
     @click="emit('click', $event)"
   >
-    <span :class="['flex min-h-11 items-center px-6 text-[0.7rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-fast', labelClasses[variant], labelClass, backgroundClass, borderClass]">
+    <span :class="['flex min-h-11 items-center px-6 text-[0.7rem] font-semibold uppercase  transition-colors duration-fast', labelClasses[variant], labelClass, backgroundClass, borderClass]">
       <slot />
     </span>
     <span
