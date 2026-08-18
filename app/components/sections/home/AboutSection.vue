@@ -20,8 +20,7 @@
             </div>
             <span class="h-0.5 bg-[#C9752D] w-6"></span>
           </div>
-          <p class="text-center text-sm font-medium uppercase text-[#505155] tracking-widest mb-5 mt-2.5">FIVE-STAR HOSPITALITY IN DHAKA</p>
-          <p class="mt-3 font-display text-2xl font-semibold leading-9 text-ink sm:text-4xl sm:leading-[2.75rem]">
+          <p class="mt-5 font-display text-2xl font-semibold leading-9 text-ink sm:text-4xl sm:leading-[2.75rem]">
             Q Hotel Dhaka is a premier hospitality destination in Dhaka, offering refined comfort, exceptional service,
             and effortless access to the city's key business, shopping, and cultural attractions, crafted for discerning
             travelers and memorable stays.
