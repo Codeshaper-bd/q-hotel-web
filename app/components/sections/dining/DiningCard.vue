@@ -6,7 +6,18 @@
 <template>
   <div class="bg-[#FDFBF7] py-10 px-10">
     <FadeReveal>
-      <h2 class="text-[44px] font-semibold text-[#000000]">{{ name }}</h2>
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+        <h2 class="text-[44px] font-semibold text-[#000000]">{{ name }}</h2>
+        <span
+          v-if="reservationRecommended"
+          class="inline-flex items-center gap-2 border border-copper px-4 py-2 text-sm font-medium uppercase text-copper"
+        >
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="m10 1.5 2.55 5.17 5.7.83-4.13 4.02.98 5.68L10 14.52 4.9 17.2l.98-5.68L1.75 7.5l5.7-.83L10 1.5Z" />
+          </svg>
+          Reservation Recommended
+        </      span>
+      </div>
       <p class="text-sm text-[#A75B27] uppercase">all-day dining</p>
     </FadeReveal>
 
@@ -157,21 +168,78 @@
         },
       ]"
     />
+      <div class="mt-8 md:ml-[calc(50%+1.25rem)]">
+        <BaseArrowCta variant="gold" @click="isReservationOpen = true">
+          Book a Table
+        </BaseArrowCta>
+      </div>
     </FadeReveal>
+
+    <RestaurantReservationModal
+      v-model="isReservationOpen"
+      :restaurant-name="name"
+      :restaurant-image="mainImage"
+      phone-number="+88-01713377700"
+      @submit="handleReservationSubmit"
+    />
+
+    <ReservationSubmittedModal
+      v-model="isSubmittedOpen"
+      :details="submittedDetails"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { RestaurantReservationData, ReservationDetails } from "~/types/dining";
 import IconContact from "~/components/base/IconContact.vue";
 import IconClock from "~/components/base/IconClock.vue";
 import IconDressCode from "~/components/base/IconDressCode.vue";
 import IconCuisine from "~/components/base/IconCuisine.vue";
 import IconAmbience from "~/components/base/IconAmbience.vue";
 
-defineProps<{
+const props = defineProps<{
   name: string
   mainImage: string
   topImage: string
   bottomImage: string
+  reservationRecommended?: boolean
 }>()
+
+const isReservationOpen = ref(false)
+const isSubmittedOpen = ref(false)
+const submittedDetails = ref<ReservationDetails | undefined>(undefined)
+
+function handleReservationSubmit(data: RestaurantReservationData) {
+  submittedDetails.value = {
+    date: formatDate(data.date),
+    time: formatTime(data.time),
+    guests: `${data.guests} ${data.guests === '1' ? 'Guest' : 'Guests'}`,
+    restaurant: props.name,
+    referenceId: `QHD-${data.date.replaceAll('-', '').slice(2)}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
+  }
+  isReservationOpen.value = false
+  isSubmittedOpen.value = true
+}
+
+/** "2025-05-24" -> "May 24, 2025" */
+function formatDate(value: string) {
+  if (!value) {
+    return ''
+  }
+  const [year, month, day] = value.split('-')
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    .format(new Date(Number(year), Number(month) - 1, Number(day)))
+}
+
+/** "19:00" -> "7:00 PM" */
+function formatTime(value: string) {
+  if (!value) {
+    return ''
+  }
+  const [hours, minutes] = value.split(':')
+  const period = Number(hours) >= 12 ? 'PM' : 'AM'
+  const hour = Number(hours) % 12 || 12
+  return `${hour}:${String(minutes).padStart(2, '0')} ${period}`
+}
 </script>

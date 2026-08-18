@@ -4,7 +4,7 @@
     class="relative isolate bg-ink text-paper"
   >
     <div
-      class="relative flex min-h-[520px] items-center justify-center overflow-hidden mt-[--header-height]"
+      class="relative flex h-[480px] items-center justify-center overflow-hidden mt-[--header-height] sm:h-[640px] lg:h-[800px]"
     >
       <BaseImage
         src="/images/rooms/executive-suite.jpg"

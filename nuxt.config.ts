@@ -1,17 +1,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxt/fonts'],
-  fonts: {
-    families: [
-      // Display serif for headlines, nav, and brand moments
-      { name: 'Cormorant Garamond', provider: 'google', weights: [400, 500, 600, 700] },
-      // Body/UI sans — Satoshi ships from Fontshare, not Google
-      { name: 'Satoshi', provider: 'fontshare', weights: [400, 500, 700, 900] },
-      // Booking-bar field labels per Figma spec
-      { name: 'Inter', provider: 'google', weights: [400, 500, 600] }
-    ]
-  },
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/image'],
   css: ['~/assets/css/main.css'],
   components: [
     // backup-home holds a pre-redesign snapshot of the home sections, kept
@@ -29,7 +19,11 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#0d1117' }
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap' },
+        { rel: 'stylesheet', href: 'https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap' }
       ]
     },
     pageTransition: {

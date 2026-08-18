@@ -39,7 +39,9 @@
       </button>
     </div>
 
-    <div class="mt-8 lg:grid lg:grid-cols-[18rem_1fr] xl:grid-cols-[26rem_1fr] lg:items-start lg:gap-8">
+    <div
+      class="mt-8 lg:grid lg:grid-cols-[18rem_1fr] xl:grid-cols-[26rem_1fr] lg:items-start lg:gap-8"
+    >
       <div class="lg:sticky lg:top-28">
         <RoomsSidebar />
       </div>

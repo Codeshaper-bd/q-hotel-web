@@ -66,17 +66,19 @@
 <script setup lang="ts">
 import type { FaqItem } from '~/types/faq'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   items: FaqItem[]
   /** Disambiguates element ids when several accordions render on one page
    *  (e.g. one per category on /faqs) — defaults preserve prior ids exactly */
   idPrefix?: string
+  initialOpenIndex?: number | null
 }>(), {
   idPrefix: 'faq',
+  initialOpenIndex: 0,
 })
 
-// Single-open accordion; first item open by default
-const openIndex = ref<number | null>(0)
+// Single-open accordion; the section can choose which answer is initially visible
+const openIndex = ref<number | null>(props.initialOpenIndex)
 
 function toggle(index: number) {
   openIndex.value = openIndex.value === index ? null : index

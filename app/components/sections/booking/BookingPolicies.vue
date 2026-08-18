@@ -91,11 +91,15 @@
       </BookingPolicyItem>
 
       <BookingPolicyItem v-model="openSections.pet" title="Pet Policy">
-        <p class="text-xl font-medium text-[#373737]">Pets are not allowed in the hotel.</p>
+        <p class="text-xl font-medium text-[#373737]">
+          Pets are not allowed in the hotel.
+        </p>
       </BookingPolicyItem>
 
       <BookingPolicyItem v-model="openSections.disclaimers" title="Disclaimers">
-        <p class="text-lg text-[#373737] font-medium">Taxes and charges may fluctuate:</p>
+        <p class="text-lg text-[#373737] font-medium">
+          Taxes and charges may fluctuate:
+        </p>
         <p class="text-base text-[#505155]">
           As taxes and additional charges may fluctuate from the time a
           reservation is made until the actual stay and during the actual stay,
@@ -112,9 +116,11 @@
         Terms and Conditions
       </h2>
 
-      <p class="mt-6 text-lg font-medium  text-[#373737]">
+      <p class="mt-6 text-lg font-medium text-[#373737]">
         By booking I certify that I have read and accept the
-        <NuxtLink to="/terms" class="text-[#864926] underline underline-offset-2"
+        <NuxtLink
+          to="/terms"
+          class="text-[#864926] underline underline-offset-2"
           >Terms of Use</NuxtLink
         >
         and
@@ -125,20 +131,6 @@
         >
         and I have read and understand the Rate Description and Rate Rules for
         my reservation.
-      </p>
-      <p class="mt-4 text-lg font-medium  text-[#373737]">
-        By joining Q Hotel Rewards, I confirm that I have read, understood, and
-        agree to the Q Hotel Rewards
-        <NuxtLink to="/terms" class="text-[#864926] underline underline-offset-2"
-          >Membership Terms &amp; Conditions</NuxtLink
-        >
-        and
-        <NuxtLink
-          to="/privacy-policy"
-          class="text-[#864926] underline underline-offset-2"
-          >Privacy Policy</NuxtLink
-        >
-        applicable in Bangladesh.
       </p>
 
       <p
@@ -163,12 +155,12 @@
       <div class="mt-6 flex justify-center">
         <button
           type="submit"
-          class="group bg-[#EED4A3] inline-flex min-h-[60px] items-stretch  text-ink transition-colors duration-fast hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
+          class="group bg-[#EED4A3] inline-flex min-h-[60px] items-stretch text-ink transition-colors duration-fast hover:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ocean"
         >
           <span
             class="flex items-center px-8 text-sm font-semibold text-[#0F0F10] uppercase"
           >
-            Payment Now
+            {{ paymentMethod === "pay_now" ? "Pay & Confirm Booking" : "Pay" }}
           </span>
           <span
             class="flex items-center border-l border-ink/15 px-5"
@@ -202,16 +194,16 @@ const props = defineProps<{
   room: Room;
   checkIn: string;
   taxRatePercent: number;
+  paymentMethod: "pay_now" | "pay_at_property";
 }>();
 
 const openSections = reactive({
-  roomRequests: false,
-  deposit: true,
-  taxes: true,
-  otherCharges: true,
-  payment: true,
-  pet: true,
-  disclaimers: true,
+  deposit: false,
+  taxes: false,
+  otherCharges: false,
+  payment: false,
+  pet: false,
+  disclaimers: false,
 });
 
 const cancelByLabel = computed(() =>

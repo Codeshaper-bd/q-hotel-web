@@ -4,8 +4,8 @@
     same "no submission target yet" state as BookingGuestForm, since no
     email/CRM backend exists for this project yet.
   -->
-  <form class="bg-[#fdfbf7] p-7 sm:p-10" aria-labelledby="contact-form-title" @submit.prevent="handleSubmit">
-    <h2 id="contact-form-title" class="font-display text-3xl text-ink sm:text-[2.75rem]">
+  <form ref="formRef" class="bg-[#fdfbf7] p-7 sm:p-10" aria-labelledby="contact-form-title" @submit.prevent="handleSubmit">
+    <h2 id="contact-form-title" class="font-display text-3xl font-semibold text-ink sm:text-[2.75rem]">
       Request Information
     </h2>
 
@@ -64,9 +64,9 @@
       Your details are used only to respond to this enquiry and are never shared with third parties.
     </p>
 
-    <BaseButton type="submit" variant="gold" class="mt-4" :disabled="status === 'submitted'">
+    <BaseArrowCta variant="gold" class="mt-4" :disabled="status === 'submitted'" @click="handleSubmitClick">
       {{ status === 'submitted' ? 'Message Received' : 'Submit Message' }}
-    </BaseButton>
+    </BaseArrowCta>
   </form>
 </template>
 
@@ -90,6 +90,14 @@ const form = reactive({
 })
 
 const status = ref<'idle' | 'submitted'>('idle')
+
+const formRef = ref<HTMLFormElement | null>(null)
+
+/** BaseArrowCta renders a plain button, so native validation is triggered
+ *  through requestSubmit instead of a type="submit" click */
+function handleSubmitClick() {
+  formRef.value?.requestSubmit()
+}
 
 function handleSubmit() {
   status.value = 'submitted'

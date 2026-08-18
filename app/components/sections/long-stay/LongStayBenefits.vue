@@ -77,14 +77,14 @@
               A Place To Call Home
             </h3>
             <hr class="w-20 border-t-2 border-copper" />
-            <p class="text-sm leading-5 text-ink/80">
+            <p class="text-sm leading-5 text-[#000000]">
               Perfect for business travelers, relocations, and extended stays of
               10 nights or more.
             </p>
           </div>
 
           <ul
-            class="flex flex-col gap-4 border-t border-copper pt-8 text-base text-ink"
+            class="flex flex-col gap-4 border-t border-copper pt-8 text-base lg:text-lg font-medium text-ink"
           >
             <li
               v-for="item in checklistItems"
@@ -217,6 +217,7 @@ const checklistItems = [
   "Better rates for longer stays",
   "Flexible stay options",
   "Personalized guest support",
+  "Butler Service",
 ];
 
 interface BenefitCardData {
@@ -233,12 +234,13 @@ const betterRates: BenefitCardData = {
 };
 
 const housekeeping: BenefitCardData = {
-  title: "Housekeeping",
+  title: "Housekeeping And Laundry",
   description:
     "Enjoy the comfort of regular housekeeping, fresh linens, and towel replacements throughout your stay. Our dedicated housekeeping team ensures your room remains clean, refreshed, and welcoming every day.",
   iconPaths: [
-    "M5 21l6-14 2 4.5M11 21l6-14",
-    "M9 3.5a2 2 0 114 0c0 1.1-2 2.5-2 2.5s-2-1.4-2-2.5z",
+    "M22 7H20",
+    "M6.5 3H17.5C18.163 3 18.7989 3.26339 19.2678 3.73223C19.7366 4.20107 20 4.83696 20 5.5V20C20 20.2652 19.8946 20.5196 19.7071 20.7071C19.5196 20.8946 19.2652 21 19 21H10C9.73478 21 9.48043 20.8946 9.29289 20.7071C9.10536 20.5196 9 20.2652 9 20V5.5C9 4.83696 8.73661 4.20107 8.26777 3.73223C7.79893 3.26339 7.16304 3 6.5 3ZM6.5 3C5.83696 3 5.20107 3.26339 4.73223 3.73223C4.26339 4.20107 4 4.83696 4 5.5V17C4 17.2652 4.10536 17.5196 4.29289 17.7071C4.48043 17.8946 4.73478 18 5 18H9",
+    "M9 7H2",
   ],
 };
 

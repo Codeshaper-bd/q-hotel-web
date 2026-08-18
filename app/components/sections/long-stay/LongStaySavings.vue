@@ -38,19 +38,23 @@
           </div>
 
           <div class="lg:col-span-8">
-            <div class="border border-[#505155]">
-              <table class="w-full border-collapse text-left">
+            <div class="overflow-hidden border border-paper/20 bg-paper/[0.02] shadow-[0_18px_50px_rgba(0,0,0,0.12)]">
+              <table class="w-full table-fixed border-collapse text-left">
                 <caption class="sr-only">Discount by length of stay</caption>
+                <colgroup>
+                  <col class="w-[34%]">
+                  <col class="w-[66%]">
+                </colgroup>
                 <thead>
                   <tr class="bg-[#E9C588] text-ink">
-                    <th scope="col" class="px-6 py-5 text-center text-sm font-medium uppercase">Length of Stay</th>
-                    <th scope="col" class="px-6 py-5 text-center text-sm font-medium uppercase">Discount on Best Available Rate</th>
+                    <th scope="col" class="border-r border-ink/10 px-3 py-5 text-center text-sm text-[#0F0F10] font-medium uppercase">Length of Stay</th>
+                    <th scope="col" class="px-3 py-5 text-center text-sm font-medium text-[#0F0F10] uppercase">Discount on Best Available Rate</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="tier in discountTiers" :key="tier.nights" class="border-t border-paper/10">
-                    <td class="border-r border-paper/10 px-6 py-[30px] text-center text-sm text-paper">{{ tier.nights }}</td>
-                    <td class="px-6 py-[30px] text-sm text-flame">{{ tier.discount }}</td>
+                  <tr v-for="tier in discountTiers" :key="tier.nights" class="border-t border-paper/15">
+                    <td class="border-r border-paper/15 px-3 py-5 text-center text-sm text-paper/85 sm:px-6">{{ tier.nights }}</td>
+                    <td class="px-5 py-5 text-sm font-medium text-flame text-center sm:px-12">{{ tier.discount }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -78,9 +82,9 @@ interface DiscountTier {
 }
 
 const discountTiers: DiscountTier[] = [
-  { nights: '10-14 Nights', discount: '10% Off' },
-  { nights: '15-20 Nights', discount: '15% Off' },
-  { nights: '21-29 Nights', discount: '20% Off' },
-  { nights: '30+ Nights', discount: '25% Off' },
+  { nights: '14–20 Nights', discount: '10% Off' },
+  { nights: '21–29 Nights', discount: '15% Off' },
+  { nights: '30–59 Nights', discount: '20% Off' },
+  { nights: '60+ Nights', discount: '25% Off' },
 ]
 </script>

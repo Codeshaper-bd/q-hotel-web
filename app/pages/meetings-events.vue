@@ -1,33 +1,20 @@
 <template>
   <div>
     <PageBanner
-      title="Meetings &amp; Events"
-      description="From intimate boardrooms to grand ballrooms, our versatile venues and dedicated event team bring your occasions to life in the heart of Dhaka."
-      image="/images/meetings/business-class-lounge.jpg"
+      title="Your Perfect Event Starts Here"
+      title-class="text-4xl lg:text-[72px] font-semibold lg:leading-20"
+      description-class="max-w-[1032px] text-lg font-medium text-white mt-2" 
+      description="Versatile event spaces, modern amenities, and personalized service come together to create seamless, memorable experiences for every meeting, celebration, and special occasion."
+      image="/images/meetings/meeting-bannar.png"
       :breadcrumb="[
         { label: 'Home', to: '/' },
         { label: 'Meetings & Events' },
       ]"
     >
-      <template #console>
-        <div class="mx-auto max-w-[1316px]">
-          <HeroBookingSearch
-            tone="light"
-            popover-direction="down"
-            empty-state
-            :show-special-rates="false"
-            check-in-placeholder="Check in Date"
-            check-out-placeholder="Check Out Date"
-            placeholder-class="text-[18px] font-semibold text-[#505155]"
-            submit-label="Search"
-            @search="handleSearch"
-          />
-        </div>
-      </template>
     </PageBanner>
     <BusinessLoungeSection />
     <CapacityOverviewSection />
-    <FaqSection />
+    <FaqSection page="meetings" />
     <div class="h-[100px]" aria-hidden="true" />
   </div>
 </template>

@@ -36,12 +36,9 @@
       </div>
     </BaseSection>
 
-    <BaseSection container-size="xl" tone="paper" spacing="md">
+    <BaseSection container-size="xl" tone="paper" spacing="md" class="!pt-[60px] sm:!pt-8">
       <BookingWhatsNext />
-    </BaseSection>
-
-    <BaseSection container-size="xl" tone="paper" spacing="md">
-      <div class="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div class="grid gap-4 lg:grid-cols-2 lg:items-start mt-4">
         <BookingTimeline
           :confirmed-at-label="confirmedAtLabel"
           :check-in="checkIn"
@@ -61,55 +58,87 @@
 </template>
 
 <script setup lang="ts">
-import type { BookingConfirmation, GuestDetails } from '~/types/booking'
-import { useRoomsCatalog } from '#imports'
+import type { BookingConfirmation, GuestDetails } from "~/types/booking";
+import { useRoomsCatalog } from "#imports";
 
 useHead({
-  meta: [{ name: 'robots', content: 'noindex, nofollow' }],
-})
+  meta: [{ name: "robots", content: "noindex, nofollow" }],
+});
 useSeoMetaData({
-  title: 'Booking Confirmed',
-  description: 'Your reservation at Q Hotel Dhaka is confirmed.',
-  path: '/booking-confirmed',
-})
+  title: "Booking Confirmed",
+  description: "Your reservation at Q Hotel Dhaka is confirmed.",
+  path: "/booking-confirmed",
+});
 
-const rooms = useRoomsCatalog()
-const confirmation = useState<BookingConfirmation | null>('booking-confirmation', () => null)
+const rooms = useRoomsCatalog();
+const confirmation = useState<BookingConfirmation | null>(
+  "booking-confirmation",
+  () => null,
+);
 
 // A guest who lands here without completing checkout (a shared link, a
 // direct visit) still sees a coherent page — same fallback philosophy as
 // the /booking page's own room-query fallback
 const FALLBACK_GUEST: GuestDetails = {
-  firstName: 'Guest',
-  lastName: '',
-  email: 'guest@example.com',
-  phoneCountryCode: '+880',
-  phone: '',
-  country: 'Bangladesh',
-  note: '',
-}
+  firstName: "Guest",
+  lastName: "",
+  email: "guest@example.com",
+  phoneCountryCode: "+880",
+  phone: "",
+  country: "Bangladesh",
+  note: "",
+};
 
-const fallbackCheckIn = todayIsoDate()
-const fallbackReservationNumber = `QH-${fallbackCheckIn.replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`
+const fallbackCheckIn = todayIsoDate();
+const fallbackReservationNumber = `QH-${fallbackCheckIn.replace(/-/g, "")}-${Math.floor(1000 + Math.random() * 9000)}`;
 
-const room = computed(() => rooms.find(candidate => candidate.id === confirmation.value?.roomId) ?? rooms[0]!)
-const guest = computed(() => confirmation.value?.guest ?? FALLBACK_GUEST)
-const guestFirstName = computed(() => guest.value.firstName || 'Guest')
-const reservationNumber = computed(() => confirmation.value?.reservationNumber ?? fallbackReservationNumber)
-const checkIn = computed(() => confirmation.value?.checkIn ?? fallbackCheckIn)
-const checkOut = computed(() => confirmation.value?.checkOut ?? addDaysIso(fallbackCheckIn, 1))
-const nights = computed(() => Math.max(1, nightsBetween(checkIn.value, checkOut.value)))
-const roomsCount = computed(() => confirmation.value?.roomsCount ?? 1)
-const guestsCount = computed(() => confirmation.value?.guestsCount ?? 2)
-const taxRatePercent = computed(() => confirmation.value?.taxRatePercent ?? 15)
-const roomSubtotal = computed(() => confirmation.value?.roomSubtotal ?? room.value.nightlyRateUsd * nights.value)
-const taxes = computed(() => confirmation.value?.taxes ?? Math.round(roomSubtotal.value * (taxRatePercent.value / 100)))
-const totalPrice = computed(() => confirmation.value?.totalPrice ?? roomSubtotal.value + taxes.value)
+const room = computed(
+  () =>
+    rooms.find((candidate) => candidate.id === confirmation.value?.roomId) ??
+    rooms[0]!,
+);
+const guest = computed(() => confirmation.value?.guest ?? FALLBACK_GUEST);
+const guestFirstName = computed(() => guest.value.firstName || "Guest");
+const reservationNumber = computed(
+  () => confirmation.value?.reservationNumber ?? fallbackReservationNumber,
+);
+const checkIn = computed(() => confirmation.value?.checkIn ?? fallbackCheckIn);
+const checkOut = computed(
+  () => confirmation.value?.checkOut ?? addDaysIso(fallbackCheckIn, 1),
+);
+const nights = computed(() =>
+  Math.max(1, nightsBetween(checkIn.value, checkOut.value)),
+);
+const roomsCount = computed(() => confirmation.value?.roomsCount ?? 1);
+const guestsCount = computed(() => confirmation.value?.guestsCount ?? 2);
+const taxRatePercent = computed(() => confirmation.value?.taxRatePercent ?? 15);
+const roomSubtotal = computed(
+  () =>
+    confirmation.value?.roomSubtotal ??
+    room.value.nightlyRateUsd * nights.value,
+);
+const taxes = computed(
+  () =>
+    confirmation.value?.taxes ??
+    Math.round(roomSubtotal.value * (taxRatePercent.value / 100)),
+);
+const totalPrice = computed(
+  () => confirmation.value?.totalPrice ?? roomSubtotal.value + taxes.value,
+);
 
 const confirmedAtLabel = computed(() => {
-  const confirmedAt = confirmation.value?.confirmedAt ? new Date(confirmation.value.confirmedAt) : new Date()
-  const datePart = confirmedAt.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
-  const timePart = confirmedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
-  return `${datePart} • ${timePart}`
-})
+  const confirmedAt = confirmation.value?.confirmedAt
+    ? new Date(confirmation.value.confirmedAt)
+    : new Date();
+  const datePart = confirmedAt.toLocaleDateString("en-US", {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  });
+  const timePart = confirmedAt.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+  return `${datePart} • ${timePart}`;
+});
 </script>

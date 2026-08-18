@@ -6,7 +6,7 @@
       :total-price="totalPrice"
     />
 
-    <BaseSection container-size="xl" tone="paper" spacing="md">
+    <BaseSection container-size="xl" tone="paper" spacing="md" class="!pt-10 sm:!pt-12">
       <h1 class="font-display font-semibold text-4xl text-[#0F0F10] sm:text-5xl lg:text-[56px]">
         Complete Your Booking
       </h1>
@@ -17,11 +17,13 @@
       >
         <div class="flex flex-col gap-8">
           <BookingGuestForm />
+          <BookingPaymentMethod v-model="paymentMethod" />
           <BookingRoomRequests />
           <BookingPolicies
             :room="room"
             :check-in="checkIn"
             :tax-rate-percent="TAX_RATE_PERCENT"
+            :payment-method="paymentMethod"
           />
         </div>
 
@@ -45,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BookingConfirmation, BookingSearchQuery } from "~/types/booking";
+import type { BookingConfirmation, BookingRoomRequests, BookingSearchQuery } from "~/types/booking";
 import { useRoomsCatalog } from "#imports";
 
 // Checkout: never worth indexing, and query-param room variants would
@@ -95,6 +97,8 @@ const confirmation = useState<BookingConfirmation | null>(
   () => null,
 );
 
+const paymentMethod = ref<'pay_now' | 'pay_at_property'>('pay_now');
+
 function handleSubmit(event: Event) {
   // Payment gateway + PMS integration land here. Until then, a valid native
   // submit (the browser only fires this once every `required` field passes)
@@ -113,6 +117,15 @@ function handleSubmit(event: Event) {
       phone: readField("phone"),
       country: readField("country"),
       note: readField("note"),
+    },
+    paymentMethod: readField("paymentMethod") as BookingConfirmation["paymentMethod"],
+    roomRequests: {
+      smokingPreference: readField("smokingPreference") as BookingRoomRequests["smokingPreference"],
+      additionalRequests: formData
+        .getAll("additionalRequests")
+        .map((value) => String(value)),
+      earlyCheckInTime: readField("earlyCheckInTime"),
+      specialRequest: readField("specialRequest"),
     },
     checkIn: checkIn.value,
     checkOut: checkOut.value,
