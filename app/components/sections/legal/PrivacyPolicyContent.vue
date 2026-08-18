@@ -18,7 +18,7 @@
         Last Updated: August 2026
       </p>
 
-      <p class="mt-10 text-base font-normal leading-[1.7] text-[#373737] sm:mt-12">
+      <p class="mt-8 text-base font-normal leading-[1.7] text-[#373737] sm:mt-12">
         At Q Hotel Dhaka, operated by Quality Hospitality Limited, we respect
         your privacy and are committed to protecting the personal information
         you share with us. This Privacy Policy explains how we collect, use,
