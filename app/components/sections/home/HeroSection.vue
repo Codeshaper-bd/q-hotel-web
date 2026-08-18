@@ -6,11 +6,15 @@
     class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-night text-paper"
   >
     <div ref="bgRef" aria-hidden="true" class="absolute inset-0">
+            <!-- Served at native resolution and high quality: the entrance animation
+           holds the image at up to 1.12x scale, so a smaller/softer source
+           would visibly upscale and lose sharpness. -->
       <BaseImage
         src="/images/hero/q-hotel-hero-v2.jpg"
         alt=""
-        :width="1920"
-        :height="980"
+        :width="2500"
+        :height="1551"
+        :quality="90"
         priority
         class="h-full w-full"
       />

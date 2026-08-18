@@ -8,6 +8,7 @@
     :loading="loading"
     :preload="priority"
     :fetchpriority="priority ? 'high' : 'auto'"
+    :quality="quality"
     :class="imageClass"
   />
 </template>
@@ -21,6 +22,8 @@ const props = withDefaults(defineProps<{
   sizes?: string
   priority?: boolean
   fit?: 'cover' | 'contain'
+  /** Compression quality (0–100). Leave unset for the provider default. */
+  quality?: number
 }>(), {
   sizes: 'xs:100vw sm:640px md:768px lg:1024px',
   priority: false,
