@@ -6,11 +6,24 @@
   -->
   <BaseSection
     tone="paper"
-    spacing="sm"
-    container-size="md"
+    spacing="md"
+    container-size="lg"
     aria-labelledby="privacy-policy-document"
   >
-    <div class="mx-auto max-w-[880px]">
+   
+      <FadeReveal :stagger="0.12" :blur="6"
+        class="mx-auto flex max-w-[880px] flex-col items-center text-center">
+        <div data-reveal-item>
+          <BaseKicker transparent>Privacy Policy</BaseKicker>
+        </div>
+
+        <h2 data-reveal-item id="privacy-policy-title"
+          class="mt-10 font-display text-4xl font-semibold text-[#0F0F10] sm:mt-12 sm:text-5xl lg:text-[56px]">
+          Your Privacy Matters to Us
+        </h2>
+      </FadeReveal>
+
+    <div class="mt-[60px]">
       <p
         id="privacy-policy-document"
         class="text-xs font-medium uppercase tracking-[0.16em] text-ink sm:text-sm"
@@ -41,7 +54,7 @@
         >
           <h2
             :id="`policy-${section.number}`"
-            class="font-display text-2xl font-medium text-ink sm:text-3xl"
+            class="font-display text-2xl font-semibold text-[#0F0F10] sm:text-[28px]"
           >
             {{ section.number }}. {{ section.title }}
           </h2>
@@ -64,7 +77,7 @@
 
             <ul
               v-if="section.bullets?.length"
-              class="list-disc space-y-2.5 pl-5 text-base font-normal leading-[1.7] text-[#373737] marker:text-[#373737]"
+              class="list-disc space-y-2.5 pl-5 text-base font-normal  text-[#373737] marker:text-[#505155]"
             >
               <li v-for="item in section.bullets" :key="item">
                 {{ item }}

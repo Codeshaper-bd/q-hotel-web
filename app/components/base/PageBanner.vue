@@ -13,10 +13,11 @@
       <BaseImage
         :src="image"
         alt=""
-        :width="1920"
-        :height="800"
+        :width="2560"
+        :height="1067"
+        :quality="90"
         priority
-        sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px"
+        sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:2560px"
         class="absolute inset-0"
       />
       <div class="absolute inset-0 bg-[#0F0F10]/40" aria-hidden="true" />
