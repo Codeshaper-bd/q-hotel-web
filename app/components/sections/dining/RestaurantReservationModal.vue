@@ -148,29 +148,11 @@
                     Date
                   </label>
 
-                  <div class="relative">
-                    <input
-                      id="reservation-date"
-                      v-model="form.date"
-                      name="date"
-                      type="date"
-                      :min="today"
-                      required
-                      class="form-input pr-11"
-                    />
-
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      class="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-[#777]"
-                      stroke="currentColor"
-                      stroke-width="1.4"
-                      aria-hidden="true"
-                    >
-                      <rect x="3" y="5" width="18" height="16" rx="1" />
-                      <path d="M16 3v4M8 3v4M3 10h18" />
-                    </svg>
-                  </div>
+                  <BaseDatePicker
+                    id="reservation-date"
+                    v-model="form.date"
+                    placeholder="Select date"
+                  />
                 </div>
 
                 <div>
@@ -178,16 +160,17 @@
                     Time
                   </label>
 
-                  <input
+                  <BaseTimePicker
                     id="reservation-time"
                     v-model="form.time"
-                    name="time"
-                    type="time"
-                    required
-                    class="form-input"
+                    placeholder="Select time"
                   />
                 </div>
               </div>
+
+              <p v-if="validationError" role="alert" class="form-error">
+                {{ validationError }}
+              </p>
 
               <div>
                 <label for="reservation-guests" class="form-label">
@@ -400,13 +383,22 @@ const form = reactive<RestaurantReservationData>({
   specialRequest: "",
 });
 
-const today = new Date().toISOString().slice(0, 10);
-
 const formRef = ref<HTMLFormElement | null>(null);
+
+/** Custom pickers are buttons, so native required validation no longer
+ *  applies; the missing-field message is surfaced inline instead */
+const validationError = ref("");
 
 /** BaseArrowCta renders a plain button, so native validation is triggered
  *  through requestSubmit instead of a type="submit" click */
 function handleBookClick() {
+  if (!form.date || !form.time) {
+    validationError.value = !form.date
+      ? "Please choose a date for your reservation."
+      : "Please choose a time for your reservation.";
+    return;
+  }
+  validationError.value = "";
   formRef.value?.requestSubmit();
 }
 
@@ -420,14 +412,11 @@ function submitForm() {
   @apply mb-2 block text-sm font-normal uppercase tracking-[0.025em] text-[#373737];
 }
 
-.form-input {
-  @apply h-[52px] w-full border border-[#C9C9C9] bg-white px-3.5 text-base text-[#272727] transition duration-200 placeholder:text-base placeholder:text-[#373737] hover:border-[#A9A9A9] focus:border-[#C87532] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#C87532];
+.form-error {
+  @apply mt-2 text-sm font-medium text-[#B3261E];
 }
 
-/* The calendar indicator is replaced by the custom calendar icon */
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-  opacity: 0;
+.form-input {
+  @apply h-[52px] w-full border border-[#C9C9C9] bg-white px-3.5 text-base text-[#272727] transition duration-200 placeholder:text-base placeholder:text-[#373737] hover:border-[#A9A9A9] focus:border-[#C87532] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#C87532];
 }
 </style>
