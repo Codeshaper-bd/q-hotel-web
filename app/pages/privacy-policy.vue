@@ -1,6 +1,8 @@
 <template>
   <div>
-    <PrivacyPolicyHero />
+    <PageBanner title="Privacy Policy" :breadcrumb="[{ label: 'Home', to: '/' }, { label: 'Privacy Policy' }]"
+      image="/images/terms/priveccy-hero-bannar.png" />
+  
     <PrivacyPolicyContent />
   </div>
 </template>

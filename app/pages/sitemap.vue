@@ -22,18 +22,15 @@
 const mainPages = [
   { label: 'Home Page / Overview', to: '/' },
   { label: 'About Us', to: '/about' },
-  { label: 'Accommodations / Room & Suites', to: '/rooms' },
+  { label: 'Room & Suites', to: '/rooms' },
   { label: 'Room Details', to: '/rooms' },
-  { label: 'Offer & Packages', to: '/offers' },
-  { label: 'Facilities / Services / Amenities', to: '/#facilities' },
+  { label: 'Facilities & Amenities', to: '/facilities-amenities' },
   { label: 'Meetings & Events', to: '/meetings-events' },
   { label: 'Event Details', to: '/meetings-events' },
-  { label: 'Dining / Restaurant', to: '/dining' },
-  { label: 'Long Stay', to: '/long-stay' },
+  { label: 'Long Stays', to: '/long-stays' },
+  { label: 'Dining', to: '/dining' },
   { label: 'Gallery Preview', to: '/gallery' },
-  { label: 'Nearby Attractions', to: '/#location' },
-  { label: 'Blogs & Articles', to: '/blog' },
-  { label: 'Blog Details', to: '/blog' },
+  { label: 'Nearby Attractions', to: '/nearby-attractions' },
 ]
 
 const helpAndSupport = [

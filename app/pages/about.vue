@@ -3,7 +3,6 @@
     <PageBanner
       title="Welcome To Q Hotel Dhaka"
       image="/images/about/about-us.png"
-      overlay-class="bg-transparent"
       title-class="max-w-[600px] text-[72px] leading-[80px] font-bold"
     >
       <template #scroll-cue>

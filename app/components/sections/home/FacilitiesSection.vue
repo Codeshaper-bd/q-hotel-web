@@ -7,6 +7,7 @@ import Wellness from "~/components/icons/Wellness.vue";
 import Breakfast from "~/components/icons/Breakfast.vue";
 import Wifi from "~/components/icons/Wifi.vue";
 import TeaCoffeMaker from "~/components/icons/TeaCoffeMaker.vue";
+import Iptv from "~/components/icons/Iptv.vue";
 import SecurityCamera from "~/components/icons/SecurityCamera.vue";
 import BarCup from "~/components/icons/BarCup.vue";
 import Laundry from "~/components/icons/Laundry.vue";
@@ -182,10 +183,10 @@ const amenities: FacilityAmenity[] = [
     icon: Wifi,
   },
   {
-    id: "tea-coffee",
-    label: "Tea/Coffee Maker",
+    id: "ip-tv",
+    label: "IP TV",
     image: "/images/instagram/moment-3.jpg",
-    icon: TeaCoffeMaker,
+    icon: Iptv,
   },
   {
     id: "cctv-security",
@@ -302,13 +303,6 @@ const amenities: FacilityAmenity[] = [
             data-reveal-item
             class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:mt-0 lg:px-2"
           >
-            <p
-              class="font-display text-lg leading-8 text-paper/80 sm:text-xl lg:text-2xl lg:font-semibold"
-            >
-              We offers, a full range of digital services designed to help
-              brands grow with clarity and confidence. from deliver real
-              measurable value.
-            </p>
             <BaseArrowCta
               to="facilities-amenities"
               variant="gold"

@@ -4,9 +4,10 @@
       title="Hotel Policy"
       :breadcrumb="[{ label: 'Home', to: '/' }, { label: 'Hotel Policy' }]"
       image="/images/terms/priveccy-hero-bannar.png"
-      description="The terms, charges, and house rules that keep every stay at Q Hotel Dhaka comfortable, safe, and transparent."
     />
+
     <HotelPolicyContent />
+    <div class="h-10"></div>
   </div>
 </template>
 
