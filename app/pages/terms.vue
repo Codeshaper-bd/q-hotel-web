@@ -2,10 +2,12 @@
   <div>
     <PageBanner
       title="Terms & Conditions"
-      :breadcrumb="[{ label: 'Home', to: '/' }, { label: 'Terms & Conditions' }]"
+      :breadcrumb="[
+        { label: 'Home', to: '/' },
+        { label: 'Terms & Conditions' },
+      ]"
       image="/images/terms/priveccy-hero-bannar.png"
     />
-    <TermsConditionsHero />
     <TermsConditionsContent />
   </div>
 </template>

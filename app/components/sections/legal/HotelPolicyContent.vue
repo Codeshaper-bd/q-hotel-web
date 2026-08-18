@@ -5,9 +5,26 @@
     dividers separate every row and the two columns; on mobile the columns
     stack so each policy reads title-first, description-below.
   -->
-  <BaseSection tone="paper" spacing="sm" container-size="xl">
-    <div class="mx-auto w-full max-w-[1400px] overflow-x-auto bg-cream">
-      <table aria-label="Hotel Policy Information" class="w-full border-collapse text-left">
+  <BaseSection tone="paper" spacing="md" container-size="lg">
+    <FadeReveal
+      :stagger="0.12"
+      :blur="6"
+      class="flex flex-col items-center text-center"
+    >
+      <div data-reveal-item>
+        <BaseKicker transparent>hotel policy</BaseKicker>
+      </div>
+
+      <BaseTitle id="terms-title" title-class="md:mt-10">
+        Everything You Need to Know
+      </BaseTitle>
+    </FadeReveal>
+
+    <div class="overflow-x-auto bg-cream mt-[60px]">
+      <table
+        aria-label="Hotel Policy Information"
+        class="w-full border-collapse text-left"
+      >
         <tbody>
           <tr
             v-for="row in policyRows"
@@ -34,89 +51,89 @@
 
 <script setup lang="ts">
 interface PolicyRow {
-  name: string
-  description: string
+  name: string;
+  description: string;
 }
 
 const policyRows: PolicyRow[] = [
   {
-    name: 'Check-In',
+    name: "Check-In",
     description:
-      'Standard check-in time is 2:00 PM. Early check-in is subject to room availability and may incur additional charges.',
+      "Standard check-in time is 2:00 PM. Early check-in is subject to room availability and may incur additional charges.",
   },
   {
-    name: 'Check-Out',
+    name: "Check-Out",
     description:
-      'Standard check-out time is 12:00 PM. Please contact the hotel in advance if you require a late check-out.',
+      "Standard check-out time is 12:00 PM. Please contact the hotel in advance if you require a late check-out.",
   },
   {
-    name: 'Early Check-In',
+    name: "Early Check-In",
     description:
-      'Early check-in is available upon request and subject to room availability. Additional charges may apply depending on the requested arrival time. Please contact the hotel in advance to confirm availability and applicable fees.',
+      "Early check-in is available upon request and subject to room availability. Additional charges may apply depending on the requested arrival time. Please contact the hotel in advance to confirm availability and applicable fees.",
   },
   {
-    name: 'Rates & Taxes',
+    name: "Rates & Taxes",
     description:
-      'A 12.5% Service Charge, 1.5% City Tax, and 15% VAT apply to bookings. Rates and applicable charges will be displayed during the booking process.',
+      "A 12.5% Service Charge, 1.5% City Tax, and 15% VAT apply to bookings. Rates and applicable charges will be displayed during the booking process.",
   },
   {
-    name: 'Security Deposit',
+    name: "Security Deposit",
     description:
-      'A security deposit is applicable for all bookings. Deposit requirements may vary depending on the reservation and will be communicated during booking or check-in.',
+      "A security deposit is applicable for all bookings. Deposit requirements may vary depending on the reservation and will be communicated during booking or check-in.",
   },
   {
-    name: 'Rollaway Bed',
+    name: "Rollaway Bed",
     description:
-      'Rollaway beds are available upon advance request, subject to room type and availability. Additional charges may apply.',
+      "Rollaway beds are available upon advance request, subject to room type and availability. Additional charges may apply.",
   },
   {
-    name: 'Baby Crib',
+    name: "Baby Crib",
     description:
-      'Baby cribs are available upon advance request and subject to availability. Please request a crib when making your reservation.',
+      "Baby cribs are available upon advance request and subject to availability. Please request a crib when making your reservation.",
   },
   {
-    name: 'Accessibility',
+    name: "Accessibility",
     description:
-      'Accessible rooms and facilities are available for guests requiring additional assistance. Advance requests are recommended so the hotel can prepare accordingly.',
+      "Accessible rooms and facilities are available for guests requiring additional assistance. Advance requests are recommended so the hotel can prepare accordingly.",
   },
   {
-    name: 'Smoking Rooms',
+    name: "Smoking Rooms",
     description:
-      'Non-smoking rooms are the default. Smoking rooms are available upon advance request and subject to availability.',
+      "Non-smoking rooms are the default. Smoking rooms are available upon advance request and subject to availability.",
   },
   {
-    name: 'Pet Policy',
-    description: 'Pets are not allowed in the hotel.',
+    name: "Pet Policy",
+    description: "Pets are not allowed in the hotel.",
   },
   {
-    name: 'Airport Assistance',
+    name: "Airport Assistance",
     description:
-      'Guests may provide their flight information during booking to help the hotel prepare for their arrival and coordinate requested airport assistance.',
+      "Guests may provide their flight information during booking to help the hotel prepare for their arrival and coordinate requested airport assistance.",
   },
   {
-    name: 'Special Requests',
+    name: "Special Requests",
     description:
-      'Rollaway beds, baby cribs, accessible rooms, early check-in and other special requests are subject to availability and may incur additional charges.',
+      "Rollaway beds, baby cribs, accessible rooms, early check-in and other special requests are subject to availability and may incur additional charges.",
   },
   {
-    name: 'Payment',
+    name: "Payment",
     description:
-      'Guests can select from the payment options available during booking, including Pay Now or Pay at Property, where applicable to the selected rate.',
+      "Guests can select from the payment options available during booking, including Pay Now or Pay at Property, where applicable to the selected rate.",
   },
   {
-    name: 'Cancellation',
+    name: "Cancellation",
     description:
       "Standard reservations may be cancelled free of charge up to 24 hours before the scheduled check-in date. Cancellations within 24 hours or no-shows may incur a charge equivalent to one night's room rate plus applicable taxes. Promotional or special rates may have different terms.",
   },
   {
-    name: 'Identification',
+    name: "Identification",
     description:
-      'Guests may be required to present a valid government-issued photo ID or passport at check-in.',
+      "Guests may be required to present a valid government-issued photo ID or passport at check-in.",
   },
   {
-    name: 'Children & Extra Guests',
+    name: "Children & Extra Guests",
     description:
-      'Children and additional guests are welcome subject to the occupancy limit of the selected room. Extra beds or additional guest charges may apply.',
+      "Children and additional guests are welcome subject to the occupancy limit of the selected room. Extra beds or additional guest charges may apply.",
   },
-]
+];
 </script>

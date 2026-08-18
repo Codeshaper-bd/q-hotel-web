@@ -7,7 +7,7 @@
   <BaseSection
     tone="paper"
     spacing="md"
-    container-size="lg"
+    container-size="md"
     aria-labelledby="privacy-policy-document"
   >
    
