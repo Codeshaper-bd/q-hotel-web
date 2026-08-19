@@ -135,75 +135,72 @@ interface FacilityAmenity {
   gridClass?: string;
 }
 
-// ASSET: `image` currently reuses the closest existing photography. Swap each
-// for a dedicated facility shot (e.g. /images/facilities/<id>.jpg) when the
-// real set lands — the hover reveal needs no other change.
 const amenities: FacilityAmenity[] = [
   {
     id: "airport-shuttle",
     label: "Airport Shuttle",
-    image: "/images/hero/aerial-terrain.jpg",
+    image: "/images/facilities/airport-shuttle.png",
     icon: ShuttleBus,
   },
   {
     id: "vehicle-parking",
     label: "Parking",
-    image: "/images/hero/lobby-interior.jpg",
+    image: "/images/facilities/parking.png",
     icon: Parking,
   },
   {
     id: "dining",
     label: "Dining",
-    image: "/images/dining/bbq-restaurant.jpg",
+    image: "/images/facilities/dining.png",
     icon: Dining,
   },
   {
     id: "swimming-pool",
     label: "Swimming Pool",
-    image: "/images/offers/swimming.jpg",
+    image: "/images/facilities/swimming-pool.png",
     icon: SwimmingPoolTwo,
   },
   {
     id: "fitness-spa",
     label: "Wellness",
-    image: "/images/offers/stressless-spa.jpg",
+    image: "/images/facilities/wellness.png",
     icon: Wellness,
   },
   {
     id: "breakfast",
     label: "Breakfast",
-    image: "/images/offers/readymade-meal.jpg",
+    image: "/images/facilities/breakfast.png",
     gridClass: "lg:col-start-2",
     icon: Breakfast,
   },
   {
     id: "free-wifi",
     label: "WiFi",
-    image: "/images/meetings/business-class-lounge.jpg",
+    image: "/images/facilities/wifi.png",
     icon: Wifi,
   },
   {
     id: "ip-tv",
     label: "IP TV",
-    image: "/images/instagram/moment-3.jpg",
+    image: "/images/facilities/iptv.png",
     icon: Iptv,
   },
   {
     id: "cctv-security",
     label: "24 Hours Security",
-    image: "/images/instagram/moment-5.jpg",
+    image: "/images/facilities/security.png",
     icon: SecurityCamera,
   },
   {
     id: "bbq-bar",
     label: "Mini Bar",
-    image: "/images/dining/bbq-restaurant.jpg",
+    image: "/images/facilities/minibar.png",
     icon: BarCup,
   },
   {
     id: "laundry-service",
     label: "Valet Laundry ",
-    image: "/images/rooms/deluxe-double.jpg",
+    image: "/images/facilities/valet-laundry.png",
     gridClass: "lg:col-start-5 lg:row-start-3",
     icon: Laundry,
   },
@@ -301,7 +298,7 @@ const amenities: FacilityAmenity[] = [
           <!-- Supporting copy + CTA share the final grid row on large screens -->
           <div
             data-reveal-item
-            class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:mt-0 lg:px-2"
+            class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:mt-0 lg:items-end lg:pr-[160px]"
           >
             <BaseArrowCta
               to="facilities-amenities"
