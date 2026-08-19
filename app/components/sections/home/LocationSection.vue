@@ -9,7 +9,7 @@ const {
 const activeAttractionId = ref<string | null>(null);
 
 /** The home section spotlights the first four landmarks; the full
- *  neighbourhood guide lives on /nearby-attractions */
+ *  neighbourhood guide lives on /nearby-locations */
 const featuredAttractions = computed(() => nearbyAttractions.slice(0, 4));
 
 function toggleAttraction(id: string) {
@@ -129,7 +129,7 @@ function toggleAttraction(id: string) {
       <FadeReveal>
         <div class="pointer-events-auto mt-12 flex justify-center">
           <!-- The attractions page holds the full neighbourhood guide -->
-          <BaseArrowCta to="/nearby-attractions" variant="gold">
+          <BaseArrowCta to="/nearby-locations" variant="gold">
             Nearby Locations
           </BaseArrowCta>
         </div>
