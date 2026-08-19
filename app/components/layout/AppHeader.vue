@@ -17,6 +17,15 @@
       ]"
       aria-hidden="true"
     />
+
+    <!-- Dismissible promo strip on the homepage; sits above the glass layer
+         and paints its own dark band. The runtime --header-height override
+         keeps section offsets honest while the bar is visible. -->
+    <Transition name="promo-bar" @after-leave="resetPromoHeaderHeight">
+      <div v-if="showPromoBar" class="promo-bar-wrap">
+        <PromoTopBar @dismiss="handlePromoDismiss" />
+      </div>
+    </Transition>
     <!-- Skip to content -->
     <a
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-paper focus:px-4 focus:py-3 focus:text-ink"
@@ -28,7 +37,7 @@
     <BaseContainer size="xl" class="relative">
       <!-- Desktop: logo left, navigation right -->
       <div
-        class="flex min-h-[var(--header-height)] items-center justify-between gap-6"
+        class="flex min-h-[var(--header-nav-height)] items-center justify-between gap-6"
       >
         <!-- Left: logo -->
         <NavLogo :tone="hasSolidBackground ? 'on-light' : 'on-dark'" />
@@ -210,17 +219,13 @@ const navigationItems: NavItemData[] = [
     id: "meetings",
     label: "Meetings & Events",
     href: "/meetings-events",
-  },
-  {
-    id: "longstay",
-    label: "Long Stays",
-    href: "/long-stays",
-  },
+  }
 ];
 
 // ─── Menu state ───────────────────────────────────────────────────
 const route = useRoute();
 const headerRef = ref<HTMLElement | null>(null);
+const nuxtApp = useNuxtApp();
 
 // Hidden while the home hero's Q reveal plays; HeroSection owns this state
 // (defaults to visible for SSR, no-JS, reduced motion, and non-home pages).
@@ -244,6 +249,45 @@ const hasScrolledPastCover = computed(() => isScrolledPastHero.value);
 // pinned journey plus the glass hold-off), while inner pages — whose dark
 // banner is only a few hundred pixels tall — go solid almost immediately.
 const isHome = computed(() => route.path === "/");
+
+// ─── Dismissible homepage promo bar ───────────────────────────────
+// Dismissal lives for the tab session only (sessionStorage): closing the bar
+// never snaps it back mid-session, but a fresh visit sees it again.
+const PROMO_STORAGE_KEY = "q-hotel-promo-dismissed";
+const promoDismissed = ref(false);
+
+const showPromoBar = computed(() => isHome.value && !promoDismissed.value);
+
+function handlePromoDismiss() {
+  promoDismissed.value = true;
+  if (import.meta.client) {
+    sessionStorage.setItem(PROMO_STORAGE_KEY, "1");
+  }
+}
+
+/** After the bar collapses, --header-height falls back to the nav height and
+ *  ScrollTrigger remeasures the sticky offsets that sit under the header. */
+function resetPromoHeaderHeight() {
+  if (!import.meta.client) return;
+  document.documentElement.style.removeProperty("--header-height");
+  const scrollTrigger = nuxtApp.$ScrollTrigger;
+  if (typeof scrollTrigger?.refresh === "function") {
+    scrollTrigger.refresh();
+  }
+}
+
+// While the bar is visible the fixed header is taller, and everything that
+// offsets itself from it reads the shared token, so the override lives on the
+// document root rather than on this element. Removal happens once the leave
+// transition finishes (resetPromoHeaderHeight), or the nav would jump up
+// while the bar is still collapsing.
+watch(showPromoBar, (visible) => {
+  if (!import.meta.client || !visible) return;
+  document.documentElement.style.setProperty(
+    "--header-height",
+    "calc(var(--header-nav-height) + var(--promo-bar-height))",
+  );
+});
 
 // Active nav item accent: champagne on the home page's dark hero, copper
 // elsewhere once the paper glass is in play
@@ -340,6 +384,21 @@ onMounted(() => {
   document.addEventListener("click", handleDocumentClick);
   window.addEventListener("scroll", handleScroll, { passive: true });
   handleScroll();
+
+  // A dismissed promo bar stays away for this tab session
+  if (sessionStorage.getItem(PROMO_STORAGE_KEY) === "1") {
+    promoDismissed.value = true;
+  }
+
+  // The watch below only reacts to changes, so the first render's override
+  // is applied here explicitly — otherwise the header height would stay at
+  // the nav-only value while the bar is visible
+  if (showPromoBar.value) {
+    document.documentElement.style.setProperty(
+      "--header-height",
+      "calc(var(--header-nav-height) + var(--promo-bar-height))",
+    );
+  }
 });
 
 onUnmounted(() => {
@@ -350,6 +409,37 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Promo bar: the wrapper owns the fixed height (so the collapse transition
+   lives in this component's scope), the bar component owns the dark band. */
+.promo-bar-wrap {
+  position: relative;
+  z-index: 1;
+  height: var(--promo-bar-height);
+}
+
+/* Collapse: height animates so the nav below eases up smoothly.
+   Reduced-motion users get the instant removal instead. */
+.promo-bar-enter-active,
+.promo-bar-leave-active {
+  transition:
+    height var(--duration-normal) var(--ease-premium),
+    opacity var(--duration-normal) var(--ease-premium);
+  overflow: hidden;
+}
+
+.promo-bar-enter-from,
+.promo-bar-leave-to {
+  height: 0;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-bar-enter-active,
+  .promo-bar-leave-active {
+    transition: none;
+  }
+}
+
 /* Mega menu and dropdown slide-in transition */
 .nav-panel-enter-active {
   transition:
