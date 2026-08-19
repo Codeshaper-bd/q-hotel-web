@@ -6,7 +6,7 @@
   >
     <!-- Static lockup per Figma: white on the transparent/dark header,
          inverted to ink so it stays legible once the header goes solid. -->
-    <div :class="['aspect-[214/38] h-7 w-auto sm:h-8', tone === 'on-light' ? 'logo-on-light' : '']">
+    <div :class="['h-[38px] w-[213px]', tone === 'on-light' ? 'logo-on-light' : '']">
       <BaseImage
         src="/images/brand/q-hotel-logo_transparent.png"
         alt="Q Hotel Dhaka"

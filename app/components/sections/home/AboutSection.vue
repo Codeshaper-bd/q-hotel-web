@@ -10,7 +10,7 @@
 
     <BaseContainer size="lg">
       <FadeReveal>
-        <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
+        <div class="mx-auto flex max-w-[926px] flex-col items-center text-center">
           <h2 id="about-title" class="sr-only">Who we are</h2>
           <BaseKicker transparent>Who We Are</BaseKicker>
           <div class="mt-8 flex w-full justify-center items-center gap-2" aria-hidden="true">

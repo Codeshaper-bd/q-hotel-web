@@ -84,8 +84,8 @@ const rooms: Room[] = [
     name: "Presidential Suite",
     description:
       "The house signature: a palatial living room under a crystal chandelier, silk-draped windows, and a private bedroom wing for stays that should feel like occasions.",
-    nightlyRateUsd: 3775,
-    areaSqFt: 1200,
+    nightlyRateUsd: 350,
+    areaSqFt: 3775,
     maxOccupancy: 6,
     bedType: "2 King Beds",
     images: [

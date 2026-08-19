@@ -150,7 +150,7 @@
                         d="M3.334 13.335a1.667 1.667 0 01-1.667-1.667V3.335a1.667 1.667 0 011.667-1.667h8.333a1.667 1.667 0 011.666 1.667v2.5a.833.833 0 01-.833.833H8.334a1.667 1.667 0 00-1.667 1.667v1.666"
                       />
                     </svg>
-                    {{ room.areaSqFt }} Sq Ft Room
+                    {{ room.areaSqFt.toLocaleString("en-US") }} Sq Ft Room
                   </li>
                   <li class="flex items-center gap-3">
                     <svg
