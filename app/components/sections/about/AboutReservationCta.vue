@@ -1,5 +1,5 @@
 <template>
-  <BaseSection tone="paper" spacing="lg" container-size="xl" class="!pt-4 sm:!pt-14">
+  <BaseSection tone="paper" spacing="lg" container-size="xl" class="!pt-4 sm:!pt-5">
     <div class="flex flex-col items-center text-center">
       <BaseKicker>Room Booking</BaseKicker>
       <h2 class="mt-6 font-display text-4xl  sm:text-5xl lg:text-[56px] text-[#0F0F10]">

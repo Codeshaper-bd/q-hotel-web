@@ -12,7 +12,7 @@
     tone="paper"
     spacing="lg"
     container-size="xl"
-    class="!pt-4 sm:!pt-8 !pb-4 sm:!pb-8"
+    class="lg:pt-[100px]"
   >
     <div ref="blockRef" class="story-block">
       <div ref="headingRef" class="story-heading">

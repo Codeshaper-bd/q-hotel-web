@@ -83,7 +83,7 @@ const linkColumns = [
       { label: "Meetings & Events", to: "/meetings-events" },
       { label: "Gallery", to: "/gallery" },
       { label: "Site Map", to: "/sitemap" },
-      { label: "Near By Attraction", to: "/nearby-attractions" },
+      { label: "Nearby Locations", to: "/nearby-locations" },
     ],
   },
   {

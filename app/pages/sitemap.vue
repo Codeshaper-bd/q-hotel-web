@@ -30,7 +30,7 @@ const mainPages = [
   { label: 'Long Stays', to: '/long-stays' },
   { label: 'Dining', to: '/dining' },
   { label: 'Gallery Preview', to: '/gallery' },
-  { label: 'Nearby Attractions', to: '/nearby-attractions' },
+  { label: 'Nearby Locations', to: '/nearby-locations' },
 ]
 
 const helpAndSupport = [

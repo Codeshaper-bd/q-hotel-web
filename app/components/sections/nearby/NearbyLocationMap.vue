@@ -1,6 +1,6 @@
 <template>
   <!--
-    Light interactive location map for the nearby-attractions page. Leaflet is
+    Light interactive location map for the nearby-locations page. Leaflet is
     loaded lazily — only once the frame enters the viewport — so the library
     and its tiles never touch the initial payload. The frame keeps its size at
     every stage, so nothing here can cost CLS. Before the map is ready (and

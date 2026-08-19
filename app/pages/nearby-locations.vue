@@ -5,7 +5,7 @@
       description="Discover key business districts, convention centers, corporate destinations, and essential locations conveniently accessible from Q Hotel Dhaka."
       :breadcrumb="[
         { label: 'Home', to: '/' },
-        { label: 'Nearby Attractions' },
+        { label: 'Nearby Locations' },
       ]"
       image="/images/nearby/nearby-hero.png"
       title-class="lg:text-[72px] font-bold"
@@ -39,6 +39,6 @@ useSeoMetaData({
   title: "Nearby Attractions",
   description:
     "Key business districts, convention centers, and corporate destinations conveniently accessible from Q Hotel Dhaka — Hazrat Shahjalal Airport, ICCB, BCFCC, and Adamjee EPZ.",
-  path: "/nearby-attractions",
+  path: "/nearby-locations",
 });
 </script>
