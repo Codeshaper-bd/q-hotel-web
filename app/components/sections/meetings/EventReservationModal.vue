@@ -463,6 +463,15 @@ const form = reactive<EventReservationData>({
   specialRequest: "",
 });
 
+/** This modal instance is shared across every venue's "Book Space" button,
+ *  so the pre-selected venue needs to follow whichever one was clicked each
+ *  time it opens — the `reactive()` default above only runs once. */
+watch(open, (isOpen) => {
+  if (isOpen) {
+    form.venue = props.venueName;
+  }
+});
+
 const formRef = ref<HTMLFormElement | null>(null);
 
 /** Custom pickers are buttons, so native required validation no longer
