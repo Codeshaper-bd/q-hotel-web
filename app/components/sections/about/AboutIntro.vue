@@ -1,6 +1,11 @@
 <template>
-  <BaseSection tone="paper" spacing="lg" container-size="xl" class="!pb-4 sm:!pb-8">
-    <div class="mx-auto flex  flex-col items-center text-center">
+  <BaseSection
+    tone="paper"
+    spacing="lg"
+    container-size="xl"
+    class="!pb-4 sm:!pb-8"
+  >
+    <div class="mx-auto flex flex-col items-center text-center">
       <svg
         width="60"
         height="60"
@@ -34,17 +39,23 @@
         />
       </svg>
 
-      <h2 class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold max-w-[480px]">
+      <h2
+        class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold max-w-[480px]"
+      >
         Your Perfect Stay Begins Here in Dhaka
       </h2>
-      <p class="mt-6 text-base leading-7  sm:text-lg font-medium text-[#505155] max-w-[961px]">
+      <p
+        class="mt-6 text-base leading-7 sm:text-lg font-medium text-[#505155] max-w-[961px]"
+      >
         Welcome to Q Hotel Dhaka, where modern comfort meets warm hospitality in
         the heart of the city. Designed for both business and leisure travelers,
         Q Hotel offers a seamless blend of contemporary style, personalized
         service, and exceptional convenience to ensure every guest enjoys a
         memorable stay.
       </p>
-      <p class="mt-5 text-base leading-7 text-[#505155] sm:text-lg font-medium max-w-[961px]">
+      <p
+        class="mt-5 text-base leading-7 text-[#505155] sm:text-lg font-medium max-w-[961px]"
+      >
         At Q Hotel Dhaka, we are committed to creating a relaxing and welcoming
         experience from the moment you arrive. Our thoughtfully designed rooms
         and suites feature elegant interiors, modern amenities, and everything
