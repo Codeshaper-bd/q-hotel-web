@@ -159,7 +159,7 @@ const facilities: Facility[] = [
     title: "Business Center",
     description:
       "Enjoy a fresh, clean, and comfortable room throughout your stay with our attentive and reliable daily housekeeping service.",
-    image: "/images/facilities/house-keeping.png",
+    image: "/images/facilities/business-center.png",
     icon: Building,
   },
   {

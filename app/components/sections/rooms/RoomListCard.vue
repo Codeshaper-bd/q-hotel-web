@@ -55,7 +55,7 @@
         <span
           class="self-start border border-[#F9F0DB] px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.18em] text-paper"
         >
-          ${{ room.nightlyRateUsd }} / Night
+          ${{ room.nightlyRateUsd }}++ / Night
         </span>
 
         <h3 class="mt-5 font-display text-[28px] font-semibold">

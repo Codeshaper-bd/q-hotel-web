@@ -7,7 +7,7 @@
       </h2>
 
       <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
-        <BaseArrowCta to="#reserve" variant="gold">
+        <BaseArrowCta to="/rooms" variant="gold">
           Reserve Now
         </BaseArrowCta>
         <BaseArrowCta
