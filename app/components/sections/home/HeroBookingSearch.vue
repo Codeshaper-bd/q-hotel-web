@@ -179,7 +179,7 @@
       </div>
     </div>
 
-    <BaseButton type="submit" variant="gold" class="mt-2 w-full !rounded-none !tracking-normal xl:relative xl:z-10 xl:-ml-8 xl:mt-0 xl:h-[60px] xl:w-[7.5rem]">
+    <BaseButton type="submit" variant="gold" class="mt-2 w-full whitespace-nowrap !rounded-none !tracking-normal xl:relative xl:z-10 xl:-ml-8 xl:mt-0 xl:h-[60px] xl:w-fit">
       {{ submitLabel }} 
     </BaseButton>
   </form>

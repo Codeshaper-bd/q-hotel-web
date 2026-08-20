@@ -73,7 +73,7 @@ const linkColumns = [
       { label: "About Us", to: "/about" },
       { label: "Rooms & Suites", to: "/rooms" },
       { label: "Dining", to: "/dining" },
-      { label: "Hotel All Services", to: "/services" },
+      { label: "Facilities & Amenities", to: "/facilities-amenities" },
     ],
   },
   {

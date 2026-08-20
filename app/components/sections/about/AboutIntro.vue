@@ -48,10 +48,10 @@
         class="mt-6 text-base leading-7 sm:text-lg font-medium text-[#505155] max-w-[961px]"
       >
         Welcome to Q Hotel Dhaka, where modern comfort meets warm hospitality in
-        the heart of the city. Designed for both business and leisure travelers,
-        Q Hotel offers a seamless blend of contemporary style, personalized
-        service, and exceptional convenience to ensure every guest enjoys a
-        memorable stay.
+        the new heart of the city. Designed for both business and leisure
+        travelers, Q Hotel offers a seamless blend of contemporary style,
+        personalized service, and exceptional convenience to ensure every guest
+        enjoys a memorable stay.
       </p>
       <p
         class="mt-5 text-base leading-7 text-[#505155] sm:text-lg font-medium max-w-[961px]"
