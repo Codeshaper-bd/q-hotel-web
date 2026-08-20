@@ -49,13 +49,13 @@ const cards: WhatsNextCard[] = [
     title: 'Contact Hotel',
     description: 'Our team is here to assist you anytime.',
     iconPaths: ['M4.5 4.5a15 15 0 0015 15l2.5-3-4.5-3-2 1.5a10.5 10.5 0 01-4.5-4.5L9 8 6 3.5z'],
-    link: { label: 'Contact Us', to: 'tel:+8801713377700' },
+    link: { label: 'Contact Us', to: '/contact' },
   },
   {
     title: 'Dining',
     description: 'Explore our restaurants and bars.',
     iconPaths: ['M8 3v6.5M11 3v6.5M8 9.5a1.5 1.5 0 003 0M9.5 10.7V21', 'M16.5 3c-1.8 2.6-1.8 6.4 0 9V21'],
-    link: { label: 'View Restaurants', to: '/#dining' },
+    link: { label: 'View Restaurants', to: '/dining' },
   },
 ]
 </script>
