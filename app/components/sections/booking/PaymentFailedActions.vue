@@ -30,7 +30,7 @@
         </span>
         <h3 class="mt-5 font-display text-xl text-ink">Contact Support</h3>
         <p class="mt-2 text-sm leading-6 text-ink/60">Need help? Our team is here for you 24/7.</p>
-        <a href="tel:+8801713377700" class="mt-3 flex items-center gap-1.5 text-sm font-medium uppercase tracking-[0.06em] text-copper">
+        <a href="/contact" class="mt-3 flex items-center gap-1.5 text-sm font-medium uppercase tracking-[0.06em] text-copper">
           Contact Us
           <svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 3l5 5-5 5" />
