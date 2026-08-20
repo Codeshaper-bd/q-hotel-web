@@ -56,29 +56,44 @@
       </div>
       <div>
         <label :class="labelClass" for="guest-phone">Phone Number</label>
-        <div class="flex">
-          <select
-            v-model="form.phoneCountryCode"
-            name="phoneCountryCode"
-            class="w-[7.5rem] shrink-0 border border-r-0 border-ink/40 bg-white px-2 text-sm text-ink focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean"
-            aria-label="Phone country code"
-          >
-            <option
-              v-for="code in phoneCountryCodes"
-              :key="code.dial"
-              :value="code.dial"
+        <div class="flex h-[52px] w-full border border-ink/40 bg-white focus-within:outline focus-within:outline-2 focus-within:outline-offset-[-2px] focus-within:outline-ocean">
+          <!-- Country code selector -->
+          <div class="relative flex shrink-0 items-center">
+            <select
+              v-model="form.phoneCountryCode"
+              name="phoneCountryCode"
+              aria-label="Phone country code"
+              class="h-full appearance-none bg-transparent py-0 pl-4 pr-7 text-base text-ink focus-visible:outline-none"
             >
-              {{ code.dial }} {{ code.name }}
-            </option>
-          </select>
+              <option
+                v-for="code in phoneCountryCodes"
+                :key="code.dial"
+                :value="code.dial"
+              >
+                ({{ code.dial }}) {{ code.name }}
+              </option>
+            </select>
+            <svg
+              class="pointer-events-none absolute right-2 top-1/2 size-3.5 -translate-y-1/2 text-ink"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+            </svg>
+          </div>
+          <!-- Phone number input -->
           <input
             id="guest-phone"
             v-model.trim="form.phone"
             name="phone"
-            class="h-[52px] w-full min-w-0 border border-ink/40 bg-white px-4 text-base text-ink focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean"
             type="tel"
             autocomplete="tel"
             required
+            placeholder="Phone number"
+            class="h-full min-w-0 flex-1 bg-transparent px-4 text-base text-ink placeholder:text-[#A3A3A3] focus-visible:outline-none"
           />
         </div>
       </div>
