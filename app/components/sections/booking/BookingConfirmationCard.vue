@@ -41,8 +41,8 @@
       </div>
     </div>
     <div class="border-b border-line my-6"></div>
-    <div class="flex justify-between">
-      <span class="text-[28px] font-semibold text-[#000000]">Total Paid</span>
+    <div class="flex justify-between items-center">
+      <span class="text-[28px] font-semibold text-[#000000]">Total Amount</span>
       <span class="text-xl font-medium text-[#0F0F10]">113,563 BDT</span>
     </div>
   </div>
