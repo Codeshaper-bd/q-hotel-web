@@ -20,6 +20,18 @@
       </BookingPolicyItem>
 
       <BookingPolicyItem
+        v-model="openSections.earlyCheckIn"
+        title="Early Check-In Policy"
+      >
+        <p class="text-base text-[#505155]">
+          Early check-in is available upon request and is subject to room
+          availability. Additional charges may apply depending on the requested
+          arrival time. Please contact the hotel in advance to confirm
+          availability and applicable fees.
+        </p>
+      </BookingPolicyItem>
+
+      <BookingPolicyItem
         v-model="openSections.taxes"
         title="Description of Taxes and Additional Charges"
       >
@@ -160,7 +172,7 @@
           <span
             class="flex items-center px-8 text-sm font-semibold text-[#0F0F10] uppercase"
           >
-            {{ paymentMethod === "pay_now" ? "Pay & Confirm Booking" : "Pay" }}
+            {{ paymentMethod === "pay_now" ? "Pay & Confirm Booking" : "COnfirm Booking" }}
           </span>
           <span
             class="flex items-center border-l border-ink/15 px-5"
@@ -199,6 +211,7 @@ const props = defineProps<{
 
 const openSections = reactive({
   deposit: false,
+  earlyCheckIn: false,
   taxes: false,
   otherCharges: false,
   payment: false,
