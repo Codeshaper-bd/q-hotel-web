@@ -184,7 +184,7 @@ function handleSubscribe() {
             >
               <li>
                 <a
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/profile.php?id=61590699274978"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="flex h-9 w-9 items-center justify-center border border-paper/20 text-paper/70 transition-colors duration-fast hover:border-champagne hover:text-champagne"
@@ -204,7 +204,7 @@ function handleSubscribe() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/qhoteldhaka/"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="flex h-9 w-9 items-center justify-center border border-paper/20 text-paper/70 transition-colors duration-fast hover:border-champagne hover:text-champagne"
