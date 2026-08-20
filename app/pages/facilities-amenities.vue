@@ -3,7 +3,7 @@
     <PageBanner
       title="What We Offer"
       description="Thoughtfully designed spaces and services to make your stay comfortable, convenient, and unforgettable."
-      image="/images/gallery/hero.jpg"
+      image="/images/facilities/facilities-bannar.png"
       :breadcrumb="[
         { label: 'Home', to: '/' },
         { label: 'Facilities & Amenities' },
