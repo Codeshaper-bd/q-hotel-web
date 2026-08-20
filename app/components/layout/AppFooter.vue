@@ -170,16 +170,7 @@ function handleSubscribe() {
         >
           <!-- Brand -->
           <div class="flex flex-col">
-            <div class="aspect-[270/48] h-9 w-auto self-start sm:h-10">
-              <BaseImage
-                src="/images/footer/q-hotle-logo.png"
-                alt="Q Hotel Dhaka"
-                :width="270"
-                :height="48"
-                fit="contain"
-                priority
-              />
-            </div>
+            <NavLogo />
 
             <p class="mt-6 max-w-md text-base leading-7 text-[#ACACAC]">
               Q Hotel Dhaka offers a refined 5-star hospitality experience with
@@ -241,7 +232,7 @@ function handleSubscribe() {
               </li>
               <li>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/company/qhoteldhaka/"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="flex h-9 w-9 items-center justify-center border border-paper/20 text-paper/70 transition-colors duration-fast hover:border-champagne hover:text-champagne"
