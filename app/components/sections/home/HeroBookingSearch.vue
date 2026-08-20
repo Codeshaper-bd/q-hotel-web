@@ -10,14 +10,14 @@
   -->
   <form
     ref="rootRef"
-    :class="['w-full xl:flex xl:items-center', tone === 'light' ? 'tone-light' : 'tone-dark']"
+    :class="['w-full lg:flex lg:items-center', tone === 'light' ? 'tone-light' : 'tone-dark']"
     aria-label="Check room availability"
     @submit.prevent="handleSubmit"
     @keydown.escape="openPanel = null"
   >
-    <div :class="['hero-bar-glass grid grid-cols-1 border shadow-[0_28px_80px_-28px] sm:grid-cols-2 xl:flex xl:h-[94px] xl:flex-1', barClass]">
+    <div :class="['hero-bar-glass grid grid-cols-2 border shadow-[0_28px_80px_-28px] lg:flex lg:h-[94px] lg:flex-1', barClass]">
       <!-- Check-In -->
-      <div class="relative xl:flex-1">
+      <div class="relative lg:flex-1">
         <button
           type="button"
           class="hero-bar-field w-full text-left"
@@ -53,7 +53,7 @@
       <div class="hero-bar-divider" aria-hidden="true" />
 
       <!-- Check-Out -->
-      <div :class="['relative border-t sm:border-l sm:border-t-0 xl:flex-1 xl:border-l-0', dividerBorderClass]">
+      <div :class="['relative border-l lg:flex-1 lg:border-l-0', dividerBorderClass]">
         <button
           type="button"
           class="hero-bar-field w-full text-left"
@@ -77,7 +77,7 @@
       <div class="hero-bar-divider" aria-hidden="true" />
 
       <!-- Guests & Rooms -->
-      <div :class="['relative border-t xl:border-l-0 xl:border-t-0 xl:flex-1', dividerBorderClass]">
+      <div :class="['relative border-t lg:border-t-0 lg:flex-1', dividerBorderClass]">
         <button
           type="button"
           class="hero-bar-field w-full text-left"
@@ -163,7 +163,7 @@
       <!-- Special Rates -->
       <div
         v-if="showSpecialRates"
-        :class="['hero-bar-field border-t xl:flex-1 xl:border-t-0', dividerBorderClass]"
+        :class="['hero-bar-field border-t border-l lg:flex-1 lg:border-t-0 lg:border-l-0', dividerBorderClass]"
       >
         <label for="hero-special-rates" :class="['hero-bar-label', labelClass]">Special Rates</label>
         <div :class="['mt-1.5 flex h-[30px] items-center mr-10', rateFieldClass]">
@@ -179,7 +179,7 @@
       </div>
     </div>
 
-    <BaseButton type="submit" variant="gold" class="mt-2 w-full whitespace-nowrap !rounded-none !tracking-normal xl:relative xl:z-10 xl:-ml-8 xl:mt-0 xl:h-[60px] xl:w-fit">
+    <BaseButton type="submit" variant="gold" class="mt-2 w-full whitespace-nowrap !rounded-none !tracking-normal lg:relative lg:z-10 lg:-ml-8 lg:mt-0 lg:h-[60px] lg:w-fit">
       {{ submitLabel }} 
     </BaseButton>
   </form>
@@ -439,7 +439,7 @@ onUnmounted(() => {
   display: none;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .hero-bar-divider {
     display: flex;
     flex: none;

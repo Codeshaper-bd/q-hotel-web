@@ -27,19 +27,19 @@
 
     <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-12">
       <div class="relative grid grid-cols-12 gap-3">
-        <div ref="textRef" class="col-span-12 xl:col-span-5 2xl:col-span-6">
+        <div ref="textRef" class="col-span-12 xl:col-span-5 2xl:col-span-6 text-center xl:text-left">
           <div class="overflow-hidden pb-2">
             <h1
               id="home-title"
               ref="headlineRef"
-              class="font-display text-4xl font-bold sm:text-[44px] sm:leading-[48px] max-w-[620px] capitalize mt-10"
+              class="font-display text-4xl font-bold sm:text-[44px] sm:leading-[48px] max-w-[620px] mx-auto xl:mx-0 capitalize mt-10"
             >
               A new hospitality destination where glamour meets tranquility
             </h1>
           </div>
           <p
             ref="leadRef"
-            class="max-w-xl text-lg xl:max-w-[700px] xl:text-xl xl:leading-[30px] font-medium mt-[18px]"
+            class="max-w-xl text-lg xl:max-w-[700px] xl:text-xl xl:leading-[30px] font-medium mt-[18px] mx-auto xl:mx-0"
           >
             A refined stay for today’s business traveler, combining effortless
             convenience, exceptional comfort, and thoughtful services for work
@@ -49,7 +49,7 @@
 
         <div
           ref="consoleRef"
-          class="mt-10 w-full col-span-12 xl:col-span-7 2xl:col-span-6 self-end"
+          class="mt-8 w-full col-span-12 xl:col-span-7 2xl:col-span-6 self-end xl:mt-10 max-w-4xl mx-auto xl:max-w-none xl:mx-0"
         >
           <HeroBookingSearch @search="handleSearch" />
         </div>
@@ -67,8 +67,6 @@ const bgRef = ref<HTMLElement | null>(null);
 const headlineRef = ref<HTMLElement | null>(null);
 const leadRef = ref<HTMLElement | null>(null);
 const consoleRef = ref<HTMLElement | null>(null);
-const cueRef = ref<HTMLElement | null>(null);
-
 const { gsap, createContext, prefersReducedMotion } = useGsap();
 
 /**
@@ -115,7 +113,6 @@ onMounted(() => {
     !headlineRef.value ||
     !leadRef.value ||
     !consoleRef.value ||
-    !cueRef.value ||
     !gsap ||
     prefersReducedMotion.value
   ) {
@@ -134,7 +131,6 @@ onMounted(() => {
     // before the timeline plays.
     gsap.set(bgRef.value, { scale: 1.12 });
     gsap.set(consoleRef.value, { autoAlpha: 0, y: 32 });
-    gsap.set(cueRef.value, { autoAlpha: 0 });
 
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
@@ -142,7 +138,6 @@ onMounted(() => {
     // subtle Ken Burns settle that keeps the first frame cinematic.
     tl.to(bgRef.value, { scale: 1, duration: 2.4, ease: "power2.out" }, 0);
     tl.to(consoleRef.value, { autoAlpha: 1, y: 0, duration: 1 }, 1);
-    tl.to(cueRef.value, { autoAlpha: 1, duration: 0.8 }, 1.2);
 
     // The words replay every time the hero returns to the viewport (the
     // same restart/reset pattern as the About brand mark), so the entrance
