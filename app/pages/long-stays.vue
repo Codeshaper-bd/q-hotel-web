@@ -4,7 +4,7 @@
       title="Comfort That Feels Like Home"
       description="Perfect for business travelers, relocations, and extended stays of 10 nights or more."
       :breadcrumb="[{ label: 'Home', to: '/' }, { label: 'Long Stays' }]"
-      image="/images/hero/lounge-suite.jpg"
+      image="/images/long-stay-bannar.png"
     >
       <template #console>
         <div class="mx-auto flex max-w-[1316px] flex-col gap-6 border border-champagne bg-white p-2.5 lg:flex-row lg:items-center lg:gap-10">
