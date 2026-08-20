@@ -26,6 +26,7 @@
         v-for="(venue, venueIndex) in venues"
         :key="venue.id"
         class="dining-slide relative min-h-[34rem] motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:min-h-0"
+        :class="{ 'pointer-events-none': isSlideInert(venueIndex) }"
         :aria-hidden="isSlideInert(venueIndex) ? 'true' : undefined"
       >
         <div
@@ -69,10 +70,10 @@
                 {{ venue.description }}
               </p>
               <div class="mt-12">
-                <!-- Dining detail routes arrive with the restaurant pages; the
-                     CTA hands off to the reserve entry point until then -->
+                <!-- Each CTA lands on its own outlet's card on the dining page,
+                     keyed to the same `id` used by DiningVenues -->
                 <BaseArrowCta
-                  to="/dining"
+                  :to="`/dining#${venue.id}`"
                   variant="gold"
                   background-class="!bg-[#E9C588]"
                   :tabindex="isSlideInert(venueIndex) ? -1 : 0"

@@ -4,7 +4,7 @@
   by `name` and `image` so callers can loop their venue data.
 -->
 <template>
-  <div class="bg-[#FDFBF7] py-10 px-10">
+  <div :id="id" class="scroll-mt-24 bg-[#FDFBF7] py-10 px-10">
     <FadeReveal>
       <div class="flex flex-wrap items-center gap-4 sm:gap-6">
         <h2 class="text-[44px] font-semibold text-[#000000]">{{ name }}</h2>
@@ -199,6 +199,7 @@ import IconCuisine from "~/components/base/IconCuisine.vue";
 import IconAmbience from "~/components/base/IconAmbience.vue";
 
 const props = defineProps<{
+  id: string
   name: string
   mainImage: string
   topImage: string
