@@ -266,7 +266,7 @@ const amenities: FacilityAmenity[] = [
             :key="amenity.id"
             data-reveal-item
             :class="[
-              'surface-grain relative isolate flex aspect-square flex-col items-center justify-center gap-4 overflow-hidden bg-paper/10 px-4 text-center',
+              'relative isolate flex aspect-square flex-col items-center justify-center gap-4 overflow-hidden bg-paper/10 px-4 text-center',
               amenity.gridClass,
             ]"
             @mouseenter="handleTileEnter"
@@ -287,6 +287,14 @@ const amenities: FacilityAmenity[] = [
               <!-- Scrim keeps the icon and label legible over any photo -->
               <span class="absolute inset-0 bg-ink/30" />
             </span>
+
+            <!-- Live film-grain flicker behind the icon/label: two
+                 differently-seeded noise layers cross-fade so the texture
+                 reads as moving grain rather than a flat static tint. -->
+            <span
+              aria-hidden="true"
+              class="amenity-noise pointer-events-none absolute -inset-px -z-10"
+            />
 
             <component :is="amenity.icon" class="h-8 w-8" aria-hidden="true" />
             <span
@@ -332,8 +340,45 @@ const amenities: FacilityAmenity[] = [
   transform: translateY(0);
 }
 
-/* The amenity tile's grain wash now comes from the shared `.surface-grain`
-   utility in main.css, so the location cards can wear the same surface */
+/* Live film grain: two differently-seeded noise tiles cross-fade in and out
+   180° out of phase (steps() gives each swap a hard cut, not a smooth blend),
+   so the texture reads as flickering static rather than the flat tint a
+   single motionless SVG gives. Opacity-only, so it stays on the compositor;
+   the global reduced-motion rule freezes both layers at their opening frame. */
+.amenity-noise::before,
+.amenity-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: 160px 160px;
+  animation: amenity-grain-flicker 0.5s steps(1) infinite;
+}
+
+/* Reduced-motion fallback (animation collapses to a single 1ms run): resting
+   opacity left visible on the first layer only, so the tile still reads as
+   grain instead of flattening to a plain tint or double-stacked noise. */
+.amenity-noise::before {
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+}
+
+.amenity-noise::after {
+  opacity: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+  animation-delay: 0.25s;
+}
+
+@keyframes amenity-grain-flicker {
+  0%,
+  49% {
+    opacity: 0.4;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
 
 /* Hover media rests hidden — GSAP owns visibility and position from the
    first pointer enter onward. Hidden by default so no-JS and touch users

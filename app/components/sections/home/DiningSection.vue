@@ -55,15 +55,16 @@
           <BaseContainer size="xl">
             <div
               :data-dining-copy="venueIndex"
-              class="max-w-xl pb-14 sm:pb-20 lg:pb-28"
+              class="max-w-[633px] pb-14 sm:pb-20 lg:pb-28"
             >
               <h3
                 class="font-display text-4xl text-paper sm:text-5xl lg:text-[56px] font-semibold"
               >
                 {{ venue.name }}
               </h3>
+              <div class="text-sm font-medium text-[#EED4A3] mt-4 uppercase">{{ venue?.tagLine }}</div>
               <p
-                class="mt-4 text-sm leading-7 text-paper/80 sm:text-base lg:text-[18px] lg:font-medium"
+                class="mt-3 text-sm leading-7 text-paper/80 sm:text-base lg:text-[18px] lg:font-medium"
               >
                 {{ venue.description }}
               </p>
@@ -126,35 +127,28 @@ import type { DiningVenue } from "~/types/dining";
  */
 const venues: DiningVenue[] = [
   {
-    id: "bbq-restaurant",
-    name: "BBQ Restaurant",
+    id: "restaurant-01",
+    tagLine:"all-day dining",
+    name: "Restaurant 01",
     description:
-      "Charcoal-grilled specialties in a double-height dining room of stone, timber, and low evening light — our signature restaurant pairs bold flavors with an unhurried, convivial setting.",
+      "Enjoy international favorites and authentic local flavors, from fresh breakfasts and brunches to elegant dinners, high tea, and cocktails.",
     poster: {
       src: "/images/dining/bbq-restaurant.jpg",
       alt: "Q Hotel BBQ Restaurant dining room with ring chandeliers, stone feature wall, and city-view windows",
     },
   },
   {
-    id: "sky-lounge",
-    name: "Sky Lounge & Bar",
+    id: "restaurant-02",
+    tagLine:"Grill/BBQ",
+    name: "Restaurant 02",
     description:
-      "Dhaka at dusk from the top floor: a low-lit bar of brass and smoked glass, where a short list of classics and a longer one of rare malts carry the evening past midnight.",
+      "Enjoy expertly grilled favorites, delicious BBQ selections, and warm hospitality in a relaxed setting perfect for lunch, dinner, or evenings with friends.",
     poster: {
       src: "/images/dining/bbq-restaurant-2.png",
       alt: "Rooftop lounge and bar with brass detailing and city views at dusk",
     },
   },
-  {
-    id: "atrium-cafe",
-    name: "The Atrium Café",
-    description:
-      "An all-day room under glass — breakfast that runs long, a patisserie counter worth the detour, and coffee served with the kind of quiet that makes a table hard to leave.",
-    poster: {
-      src: "/images/dining/bbq-restaurant.jpg",
-      alt: "All-day café under a glass atrium with a patisserie counter and marble tables",
-    },
-  },
+  
 ];
 
 const sectionRef = ref<HTMLElement | null>(null);

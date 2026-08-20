@@ -150,7 +150,7 @@
               <BaseArrowCta
                 variant="gold"
                 class="self-start"
-                @click="openReservation(venue)"
+                @click="openReservation({ name: venue.name, image: venue.images.feature.src })"
               >
                 Book Space
               </BaseArrowCta>
@@ -186,7 +186,7 @@
     <EventReservationModal
       v-model="isReservationOpen"
       :venue-name="selectedVenue.name"
-      :venue-image="selectedVenue.images.feature.src"
+      :venue-image="selectedVenue.image"
       :phone-number="phoneNumber"
       @submit="handleReservationSubmit"
     />
@@ -199,8 +199,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EventReservationData, EventReservationDetails } from "~/types/meetings";
-
 interface VenueShowcase {
   id: string;
   name: string;
@@ -285,47 +283,15 @@ const venues: VenueShowcase[] = [
   },
 ];
 
-const isReservationOpen = ref(false);
-const isSubmittedOpen = ref(false);
-const submittedDetails = ref<EventReservationDetails | undefined>(undefined);
-const selectedVenue = ref<VenueShowcase>(venues[0]!);
-
-function openReservation(venue: VenueShowcase) {
-  selectedVenue.value = venue;
-  isReservationOpen.value = true;
-}
-
-function handleReservationSubmit(data: EventReservationData) {
-  submittedDetails.value = {
-    date: formatDate(data.date),
-    time: formatTime(data.time),
-    guests: `${data.guests} Guests`,
-    venue: data.venue,
-    eventType: data.eventType,
-    referenceId: `QHD-${data.date.replaceAll("-", "").slice(2)}-${String(Math.floor(Math.random() * 10000)).padStart(4, "0")}`,
-  };
-  isReservationOpen.value = false;
-  isSubmittedOpen.value = true;
-}
-
-/** "2025-05-24" -> "May 24, 2025" */
-function formatDate(value: string) {
-  if (!value) {
-    return "";
-  }
-  const [year, month, day] = value.split("-");
-  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" })
-    .format(new Date(Number(year), Number(month) - 1, Number(day)));
-}
-
-/** "19:00" -> "7:00 PM" */
-function formatTime(value: string) {
-  if (!value) {
-    return "";
-  }
-  const [hours, minutes] = value.split(":");
-  const period = Number(hours) >= 12 ? "PM" : "AM";
-  const hour = Number(hours) % 12 || 12;
-  return `${hour}:${String(minutes).padStart(2, "0")} ${period}`;
-}
+const {
+  isReservationOpen,
+  isSubmittedOpen,
+  submittedDetails,
+  selectedVenue,
+  openReservation,
+  handleReservationSubmit,
+} = useEventReservation({
+  name: venues[0]!.name,
+  image: venues[0]!.images.feature.src,
+});
 </script>
