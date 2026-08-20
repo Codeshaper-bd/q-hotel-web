@@ -72,7 +72,7 @@
                 <!-- Dining detail routes arrive with the restaurant pages; the
                      CTA hands off to the reserve entry point until then -->
                 <BaseArrowCta
-                  to="#reserve"
+                  to="/dining"
                   variant="gold"
                   background-class="!bg-[#E9C588]"
                   :tabindex="isSlideInert(venueIndex) ? -1 : 0"
