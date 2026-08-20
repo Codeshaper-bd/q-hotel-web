@@ -1,5 +1,5 @@
 <template>
-  <section aria-label="Facilities highlights">
+  <section aria-label="Facilities highlights" class="-mt-[120px]">
     <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
       <div
         v-for="highlight in highlights"
