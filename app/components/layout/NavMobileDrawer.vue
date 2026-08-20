@@ -96,17 +96,6 @@
             </div>
           </div>
         </template>
-
-        <!-- Reserve CTA -->
-        <div class="mt-3 px-5">
-          <NuxtLink
-            to="#reserve"
-            class="flex w-full items-center justify-center rounded-sm border border-ink/20 py-3 text-sm font-semibold uppercase tracking-[0.1em] text-ink transition-colors duration-fast hover:border-ink/40 hover:bg-ink/5"
-            @click="$emit('close')"
-          >
-            Reserve Now
-          </NuxtLink>
-        </div>
       </div>
     </div>
   </nav>

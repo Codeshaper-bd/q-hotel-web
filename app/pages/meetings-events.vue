@@ -12,8 +12,7 @@
       ]"
     >
     </PageBanner>
-    <BusinessLoungeSection />
-    <CapacityOverviewSection />
+    <VenueShowcaseSection />
     <FaqSection page="meetings" />
     <div class="h-[100px]" aria-hidden="true" />
   </div>

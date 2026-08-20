@@ -107,11 +107,11 @@ function toggleAttraction(id: string) {
 
               <!-- Drives the map beside it; a real button, so it is reachable by
                  keyboard and announces its pressed state -->
-              <!-- <p class="mt-4">
+              <p class="mt-4">
                 <button
                   type="button"
                   :aria-pressed="activeAttractionId === attraction.id"
-                  class="text-[0.65rem] font-semibold uppercase text-[#0F0F10] bg-[#E9C588] hover:bg-[#DFA558] px-2 py-0.5 transition-colors duration-fast"
+                class="text-sm font-medium uppercase text-[#C9752D] hover:text-[#C9752D] underline-offset-4 transition-colors duration-fast hover:underline"
                   @click="toggleAttraction(attraction.id)"
                 >
                   {{
@@ -119,8 +119,10 @@ function toggleAttraction(id: string) {
                       ? "Back to the hotel"
                       : "Show on map"
                   }}
+                   <span aria-hidden="true" class="text-xs">&nbsp;&#8599;</span>
                 </button>
-              </p> -->
+
+              </p>
             </article>
           </div>
         </div>

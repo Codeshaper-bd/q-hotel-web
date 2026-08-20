@@ -146,7 +146,10 @@
             </div>
 
             <div class="mt-8 flex flex-wrap gap-4 lg:mt-auto lg:pt-8">
-              <BaseArrowCta to="/booking" variant="gold">
+              <BaseArrowCta
+                variant="gold"
+                @click="openReservation({ name: venue.name, image: venue.image.src })"
+              >
                 Book Space
               </BaseArrowCta>
               <BaseArrowCta variant="ghost" @click="isDetailsOpen = true">
@@ -169,6 +172,21 @@
        are static demo content today, so they stay visually identical until
        each gets its own API-backed data. -->
   <RoomDetailsDialog v-model:open="isDetailsOpen" />
+
+  <!-- Same reservation flow as the Meetings & Events page: "Book Space"
+       opens this modal pre-filled with whichever venue was clicked. -->
+  <EventReservationModal
+    v-model="isReservationOpen"
+    :venue-name="selectedVenue.name"
+    :venue-image="selectedVenue.image"
+    phone-number="+88-01713377700"
+    @submit="handleReservationSubmit"
+  />
+
+  <EventReservationSubmittedModal
+    v-model="isSubmittedOpen"
+    :details="submittedDetails"
+  />
 </template>
 
 <script setup lang="ts">
@@ -242,6 +260,19 @@ const stackRef = ref<HTMLElement | null>(null);
 
 // ─── Venue details popup ────────────────────────────────────────────
 const isDetailsOpen = ref(false);
+
+// ─── Reservation modal ──────────────────────────────────────────────
+const {
+  isReservationOpen,
+  isSubmittedOpen,
+  submittedDetails,
+  selectedVenue,
+  openReservation,
+  handleReservationSubmit,
+} = useEventReservation({
+  name: venues[0]!.name,
+  image: venues[0]!.image.src,
+});
 
 const { gsap, createContext, prefersReducedMotion } = useGsap();
 const { addCleanup } = useAnimationCleanup();

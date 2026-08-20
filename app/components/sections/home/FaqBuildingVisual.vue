@@ -48,7 +48,8 @@
         alt=""
         width="808"
         height="747"
-        loading="lazy"
+        loading="eager"
+        fetchpriority="high"
         class="faq-columns-img h-full w-full object-contain object-bottom"
       >
     </div>
@@ -60,7 +61,8 @@
       alt=""
       width="808"
       height="747"
-      loading="lazy"
+      loading="eager"
+      fetchpriority="high"
       class="faq-blueprint absolute inset-0 h-full w-full object-contain object-bottom opacity-0"
       aria-hidden="true"
     >
@@ -73,7 +75,7 @@
       alt=""
       width="1390"
       height="1132"
-      loading="lazy"
+      loading="eager"
       class="faq-material faq-final-clip absolute inset-0 h-full w-full object-contain object-bottom"
       aria-hidden="true"
       @error="onFinalError"
@@ -87,7 +89,7 @@
       alt="Exterior view of Q Hotel Dhaka illuminated at night."
       width="1390"
       height="1132"
-      loading="lazy"
+      loading="eager"
       class="faq-lights faq-final-clip absolute inset-0 h-full w-full object-contain object-bottom"
       @load="onFinalLoad"
       @error="onFinalError"
@@ -101,7 +103,7 @@
       alt=""
       width="1390"
       height="1132"
-      loading="lazy"
+      loading="eager"
       class="faq-flank faq-flank-left absolute inset-0 h-full w-full object-contain object-bottom"
       aria-hidden="true"
     >
@@ -112,7 +114,7 @@
       alt=""
       width="1390"
       height="1132"
-      loading="lazy"
+      loading="eager"
       class="faq-flank faq-flank-right absolute inset-0 h-full w-full object-contain object-bottom"
       aria-hidden="true"
     >

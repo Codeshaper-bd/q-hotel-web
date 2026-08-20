@@ -7,18 +7,18 @@
 <template>
   <section
     ref="sectionEl"
-    aria-labelledby="capacity-overview-title"
+    :aria-labelledby="titleId"
     class="bg-[#f6f2e9] text-[#282522]"
   >
     <div
-      class="mx-auto w-full max-w-[760px] px-5 pt-[60px] pb-16 sm:px-6 lg:pt-[60px] lg:pb-[70px]"
+      class="mx-auto w-full max-w-[760px] px-5 pt-11 pb-16 sm:px-6 lg:pt-24 lg:pb-[70px]"
     >
       <!-- ── CAPACITY OVERVIEW ── -->
       <div class="flex items-center gap-5">
         <span class="h-px flex-1 bg-[#282522]/25" aria-hidden="true" />
         <h2
-          id="capacity-overview-title"
-          class="text-[11px] font-medium uppercase tracking-[0.28em] text-[#282522]"
+          :id="titleId"
+          class="text-sm font-medium uppercase tracking-[0.28em] text-[#282522]"
         >
           Capacity Overview
         </h2>
@@ -27,7 +27,7 @@
 
       <!-- Capacity types -->
       <div
-        class="mt-12 grid grid-cols-2 gap-x-12 gap-y-10 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-12 lg:gap-x-14"
+        class="mt-10 grid grid-cols-2 gap-x-12 gap-y-10 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-12 lg:gap-x-14"
       >
         <div
           v-for="(item, index) in capacities"
@@ -295,6 +295,7 @@ const tabs = [
 
 type TabValue = (typeof tabs)[number]["value"];
 
+const titleId = useId();
 const tabControlBaseId = useId();
 const tabPanelBaseId = useId();
 const activeTab = ref<TabValue>("equipment");
