@@ -25,12 +25,13 @@
     <div class="space-y-10">
       <FadeReveal
         v-for="restaurant in restaurants"
-        :key="restaurant.name"
+        :key="restaurant.id"
         direction="up"
         :distance="32"
         start="top 92%"
       >
         <DiningCard
+          :id="restaurant.id"
           :name="restaurant.name"
           :main-image="restaurant.mainImage"
           :top-image="restaurant.topImage"
@@ -45,6 +46,8 @@
 <script setup lang="ts">
 
 interface Restaurant {
+  /** Anchor target on the page, matching the home showcase venue ids */
+  id: string;
   name: string;
   mainImage: string;
   topImage: string;
@@ -54,12 +57,14 @@ interface Restaurant {
 
 const restaurants: Restaurant[] = [
   {
+    id: "restaurant-01",
     name: "Restaurant 01",
     mainImage: "/images/dining/dining-01-main.png",
     topImage: "/images/dining/dining-01-top.png",
     bottomImage: "/images/dining/dining-01-bottom.png",
   },
   {
+    id: "restaurant-02",
     name: "Restaurant 02",
     mainImage: "/images/dining/dining-02-main.png",
     topImage: "/images/dining/dining-02-top.png",
