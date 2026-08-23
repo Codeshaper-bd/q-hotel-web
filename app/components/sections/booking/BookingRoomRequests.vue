@@ -245,7 +245,7 @@
                 :class="
                   isRequested('baby_crib') ? 'text-[#A75B27]' : 'text-ink'
                 "
-                >Baby Cribs</span
+                >Baby Crib</span
               >
               <span class="mt-0.5 block text-sm text-[#505155]">
                 Crib for infants and toddlers
@@ -337,7 +337,7 @@
                 :class="
                   isRequested('accessible_room') ? 'text-[#A75B27]' : 'text-ink'
                 "
-                >Accessible Room</span
+                >Accessible Room Features</span
               >
               <span class="mt-0.5 block text-sm text-[#505155]">
                 Room with accessible feature
