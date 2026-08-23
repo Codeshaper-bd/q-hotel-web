@@ -8,9 +8,28 @@ const {
 /** null centres the hotel; an id frames that landmark against the hotel */
 const activeAttractionId = ref<string | null>(null);
 
+/** The home feature swaps Adamjee EPZ for the upcoming Mall of Bangladesh
+ *  without changing the complete neighbourhood guide's shared content. */
+const homeAttractions = computed(() =>
+  nearbyAttractions.map((attraction) =>
+    attraction.id === "adamjee-epz"
+      ? {
+          ...attraction,
+          id: "mall-of-bangladesh",
+          name: "Mall Of Bangladesh (Upcoming)",
+          description:
+            "An upcoming retail and lifestyle destination on Dhaka's 300 Feet Road, offering shopping, dining, entertainment, and premium experiences.",
+          distanceMiles: 2.5,
+          distanceKm: 4,
+          coordinates: [23.83681, 90.48394] as [number, number],
+        }
+      : attraction,
+  ),
+);
+
 /** The home section spotlights the first four landmarks; the full
  *  neighbourhood guide lives on /nearby-locations */
-const featuredAttractions = computed(() => nearbyAttractions.slice(0, 4));
+const featuredAttractions = computed(() => homeAttractions.value.slice(0, 4));
 
 function toggleAttraction(id: string) {
   activeAttractionId.value = activeAttractionId.value === id ? null : id;
@@ -36,7 +55,7 @@ function toggleAttraction(id: string) {
     <LocationMap
       class="absolute inset-0 -z-10"
       :hotel="hotel"
-      :attractions="nearbyAttractions"
+      :attractions="homeAttractions"
       :active-attraction-id="activeAttractionId"
     />
 
