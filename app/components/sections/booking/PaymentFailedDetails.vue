@@ -129,28 +129,31 @@
     >
       Payment Status
     </h2>
-    <div class="mt-6 space-y-3 text-sm">
-      <div class="flex items-center justify-between text-ink/70">
-        <span>Total Amount</span>
-        <span class="text-ink">{{ totalPrice.toLocaleString("en-US") }} BDT</span>
+    <dl class="mt-6 space-y-4 text-sm">
+      <div class="grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6">
+        <dt class="text-xs uppercase text-[#505155]">Total Amount</dt>
+        <dd class="text-[#0F0F10] sm:text-right">
+          {{ totalPrice.toLocaleString("en-US") }} BDT
+        </dd>
       </div>
-      <div class="flex items-center justify-between text-ink/70">
-        <span>Payment Method</span>
-        <span class="flex items-center gap-2 text-ink">
+      <div class="grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6">
+        <dt class="text-xs uppercase text-[#505155]">Payment Method</dt>
+        <dd class="flex items-center gap-2 text-[#0F0F10] sm:justify-self-end">
           <span
-            class="border border-line px-1.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-ink/60"
-            >Visa</span
+            class="border border-[#505155]/15 px-1.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-[#505155]"
           >
-          Card ending in 4242
-        </span>
+            Visa
+          </span>
+          Visa *******245
+        </dd>
       </div>
-      <div class="flex items-center justify-between text-ink/70">
-        <span>Status</span>
-        <span
-          class="flex items-center gap-1.5 text-sm font-medium text-[rgb(190,50,45)]"
+      <div class="grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6">
+        <dt class="text-xs uppercase text-[#505155]">Status</dt>
+        <dd
+          class="flex items-center gap-1.5 text-sm font-medium text-[#E11919] sm:justify-self-end"
         >
           <svg
-            class="h-4 w-4 shrink-0"
+            class="size-4 shrink-0"
             viewBox="0 0 16 16"
             fill="currentColor"
             aria-hidden="true"
@@ -160,42 +163,49 @@
             />
           </svg>
           Payment Failed
-        </span>
+        </dd>
       </div>
-      <div class="flex items-center justify-between text-ink/70">
-        <span>Failure Reason</span>
-        <span class="text-ink">{{ failureReason }}</span>
+      <div class="grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6">
+        <dt class="text-xs uppercase text-[#505155]">Failure Reason</dt>
+        <dd class="text-[#0F0F10] sm:text-right">{{ failureReason }}</dd>
       </div>
-      <div class="flex items-center justify-between text-ink/70">
-        <span>Attempted At</span>
-        <span class="text-ink">{{ attemptedAtLabel }}</span>
+      <div class="grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6">
+        <dt class="text-xs uppercase text-[#505155]">Attempted At</dt>
+        <dd class="text-[#0F0F10] sm:text-right">{{ attemptedAtLabel }}</dd>
       </div>
-    </div>
+    </dl>
 
-    <div class="mt-8 flex items-start gap-3 border border-line bg-paper/60 p-5">
-      <svg
-        class="h-5 w-5 shrink-0 text-copper"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
+    <aside
+      class="mt-8 flex items-start gap-3 border border-[#E9B05A]/30 bg-[#FCF8F0] px-4 py-4"
+      aria-labelledby="payment-failure-next-steps"
+    >
+      <span
+        class="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#FCE8C6] text-[#E8921E]"
         aria-hidden="true"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 9v3.75m0 3.75h.008v.008H12v-.008zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
+        <svg
+          class="size-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="12" cy="12" r="8" />
+          <path stroke-linecap="round" d="M12 8.5v5" />
+          <path stroke-linecap="round" d="M12 16.5h.01" />
+        </svg>
+      </span>
       <div>
-        <p class="text-sm font-medium text-ink">What Happens Now?</p>
-        <p class="mt-1 text-sm text-ink/70">
+        <p id="payment-failure-next-steps" class="text-sm font-medium text-[#0F0F10]">
+          What Happens Now?
+        </p>
+        <p class="mt-1 text-xs leading-relaxed text-[#505155]">
           Your reservation is not confirmed, and no payment has been charged.
           You can try again with the same or a different payment method, or
           contact our team if you need assistance.
         </p>
       </div>
-    </div>
+    </aside>
   </div>
 </template>
 
