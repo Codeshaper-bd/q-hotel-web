@@ -231,7 +231,7 @@
         <div class="flex gap-3">
           <span id="airport-pickup-status" class="text-sm text-[#505155]">
             {{
-              airportPickupRequired ? "Pickup required" : "No pickup required"
+              airportPickupRequired ? "Pickup requested" : "No pickup required"
             }}
           </span>
           <button
@@ -444,102 +444,6 @@
             {{ flightErrors.arrivalTime }}
           </p>
         </div>
-        <div>
-          <label :class="labelClass" for="flight-arrival-airport"
-            >Arrival Airport
-            <span v-if="airportPickupRequired" class="text-[#FF0000]"
-              >*</span
-            ></label
-          >
-          <div class="relative">
-            <select
-              id="flight-arrival-airport"
-              v-model="form.arrivalAirport"
-              name="arrivalAirport"
-              :required="airportPickupRequired"
-              :aria-invalid="Boolean(flightErrors.arrivalAirport)"
-              aria-describedby="flight-arrivalAirport-error"
-              @blur="validateFlightField('arrivalAirport')"
-              @input="clearFlightError('arrivalAirport')"
-              @invalid.prevent="validateFlightField('arrivalAirport')"
-              :class="[flightInputClass, 'appearance-none pr-10']"
-            >
-              <option value="" disabled>Select airport</option>
-              <option
-                v-for="airport in airports"
-                :key="airport"
-                :value="airport"
-              >
-                {{ airport }}
-              </option>
-            </select>
-            <svg
-              class="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-muted"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              aria-hidden="true"
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
-          </div>
-          <p
-            v-if="flightErrors.arrivalAirport"
-            id="flight-arrivalAirport-error"
-            class="mt-2 text-sm text-red-600"
-          >
-            {{ flightErrors.arrivalAirport }}
-          </p>
-        </div>
-        <div>
-          <label :class="labelClass" for="flight-origin"
-            >Flight Origin
-            <span v-if="airportPickupRequired" class="text-[#FF0000]"
-              >*</span
-            ></label
-          >
-          <div class="relative">
-            <select
-              id="flight-origin"
-              v-model="form.flightOrigin"
-              name="flightOrigin"
-              :required="airportPickupRequired"
-              :aria-invalid="Boolean(flightErrors.flightOrigin)"
-              aria-describedby="flight-flightOrigin-error"
-              @blur="validateFlightField('flightOrigin')"
-              @input="clearFlightError('flightOrigin')"
-              @invalid.prevent="validateFlightField('flightOrigin')"
-              :class="[flightInputClass, 'appearance-none pr-10']"
-            >
-              <option value="" disabled>Select airport</option>
-              <option
-                v-for="airport in airports"
-                :key="airport"
-                :value="airport"
-              >
-                {{ airport }}
-              </option>
-            </select>
-            <svg
-              class="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-muted"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              aria-hidden="true"
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
-          </div>
-          <p
-            v-if="flightErrors.flightOrigin"
-            id="flight-flightOrigin-error"
-            class="mt-2 text-sm text-red-600"
-          >
-            {{ flightErrors.flightOrigin }}
-          </p>
-        </div>
       </div>
 
       <div class="mt-6">
@@ -568,23 +472,13 @@ const inputClass =
 const flightInputClass =
   "h-[50px] w-full border border-[#D9D9D9] bg-white px-4 text-base text-ink placeholder:text-[#A3A3A3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ocean";
 
-const airports = [
-  "Hazrat Shahjalal International Airport (HSIA)",
-  "Dubai International Airport (DXB)",
-  "Hamad International Airport (DOH)",
-  "Singapore Changi Airport (SIN)",
-  "Suvarnabhumi Airport (BKK)",
-];
-
 type GuestFieldName = "firstName" | "lastName" | "email" | "phone" | "country";
 
 type FlightFieldName =
   | "airline"
   | "flightNumber"
   | "arrivalDate"
-  | "arrivalTime"
-  | "arrivalAirport"
-  | "flightOrigin";
+  | "arrivalTime";
 
 const airportPickupRequired = ref(false);
 
@@ -601,8 +495,6 @@ const form = reactive({
   flightNumber: "",
   arrivalDate: "",
   arrivalTime: "",
-  arrivalAirport: "",
-  flightOrigin: "",
   note: "",
 });
 
@@ -645,8 +537,6 @@ const flightErrors = reactive<Record<FlightFieldName, string>>({
   flightNumber: "",
   arrivalDate: "",
   arrivalTime: "",
-  arrivalAirport: "",
-  flightOrigin: "",
 });
 
 const flightFieldLabels: Record<FlightFieldName, string> = {
@@ -654,8 +544,6 @@ const flightFieldLabels: Record<FlightFieldName, string> = {
   flightNumber: "Flight number",
   arrivalDate: "Arrival date",
   arrivalTime: "Arrival time",
-  arrivalAirport: "Arrival airport",
-  flightOrigin: "Flight origin",
 };
 
 function validateFlightField(fieldName: FlightFieldName) {
