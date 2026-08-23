@@ -46,14 +46,14 @@ export const useNearbyAttractions = () => {
       image: "/images/nearby/bcfcc.png",
     },
     {
-      id: "adamjee-epz",
-      name: "Adamjee EPZ (AEPZ)",
+      id: "mall-of-bangladesh",
+      name: "Mall Of Bangladesh (Upcoming)",
       description:
-        "A major export-processing and industrial hub in Narayanganj, serving corporate visitors, investors, suppliers, and business travelers.",
-      distanceMiles: 12,
-      distanceKm: 19,
-      coordinates: [23.67673, 90.52335],
-      image: "/images/nearby/aepz.png",
+        "An upcoming retail and lifestyle destination on Dhaka's 300 Feet Road, offering shopping, dining, entertainment, and premium experiences.",
+      distanceMiles: 2.5,
+      distanceKm: 4,
+      coordinates: [23.83681, 90.48394],
+      image: "/images/nearby/mall-of-bangladesh.png",
     },
     {
       id: "jamuna-future-park",

@@ -10,10 +10,14 @@
       aria-haspopup="listbox"
       :aria-controls="listId"
       :class="[
-        'inline-flex items-center gap-1.5  border px-3.5 py-1.5 font-display text-sm font-medium uppercase leading-6 transition-colors duration-fast xl:px-4',
-        isOpen
-          ? 'border-[#A75B27] text-[#A75B27]'
-            : 'border-[#DFA558] text-[#DFA558]',
+        'inline-flex items-center gap-1.5  border px-3.5 py-1.5 text-sm font-medium uppercase leading-6 transition-colors duration-fast xl:px-4',
+        hasSolidBackground
+          ? (isOpen
+              ? 'border-[#0F0F10] text-[#0F0F10]'
+              : 'border-[#0F0F10] text-[#0F0F10] hover:border-[#0F0F10]/60 hover:text-[#0F0F10]/70')
+          : (isOpen
+              ? 'border-[#A75B27] text-[#A75B27]'
+              : 'border-[#DFA558] text-white')
       ]"
       @click="toggle"
       @keydown.escape="close"
@@ -24,7 +28,9 @@
       <svg
         :class="[
           'h-4 w-4 shrink-0 transition-transform duration-fast',
-          isOpen ? 'rotate-180 text-[#A75B27]' : 'text-[#DFA558]',
+          isOpen
+            ? 'rotate-180 text-[#A75B27]'
+            : hasSolidBackground ? 'text-[#0F0F10]' : 'text-white',
         ]"
         viewBox="0 0 12 12"
         fill="none"

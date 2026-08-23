@@ -7,7 +7,7 @@
   -->
   <BaseSection tone="paper" spacing="lg" container-size="lg" aria-labelledby="faqs-list-title" class="!pb-4 sm:!pb-8">
     <div class="flex flex-col items-center text-center">
-      <BaseKicker>Have A Question</BaseKicker>
+      <BaseKicker>Good to Know</BaseKicker>
       <h2 id="faqs-list-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
         Everything You Need To Know
       </h2>
