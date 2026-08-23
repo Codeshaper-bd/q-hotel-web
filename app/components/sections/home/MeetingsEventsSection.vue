@@ -196,8 +196,8 @@ import type { MeetingVenue } from "~/types/venue";
 /** Static showcase content (CMS-ready shape); venue detail pages come later */
 const venues: MeetingVenue[] = [
   {
-    id: "business-class-lounge",
-    name: "Business Class Lounge",
+    id: "banquet-hall-01",
+    name: "Banquet Hall 01",
     description:
       "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
     image: {
@@ -215,8 +215,8 @@ const venues: MeetingVenue[] = [
     dimensionsLabel: "99.6 ft × 57.6 ft × 22 ft",
   },
   {
-    id: "utshab-banquet-hall",
-    name: "Utshab Banquet Hall",
+    id: "banquet-hall-02",
+    name: "Banquet Hall 02",
     description:
       "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
     image: {
@@ -234,8 +234,8 @@ const venues: MeetingVenue[] = [
     dimensionsLabel: "99.6 ft × 57.6 ft × 22 ft",
   },
   {
-    id: "royal-lounge",
-    name: "Royal Lounge",
+    id: "banquet-hall-03",
+    name: "Banquet Hall 03",
     description:
       "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
     image: {

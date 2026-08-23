@@ -222,8 +222,8 @@ const phoneNumber = "+88-01713377700";
 
 const venues: VenueShowcase[] = [
   {
-    id: "business-class-lounge",
-    name: "Business Class Lounge",
+    id: "banquet-hall-01",
+    name: "Banquet Hall 01",
     description:
       "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
     images: {
@@ -242,8 +242,8 @@ const venues: VenueShowcase[] = [
     },
   },
   {
-    id: "utshab-banquet-hall",
-    name: "Utshab Banquet Hall",
+    id: "Banquet Hall 02",
+    name: "Banquet Hall 02",
     description:
       "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
     images: {
@@ -262,8 +262,8 @@ const venues: VenueShowcase[] = [
     },
   },
   {
-    id: "royal-lounge",
-    name: "Royal Lounge",
+    id: "banquet-hall-03",
+    name: "Banquet Hall 03",
     description:
       "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
     images: {
