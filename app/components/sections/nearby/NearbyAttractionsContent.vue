@@ -40,7 +40,7 @@
           v-for="(attraction, index) in attractions"
           :key="attraction.id"
           :aria-labelledby="`explore-nearby-card-${index}`"
-          class="flex flex-col border border-[#EED4A380]/50"
+          class="group flex flex-col border border-[#EED4A380]/50"
         >
           <div class="relative aspect-[16/10] overflow-hidden">
             <BaseImage
@@ -49,7 +49,7 @@
               :width="800"
               :height="500"
               sizes="xs:100vw sm:50vw lg:33vw"
-              class="absolute inset-0"
+              class="absolute inset-0 transition-transform duration-[900ms] ease-premium motion-safe:group-hover:scale-[1.035]"
             />
           </div>
 

@@ -94,7 +94,7 @@
             />
           </svg>
 
-          Baby Cribs
+          Baby Crib
         </li>
         <li class="flex items-center gap-2.5 text-sm text-ink">
           <svg
@@ -114,7 +114,7 @@
             />
           </svg>
 
-          Accessible Room
+          Accessible Room Features
         </li>
         <li class="flex items-center gap-2.5 text-sm text-ink">
           <svg
