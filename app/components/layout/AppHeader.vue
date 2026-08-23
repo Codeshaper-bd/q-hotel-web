@@ -133,43 +133,48 @@
               </Transition>
             </div>
           </template>
+          <CurrencyDropdown :has-solid-background="hasSolidBackground" />
         </nav>
 
-        <!-- Mobile hamburger -->
-        <button
-          type="button"
-          :class="[
-            'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast lg:hidden',
-            hasSolidBackground
-              ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
-              : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
-          ]"
-          :aria-expanded="isMobileOpen"
-          aria-controls="mobile-navigation"
-          aria-label="Toggle navigation"
-          @click="isMobileOpen = !isMobileOpen"
-        >
-          <span aria-hidden="true" class="relative h-3.5 w-5">
-            <span
-              :class="[
-                'absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-fast',
-                isMobileOpen ? 'translate-y-[6px] rotate-45' : '',
-              ]"
-            />
-            <span
-              :class="[
-                'absolute left-0 top-1/2 h-px w-5 bg-current -translate-y-px transition-opacity duration-fast',
-                isMobileOpen ? 'opacity-0' : '',
-              ]"
-            />
-            <span
-              :class="[
-                'absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-fast',
-                isMobileOpen ? '-translate-y-[7px] -rotate-45' : '',
-              ]"
-            />
-          </span>
-        </button>
+        <!-- Mobile: currency selector + hamburger -->
+        <div class="flex items-center gap-4 lg:hidden">
+          <CurrencyDropdown :has-solid-background="hasSolidBackground" />
+
+          <button
+            type="button"
+            :class="[
+              'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast',
+              hasSolidBackground
+                ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
+                : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
+            ]"
+            :aria-expanded="isMobileOpen"
+            aria-controls="mobile-navigation"
+            aria-label="Toggle navigation"
+            @click="isMobileOpen = !isMobileOpen"
+          >
+            <span aria-hidden="true" class="relative h-3.5 w-5">
+              <span
+                :class="[
+                  'absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-fast',
+                  isMobileOpen ? 'translate-y-[6px] rotate-45' : '',
+                ]"
+              />
+              <span
+                :class="[
+                  'absolute left-0 top-1/2 h-px w-5 bg-current -translate-y-px transition-opacity duration-fast',
+                  isMobileOpen ? 'opacity-0' : '',
+                ]"
+              />
+              <span
+                :class="[
+                  'absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-fast',
+                  isMobileOpen ? '-translate-y-[7px] -rotate-45' : '',
+                ]"
+              />
+            </span>
+          </button>
+        </div>
       </div>
 
       <!-- Mobile drawer -->
@@ -197,6 +202,7 @@
 
 <script setup lang="ts">
 import type { NavItemData } from "~/types/navigation";
+import CurrencyDropdown from "~/components/layout/CurrencyDropdown.vue";
 
 // ─── Navigation data ──────────────────────────────────────────────
 const navigationItems: NavItemData[] = [
