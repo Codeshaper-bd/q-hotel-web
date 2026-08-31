@@ -15,27 +15,52 @@ const faqs = {
     {
       question: "Does Q Hotel Dhaka have in-room Wi-Fi?",
       answer:
-        "Yes. Complimentary high-speed Wi-Fi is available in every guest room and throughout the hotel’s public areas.",
+        "Yes. Complimentary uninterrupted high-speed Wi-Fi is available in every guest room and throughout the hotel’s public areas.",
     },
     {
       question: "What is the closest airport near Q Hotel Dhaka?",
       answer:
-        "Hazrat Shahjalal International Airport (DAC) is the nearest airport, roughly 30 to 45 minutes away by car depending on traffic conditions.",
+        "Hazrat Shahjalal International Airport (DAC) is the nearest airport, approximately 10 to 15 minutes away by car depending on traffic conditions.",
     },
     {
       question: "Is Q Hotel Dhaka a five-star hotel?",
       answer:
-        "Q Hotel Dhaka delivers a premium, full-service hospitality experience with thoughtfully designed rooms, attentive service, dining, wellness, and business facilities.",
+        "Yes, Q Hotel Dhaka is a Five Star rated hotel and delivers a premium, full-service hospitality experience with thoughtfully designed rooms, attentive service, dining, wellness, and business facilities.",
     },
     {
       question: "Does Q Hotel Dhaka offer a buffet?",
       answer:
-        "Yes. Buffet selections are offered at designated dining times and for selected events. Availability may vary, so please contact the hotel for the current schedule.",
+        "Yes. Themed Buffet selections are offered at designated dining times and for selected events. Availability may vary, please contact the hotel for the current promotions and schedules.",
     },
     {
       question: "Is breakfast available at Q Hotel Dhaka?",
       answer:
-        "Yes. Fresh local and continental breakfast options are available each morning, with service details provided during booking or at check-in.",
+        "Yes. Fresh local and continental breakfast options are available daily, with service details provided during booking or at check-in.",
+    },
+    {
+      question: "How many rooms does Q Hotel Dhaka have?",
+      answer:
+        "Q Hotel Dhaka has 152 Meticulously Curated Rooms & Suites. From spacious Standard Rooms designed for effortless comfort, to Deluxe Rooms offering enhanced space and style, to Executive Suites crafted for discerning travelers, and the ultimate in luxury with our Presidential Suites.",
+    },
+    {
+      question: "Does Q Hotel have a Spa?",
+      answer:
+        "Yes, Q Hotel Dhaka is home to an exquisite spa sanctuary, guided by highly trained therapists devoted to restoring your body, mind, and spirit.",
+    },
+    {
+      question: "Does Q Hotel have a pool?",
+      answer:
+        "Yes, Q Hotel Dhaka features a beautiful outdoor swimming pool, designed as a relaxing retreat for guests to unwind amid the hotel's elegant surroundings.",
+    },
+    {
+      question: "Does Q Hotel have a Gym?",
+      answer:
+        "Yes, Q Hotel Dhaka features a large, well-equipped gymnasium, giving guests a refreshing space to stay active during their stay.",
+    },
+    {
+      question: "Does Q Hotel have a conference and banqueting facility?",
+      answer:
+        "Yes, Q Hotel Dhaka offers extensive conference and banqueting facilities, purpose-built to host everything from intimate business meetings to grand social celebrations.",
     },
   ],
   rooms: [
