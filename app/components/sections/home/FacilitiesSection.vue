@@ -182,7 +182,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: "cafe-deli",
     label: "Cafe Deli- Coffee Shop",
-    image: "/images/dining/dining-01-main.png",
+    image: "/images/dining/cafe-deli.jpg",
     gridClass: "lg:col-start-3 lg:row-start-2",
     icon: TeaCoffeMaker,
   },
