@@ -10,7 +10,7 @@
            holds the image at up to 1.12x scale, so a smaller/softer source
            would visibly upscale and lose sharpness. -->
       <BaseImage
-        src="/images/hero/q-hotel-bannar.png"
+        src="/images/hero/q-hotel-outside-view.jpeg"
         alt=""
         :width="2500"
         :height="1551"

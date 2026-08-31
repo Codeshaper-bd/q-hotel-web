@@ -7,7 +7,7 @@
       class="relative flex h-[480px] items-center justify-center overflow-hidden mt-[--header-height] sm:h-[640px] lg:h-[800px]"
     >
       <BaseImage
-        src="/images/rooms/executive-suite.jpg"
+        src="/images/rooms/executive-1.jpg"
         alt=""
         :width="1920"
         :height="900"

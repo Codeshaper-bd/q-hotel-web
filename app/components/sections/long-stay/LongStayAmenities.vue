@@ -83,7 +83,7 @@ interface AmenityTile {
 const amenities: AmenityTile[] = [
   {
     label: "Fully Furnished",
-    image: "/images/rooms/deluxe-double.jpg",
+    image: "/images/rooms/deluxe-1.jpg",
     iconPaths: ["M4 21V9l8-6 8 6v12M9 21v-6h6v6"],
   },
   {

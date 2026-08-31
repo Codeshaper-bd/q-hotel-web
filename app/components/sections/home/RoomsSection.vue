@@ -70,20 +70,24 @@
               data-room-media
               class="relative aspect-[16/10] overflow-hidden bg-line/40 motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:aspect-auto"
             >
-              <Transition name="room-image">
-                <BaseImage
-                  :key="selectedImage(room).src"
-                  :src="selectedImage(room).src"
-                  :alt="selectedImage(room).alt"
-                  :width="1600"
-                  :height="1000"
-                  sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1280px"
-                  class="absolute inset-0 h-full w-full object-cover"
-                />
-              </Transition>
+              <div data-room-image-layer class="absolute inset-0">
+                <Transition name="room-image">
+                  <BaseImage
+                    :key="selectedImage(room).src"
+                    :src="selectedImage(room).src"
+                    :alt="selectedImage(room).alt"
+                    :width="1600"
+                    :height="1000"
+                    sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1280px"
+                    class="absolute inset-0 h-full w-full object-cover"
+                  />
+                </Transition>
+              </div>
               <div
                 v-if="room.images.length > 1"
-                class="absolute inset-x-0 bottom-4 flex justify-center gap-1 lg:inset-x-auto lg:bottom-8 lg:left-10 lg:justify-start"
+                role="group"
+                aria-label="Room photos"
+                class="absolute inset-x-0 bottom-4 z-20 flex justify-center gap-1 lg:bottom-8"
               >
                 <button
                   v-for="(image, imageIndex) in room.images"
@@ -418,7 +422,7 @@ onMounted(async () => {
       // edges the drift would expose and lends a push-in depth.
       cards.forEach((card, index) => {
         const mediaElement =
-          card.querySelector<HTMLElement>("[data-room-media]");
+          card.querySelector<HTMLElement>("[data-room-image-layer]");
         if (!mediaElement) {
           return;
         }
@@ -484,6 +488,13 @@ onMounted(async () => {
 .room-image-enter-from,
 .room-image-leave-to {
   opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-image-enter-active,
+  .room-image-leave-active {
+    transition: none;
+  }
 }
 
 /* The pinned horizontal slider only exists when motion is allowed; reduced

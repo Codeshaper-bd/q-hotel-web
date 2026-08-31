@@ -190,21 +190,7 @@ const selectedImageIndex = ref(0);
 const isDetailsOpen = ref(false);
 const { prefersReducedMotion } = useReducedMotion();
 
-const demoImages: Room["images"] = [
-  { src: "/images/rooms/standard-double.jpg", alt: "Standard Double Room with warm wood finishes" },
-  { src: "/images/rooms/deluxe-twin-1.jpg", alt: "Deluxe Twin Room with premium single beds" },
-  { src: "/images/rooms/deluxe-twin-2.jpg", alt: "Deluxe Twin Room seating and work area" },
-  { src: "/images/rooms/deluxe-double.jpg", alt: "Deluxe Double Room with a king bed" },
-  { src: "/images/rooms/executive-suite.jpg", alt: "Executive Suite with a spacious bedroom" },
-  { src: "/images/rooms/presidential-suite.jpg", alt: "Presidential Suite living area" },
-];
-
-const slideImages = computed(() => {
-  const imagesBySource = new Map(
-    [...props.room.images, ...demoImages].map((image) => [image.src, image]),
-  );
-  return [...imagesBySource.values()];
-});
+const slideImages = computed(() => props.room.images);
 
 const selectedImage = computed(
   () =>
