@@ -239,11 +239,11 @@ const slides: RoomImage[] = [
     alt: "Guest room interior with king bed and lounge chair",
   },
   {
-    src: "/images/rooms/standard-double.jpg",
+    src: "/images/rooms/standard-double-1.jpg",
     alt: "Standard Double Room with a plush double bed and walnut headboard",
   },
   {
-    src: "/images/rooms/deluxe-double.jpg",
+    src: "/images/rooms/deluxe-1.jpg",
     alt: "Deluxe Double Room with a king bed and cove-lit headboard",
   },
 ];

@@ -64,42 +64,54 @@
             :aria-hidden="activeRoomId === room.id ? undefined : 'true'"
             :tabindex="activeRoomId === room.id ? 0 : -1"
             class="room-showcase-card relative overflow-hidden bg-ink"
+            @mouseenter="pauseImageSlider"
+            @mouseleave="startImageSlider"
+            @focusin="pauseImageSlider"
+            @focusout="handleRoomFocusOut"
           >
             <!-- Full-bleed photography with quiet dot navigation -->
             <div
               data-room-media
               class="relative aspect-[16/10] overflow-hidden bg-line/40 motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:aspect-auto"
             >
-              <Transition name="room-image">
-                <BaseImage
-                  :key="selectedImage(room).src"
-                  :src="selectedImage(room).src"
-                  :alt="selectedImage(room).alt"
-                  :width="1600"
-                  :height="1000"
-                  sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1280px"
-                  class="absolute inset-0 h-full w-full object-cover"
-                />
-              </Transition>
+              <div data-room-image-layer class="absolute inset-0">
+                <Transition name="room-image">
+                  <BaseImage
+                    :key="selectedImage(room).src"
+                    :src="selectedImage(room).src"
+                    :alt="selectedImage(room).alt"
+                    :width="1600"
+                    :height="1000"
+                    sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1280px"
+                    class="absolute inset-0 h-full w-full object-cover"
+                  />
+                </Transition>
+              </div>
               <div
                 v-if="room.images.length > 1"
-                class="absolute inset-x-0 bottom-4 flex justify-center gap-1 lg:inset-x-auto lg:bottom-8 lg:left-10 lg:justify-start"
+                role="group"
+                aria-label="Room photos"
+                class="absolute inset-x-0 bottom-4 z-20 flex justify-center lg:right-[42%] lg:bottom-8"
               >
-                <button
-                  v-for="(image, imageIndex) in room.images"
-                  :key="image.src"
-                  type="button"
-                  :class="[
-                    'h-2 transition-[width,background-color] duration-fast',
-                    imageIndex === selectedImageIndex(room.id)
-                      ? 'w-9 bg-copper'
-                      : 'w-2 bg-paper/80 hover:bg-paper',
-                  ]"
-                  :aria-label="`Show photo ${imageIndex + 1} of ${room.name}`"
-                  :aria-pressed="imageIndex === selectedImageIndex(room.id)"
-                  :tabindex="activeRoomId === room.id ? 0 : -1"
-                  @click="handleImageSelect(room.id, imageIndex)"
-                />
+                <div
+                  class="flex items-center gap-1.5 rounded-full bg-black/50 px-2.5 py-1.5"
+                >
+                  <button
+                    v-for="(image, imageIndex) in room.images"
+                    :key="image.src"
+                    type="button"
+                    :class="[
+                      'size-2.5 rounded-full transition-colors duration-fast',
+                      imageIndex === selectedImageIndex(room.id)
+                        ? 'bg-copper'
+                        : 'bg-paper/80 hover:bg-paper',
+                    ]"
+                    :aria-label="`Show photo ${imageIndex + 1} of ${room.name}`"
+                    :aria-pressed="imageIndex === selectedImageIndex(room.id)"
+                    :tabindex="activeRoomId === room.id ? 0 : -1"
+                    @click="handleImageSelect(room.id, imageIndex)"
+                  />
+                </div>
               </div>
             </div>
 
@@ -257,6 +269,7 @@ const ScrollTrigger = nuxtApp.$ScrollTrigger as
   | undefined;
 
 let roomStackTrigger: ScrollTriggerType | undefined;
+let imageSliderInterval: ReturnType<typeof setInterval> | undefined;
 
 function selectedImageIndex(roomId: string) {
   return activeImageIndexes[roomId] ?? 0;
@@ -277,6 +290,44 @@ function selectRoom(roomId: string) {
 function handleImageSelect(roomId: string, imageIndex: number) {
   activeRoomId.value = roomId;
   activeImageIndexes[roomId] = imageIndex;
+}
+
+function pauseImageSlider() {
+  if (imageSliderInterval) {
+    clearInterval(imageSliderInterval);
+    imageSliderInterval = undefined;
+  }
+}
+
+function showNextRoomImage() {
+  const activeRoom = rooms.find((room) => room.id === activeRoomId.value);
+  if (!activeRoom || activeRoom.images.length < 2) {
+    return;
+  }
+
+  activeImageIndexes[activeRoom.id] =
+    (selectedImageIndex(activeRoom.id) + 1) % activeRoom.images.length;
+}
+
+function startImageSlider() {
+  pauseImageSlider();
+  if (prefersReducedMotion.value) {
+    return;
+  }
+
+  imageSliderInterval = setInterval(showNextRoomImage, 5000);
+}
+
+function handleRoomFocusOut(event: FocusEvent) {
+  const nextTarget = event.relatedTarget;
+  const roomCardElement = event.currentTarget;
+  if (
+    !(roomCardElement instanceof HTMLElement) ||
+    !(nextTarget instanceof Node) ||
+    !roomCardElement.contains(nextTarget)
+  ) {
+    startImageSlider();
+  }
 }
 
 function scrollToRoom(roomId: string) {
@@ -335,6 +386,9 @@ function handleTablistKeydown(event: KeyboardEvent) {
     });
   }
 }
+
+onMounted(startImageSlider);
+onBeforeUnmount(pauseImageSlider);
 
 onMounted(async () => {
   await nextTick();
@@ -418,7 +472,7 @@ onMounted(async () => {
       // edges the drift would expose and lends a push-in depth.
       cards.forEach((card, index) => {
         const mediaElement =
-          card.querySelector<HTMLElement>("[data-room-media]");
+          card.querySelector<HTMLElement>("[data-room-image-layer]");
         if (!mediaElement) {
           return;
         }
@@ -484,6 +538,13 @@ onMounted(async () => {
 .room-image-enter-from,
 .room-image-leave-to {
   opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-image-enter-active,
+  .room-image-leave-active {
+    transition: none;
+  }
 }
 
 /* The pinned horizontal slider only exists when motion is allowed; reduced

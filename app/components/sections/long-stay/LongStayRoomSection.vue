@@ -228,11 +228,11 @@ const slideImages: [SlideImage, ...SlideImage[]] = [
     alt: "Spacious bedroom prepared for a long stay at Q Hotel Dhaka",
   },
   {
-    src: "/images/rooms/presidential-suite.jpg",
+    src: "/images/rooms/presidential-suite-1.jpg",
     alt: "Presidential Suite living area at Q Hotel Dhaka",
   },
   {
-    src: "/images/rooms/executive-suite.jpg",
+    src: "/images/rooms/executive-1.jpg",
     alt: "Executive Suite bedroom at Q Hotel Dhaka",
   },
 ];

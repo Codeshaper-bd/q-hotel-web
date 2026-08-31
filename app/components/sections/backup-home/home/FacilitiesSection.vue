@@ -319,7 +319,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: 'smoke-free',
     label: 'Smoke-Free Hotel',
-    image: '/images/rooms/deluxe-double.jpg',
+    image: '/images/rooms/deluxe-1.jpg',
     gridClass: 'lg:col-start-5 lg:row-start-3',
     iconPaths: [
       'M4 14.5h12v3H4zM18.5 14.5v3M21 14.5v3',

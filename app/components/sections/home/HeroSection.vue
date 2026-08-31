@@ -10,13 +10,13 @@
            holds the image at up to 1.12x scale, so a smaller/softer source
            would visibly upscale and lose sharpness. -->
       <BaseImage
-        src="/images/hero/q-hotel-bannar.png"
+        src="/images/hero/q-hotel-outside-view.jpeg"
         alt=""
         :width="2500"
         :height="1551"
         :quality="90"
         priority
-        class="h-full w-full"
+        class="h-full w-full object-center lg:object-[center_10%]"
       />
 
       <div

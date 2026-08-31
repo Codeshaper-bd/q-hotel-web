@@ -122,9 +122,12 @@
                         d="M4.5 4.5h15v15h-15z M8 12.5l2.5 2.5L16 9.5"
                       />
                     </svg>
-                    Area: {{ venue.areaLabel }}
+                    {{ venue.areaLabel }}
                   </li>
-                  <li class="flex items-center gap-2.5">
+                  <li
+                    v-if="venue.dimensionsLabel"
+                    class="flex items-center gap-2.5"
+                  >
                     <svg
                       class="h-4 w-4 shrink-0 text-copper"
                       viewBox="0 0 24 24"
@@ -197,60 +200,42 @@ import type { MeetingVenue } from "~/types/venue";
 const venues: MeetingVenue[] = [
   {
     id: "banquet-hall-01",
-    name: "Banquet Hall 01",
+    name: "Banquet hall",
     description:
-      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
+      "Located on the ground floor, this expansive and versatile venue is designed to host large gatherings with ease, accommodating up to 90 guests. Ideal for conferences, seminars, corporate events, and social celebrations alike, the space offers the flexibility to be configured according to your specific event requirements, including the setup of a stage and speaker podium for presentations, keynote addresses, or ceremonial functions. Guests can stay seamlessly connected throughout their event with complimentary high-speed Wi-Fi, ensuring smooth communication and connectivity.",
     image: {
-      src: "/images/meetings/business-class-lounge.png",
-      alt: "Business Class Lounge with warm armchairs arranged around a round table under a coved ceiling",
+      src: "/images/meetings/conference-and-banquet.jpg",
+      alt: "Banquet hall arranged with round dining tables beneath a coffered ceiling",
     },
-    capacities: [
-      { layout: "Theater", guests: 400 },
-      { layout: "Classroom", guests: 170 },
-      { layout: "U-Shape", guests: 120 },
-      { layout: "Reception", guests: 500 },
-      { layout: "Banquet", guests: 200 },
-    ],
-    areaLabel: "5,721 sq. ft.",
-    dimensionsLabel: "99.6 ft × 57.6 ft × 22 ft",
+    capacities: [{ layout: "Round Table", guests: 90 }],
+    areaLabel: "268 sqm.",
+    dimensionsLabel: "",
   },
   {
     id: "banquet-hall-02",
-    name: "Banquet Hall 02",
+    name: "Conference hall 1",
     description:
-      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
+      "Located on the second floor, this elegantly appointed boardroom offers a private and professional setting for small, focused meetings. Comfortably accommodating up to 12 guests, the space is ideal for board meetings, executive discussions, interviews, and strategic planning sessions where privacy and productivity are essential. The refined ambiance and thoughtful layout make it well-suited for high-level business engagements requiring an intimate, distraction-free environment.",
     image: {
-      src: "/images/meetings/utshab-banquet-hall.png",
-      alt: "Utshab Banquet Hall with warm armchairs arranged around a round table under a coved ceiling",
+      src: "/images/meetings/conference-and-banquet.jpg",
+      alt: "Conference hall arranged with round dining tables beneath a coffered ceiling",
     },
-    capacities: [
-      { layout: "Theater", guests: 400 },
-      { layout: "Classroom", guests: 170 },
-      { layout: "U-Shape", guests: 120 },
-      { layout: "Reception", guests: 500 },
-      { layout: "Banquet", guests: 200 },
-    ],
-    areaLabel: "8,940 sq. ft.",
-    dimensionsLabel: "99.6 ft × 57.6 ft × 22 ft",
+    capacities: [{ layout: "Round Table", guests: 12 }],
+    areaLabel: "56 sqm.",
+    dimensionsLabel: "",
   },
   {
     id: "banquet-hall-03",
-    name: "Banquet Hall 03",
+    name: "Conference/Banquet hall 2",
     description:
-      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
+      "Located on the fourth floor, this versatile conference and banqueting facility is designed to adapt seamlessly to a wide range of event requirements. The space can be arranged as an elegant round-table banquet setup, ideal for weddings, gala dinners, and social celebrations, or divided using movable partitions into three individual meeting facilities, perfect for hosting simultaneous conferences, workshops, or corporate discussions. This flexibility allows the venue to cater to the specific nature and scale of any event, whether it calls for one grand gathering or multiple private business sessions.",
     image: {
-      src: "/images/meetings/royel-lounge.png",
-      alt: "Royal Lounge with warm armchairs arranged around a round table under a coved ceiling",
+      src: "/images/meetings/conference-and-banquet.jpg",
+      alt: "Conference and banquet hall arranged with round dining tables beneath a coffered ceiling",
     },
-    capacities: [
-      { layout: "Theater", guests: 400 },
-      { layout: "Classroom", guests: 170 },
-      { layout: "U-Shape", guests: 120 },
-      { layout: "Reception", guests: 500 },
-      { layout: "Banquet", guests: 200 },
-    ],
-    areaLabel: "5,721 sq. ft.",
-    dimensionsLabel: "99.6 ft × 57.6 ft × 22 ft",
+    capacities: [{ layout: "Round Table", guests: 72 }],
+    areaLabel: "166 sqm.",
+    dimensionsLabel: "",
   },
 ];
 

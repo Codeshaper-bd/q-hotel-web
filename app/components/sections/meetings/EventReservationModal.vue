@@ -13,47 +13,48 @@
     v-model="open"
     labelled-by="event-reservation-dialog-title"
     close-label="Close reservation dialog"
+    max-width-class="max-w-[1120px]"
     @close="emit('close')"
   >
     <div
       data-lenis-prevent-wheel
-      class="grid max-h-[92dvh] w-full overflow-y-auto bg-white lg:h-[min(880px,92dvh)] lg:grid-cols-[460px_1fr] lg:overflow-hidden"
+      class="grid max-h-[90dvh] w-full overflow-y-auto bg-white lg:h-[min(760px,90dvh)] lg:grid-cols-[410px_1fr] lg:overflow-hidden"
     >
       <!-- ========================= -->
       <!-- LEFT INFORMATION PANEL -->
       <!-- ========================= -->
       <aside class="relative flex flex-col overflow-hidden bg-[#F7F0E1]">
         <div
-          class="relative z-10 px-6 pb-6 pt-8 sm:px-8 sm:pt-10 lg:px-9 lg:pb-7"
+          class="relative z-10 px-5 pb-5 pt-6 sm:px-6 sm:pt-7 lg:px-7 lg:pb-6"
         >
-          <div class="mb-6">
+          <div class="mb-4">
             <p
               class="text-[11px] font-medium uppercase text-[#C9752D] sm:text-sm"
             >
               Reserve Your Event
             </p>
 
-            <span class="mt-2.5 block h-[2px] w-[94px] bg-[#C9752D]" />
+            <span class="mt-2 block h-[2px] w-[84px] bg-[#C9752D]" />
           </div>
 
           <h2
             id="event-reservation-dialog-title"
-            class="text-[24px] font-semibold text-[#0F0F10] sm:text-[36px]"
+            class="text-[22px] font-semibold text-[#0F0F10] sm:text-[32px]"
           >
             Plan Your Perfect Event
           </h2>
 
-          <p class="mt-5 text-[13px] text-[#373737] font-medium sm:text-base">
+          <p class="mt-3 text-[13px] text-[#373737] font-medium sm:text-sm">
             Let us create an exceptional experience for your meeting,
             celebration or special occasion.
           </p>
 
           <a
             :href="`tel:${phoneNumber}`"
-            class="group mt-6 flex items-center gap-4 border border-[#C9752D] px-4 py-4 transition-colors duration-200 hover:bg-[#C87532]/5"
+            class="group mt-4 flex items-center gap-3 border border-[#C9752D] px-3 py-3 transition-colors duration-200 hover:bg-[#C87532]/5"
           >
             <span
-              class="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#C9752D] text-[#8F623A] sm:size-9"
+              class="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#C9752D] text-[#8F623A]"
             >
               <svg
                 width="14"
@@ -92,12 +93,12 @@
 
             <span>
               <span
-                class="block text-[13px] font-medium text-[#0F0F10] sm:text-base"
+                class="block text-[13px] font-medium text-[#0F0F10] sm:text-sm"
               >
                 Prefer To Reserve By Phone?
               </span>
 
-              <span class="mt-1 block text-[13px] text-[#0F0F10] sm:text-base">
+              <span class="mt-0.5 block text-[13px] text-[#0F0F10] sm:text-sm">
                 Call us at
                 <strong class="text-[#A75B27]">
                   {{ phoneNumber }}
@@ -130,7 +131,7 @@
       <!-- RIGHT RESERVATION FORM -->
       <!-- ========================= -->
       <section
-        class="flex flex-col bg-white px-6 py-8 sm:px-9 sm:py-10 lg:overflow-y-auto lg:px-12 lg:pb-8 lg:pt-14"
+        class="flex flex-col bg-white px-5 py-6 sm:px-7 sm:py-7 lg:overflow-y-auto lg:px-8 lg:pb-6 lg:pt-8"
       >
         <form
           ref="formRef"
@@ -138,8 +139,8 @@
           :aria-busy="submitting"
           @submit.prevent="submitForm"
         >
-          <div class="space-y-5">
-            <div class="grid gap-4 sm:grid-cols-2">
+          <div class="space-y-4">
+            <div class="grid gap-3 sm:grid-cols-2">
               <div>
                 <label for="event-date" class="form-label">
                   Event Date
@@ -148,6 +149,7 @@
                 <BaseDatePicker
                   id="event-date"
                   v-model="form.date"
+                  class="compact-picker"
                   placeholder="Select date"
                 />
               </div>
@@ -160,6 +162,7 @@
                 <BaseTimePicker
                   id="event-time"
                   v-model="form.time"
+                  class="compact-picker"
                   placeholder="Select time"
                 />
               </div>
@@ -169,7 +172,7 @@
               {{ validationError }}
             </p>
 
-            <div class="grid gap-4 sm:grid-cols-2">
+            <div class="grid gap-3 sm:grid-cols-2">
               <div>
                 <label for="event-guests" class="form-label">
                   Number of Guests
@@ -233,7 +236,7 @@
               </div>
             </div>
 
-            <div class="grid gap-4 sm:grid-cols-2">
+            <div class="grid gap-3 sm:grid-cols-2">
               <div>
                 <label for="event-email" class="form-label">
                   Email Address
@@ -283,7 +286,7 @@
               </div>
             </div>
 
-            <div class="grid gap-4 sm:grid-cols-2">
+            <div class="grid gap-3 sm:grid-cols-2">
               <div>
                 <label for="event-name" class="form-label">
                   Name
@@ -328,9 +331,9 @@
                 id="event-request"
                 v-model.trim="form.specialRequest"
                 name="specialRequest"
-                rows="4"
+                rows="3"
                 placeholder="Add special request"
-                class="form-input min-h-[120px] resize-none py-3"
+                class="form-input min-h-[88px] resize-none py-2.5"
               />
             </div>
 
@@ -363,14 +366,14 @@
                 />
               </svg>
 
-              <p class="text-base text-[#505155]">
+              <p class="text-sm text-[#505155]">
                 <span class="font-medium text-black">Please note:</span>
                 Your information is secure and will be kept confidential.
               </p>
             </div>
           </div>
 
-          <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:mt-auto lg:pt-8">
+          <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:mt-auto lg:pt-5">
             <BaseArrowCta
               variant="gold"
               label-class="flex-1 justify-center"
@@ -498,7 +501,7 @@ function submitForm() {
 
 <style scoped>
 .form-label {
-  @apply mb-2 block text-sm font-normal uppercase tracking-[0.025em] text-[#373737];
+  @apply mb-1.5 block text-[13px] font-normal uppercase tracking-[0.025em] text-[#373737];
 }
 
 .form-error {
@@ -506,6 +509,14 @@ function submitForm() {
 }
 
 .form-input {
-  @apply h-[52px] w-full border border-[#C9C9C9] bg-white px-3.5 text-base text-[#272727] transition duration-200 placeholder:text-base placeholder:text-[#373737] hover:border-[#A9A9A9] focus:border-[#C87532] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#C87532];
+  @apply h-[46px] w-full border border-[#C9C9C9] bg-white px-3 text-sm text-[#272727] transition duration-200 placeholder:text-sm placeholder:text-[#373737] hover:border-[#A9A9A9] focus:border-[#C87532] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#C87532];
+}
+
+/* Date/time pickers have a shared 52px trigger. This modal-specific wrapper
+   keeps the compact treatment local without changing other booking forms. */
+.compact-picker :deep(.picker-trigger) {
+  height: 46px;
+  padding-inline: 0.75rem;
+  font-size: 0.875rem;
 }
 </style>
