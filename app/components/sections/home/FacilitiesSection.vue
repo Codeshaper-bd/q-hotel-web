@@ -196,7 +196,7 @@ const amenities: FacilityAmenity[] = [
   {
     id: "room-service",
     label: "24hrs Room Service",
-    image: "/images/facilities/butler-service.png",
+    image: "/images/facilities/hotel-service.jpg",
     gridClass: "lg:col-start-5 lg:row-start-2",
     icon: ButlerService,
   },

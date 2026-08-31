@@ -56,16 +56,16 @@
           <BaseContainer size="xl">
             <div
               :data-dining-copy="venueIndex"
-              class="max-w-[633px] pb-14 sm:pb-20 lg:pb-28"
+              class="max-w-[1620px] pb-14 sm:pb-20 lg:pb-28"
             >
               <h3
                 class="font-display text-4xl text-paper sm:text-5xl lg:text-[56px] font-semibold"
               >
                 {{ venue.name }}
               </h3>
-              <div class="text-sm font-medium text-[#EED4A3] mt-4 uppercase">{{ venue?.tagLine }}</div>
+              <div class="text-sm font-medium text-[#EED4A3] mt-4 uppercase hidden">{{ venue?.tagLine }}</div>
               <p
-                class="mt-3 text-sm leading-7 text-paper/80 sm:text-base lg:text-[18px] lg:font-medium"
+                class="mt-3 text-sm leading-7 text-paper/80 sm:text-base lg:text-lg lg:font-medium"
               >
                 {{ venue.description }}
               </p>
@@ -130,9 +130,9 @@ const venues: DiningVenue[] = [
   {
     id: "restaurant-01",
     tagLine:"all-day dining",
-    name: "Restaurant 01",
+    name: "BBQ / Pan Asian",
     description:
-      "Enjoy international favorites and authentic local flavors, from fresh breakfasts and brunches to elegant dinners, high tea, and cocktails.",
+      "Perched on the 19th floor of Q Hotel Dhaka, this exquisite Pan Asian and BBQ fine dining restaurant offers a culinary journey through bold, authentic flavors paired with breathtaking panoramic views of the city. Guests seeking a more intimate experience can dine on the striking sky bridge, an idyllic setting for candlelight dinners and special celebrations beneath the open sky. The restaurant's seamless access to the 20th floor further elevates the experience, unveiling a mesmerizing vista of the city lights, making it an unforgettable destination for both refined dining and memorable moments ",
     poster: {
       src: "/images/dining/bbq-restaurant.jpg",
       alt: "Q Hotel BBQ Restaurant dining room with ring chandeliers, stone feature wall, and city-view windows",
@@ -140,16 +140,26 @@ const venues: DiningVenue[] = [
   },
   {
     id: "restaurant-02",
-    tagLine:"Grill/BBQ",
-    name: "Restaurant 02",
+    tagLine:"All-Day Dining",
+    name: "All-Day Dining",
     description:
-      "Enjoy expertly grilled favorites, delicious BBQ selections, and warm hospitality in a relaxed setting perfect for lunch, dinner, or evenings with friends.",
+      "Q Hotel Dhaka's all-day dining restaurant offers a vibrant and inviting culinary experience, serving an extensive selection of international and local delicacies throughout the day. Start your morning with a vast and lavish breakfast buffet featuring an impressive spread of continental, Asian, and local favorites, followed by satisfying lunch and dinner options complete with live cooking stations, curated buffet selections, and à la carte choices. Designed with a warm and contemporary ambiance, it provides the perfect setting for leisurely family meals, business lunches, or casual dining with friends.",
     poster: {
-      src: "/images/dining/bbq-restaurant-2.png",
-      alt: "Rooftop lounge and bar with brass detailing and city views at dusk",
+      src: "/images/dining/all-day-dining.jpg",
+      alt: "Q Hotel Dhaka's all-day dining restaurant with warm and contemporary ambiance",
     },
   },
-  
+    {
+    id: "cafe-deli",
+    tagLine:"Cafe & Deli",
+    name: "Cafe Deli",
+    description:
+      "Nestled within Q Hotel Dhaka, this charming café deli invites guests to savor expertly crafted coffees, fine teas, and freshly baked delicacies in a relaxed and inviting setting. From artisanal pastries and gourmet sandwiches to indulgent desserts, the menu is thoughtfully curated to satisfy every craving. With its stylish yet comfortable atmosphere, the café is perfect for casual catch-ups, light business discussions, or a leisurely break throughout the day.",
+    poster: {
+      src: "/images/dining/cafe-deli.jpg",
+      alt: "Cafe Deli interior with brass accents and city views",
+    },
+  },
 ];
 
 const sectionRef = ref<HTMLElement | null>(null);
