@@ -7,6 +7,7 @@ import Wellness from "~/components/icons/Wellness.vue";
 import Breakfast from "~/components/icons/Breakfast.vue";
 import Wifi from "~/components/icons/Wifi.vue";
 import TeaCoffeMaker from "~/components/icons/TeaCoffeMaker.vue";
+import ButlerService from "~/components/icons/ButlerService.vue";
 import Iptv from "~/components/icons/Iptv.vue";
 import SecurityCamera from "~/components/icons/SecurityCamera.vue";
 import BarCup from "~/components/icons/BarCup.vue";
@@ -140,68 +141,98 @@ const amenities: FacilityAmenity[] = [
     id: "airport-shuttle",
     label: "Airport Shuttle",
     image: "/images/facilities/airport-shuttle.png",
+    gridClass: "lg:col-start-1 lg:row-start-1",
     icon: ShuttleBus,
   },
   {
     id: "vehicle-parking",
     label: "Parking",
     image: "/images/facilities/parking.png",
+    gridClass: "lg:col-start-2 lg:row-start-1",
     icon: Parking,
   },
   {
     id: "dining",
     label: "Dining",
     image: "/images/facilities/dining.png",
+    gridClass: "lg:col-start-3 lg:row-start-1",
     icon: Dining,
   },
   {
     id: "swimming-pool",
     label: "Swimming Pool",
     image: "/images/facilities/swimming-pool.png",
+    gridClass: "lg:col-start-4 lg:row-start-1",
     icon: SwimmingPoolTwo,
   },
   {
     id: "fitness-spa",
     label: "Wellness",
     image: "/images/facilities/wellness.png",
+    gridClass: "lg:col-start-5 lg:row-start-1",
     icon: Wellness,
   },
   {
     id: "breakfast",
     label: "Breakfast",
     image: "/images/facilities/breakfast.png",
-    gridClass: "lg:col-start-2",
+    gridClass: "lg:col-start-2 lg:row-start-2",
     icon: Breakfast,
+  },
+  {
+    id: "cafe-deli",
+    label: "Cafe Deli- Coffee Shop",
+    image: "/images/dining/dining-01-main.png",
+    gridClass: "lg:col-start-3 lg:row-start-2",
+    icon: TeaCoffeMaker,
+  },
+  {
+    id: "all-day-dining",
+    label: "All day dining, Buffet & Ala Carte",
+    image: "/images/facilities/dining.png",
+    gridClass: "lg:col-start-4 lg:row-start-2",
+    icon: Dining,
+  },
+  {
+    id: "room-service",
+    label: "24hrs Room Service",
+    image: "/images/facilities/butler-service.png",
+    gridClass: "lg:col-start-5 lg:row-start-2",
+    icon: ButlerService,
   },
   {
     id: "free-wifi",
     label: "WiFi",
     image: "/images/facilities/wifi.png",
+    gridClass: "lg:col-start-6 lg:row-start-2",
     icon: Wifi,
   },
   {
     id: "ip-tv",
     label: "IP TV",
     image: "/images/facilities/iptv.png",
+    gridClass: "lg:col-start-3 lg:row-start-3",
     icon: Iptv,
   },
   {
     id: "cctv-security",
     label: "24 Hours Security",
     image: "/images/facilities/security.png",
+    gridClass: "lg:col-start-4 lg:row-start-3",
     icon: SecurityCamera,
   },
   {
     id: "bbq-bar",
     label: "Mini Bar",
     image: "/images/facilities/minibar.png",
+    gridClass: "lg:col-start-5 lg:row-start-3",
     icon: BarCup,
   },
   {
     id: "laundry-service",
-    label: "Valet Laundry ",
+    label: "Valet Laundry",
     image: "/images/facilities/valet-laundry.png",
-    gridClass: "lg:col-start-5 lg:row-start-3",
+    gridClass: "lg:col-start-5 lg:row-start-4",
     icon: Laundry,
   },
 ];
@@ -306,7 +337,7 @@ const amenities: FacilityAmenity[] = [
           <!-- Supporting copy + CTA share the final grid row on large screens -->
           <div
             data-reveal-item
-            class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:mt-0 lg:items-end lg:pr-[160px]"
+            class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-4 lg:mt-0 lg:items-end lg:pr-[160px]"
           >
             <BaseArrowCta
               to="facilities-amenities"
