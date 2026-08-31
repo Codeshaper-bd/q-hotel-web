@@ -16,7 +16,7 @@
         :height="1551"
         :quality="90"
         priority
-        class="h-full w-full"
+        class="h-full w-full object-center lg:object-[center_10%]"
       />
 
       <div
