@@ -77,7 +77,7 @@ interface Restaurant {
 
 const restaurants: Restaurant[] = [
   {
-    id: "restaurant-02",
+    id: "AllDayDining",
     name: "All-Day Dining",
     tagline: "All-Day Dining",
     mainImage: "/images/dining/dining-01-main.png",
@@ -129,7 +129,7 @@ const restaurants: Restaurant[] = [
     ],
   },
   {
-    id: "cafe-deli",
+    id: "cafeDeli",
     name: "Cafe Deli",
     tagline: "Cafe & Deli",
     mainImage: "/images/dining/cafe-deli-main.png",
@@ -166,7 +166,7 @@ const restaurants: Restaurant[] = [
     ],
   },
   {
-    id: "restaurant-01",
+    id: "panAsian",
     name: "BBQ / Pan Asian",
     tagline: "BBQ / Pan Asian",
     mainImage: "/images/dining/pan-asian-main.png",
