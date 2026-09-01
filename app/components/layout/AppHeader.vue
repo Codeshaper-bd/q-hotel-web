@@ -260,11 +260,40 @@ const isHome = computed(() => route.path === "/");
 // Dismissal lives for the tab session only (sessionStorage): closing the bar
 // never snaps it back mid-session, but a fresh visit sees it again.
 const PROMO_STORAGE_KEY = "q-hotel-promo-dismissed";
+const PROMO_SCROLL_IDLE_DELAY = 180;
 const promoDismissed = ref(false);
+const isPromoScrollHidden = ref(false);
+let lastScrollY = 0;
+let promoRevealTimer: ReturnType<typeof setTimeout> | undefined;
 
-const showPromoBar = computed(() => isHome.value && !promoDismissed.value);
+const showPromoBar = computed(
+  () => isHome.value && !promoDismissed.value && !isPromoScrollHidden.value,
+);
+
+function clearPromoRevealTimer() {
+  if (!promoRevealTimer) return;
+  clearTimeout(promoRevealTimer);
+  promoRevealTimer = undefined;
+}
+
+function schedulePromoReveal() {
+  clearPromoRevealTimer();
+  promoRevealTimer = setTimeout(() => {
+    isPromoScrollHidden.value = false;
+    promoRevealTimer = undefined;
+  }, PROMO_SCROLL_IDLE_DELAY);
+}
+
+function resetPromoScrollState() {
+  clearPromoRevealTimer();
+  isPromoScrollHidden.value = false;
+  if (import.meta.client) {
+    lastScrollY = Math.max(window.scrollY, 0);
+  }
+}
 
 function handlePromoDismiss() {
+  clearPromoRevealTimer();
   promoDismissed.value = true;
   if (import.meta.client) {
     sessionStorage.setItem(PROMO_STORAGE_KEY, "1");
@@ -317,8 +346,22 @@ const hasSolidBackground = computed(
 );
 
 function handleScroll() {
+  const currentScrollY = Math.max(window.scrollY, 0);
   const threshold = isHome.value ? window.innerHeight * 0.5 : 80;
-  isScrolledPastHero.value = window.scrollY > threshold;
+  const hasScrollPositionChanged = currentScrollY !== lastScrollY;
+
+  isScrolledPastHero.value = currentScrollY > threshold;
+
+  if (
+    isHome.value &&
+    !promoDismissed.value &&
+    hasScrollPositionChanged
+  ) {
+    isPromoScrollHidden.value = true;
+    schedulePromoReveal();
+  }
+
+  lastScrollY = currentScrollY;
 }
 
 const activeMegaMenuItem = computed(
@@ -382,12 +425,14 @@ watch(
   () => {
     isMobileOpen.value = false;
     closeMenu();
+    resetPromoScrollState();
     nextTick(() => handleScroll());
   },
 );
 
 onMounted(() => {
   document.addEventListener("click", handleDocumentClick);
+  lastScrollY = Math.max(window.scrollY, 0);
   window.addEventListener("scroll", handleScroll, { passive: true });
   handleScroll();
 
@@ -410,6 +455,7 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener("click", handleDocumentClick);
   window.removeEventListener("scroll", handleScroll);
+  clearPromoRevealTimer();
   if (closeTimer) clearTimeout(closeTimer);
 });
 </script>
