@@ -16,7 +16,7 @@
     id="faq"
     ref="sectionRef"
     aria-labelledby="faq-title"
-    class="overflow-hidden bg-paper text-ink"
+    class="overflow-clip bg-paper text-ink"
   >
     <div :class="['faq-stage flex flex-col', isHomeFaq ? 'py-24 sm:py-32 lg:py-0' : 'py-24 sm:py-32 lg:py-24']">
       <!-- Section heading spans both columns, matching the approved composition. -->
@@ -35,7 +35,7 @@
           <!-- Construction visual: sticky on home so building stays visible as FAQ scrolls -->
           <div
             :class="[
-              'flex items-end justify-center px-5 sm:px-6 lg:sticky lg:top-[var(--header-height)] lg:self-start lg:px-8 lg:pb-6',
+              'flex items-end justify-center overflow-hidden px-5 sm:px-6 lg:sticky lg:top-[var(--header-height)] lg:self-start lg:px-8 lg:pb-6',
               isHomeFaq ? 'lg:h-[calc(100svh-var(--header-height))]' : '',
             ]"
           >
@@ -46,7 +46,7 @@
           </div>
 
           <!-- Accordion aligned to the xl container's right edge. -->
-          <div class="px-5 sm:px-6 lg:self-start lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
+          <div class="relative z-10 px-5 sm:px-6 lg:self-start lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
             <FaqAccordion
               :items="faqs"
               :initial-open-index="initialOpenIndex"
