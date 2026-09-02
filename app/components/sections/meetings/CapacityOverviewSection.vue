@@ -127,7 +127,7 @@ function onTabKeydown(event: KeyboardEvent) {
 
       <!-- Capacity types -->
       <div
-        class="mt-10 grid grid-cols-2 gap-x-12 gap-y-10 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-12 lg:gap-x-14"
+        class="mt-6 grid grid-cols-2 gap-x-12 gap-y-10 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-12 lg:gap-x-14"
       >
         <div
           v-for="(item, index) in capacities"
@@ -152,22 +152,22 @@ function onTabKeydown(event: KeyboardEvent) {
         </div>
       </div>
       <div
-        class="h-px max-w-[400px] mt-10 mb-6 w-full mx-auto bg-[#5051553D]/25"
+        class="h-px max-w-[400px] my-6 w-full mx-auto bg-[#5051553D]/25"
         aria-hidden="true"
       />
 
       <!-- Room specifications -->
-      <div class="mt-10 flex flex-col items-center">
+      <div class="mt-6 flex flex-col items-center">
 
         <p
-          class="mt-3 flex items-center gap-2.5 text-base font-normal text-[#373737]"
+          class=" flex items-center gap-2.5 text-base font-normal text-[#373737]"
         >
           <IconCheckbox class="h-4 w-4 shrink-0" aria-hidden="true" />
           Area: {{ area }}
         </p>
 
         <span
-          class="mt-10 h-px w-full max-w-[420px] bg-[#282522]/25"
+          class="mt-6 h-px w-full max-w-[420px] bg-[#282522]/25"
           aria-hidden="true"
         />
       </div>

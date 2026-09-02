@@ -27,42 +27,42 @@ const facilities: Facility[] = [
   {
     title: "Airport Shuttle",
     description:
-      "Private airport transfers make every arrival and departure seamless.",
+      "Travel comfortably with convenient airport transfers designed to make your journey smooth and hassle-free.",
     image: "/images/facilities/airport-shuttle.png",
     icon: Car,
   },
   {
     title: "Parking",
     description:
-      "Secure on-site parking with attentive assistance throughout your stay.",
+      "Enjoy complimentary on-site parking with a safe and convenient space for your vehicle throughout your stay.",
     image: "/images/facilities/parking.png",
     icon: Parking,
   },
   {
     title: "Dining",
     description:
-      "Enjoy memorable dining experiences, from local favourites to international cuisine.",
+      "Enjoy diverse dining experiences across two distinctive restaurants, offering delicious cuisine, elegant settings, and exceptional service.",
     image: "/images/facilities/dining.png",
     icon: Dining,
   },
   {
     title: "Swimming Pool",
     description:
-      "Take a refreshing swim and relax beside the pool in a calm setting.",
+      "Take a refreshing swim, unwind by the poolside, and enjoy a peaceful escape after a busy day of exploring or work.",
     image: "/images/facilities/swimming-pool.png",
     icon: SwimmingPool,
   },
   {
     title: "Wellness",
     description:
-      "Restore your energy with relaxing treatments in our dedicated wellness spaces.",
+      "Take a refreshing swim, unwind by the poolside, and enjoy a peaceful escape after a busy day of exploring or work.",
     image: "/images/facilities/wellness.png",
     icon: Wellness,
   },
   {
     title: "Breakfast",
     description:
-      "Begin each morning with a generous selection of fresh local and continental dishes.",
+      "Start your morning with a fresh and delicious breakfast, featuring a variety of flavorful dishes and satisfying choices to energize your day.",
     image: "/images/facilities/breakfast.png",
     icon: Breakfast,
   },
@@ -90,56 +90,56 @@ const facilities: Facility[] = [
   {
     title: "Wi-Fi",
     description:
-      "Stay connected with complimentary high-speed internet across the hotel.",
+      "Stay seamlessly connected with fast, reliable high-speed internet available throughout the hotel, whether you’re working, streaming.",
     image: "/images/facilities/wifi.png",
     icon: Wifi,
   },
   {
     title: "IP TV & Personal Assistance",
     description:
-      "In-room entertainment and personal assistance keep every stay effortless.",
+      "Access personalized hotel assistance and in-room entertainment through IP TV, making your stay more convenient, connected, and enjoyable.",
     image: "/images/facilities/iptv.png",
     icon: Iptv,
   },
   {
     title: "24-Hour Security",
     description:
-      "Trained personnel and CCTV monitoring provide reassurance around the clock.",
+      "Enjoy greater peace of mind with continuous CCTV monitoring across key areas of the hotel, helping ensure a safe and secure environment.",
     image: "/images/facilities/security.png",
     icon: Security,
   },
   {
     title: "Mini Bar",
     description:
-      "Enjoy a carefully selected range of refreshments in the comfort of your room.",
+      "Enjoy freshly prepared BBQ favorites and refreshing drinks in a relaxed setting, perfect for unwinding and spending memorable evenings together.",
     image: "/images/facilities/minibar.png",
     icon: BarCup,
   },
   {
     title: "Valet Laundry",
     description:
-      "Professional laundry, dry-cleaning, and pressing services keep you looking your best.",
+      "Keep your clothes fresh, clean, and ready throughout your stay with our convenient and reliable professional laundry service.",
     image: "/images/facilities/valet-laundry.png",
     icon: Laundry,
   },
   {
     title: "Business Center",
     description:
-      "Enjoy a fresh, clean, and comfortable room throughout your stay with our attentive and reliable daily housekeeping service.",
+      "Stay productive while traveling with convenient business facilities designed for work and professional needs.",
     image: "/images/facilities/business-center.png",
     icon: Building,
   },
   {
     title: "Housekeeping",
     description:
-      "Stay productive while traveling with convenient business facilities designed for work and professional needs.",
+      "Enjoy a fresh, clean, and comfortable room throughout your stay with our attentive and reliable daily housekeeping service.",
     image: "/images/facilities/house-keeping.png",
     icon: Housekeeping,
   },
   {
     title: "Butler Service",
     description:
-      "Warm, professional service anticipates your needs throughout every stay.",
+      "Enjoy personalized butler service, providing attentive assistance, seamless comfort, and exceptional care throughout your stay.",
     image: "/images/facilities/butler-service.png",
     icon: ButlerService,
   },
@@ -195,7 +195,7 @@ const firstFacilityIndexInFinalRow = facilities.length - 3;
                 sizes="xs:100vw sm:50vw lg:25vw"
                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-[1.035]" />
 
-              <div class="absolute inset-x-0 bottom-0 z-10 px-6 pb-12">
+              <div class="absolute inset-x-0 bottom-0 z-10 px-6 pb-6">
                 <div class="py-1.5 px-2.5 bg-[#23272E] inline-block" v-if="facility.icon">
                   <component :is="facility.icon" class="size-8" aria-hidden="true" />
                   <p class="mt-3 text-center text-sm text-white" aria-hidden="true">
@@ -206,7 +206,7 @@ const firstFacilityIndexInFinalRow = facilities.length - 3;
                 <h3 class="mt-4 font-display text-xl lg:text-[28px] text-[#EED4A3] font-semibold">
                   {{ facility.title }}
                 </h3>
-                <p class="mt-4 text-sm text-white/80">
+                <p class="mt-4 text-sm text-white/90">
                   {{ facility.description }}
                 </p>
               </div>
