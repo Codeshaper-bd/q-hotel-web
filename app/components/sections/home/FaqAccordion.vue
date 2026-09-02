@@ -20,7 +20,7 @@
           :aria-controls="`${idPrefix}-answer-${index}`"
           :class="[
             'flex w-full items-start gap-4 text-left',
-            compact ? 'py-5' : 'py-5',
+            compact ? 'py-4' : 'py-5',
           ]"
           @click="toggle(index)"
         >

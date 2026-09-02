@@ -1,3 +1,125 @@
+<script setup lang="ts">
+import type { Component } from "vue";
+import RoundTableIcon from "~/components/icons/RoundTableIcon.vue";
+import IconTheater from "~/components/base/IconTheater.vue";
+import IconClassroom from "~/components/base/IconClassroom.vue";
+import IconUShape from "~/components/base/IconUShape.vue";
+import IconReception from "~/components/base/IconReception.vue";
+import IconBanquet from "~/components/base/IconBanquet.vue";
+
+interface CapacityItem {
+  label: string;
+  guests: string;
+  icon: Component;
+}
+
+interface VenueShowcase {
+  id: string;
+  name: string;
+  description: string;
+  capacities: CapacityItem[];
+  images: {
+    feature: { src: string; alt: string };
+    lounge: { src: string; alt: string };
+    architectural: { src: string; alt: string };
+  };
+}
+
+const idealForItems = [
+  "Corporate Meetings",
+  "Business Conferences",
+  "Executive Seminars",
+  "Professional Workshops",
+  "Receptions",
+];
+
+const phoneNumber = "+88-01713377700";
+
+const venues: VenueShowcase[] = [
+  {
+    id: "banquet-hall",
+    name: "Banquet hall ",
+    description:
+      "Located on the ground floor, this expansive and versatile venue is designed to host large gatherings with ease, accommodating up to 90 guests. Ideal for conferences, seminars, corporate events, and social celebrations alike, the space offers the flexibility to be configured according to your specific event requirements, including the setup of a stage and speaker podium for presentations, keynote addresses, or ceremonial functions. Guests can stay seamlessly connected throughout their event with complimentary high-speed Wi-Fi, ensuring smooth communication and connectivity ",
+    capacities: [
+      { label: "Roundtable", guests: "90 Guests", icon: RoundTableIcon },
+    ],
+    images: {
+      feature: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Business Class Lounge at Q Hotel Dhaka",
+      },
+      lounge: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Lounge seating area at Q Hotel Dhaka",
+      },
+      architectural: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Elegant lobby interior at Q Hotel Dhaka",
+      },
+    },
+  },
+  {
+    id: "Banquet Hall 02",
+    name: "Conference hall 1",
+    description:
+      "Located on the second floor, this elegantly appointed boardroom offers a private and professional setting for small, focused meetings. Comfortably accommodating up to 12 guests, the space is ideal for board meetings, executive discussions, interviews, and strategic planning sessions where privacy and productivity are essential. The refined ambiance and thoughtful layout make it well-suited for high-level business engagements requiring an intimate, distraction-free environment  ",
+    capacities: [
+      { label: "Boardroom", guests: "12 Guests", icon: RoundTableIcon },
+    ],
+    images: {
+      feature: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Business Class Lounge at Q Hotel Dhaka",
+      },
+      lounge: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Lounge seating area at Q Hotel Dhaka",
+      },
+      architectural: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Elegant lobby interior at Q Hotel Dhaka",
+      },
+    },
+  },
+  {
+    id: "banquet-hall-03",
+    name: "Conference/Banquet hall 2",
+    description:
+      "Located on the fourth floor, this versatile conference and banqueting facility is designed to adapt seamlessly to a wide range of event requirements. The space can be arranged as an elegant round-table banquet setup, ideal for weddings, gala dinners, and social celebrations, or divided using movable partitions into three individual meeting facilities, perfect for hosting simultaneous conferences, workshops, or corporate discussions. This flexibility allows the venue to cater to the specific nature and scale of any event, whether it calls for one grand gathering or multiple private business sessions",
+    capacities: [
+      { label: "Roundtable", guests: "72 Guests", icon: RoundTableIcon },
+    ],
+    images: {
+      feature: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Business Class Lounge at Q Hotel Dhaka",
+      },
+      lounge: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Lounge seating area at Q Hotel Dhaka",
+      },
+      architectural: {
+        src: "/images/meetings/banquet-hall-1.png",
+        alt: "Elegant lobby interior at Q Hotel Dhaka",
+      },
+    },
+  },
+];
+
+const {
+  isReservationOpen,
+  isSubmittedOpen,
+  submittedDetails,
+  selectedVenue,
+  openReservation,
+  handleReservationSubmit,
+} = useEventReservation({
+  name: venues[0]!.name,
+  image: venues[0]!.images.feature.src,
+});
+</script>
+
 <!--
   Event venue showcase: one shared heading, then every venue (Business Class
   Lounge, Utshab Banquet Hall, Royal Lounge) repeats the same asymmetric
@@ -72,7 +194,7 @@
               >
                 {{ venue.name }}
               </h3>
-              <p class="text-base text-[#505155]">
+              <p class="text-sm text-[#505155]">
                 {{ venue.description }}
               </p>
             </div>
@@ -150,7 +272,12 @@
               <BaseArrowCta
                 variant="gold"
                 class="self-start"
-                @click="openReservation({ name: venue.name, image: venue.images.feature.src })"
+                @click="
+                  openReservation({
+                    name: venue.name,
+                    image: venue.images.feature.src,
+                  })
+                "
               >
                 Book Space
               </BaseArrowCta>
@@ -180,7 +307,7 @@
         </div>
       </BaseContainer>
 
-      <CapacityOverviewSection />
+      <CapacityOverviewSection :capacities="venue.capacities" />
     </template>
 
     <EventReservationModal
@@ -197,101 +324,3 @@
     />
   </section>
 </template>
-
-<script setup lang="ts">
-interface VenueShowcase {
-  id: string;
-  name: string;
-  description: string;
-  images: {
-    feature: { src: string; alt: string };
-    lounge: { src: string; alt: string };
-    architectural: { src: string; alt: string };
-  };
-}
-
-const idealForItems = [
-  "Corporate Meetings",
-  "Business Conferences",
-  "Executive Seminars",
-  "Professional Workshops",
-  "Receptions",
-];
-
-const phoneNumber = "+88-01713377700";
-
-const venues: VenueShowcase[] = [
-  {
-    id: "banquet-hall-01",
-    name: "Banquet Hall 01",
-    description:
-      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
-    images: {
-      feature: {
-        src: "/images/meetings/venue-1.png",
-        alt: "Business Class Lounge at Q Hotel Dhaka",
-      },
-      lounge: {
-        src: "/images/meetings/venue-2.png",
-        alt: "Lounge seating area at Q Hotel Dhaka",
-      },
-      architectural: {
-        src: "/images/meetings/venue-3.png",
-        alt: "Elegant lobby interior at Q Hotel Dhaka",
-      },
-    },
-  },
-  {
-    id: "Banquet Hall 02",
-    name: "Banquet Hall 02",
-    description:
-      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
-    images: {
-      feature: {
-        src: "/images/meetings/utshab-banquet-hall.png",
-        alt: "Utshab Banquet Hall at Q Hotel Dhaka",
-      },
-      lounge: {
-        src: "/images/meetings/venue-2.png",
-        alt: "Lounge seating area at Q Hotel Dhaka",
-      },
-      architectural: {
-        src: "/images/meetings/venue-3.png",
-        alt: "Elegant lobby interior at Q Hotel Dhaka",
-      },
-    },
-  },
-  {
-    id: "banquet-hall-03",
-    name: "Banquet Hall 03",
-    description:
-      "Adjacent to the Business Class lounge, this private space on the eighth floor accommodates up to 13 guests and is exclusively available to Radisson Club members. High-speed Wi-Fi and other secretarial facilities are available for an additional fee.",
-    images: {
-      feature: {
-        src: "/images/meetings/royel-lounge.png",
-        alt: "Royal Lounge at Q Hotel Dhaka",
-      },
-      lounge: {
-        src: "/images/meetings/venue-2.png",
-        alt: "Lounge seating area at Q Hotel Dhaka",
-      },
-      architectural: {
-        src: "/images/meetings/venue-3.png",
-        alt: "Elegant lobby interior at Q Hotel Dhaka",
-      },
-    },
-  },
-];
-
-const {
-  isReservationOpen,
-  isSubmittedOpen,
-  submittedDetails,
-  selectedVenue,
-  openReservation,
-  handleReservationSubmit,
-} = useEventReservation({
-  name: venues[0]!.name,
-  image: venues[0]!.images.feature.src,
-});
-</script>

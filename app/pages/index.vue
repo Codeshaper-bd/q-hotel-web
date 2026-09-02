@@ -8,7 +8,7 @@
     <DiningSection />
     <LocationSection />
     <FaqSection />
-    <div class="h-[120px]"></div>
+    <div class="h-[160px]"></div>
   </div>
 </template>
 
