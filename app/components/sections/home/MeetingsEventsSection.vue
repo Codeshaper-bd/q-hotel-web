@@ -14,17 +14,20 @@
     container-size="xl"
   >
     <div ref="blockRef" class="venue-block">
-      <div ref="headingRef" class="venue-heading">
+      <FadeReveal>
+        <div class="flex justify-center">
+          <BaseKicker>Host With Us</BaseKicker>
+        </div>
+      </FadeReveal>
+
+      <div ref="headingRef" class="venue-heading mt-6">
         <FadeReveal>
-          <div class="flex flex-col items-center text-center">
-            <BaseKicker>Host With Us</BaseKicker>
-            <h2
-              id="meetings-events-title"
-              class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold"
-            >
-              Meetings &amp; Events
-            </h2>
-          </div>
+          <h2
+            id="meetings-events-title"
+            class="text-center font-display text-4xl font-semibold text-ink sm:text-5xl lg:text-[56px]"
+          >
+            Meetings &amp; Events
+          </h2>
         </FadeReveal>
       </div>
 
@@ -148,7 +151,7 @@
               </div>
             </div>
 
-            <div class="mt-8 flex flex-wrap gap-4 lg:mt-auto lg:pt-8">
+            <div class="mt-8 flex flex-wrap gap-4 lg:pt-8">
               <BaseArrowCta
                 variant="gold"
                 @click="openReservation({ name: venue.name, image: venue.image.src })"
@@ -220,7 +223,7 @@ const venues: MeetingVenue[] = [
       src: "/images/meetings/conference-and-banquet.jpg",
       alt: "Conference hall arranged with round dining tables beneath a coffered ceiling",
     },
-    capacities: [{ layout: "Round Table", guests: 12 }],
+    capacities: [{ layout: "Boardroom", guests: 12 }],
     areaLabel: "56 sqm.",
     dimensionsLabel: "",
   },
@@ -303,12 +306,10 @@ function measureHeadingHold() {
   // The first card must never rest beneath the heading band, or its top
   // border hides behind the paper band while the deck holds on scroll-up.
   // The band's height is content-driven (title wrapping varies by width), so
-  // the deck's resting offset is measured: the band's pinned bottom edge plus
-  // a beat of breathing room, never less than the designed 10rem runway.
-  // Anchored to the heading's own top (= header height), never to a card's
-  // current top — that value already includes the deck offset itself.
-  const designedRunway = headingTop + 10 * 16;
-  const deckTop = Math.max(designedRunway, headingBottom + 8);
+  // the deck's resting offset is measured from the sticky title band's bottom.
+  // The kicker now scrolls away in normal flow, keeping the title visible while
+  // allowing the cards to settle higher with viewport space beneath them.
+  const deckTop = headingBottom + 8;
   stackElement.style.setProperty("--venue-deck-top", `${deckTop}px`);
 }
 
@@ -412,20 +413,18 @@ onMounted(async () => {
    so it still reads correctly without JS and for reduced motion (the GSAP
    depth pass is the only enhancement). */
 @media (min-width: 1024px) {
-  /* Holds flush against the fixed header, with the breathing room carried as
-     padding rather than a top offset: the background has to be one unbroken
-     band, or cards passing behind the heading show through the gap. Paints
-     above the deck so they pass behind it cleanly. */
+  /* Only the title holds beneath the fixed header; the kicker remains in normal
+     flow and scrolls away. The paper band paints above the deck so cards pass
+     behind the visible title cleanly. */
   .venue-heading {
     position: sticky;
     top: var(--header-height);
     z-index: 20;
     background: rgb(var(--color-paper));
 
-    /* The band's breathing room is padding, not a top offset, so the paper
-       stays unbroken; the negative margin takes that padding back out of the
-       layout, keeping this section's spacing rhythm identical to the others */
-    margin-top: -2rem;
+    /* The negative margin offsets part of the band padding while preserving the
+       original kicker-to-title rhythm before the title becomes sticky. */
+    margin-top: -0.5rem;
     padding-top: 2rem;
     padding-bottom: 1.5rem;
 
@@ -437,8 +436,8 @@ onMounted(async () => {
   .venue-stack {
     /* Deck rests below the held heading, not under the header. Measured at
        runtime (like the heading hold) so the first card clears the heading
-       band; this 10rem value is the no-JS fallback */
-    --venue-deck-top: calc(var(--header-height) + 10rem);
+       band; this 8rem value is the no-JS fallback */
+    --venue-deck-top: calc(var(--header-height) + 8rem);
 
     /* Cancels the heading's hold margin, leaving the shared title-to-content
        gap (4rem, of which the heading's padding-bottom already spends 1.5rem) */
