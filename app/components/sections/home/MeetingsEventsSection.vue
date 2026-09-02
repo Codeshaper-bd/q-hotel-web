@@ -19,7 +19,7 @@
           <BaseKicker>Host With Us</BaseKicker>
         </div>
       </FadeReveal>
-
+      <div class="h-2"></div>
       <div ref="headingRef" class="venue-heading mt-6">
         <FadeReveal>
           <h2
@@ -154,7 +154,9 @@
             <div class="mt-8 flex flex-wrap gap-4 lg:pt-8">
               <BaseArrowCta
                 variant="gold"
-                @click="openReservation({ name: venue.name, image: venue.image.src })"
+                @click="
+                  openReservation({ name: venue.name, image: venue.image.src })
+                "
               >
                 Book Space
               </BaseArrowCta>

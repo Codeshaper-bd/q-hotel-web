@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import type { Component } from "vue";
 import RoundTableIcon from "~/components/icons/RoundTableIcon.vue";
-import IconTheater from "~/components/base/IconTheater.vue";
-import IconClassroom from "~/components/base/IconClassroom.vue";
-import IconUShape from "~/components/base/IconUShape.vue";
-import IconReception from "~/components/base/IconReception.vue";
-import IconBanquet from "~/components/base/IconBanquet.vue";
 
 interface CapacityItem {
   label: string;
@@ -17,6 +12,7 @@ interface VenueShowcase {
   id: string;
   name: string;
   description: string;
+  area: string;
   capacities: CapacityItem[];
   images: {
     feature: { src: string; alt: string };
@@ -41,6 +37,7 @@ const venues: VenueShowcase[] = [
     name: "Banquet hall ",
     description:
       "Located on the ground floor, this expansive and versatile venue is designed to host large gatherings with ease, accommodating up to 90 guests. Ideal for conferences, seminars, corporate events, and social celebrations alike, the space offers the flexibility to be configured according to your specific event requirements, including the setup of a stage and speaker podium for presentations, keynote addresses, or ceremonial functions. Guests can stay seamlessly connected throughout their event with complimentary high-speed Wi-Fi, ensuring smooth communication and connectivity ",
+    area: "268 sqm.",
     capacities: [
       { label: "Roundtable", guests: "90 Guests", icon: RoundTableIcon },
     ],
@@ -64,6 +61,7 @@ const venues: VenueShowcase[] = [
     name: "Conference hall 1",
     description:
       "Located on the second floor, this elegantly appointed boardroom offers a private and professional setting for small, focused meetings. Comfortably accommodating up to 12 guests, the space is ideal for board meetings, executive discussions, interviews, and strategic planning sessions where privacy and productivity are essential. The refined ambiance and thoughtful layout make it well-suited for high-level business engagements requiring an intimate, distraction-free environment  ",
+    area: "56 sq. ft.",
     capacities: [
       { label: "Boardroom", guests: "12 Guests", icon: RoundTableIcon },
     ],
@@ -87,6 +85,7 @@ const venues: VenueShowcase[] = [
     name: "Conference/Banquet hall 2",
     description:
       "Located on the fourth floor, this versatile conference and banqueting facility is designed to adapt seamlessly to a wide range of event requirements. The space can be arranged as an elegant round-table banquet setup, ideal for weddings, gala dinners, and social celebrations, or divided using movable partitions into three individual meeting facilities, perfect for hosting simultaneous conferences, workshops, or corporate discussions. This flexibility allows the venue to cater to the specific nature and scale of any event, whether it calls for one grand gathering or multiple private business sessions",
+    area: "166 sqm.",
     capacities: [
       { label: "Roundtable", guests: "72 Guests", icon: RoundTableIcon },
     ],
@@ -307,7 +306,7 @@ const {
         </div>
       </BaseContainer>
 
-      <CapacityOverviewSection :capacities="venue.capacities" />
+      <CapacityOverviewSection :capacities="venue.capacities" :area="venue.area" />
     </template>
 
     <EventReservationModal

@@ -9,6 +9,7 @@ interface CapacityItem {
 
 defineProps<{
   capacities: CapacityItem[];
+  area: string;
 }>();
 
 const equipmentItems = [
@@ -162,7 +163,7 @@ function onTabKeydown(event: KeyboardEvent) {
           class="mt-3 flex items-center gap-2.5 text-base font-normal text-[#373737]"
         >
           <IconCheckbox class="h-4 w-4 shrink-0" aria-hidden="true" />
-          Area: 5,721 sq. ft.
+          Area: {{ area }}
         </p>
 
         <span
