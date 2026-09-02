@@ -18,35 +18,35 @@
     aria-labelledby="faq-title"
     class="overflow-hidden bg-paper text-ink"
   >
-    <div
-      :class="[
-        'faq-stage flex flex-col py-24 sm:py-32 lg:py-0',
-        isHomeFaq ? '' : 'faq-stage--pinned',
-      ]"
-    >
+    <div :class="['faq-stage flex flex-col', isHomeFaq ? 'py-24 sm:py-32 lg:py-0' : 'py-24 sm:py-32 lg:py-24']">
       <!-- Section heading spans both columns, matching the approved composition. -->
-      <div data-faq-reveal class="flex shrink-0 flex-col items-center px-5 text-center sm:px-6 lg:pt-[140px]">
+      <div data-faq-reveal :class="['flex shrink-0 flex-col items-center px-5 text-center sm:px-6', isHomeFaq ? 'lg:pt-[140px]' : 'lg:pt-0']">
         <BaseKicker>Good To Know</BaseKicker>
         <h2 id="faq-title" class="mt-6 font-display text-4xl font-semibold leading-[1.05] text-ink sm:text-5xl lg:text-[44px]">
           Frequently<br>Asked Questions
         </h2>
       </div>
 
-      <div :class="isHomeFaq ? 'mt-20' : 'mt-12 lg:mt-6 lg:min-h-0 lg:flex-1'">
+      <div :class="isHomeFaq ? 'mt-20' : 'mt-14'">
         <div
           ref="animationStageRef"
-          :class="[
-            'grid items-end gap-12 lg:grid-cols-2 lg:gap-10',
-            isHomeFaq ? 'faq-animation-stage--home' : 'lg:h-full',
-          ]"
+          :class="['grid gap-12 lg:grid-cols-2 lg:gap-10', isHomeFaq ? 'items-end' : 'items-start']"
         >
-          <!-- Construction visual, grounded to the stage floor on lg -->
-          <div class="flex items-end justify-center px-5 sm:px-6 lg:h-full lg:min-h-0 lg:px-8 lg:pb-6">
-            <FaqBuildingVisual :progress="visualProgress" class="max-w-md lg:max-h-full lg:max-w-none" />
+          <!-- Construction visual: sticky on home so building stays visible as FAQ scrolls -->
+          <div
+            :class="[
+              'flex items-end justify-center px-5 sm:px-6 lg:sticky lg:top-[var(--header-height)] lg:self-start lg:px-8 lg:pb-6',
+              isHomeFaq ? 'lg:h-[calc(100svh-var(--header-height))]' : '',
+            ]"
+          >
+            <FaqBuildingVisual
+              :progress="visualProgress"
+              :class="['max-w-md lg:max-w-none', isHomeFaq ? 'lg:max-h-full' : 'lg:max-h-[70vh]']"
+            />
           </div>
 
           <!-- Accordion aligned to the xl container's right edge. -->
-          <div class="px-5 sm:px-6 lg:min-h-0 lg:self-start lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
+          <div class="px-5 sm:px-6 lg:self-start lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
             <FaqAccordion
               :items="faqs"
               :initial-open-index="initialOpenIndex"
@@ -132,26 +132,23 @@ onMounted(async () => {
   // The pinned experience needs width for two columns and height for the
   // stage; anything smaller keeps the static completed layout.
   mediaMatcher.add('(min-width: 1024px) and (min-height: 560px)', () => {
-    const pinsContentOnly = isHomeFaq.value
-    const triggerElement = pinsContentOnly ? animationStageElement : sectionElement
-    const contentElements = gsap.utils.toArray<HTMLElement>('[data-faq-reveal]', triggerElement)
-    const contentIndexOffset = pinsContentOnly ? 1 : 0
+    // Building is CSS-sticky on all pages — no GSAP pin needed.
+    // ScrollTrigger only drives visualProgress and content reveal.
+    const contentElements = gsap.utils.toArray<HTMLElement>('[data-faq-reveal]', sectionElement)
 
     const trigger = ScrollTrigger.create({
-      trigger: triggerElement,
-      start: () => `top top+=${readHeaderHeight()}`,
-      end: '+=220%',
-      pin: true,
+      trigger: sectionElement,
+      start: 'top bottom',
+      end: 'center top+=20%',
       scrub: 1,
-      anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         visualProgress.value = self.progress
-        applyContentProgress(self.progress, contentElements, contentIndexOffset)
+        applyContentProgress(self.progress, contentElements, 0)
       },
       onRefresh: (self) => {
         visualProgress.value = self.progress
-        applyContentProgress(self.progress, contentElements, contentIndexOffset)
+        applyContentProgress(self.progress, contentElements, 0)
       },
     })
 
@@ -192,13 +189,6 @@ useHead({
 </script>
 
 <style scoped>
-/* The pinned frame is exactly the viewport below the fixed header. On home it
-   begins after the heading and its 80px gap; shorter page collections pin the
-   complete section as before. */
-@media (min-width: 1024px) and (min-height: 560px) {
-  .faq-stage--pinned,
-  .faq-animation-stage--home {
-    height: calc(100svh - var(--header-height));
-  }
-}
+/* Building column is CSS-sticky on lg+; max-height keeps the image
+   from overflowing a short viewport while preserving aspect ratio. */
 </style>

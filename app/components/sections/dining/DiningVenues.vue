@@ -8,7 +8,7 @@
     spacing="sm"
     container-size="xl"
     aria-labelledby="dining-section-title"
-    class="!py-[140px]"
+    class=""
   >
     <FadeReveal>
       <div class="mb-14 flex flex-col items-center text-center">

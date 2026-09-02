@@ -12,6 +12,7 @@ import Iptv from "~/components/icons/Iptv.vue";
 import SecurityCamera from "~/components/icons/SecurityCamera.vue";
 import BarCup from "~/components/icons/BarCup.vue";
 import Laundry from "~/components/icons/Laundry.vue";
+import RoomServiceIcon from "~/components/icons/RoomServiceIcon.vue";
 
 const sectionRef = ref<HTMLElement | null>(null);
 const skylineRef = ref<HTMLImageElement | null>(null);
@@ -189,16 +190,16 @@ const amenities: FacilityAmenity[] = [
   {
     id: "all-day-dining",
     label: "All day dining, Buffet & Ala Carte",
-    image: "/images/facilities/dining.png",
+    image: "/images/facilities/all-day-dining.png",
     gridClass: "lg:col-start-4 lg:row-start-2",
     icon: Dining,
   },
   {
     id: "room-service",
     label: "24hrs Room Service",
-    image: "/images/facilities/hotel-service.jpg",
+    image: "/images/facilities/24hrs-room-service.png",
     gridClass: "lg:col-start-5 lg:row-start-2",
-    icon: ButlerService,
+    icon: RoomServiceIcon,
   },
   {
     id: "free-wifi",

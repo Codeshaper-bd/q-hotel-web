@@ -11,7 +11,7 @@
       :aria-controls="listId"
       :aria-label="'Select currency, current: ' + selected.label + ' (' + selected.code + ')'"
       :class="[
-        'inline-flex items-center gap-1.5 border bg-[#E9C588] px-3.5 py-1.5 text-sm font-medium uppercase leading-6 transition-colors duration-fast xl:px-4',
+        'inline-flex items-center gap-1.5  bg-[#E9C588] px-3.5 py-1.5 text-sm font-medium uppercase leading-6 transition-colors duration-fast xl:px-4',
       ]"
       @click="toggle"
       @keydown.escape="close"
