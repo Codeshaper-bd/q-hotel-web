@@ -46,10 +46,11 @@
                the copy sits) and fades diagonally to fully transparent, so
                the photograph stays fully visible while the text reads
                clearly -->
-          <div
+          <!-- <div
             class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-night/95 via-night/70 to-transparent"
             aria-hidden="true"
-          />
+          /> -->
+          <div class="absolute inset-0 bg-gradient-to-b from-[#060C14]/0 via-[#060C14]/50 to-[#060C14]"></div>
         </div>
 
         <div class="absolute inset-0 flex items-end">
@@ -69,7 +70,7 @@
                 {{ venue?.tagLine }}
               </div>
               <p
-                class="mt-3 text-sm leading-7 text-paper/80 sm:text-base lg:text-lg lg:font-medium"
+                class="mt-3 text-sm leading-7 text-paper/90 sm:text-base lg:text-lg lg:font-medium"
               >
                 {{ venue.description }}
               </p>
