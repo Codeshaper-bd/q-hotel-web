@@ -298,7 +298,7 @@ const amenities: FacilityAmenity[] = [
             :key="amenity.id"
             data-reveal-item
             :class="[
-              'relative isolate flex h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center',
+              'relative isolate flex h-[200px] lg:h-[180px] 2xl:h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center',
               amenity.gridClass,
             ]"
             @mouseenter="handleTileEnter"
@@ -328,9 +328,13 @@ const amenities: FacilityAmenity[] = [
               class="amenity-noise pointer-events-none absolute -inset-px -z-10"
             />
 
-            <component :is="amenity.icon" class="h-8 w-8" aria-hidden="true" />
+            <component
+              :is="amenity.icon"
+              class="size-8 lg:size-5 xl:size-6 2xl:size-8"
+              aria-hidden="true"
+            />
             <span
-              class="font-display text-lg text-paper sm:text-xl lg:text-[28px] font-semibold"
+              class="font-display text-lg text-paper sm:text-xl  xl:text-2xl 2xl:text-[28px] font-semibold"
               >{{ amenity.label }}</span
             >
           </div>
@@ -341,14 +345,14 @@ const amenities: FacilityAmenity[] = [
           <NuxtLink
             to="facilities-amenities"
             data-reveal-item
-            class="group relative isolate flex h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center transition-colors duration-normal ease-premium hover:bg-paper/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-champagne lg:col-start-5 lg:row-start-3"
+            class="group relative isolate flex h-[200px] lg:h-[180px] 2xl:h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center transition-colors duration-normal ease-premium hover:bg-paper/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-champagne lg:col-start-5 lg:row-start-3"
           >
             <span
               aria-hidden="true"
               class="amenity-noise pointer-events-none absolute -inset-px -z-10"
             />
             <span
-              class="font-display text-lg text-[#E9C588] sm:text-xl lg:text-2xl font-semibold"
+              class="font-display text-lg text-champagne sm:text-xl xl:text-2xl font-semibold transition-colors duration-normal ease-premium group-hover:text-paper group-focus-visible:text-paper"
               >View All Facilities &amp; Amenities</span
             >
             <svg
@@ -357,16 +361,18 @@ const amenities: FacilityAmenity[] = [
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              class="shrink-0 text-champagne transition-all duration-normal ease-premium group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-paper group-focus-visible:-translate-y-1 group-focus-visible:translate-x-1 group-focus-visible:text-paper motion-reduce:transform-none motion-reduce:transition-none"
             >
               <path
                 d="M12.9995 5.00195H18.9995V11.002"
-                stroke="#E9C588"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M19.0006 5.00195L5.00055 19.002"
-                stroke="#E9C588"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
