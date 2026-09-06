@@ -180,60 +180,60 @@ const amenities: FacilityAmenity[] = [
     gridClass: "lg:col-start-2 lg:row-start-2",
     icon: Breakfast,
   },
-  {
-    id: "cafe-deli",
-    label: "Cafe Deli- Coffee Shop",
-    image: "/images/dining/cafe-deli.jpg",
-    gridClass: "lg:col-start-3 lg:row-start-2",
-    icon: TeaCoffeMaker,
-  },
-  {
-    id: "all-day-dining",
-    label: "All day dining, Buffet & Ala Carte",
-    image: "/images/facilities/all-day-dining.png",
-    gridClass: "lg:col-start-4 lg:row-start-2",
-    icon: Dining,
-  },
+  // {
+  //   id: "cafe-deli",
+  //   label: "Cafe Deli- Coffee Shop",
+  //   image: "/images/dining/cafe-deli.jpg",
+  //   gridClass: "lg:col-start-3 lg:row-start-2",
+  //   icon: TeaCoffeMaker,
+  // },
+  // {
+  //   id: "all-day-dining",
+  //   label: "All day dining, Buffet & Ala Carte",
+  //   image: "/images/facilities/all-day-dining.png",
+  //   gridClass: "lg:col-start-4 lg:row-start-2",
+  //   icon: Dining,
+  // },
   {
     id: "room-service",
     label: "24hrs Room Service",
     image: "/images/facilities/24hrs-room-service.png",
-    gridClass: "lg:col-start-5 lg:row-start-2",
+    gridClass: "lg:col-start-3 lg:row-start-2",
     icon: RoomServiceIcon,
   },
   {
     id: "free-wifi",
     label: "WiFi",
     image: "/images/facilities/wifi.png",
-    gridClass: "lg:col-start-6 lg:row-start-2",
+    gridClass: "lg:col-start-4 lg:row-start-2",
     icon: Wifi,
   },
   {
     id: "ip-tv",
     label: "IP TV",
     image: "/images/facilities/iptv.png",
-    gridClass: "lg:col-start-3 lg:row-start-3",
+    gridClass: "lg:col-start-5 lg:row-start-2",
     icon: Iptv,
   },
   {
     id: "cctv-security",
     label: "24 Hours Security",
     image: "/images/facilities/security.png",
-    gridClass: "lg:col-start-4 lg:row-start-3",
+    gridClass: "lg:col-start-6 lg:row-start-2",
     icon: SecurityCamera,
   },
   {
     id: "bbq-bar",
     label: "Mini Bar",
     image: "/images/facilities/minibar.png",
-    gridClass: "lg:col-start-5 lg:row-start-3",
+    gridClass: "lg:col-start-3 lg:row-start-3",
     icon: BarCup,
   },
   {
     id: "laundry-service",
     label: "Valet Laundry",
     image: "/images/facilities/valet-laundry.png",
-    gridClass: "lg:col-start-5 lg:row-start-4",
+    gridClass: "lg:col-start-4 lg:row-start-3",
     icon: Laundry,
   },
 ];
@@ -298,7 +298,7 @@ const amenities: FacilityAmenity[] = [
             :key="amenity.id"
             data-reveal-item
             :class="[
-              'relative isolate flex aspect-square flex-col items-center justify-center gap-4 overflow-hidden bg-paper/10 px-4 text-center',
+              'relative isolate flex h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center',
               amenity.gridClass,
             ]"
             @mouseenter="handleTileEnter"
@@ -335,19 +335,43 @@ const amenities: FacilityAmenity[] = [
             >
           </div>
 
-          <!-- Supporting copy + CTA share the final grid row on large screens -->
-          <div
+          <!-- Closing tile: links out to the full facilities & amenities page
+               instead of a decorative amenity, so the last grid cell doubles
+               as the section's call to action. -->
+          <NuxtLink
+            to="facilities-amenities"
             data-reveal-item
-            class="col-span-2 mt-4 flex flex-col items-start justify-center gap-6 sm:col-span-3 lg:col-span-2 lg:col-start-3 lg:row-start-4 lg:mt-0 lg:items-end lg:pr-[160px]"
+            class="group relative isolate flex h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center transition-colors duration-normal ease-premium hover:bg-paper/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-champagne lg:col-start-5 lg:row-start-3"
           >
-            <BaseArrowCta
-              to="facilities-amenities"
-              variant="gold"
-              label-class="!text-sm !font-medium"
+            <span
+              aria-hidden="true"
+              class="amenity-noise pointer-events-none absolute -inset-px -z-10"
+            />
+            <span
+              class="font-display text-lg text-[#E9C588] sm:text-xl lg:text-2xl font-semibold"
+              >View All Facilities &amp; Amenities</span
             >
-              View All Facilities
-            </BaseArrowCta>
-          </div>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.9995 5.00195H18.9995V11.002"
+                stroke="#E9C588"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M19.0006 5.00195L5.00055 19.002"
+                stroke="#E9C588"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </NuxtLink>
         </div>
       </FadeReveal>
     </BaseContainer>

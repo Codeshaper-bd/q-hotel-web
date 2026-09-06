@@ -66,20 +66,20 @@ const facilities: Facility[] = [
     image: "/images/facilities/breakfast.png",
     icon: Breakfast,
   },
-  {
-    title: "Cafe Deli- Coffee Shop",
-    description:
-      "Enjoy freshly brewed coffee, fine teas, and delightful pastries in a cozy café setting perfect for relaxing moments.",
-    image: "/images/facilities/coffe-shop.png",
-    icon: TeaCoffeMaker,
-  },
-  {
-    title: "All day dining, Buffet & Ala Carte",
-    description:
-      "Enjoy an all-day dining experience featuring international favorites, buffet selections, and expertly crafted à la carte dishes.",
-    image: "/images/facilities/all-day-dining.png",
-    icon: Dining,
-  },
+  // {
+  //   title: "Cafe Deli- Coffee Shop",
+  //   description:
+  //     "Enjoy freshly brewed coffee, fine teas, and delightful pastries in a cozy café setting perfect for relaxing moments.",
+  //   image: "/images/facilities/coffe-shop.png",
+  //   icon: TeaCoffeMaker,
+  // },
+  // {
+  //   title: "All day dining, Buffet & Ala Carte",
+  //   description:
+  //     "Enjoy an all-day dining experience featuring international favorites, buffet selections, and expertly crafted à la carte dishes.",
+  //   image: "/images/facilities/all-day-dining.png",
+  //   icon: Dining,
+  // },
   {
     title: "24hrs Room Service",
     description:
@@ -116,6 +116,20 @@ const facilities: Facility[] = [
     icon: BarCup,
   },
   {
+    title: "Butler Service",
+    description:
+      "Enjoy personalized butler service, providing attentive assistance, seamless comfort, and exceptional care throughout your stay.",
+    image: "/images/facilities/butler-service.png",
+    icon: ButlerService,
+  },
+  {
+    title: "Housekeeping",
+    description:
+      "Enjoy a fresh, clean, and comfortable room throughout your stay with our attentive and reliable daily housekeeping service.",
+    image: "/images/facilities/house-keeping.png",
+    icon: Housekeeping,
+  },
+  {
     title: "Valet Laundry",
     description:
       "Keep your clothes fresh, clean, and ready throughout your stay with our convenient and reliable professional laundry service.",
@@ -129,25 +143,12 @@ const facilities: Facility[] = [
     image: "/images/facilities/business-center.png",
     icon: Building,
   },
-  {
-    title: "Housekeeping",
-    description:
-      "Enjoy a fresh, clean, and comfortable room throughout your stay with our attentive and reliable daily housekeeping service.",
-    image: "/images/facilities/house-keeping.png",
-    icon: Housekeeping,
-  },
-  {
-    title: "Butler Service",
-    description:
-      "Enjoy personalized butler service, providing attentive assistance, seamless comfort, and exceptional care throughout your stay.",
-    image: "/images/facilities/butler-service.png",
-    icon: ButlerService,
-  },
-  {
-    title: "",
-    description: "",
-    image: "/images/facilities/building.png",
-  },
+
+  // {
+  //   title: "",
+  //   description: "",
+  //   image: "/images/facilities/building.png",
+  // },
 ];
 
 const hasThreeItemFinalRow = (facilities.length + 1) % 4 === 3;
@@ -155,22 +156,32 @@ const firstFacilityIndexInFinalRow = facilities.length - 3;
 </script>
 
 <template>
-  <section aria-labelledby="facilities-amenities-title" class="pt-20 text-ink sm:pt-24">
+  <section
+    aria-labelledby="facilities-amenities-title"
+    class="pt-20 text-ink sm:pt-24"
+  >
     <BaseContainer size="xl">
       <FadeReveal>
         <div class="text-center">
           <BaseKicker>Facilities</BaseKicker>
-          <h2 id="facilities-amenities-title" class="mt-5 font-display text-4xl font-semibold sm:text-5xl">
+          <h2
+            id="facilities-amenities-title"
+            class="mt-5 font-display text-4xl font-semibold sm:text-5xl"
+          >
             Our Hotel Facilities
           </h2>
         </div>
       </FadeReveal>
 
       <FadeReveal :stagger="0.045" :distance="24">
-        <div class="mt-12 grid gap-1.5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-          <div data-reveal-item
-            class="flex min-h-72 flex-col justify-center px-5 py-10 sm:px-8 lg:aspect-[4/5] lg:px-5 xl:px-8">
-            <h3 class="font-display text-xl lg:text-[28px] text-[#A75B27] font-semibold">
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+          <div
+            data-reveal-item
+            class="flex min-h-72 flex-col justify-center px-5 py-10 sm:px-8 lg:aspect-[4/5] lg:px-5 xl:px-8"
+          >
+            <h3
+              class="font-display text-xl lg:text-[28px] text-[#A75B27] font-semibold"
+            >
               Everything You Need,<br />All in One Place
             </h3>
             <div class="mt-4 h-1 w-20 bg-[#C9752D]"></div>
@@ -190,20 +201,39 @@ const firstFacilityIndexInFinalRow = facilities.length - 3;
                 : undefined
             "
           >
-            <article class="group relative isolate aspect-[4/5] overflow-hidden text-paper">
-              <BaseImage :src="facility.image" :alt="facility.title" :width="640" :height="800"
+            <article
+              class="group relative isolate aspect-[4/5] overflow-hidden text-paper"
+            >
+              <BaseImage
+                :src="facility.image"
+                :alt="facility.title"
+                :width="640"
+                :height="800"
                 sizes="xs:100vw sm:50vw lg:25vw"
-                class="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-[1.035]" />
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-[1.035]"
+              />
 
               <div class="absolute inset-x-0 bottom-0 z-10 px-6 pb-6">
-                <div class="py-1.5 px-2.5 bg-[#23272E] inline-block" v-if="facility.icon">
-                  <component :is="facility.icon" class="size-8" aria-hidden="true" />
-                  <p class="mt-3 text-center text-sm text-white" aria-hidden="true">
+                <div
+                  class="py-1.5 px-2.5 bg-[#23272E] inline-block"
+                  v-if="facility.icon"
+                >
+                  <component
+                    :is="facility.icon"
+                    class="size-8"
+                    aria-hidden="true"
+                  />
+                  <p
+                    class="mt-3 text-center text-sm text-white"
+                    aria-hidden="true"
+                  >
                     {{ String(index + 1).padStart(2, "0") }}
                   </p>
                 </div>
 
-                <h3 class="mt-4 font-display text-xl lg:text-[28px] text-[#EED4A3] font-semibold">
+                <h3
+                  class="mt-4 font-display text-xl lg:text-[28px] text-[#EED4A3] font-semibold"
+                >
                   {{ facility.title }}
                 </h3>
                 <p class="mt-4 text-sm text-white/90">
