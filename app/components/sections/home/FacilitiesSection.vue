@@ -298,7 +298,7 @@ const amenities: FacilityAmenity[] = [
             :key="amenity.id"
             data-reveal-item
             :class="[
-              'relative isolate flex h-[200px] lg:h-[180px] 2xl:h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center',
+              'relative isolate flex h-[200px] lg:h-[160px] 2xl:h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center',
               amenity.gridClass,
             ]"
             @mouseenter="handleTileEnter"
@@ -345,7 +345,7 @@ const amenities: FacilityAmenity[] = [
           <NuxtLink
             to="facilities-amenities"
             data-reveal-item
-            class="group relative isolate flex h-[200px] lg:h-[180px] 2xl:h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center transition-colors duration-normal ease-premium hover:bg-paper/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-champagne lg:col-start-5 lg:row-start-3"
+            class="group relative isolate flex h-[200px] lg:h-[160px] 2xl:h-[230px] flex-col items-center justify-center gap-3 overflow-hidden bg-paper/10 px-3 text-center transition-colors duration-normal ease-premium hover:bg-paper/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-champagne lg:col-start-5 lg:row-start-3"
           >
             <span
               aria-hidden="true"
