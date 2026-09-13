@@ -99,11 +99,10 @@
                 <svg
                   :class="[
                     'h-3 w-3 shrink-0 transition-transform duration-fast',
+                    activeLinkColor,
                     activeMenuId === item.id || isActive(item.href)
-                      ? `rotate-180 ${activeLinkColor}`
-                      : hasSolidBackground
-                        ? 'text-ink/30'
-                        : 'text-white/40',
+                      ? 'rotate-180'
+                      : '',
                   ]"
                   viewBox="0 0 12 12"
                   fill="none"
@@ -326,7 +325,7 @@ watch(showPromoBar, (visible) => {
 
 // Active nav item accent: champagne on the home page's dark hero, copper
 // elsewhere once the paper glass is in play
-const activeLinkColor = computed(() => (isHome.value ? "text-[#A75B27]" : "text-[#A75B27]"));
+const activeLinkColor = computed(() => (isHome.value ? "text-[#E9C588]" : "text-[#A75B27]"));
 
 // Pages with no dark cover media at the top (a plain paper background
 // instead of a hero photo) would render white-on-white nav text under this

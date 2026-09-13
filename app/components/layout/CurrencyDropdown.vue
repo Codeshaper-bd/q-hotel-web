@@ -30,10 +30,8 @@
       <span class="tracking-wide">{{ selected.code }}</span>
       <svg
         :class="[
-          'h-4 w-4 shrink-0 transition-transform duration-fast',
-          isOpen
-            ? 'rotate-180 text-[#A75B27]'
-            : hasSolidBackground ? 'text-[#0F0F10]' : 'text-white',
+          'h-4 w-4 shrink-0 text-[#A75B27] transition-transform duration-fast',
+          isOpen ? 'rotate-180' : '',
         ]"
         viewBox="0 0 12 12"
         fill="none"
