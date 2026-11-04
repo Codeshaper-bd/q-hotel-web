@@ -168,8 +168,10 @@ const linkColumns = [
         </div>
 
         <!-- Follow us, sitemap columns, address -->
-        <div
+        <FadeReveal
           class="grid grid-cols-2 gap-x-8 gap-y-12 py-14 sm:grid-cols-3 lg:grid-cols-[auto_auto_auto_auto_auto] lg:justify-between lg:gap-x-10"
+          :distance="20"
+          start="top 95%"
         >
           <div>
             <h2 class="text-base font-medium uppercase text-white">Follow us</h2>
@@ -259,7 +261,7 @@ const linkColumns = [
               </li>
             </ul>
           </div>
-        </div>
+        </FadeReveal>
 
         <!-- Legal bar -->
         <div

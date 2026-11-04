@@ -28,12 +28,14 @@ const { hotel, attractions } = useNearbyAttractions();
       </FadeReveal>
     </BaseContainer>
 
-    <div class="relative -mt-4 h-[36rem] sm:h-[42rem] lg:h-[48rem]">
+    <!-- The map eases in as a whole (fade only — no travel, so its pins and
+         card positions never visibly drift) -->
+    <FadeReveal direction="none" :duration="1.2" start="top 90%" class="relative -mt-4 h-[36rem] sm:h-[42rem] lg:h-[48rem]">
       <LocationMap
         class="absolute inset-0"
         :hotel="hotel"
         :attractions="attractions"
       />
-    </div>
+    </FadeReveal>
   </section>
 </template>

@@ -8,11 +8,11 @@
     <LocationSection />
 
     <!-- The attractions page holds the full neighbourhood guide -->
-    <div class="mt-12 flex justify-center">
+    <FadeReveal class="mt-12 flex justify-center">
       <BaseArrowCta to="/nearby-locations" variant="gold">
         Nearby Locations
       </BaseArrowCta>
-    </div>
+    </FadeReveal>
 
     <FaqSection />
     <div class="h-[160px]"></div>
