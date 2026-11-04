@@ -42,7 +42,7 @@ import { NuxtLink } from '#components'
 
 const props = withDefaults(defineProps<{
   to?: string
-  variant?: 'outline' | 'gold' | 'ghost'
+  variant?: 'outline' | 'gold' | 'ghost' | 'gold-outline'
   labelClass?: string
   backgroundClass?: string
   borderClass?: string
@@ -59,19 +59,22 @@ type ArrowCtaVariant = NonNullable<typeof props.variant>
 const rootClasses: Record<ArrowCtaVariant, string> = {
   outline: 'text-paper focus-visible:outline-champagne',
   gold: 'gap-1.5 text-night focus-visible:outline-champagne',
-  ghost: 'gap-1.5 text-ink focus-visible:outline-ocean'
+  ghost: 'gap-1.5 text-ink focus-visible:outline-ocean',
+  'gold-outline': 'gap-1 text-ink focus-visible:outline-gold'
 }
 
 const labelClasses: Record<ArrowCtaVariant, string> = {
   outline: 'border border-r-0 border-paper/40 group-hover:border-champagne group-hover:bg-champagne/10 group-focus-visible:border-champagne group-focus-visible:bg-champagne/10',
   gold: 'bg-champagne group-hover:bg-gold group-focus-visible:bg-gold',
-  ghost: 'border border-ink/25 group-hover:border-ink group-focus-visible:border-ink'
+  ghost: 'border border-ink/25 group-hover:border-ink group-focus-visible:border-ink',
+  'gold-outline': 'border border-[#DFA558] bg-white group-hover:bg-champagne/40 group-focus-visible:bg-champagne/40'
 }
 
 const iconClasses: Record<ArrowCtaVariant, string> = {
   outline: 'border border-champagne/60 text-champagne group-hover:border-champagne group-hover:bg-champagne group-hover:text-night group-focus-visible:border-champagne group-focus-visible:bg-champagne group-focus-visible:text-night',
   gold: 'bg-champagne text-night group-hover:bg-gold group-focus-visible:bg-gold',
-  ghost: 'border border-ink/25 text-ink group-hover:border-ink group-focus-visible:border-ink'
+  ghost: 'border border-ink/25 text-ink group-hover:border-ink group-focus-visible:border-ink',
+  'gold-outline': 'border border-[#DFA558] bg-white text-ink group-hover:bg-champagne/40 group-focus-visible:bg-champagne/40'
 }
 </script>
 
