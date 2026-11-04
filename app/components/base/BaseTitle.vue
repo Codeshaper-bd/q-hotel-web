@@ -18,5 +18,5 @@ const props = withDefaults(defineProps<{
 })
 
 const titleBase =
-  "mt-10 font-display text-4xl font-medium leading-tight text-ink sm:mt-12 sm:text-5xl lg:text-[56px]"
+  "font-display text-center text-4xl font-medium leading-tight text-ink  sm:text-5xl lg:text-[56px]"
 </script>

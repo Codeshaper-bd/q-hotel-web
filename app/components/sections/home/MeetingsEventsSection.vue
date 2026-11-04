@@ -14,13 +14,7 @@
     container-size="xl"
   >
     <div ref="blockRef" class="venue-block">
-      <FadeReveal>
-        <div class="flex justify-center">
-          <BaseKicker>Host With Us</BaseKicker>
-        </div>
-      </FadeReveal>
-      <div class="h-2"></div>
-      <div ref="headingRef" class="venue-heading mt-6">
+      <div ref="headingRef" class="venue-heading">
         <FadeReveal>
           <h2
             id="meetings-events-title"

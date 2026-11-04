@@ -2,10 +2,10 @@
   <header
     ref="headerRef"
     :class="[
-      'fixed inset-x-0 top-0 z-40 transition-[opacity,transform] duration-normal ease-premium',
-      isMenuRevealed ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0',
+      'fixed inset-x-0 top-0 z-40 transition-[opacity,transform] duration-normal ease-premium motion-reduce:transition-none',
+      headerVisibilityClass,
     ]"
-    :inert="!isMenuRevealed"
+    :inert="isHeaderHidden"
   >
     <!-- Glass background: same treatment as the booking bar, crossfaded as a
          layer so the backdrop blur eases in rather than snapping on -->
@@ -348,6 +348,44 @@ const hasSolidBackground = computed(
     isMobileOpen.value,
 );
 
+// ─── Scroll header hide ───────────────────────────────────────────
+// Any scroll gesture tucks the header away; stopping brings it back
+// so the navigation is always one gesture away.
+const HEADER_HIDE_THRESHOLD = 80;
+const HEADER_SCROLL_IDLE_DELAY = 180;
+const isHeaderScrollHidden = ref(false);
+let headerRevealTimer: ReturnType<typeof setTimeout> | undefined;
+
+const isHeaderHidden = computed(
+  () => !isMenuRevealed.value || isHeaderScrollHidden.value,
+);
+
+const headerVisibilityClass = computed(() => {
+  if (!isMenuRevealed.value) return "-translate-y-4 opacity-0";
+  return isHeaderScrollHidden.value
+    ? "-translate-y-full opacity-0"
+    : "translate-y-0 opacity-100";
+});
+
+function clearHeaderRevealTimer() {
+  if (!headerRevealTimer) return;
+  clearTimeout(headerRevealTimer);
+  headerRevealTimer = undefined;
+}
+
+function scheduleHeaderReveal() {
+  clearHeaderRevealTimer();
+  headerRevealTimer = setTimeout(() => {
+    isHeaderScrollHidden.value = false;
+    headerRevealTimer = undefined;
+  }, HEADER_SCROLL_IDLE_DELAY);
+}
+
+function resetHeaderScrollState() {
+  clearHeaderRevealTimer();
+  isHeaderScrollHidden.value = false;
+}
+
 function handleScroll() {
   const currentScrollY = Math.max(window.scrollY, 0);
   const threshold = isHome.value ? window.innerHeight * 0.5 : 80;
@@ -362,6 +400,21 @@ function handleScroll() {
   ) {
     isPromoScrollHidden.value = true;
     schedulePromoReveal();
+  }
+
+  if (hasScrollPositionChanged) {
+    const shouldKeepHeaderVisible =
+      currentScrollY <= HEADER_HIDE_THRESHOLD ||
+      activeMenuId.value !== null ||
+      isMobileOpen.value;
+
+    if (shouldKeepHeaderVisible) {
+      clearHeaderRevealTimer();
+      isHeaderScrollHidden.value = false;
+    } else {
+      isHeaderScrollHidden.value = true;
+      scheduleHeaderReveal();
+    }
   }
 
   lastScrollY = currentScrollY;
@@ -429,6 +482,7 @@ watch(
     isMobileOpen.value = false;
     closeMenu();
     resetPromoScrollState();
+    resetHeaderScrollState();
     nextTick(() => handleScroll());
   },
 );
@@ -459,6 +513,7 @@ onUnmounted(() => {
   document.removeEventListener("click", handleDocumentClick);
   window.removeEventListener("scroll", handleScroll);
   clearPromoRevealTimer();
+  clearHeaderRevealTimer();
   if (closeTimer) clearTimeout(closeTimer);
 });
 </script>
