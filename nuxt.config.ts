@@ -44,6 +44,11 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { prerender: true }
   },
+  vite: {
+    // MapLibre spawns its web worker relative to its own module URL; Vite's
+    // dependency pre-bundling moves the module and breaks that path.
+    optimizeDeps: { exclude: ['maplibre-gl'] }
+  },
   typescript: {
     strict: true
     // Type-checking runs separately via `pnpm typecheck`. Running it again

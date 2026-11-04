@@ -41,75 +41,67 @@
             sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px"
             class="absolute inset-0"
           />
-
-          <!-- Legibility: the shade starts at the bottom-left corner (where
-               the copy sits) and fades diagonally to fully transparent, so
-               the photograph stays fully visible while the text reads
-               clearly -->
-          <!-- <div
-            class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-night/95 via-night/70 to-transparent"
-            aria-hidden="true"
-          /> -->
-          <div class="absolute inset-0 bg-gradient-to-b from-[#060C14]/0 via-[#060C14]/50 to-[#060C14]"></div>
         </div>
 
+        <!-- Floating card: paper panel anchored to the container's right edge,
+             as in the Figma. Fades with its slide via data-dining-copy. -->
         <div class="absolute inset-0 flex items-end">
           <BaseContainer size="xl">
-            <div
-              :data-dining-copy="venueIndex"
-              class="max-w-[1620px] pb-14 sm:pb-20 lg:pb-28"
-            >
-              <h3
-                class="font-display text-4xl text-paper sm:text-5xl lg:text-[56px] font-semibold"
-              >
-                {{ venue.name }}
-              </h3>
+            <div class="flex justify-end pb-16 sm:pb-20 lg:pb-[150px]">
               <div
-                class="text-sm font-medium text-[#EED4A3] mt-4 uppercase hidden"
+                :data-dining-copy="venueIndex"
+                class="flex w-full max-w-[540px] flex-col items-center bg-[#FDFBF7] p-6 text-center"
               >
-                {{ venue?.tagLine }}
-              </div>
-              <p
-                class="mt-3 text-sm leading-7 text-paper/90 sm:text-base lg:text-lg lg:font-medium"
-              >
-                {{ venue.description }}
-              </p>
-              <div class="mt-12">
+                <h3
+                  class="font-display text-2xl font-normal text-[#6C3E22] sm:text-[28px] sm:leading-[38px]"
+                >
+                  {{ venue.name }}
+                </h3>
+                <p class="mt-9 text-sm leading-5 text-[#373737]">
+                  {{ venue.description }}
+                </p>
                 <!-- Each CTA lands on its own outlet's card on the dining page,
                      keyed to the same `id` used by DiningVenues -->
-                <BaseArrowCta
+                <NuxtLink
                   :to="`/dining#${venue.id}`"
-                  variant="gold"
-                  background-class="!bg-[#E9C588]"
                   :tabindex="isSlideInert(venueIndex) ? -1 : 0"
+                  class="group mt-8 inline-flex items-center gap-1 border-b border-[#6C3E22] pb-0.5 text-sm font-medium uppercase text-[#6C3E22] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6C3E22]"
                 >
                   Explore Now
-                </BaseArrowCta>
+                  <svg
+                    class="size-3.5 transition-transform duration-fast group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7 17L17 7M9 7h8v8"
+                    />
+                  </svg>
+                </NuxtLink>
               </div>
             </div>
           </BaseContainer>
         </div>
       </article>
 
-      <!-- Position readout: only meaningful while the stage is pinned -->
+      <!-- Position dots: only meaningful while the stage is pinned -->
       <div
-        class="pointer-events-none absolute inset-x-0 bottom-10 hidden motion-safe:lg:block"
+        class="pointer-events-none absolute inset-x-0 bottom-10 hidden justify-center gap-1.5 motion-safe:lg:flex"
+        aria-hidden="true"
       >
-        <BaseContainer size="xl">
-          <div class="flex items-center justify-end gap-5">
-            <span
-              class="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-paper/70"
-            >
-              {{ counterLabel }}
-            </span>
-            <span class="h-px w-40 bg-paper/25 xl:w-56" aria-hidden="true">
-              <span
-                ref="progressRef"
-                class="block h-px w-full origin-left bg-champagne"
-              />
-            </span>
-          </div>
-        </BaseContainer>
+        <span
+          v-for="(venue, venueIndex) in venues"
+          :key="venue.id"
+          :class="[
+            'size-2 rounded-full transition-colors duration-fast',
+            venueIndex === activeIndex ? 'bg-[#DFA558]' : 'bg-paper/70',
+          ]"
+        />
       </div>
     </div>
   </section>
@@ -169,7 +161,6 @@ const venues: DiningVenue[] = [
 
 const sectionRef = ref<HTMLElement | null>(null);
 const stageRef = ref<HTMLElement | null>(null);
-const progressRef = ref<HTMLElement | null>(null);
 
 const activeIndex = ref(0);
 /** True once the slides are stacked on top of each other, so only one shows */
@@ -181,12 +172,6 @@ const nuxtApp = useNuxtApp();
 const ScrollTrigger = nuxtApp.$ScrollTrigger as
   | typeof ScrollTriggerType
   | undefined;
-
-const counterLabel = computed(() => {
-  const current = String(activeIndex.value + 1).padStart(2, "0");
-  const total = String(venues.length).padStart(2, "0");
-  return `${current} — ${total}`;
-});
 
 /** Hidden from assistive tech and taken out of the tab order while covered */
 function isSlideInert(index: number) {
@@ -318,19 +303,6 @@ onMounted(async () => {
             step + 0.45,
           );
       }
-
-      timeline.fromTo(
-        progressRef.value,
-        {
-          scaleX: 1 / mediaLayers.length,
-        },
-        {
-          scaleX: 1,
-          duration: stepCount,
-          ease: "none",
-        },
-        0,
-      );
     }, sectionElement);
 
     isStageStacked.value = true;
