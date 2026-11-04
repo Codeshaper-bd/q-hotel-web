@@ -22,8 +22,7 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap' },
-        { rel: 'stylesheet', href: 'https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap' }
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap' }
       ]
     },
     pageTransition: {
@@ -44,6 +43,11 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/': { prerender: true }
+  },
+  vite: {
+    // MapLibre spawns its web worker relative to its own module URL; Vite's
+    // dependency pre-bundling moves the module and breaks that path.
+    optimizeDeps: { exclude: ['maplibre-gl'] }
   },
   typescript: {
     strict: true

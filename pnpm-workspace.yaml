@@ -10,3 +10,6 @@ onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
   - sharp
+
+overrides:
+  sharp: ^0.34.3

@@ -1,14 +1,21 @@
 <template>
   <div>
     <HeroSection />
-    <AboutSection />
     <RoomsSection />
     <FacilitiesSection />
     <MeetingsEventsSection />
     <DiningSection />
     <LocationSection />
+
+    <!-- The attractions page holds the full neighbourhood guide -->
+    <FadeReveal class="mt-12 flex justify-center">
+      <BaseArrowCta to="/nearby-locations" variant="gold">
+        Nearby Locations
+      </BaseArrowCta>
+    </FadeReveal>
+
     <FaqSection />
-    <div class="h-[160px]"></div>
+    <div class="h-[110px]"></div>
   </div>
 </template>
 

@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/Avenir-Book.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/Avenir-Roman.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/Avenir-Medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/Avenir-Heavy.otf') format('opentype');
+}
+
 :root {
   --color-ink: 13 17 23;
   --color-paper: 247 242 234;
@@ -33,9 +65,9 @@
   /* Fixed header: the nav's own height, plus the dismissible promo bar that
      sits above it on the homepage. Sections offset by --header-height, so it
      is overridden at runtime to include the bar while it is visible. */
-  --header-nav-height: 4.5rem;
+  --header-nav-height: 4.3125rem;
   --header-height: 4.5rem;
-  --promo-bar-height: 2.75rem;
+  --promo-bar-height: 3.1875rem;
 }
 
 html {
@@ -68,7 +100,7 @@ body {
   margin: 0;
   background: rgb(var(--color-paper));
   color: rgb(var(--color-ink));
-  font-family: Satoshi, ui-sans-serif, system-ui, sans-serif;
+  font-family: Avenir, ui-sans-serif, system-ui, sans-serif;
 }
 
 * {

@@ -2,18 +2,29 @@
   <header
     ref="headerRef"
     :class="[
-      'fixed inset-x-0 top-0 z-40 transition-[opacity,transform] duration-normal ease-premium',
-      isMenuRevealed ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0',
+      'fixed inset-x-0 top-0 z-40 transition-[opacity,transform] duration-normal ease-premium motion-reduce:transition-none',
+      headerVisibilityClass,
     ]"
-    :inert="!isMenuRevealed"
+    :inert="isHeaderHidden"
   >
     <!-- Glass background: same treatment as the booking bar, crossfaded as a
          layer so the backdrop blur eases in rather than snapping on -->
     <div
       :class="[
-        'absolute inset-0 border-b bg-paper/90 backdrop-blur-md transition-[opacity,border-color] duration-normal ease-premium',
+        'absolute inset-0 border-b bg-[#060C14] transition-[opacity,border-color] duration-normal ease-premium',
         hasSolidBackground ? 'opacity-100' : 'opacity-0',
-        hasScrolledPastCover ? 'border-line/70' : 'border-transparent',
+        hasScrolledPastCover ? 'border-white/10' : 'border-transparent',
+      ]"
+      aria-hidden="true"
+    />
+
+    <!-- Figma nav strip: a white veil that peaks mid-height and fades out at
+         both edges, pinned to the nav row (below the promo bar) while the
+         header is still transparent -->
+    <div
+      :class="[
+        'pointer-events-none absolute inset-x-0 bottom-0 h-[var(--header-nav-height)] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.5)_50%,rgba(255,255,255,0)_100%)] transition-opacity duration-normal ease-premium',
+        hasSolidBackground ? 'opacity-0' : 'opacity-100',
       ]"
       aria-hidden="true"
     />
@@ -23,7 +34,7 @@
          keeps section offsets honest while the bar is visible. -->
     <Transition name="promo-bar" @after-leave="resetPromoHeaderHeight">
       <div v-if="showPromoBar" class="promo-bar-wrap">
-        <PromoTopBar @dismiss="handlePromoDismiss" />
+        <PromoTopBar :solid="hasSolidBackground" @dismiss="handlePromoDismiss" />
       </div>
     </Transition>
     <!-- Skip to content -->
@@ -40,11 +51,11 @@
         class="flex min-h-[var(--header-nav-height)] items-center justify-between gap-6"
       >
         <!-- Left: logo -->
-        <NavLogo :tone="hasSolidBackground ? 'on-light' : 'on-dark'" />
+        <NavLogo :tone="hasSolidBackground ? 'on-dark' : 'on-light'" />
 
         <!-- Right: primary navigation (hidden on mobile) -->
         <nav
-          class="hidden items-center gap-0 lg:flex"
+          class="hidden items-center gap-10 lg:flex"
           aria-label="Primary navigation"
         >
           <template v-for="item in navigationItems" :key="item.id">
@@ -54,12 +65,9 @@
               :to="item.href"
               :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
-                'lg:mr-12 xl:mr-20 last:mr-0 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast  last:pr-0',
-                isActive(item.href)
-                  ? activeLinkColor
-                  : hasSolidBackground
-                    ? 'text-ink/70 hover:text-ink'
-                    : 'text-white hover:text-white/80',
+                'py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast',
+                linkHoverColor,
+                isActive(item.href) ? activeLinkColor : inactiveLinkColor,
               ]"
             >
               {{ item.label }}
@@ -74,12 +82,11 @@
                 aria-haspopup="true"
                 :aria-controls="`nav-menu-${item.id}`"
                 :class="[
-                  'flex items-center gap-1 px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
+                  'group flex items-center gap-1 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast',
+                  linkHoverColor,
                   activeMenuId === item.id || isActive(item.href)
                     ? activeLinkColor
-                    : hasSolidBackground
-                      ? 'text-ink/70 hover:text-ink'
-                      : 'text-white hover:text-white/80',
+                    : inactiveLinkColor,
                 ]"
                 @mouseenter="handleTriggerEnter(item.id)"
                 @mouseleave="schedulMenuClose"
@@ -99,11 +106,10 @@
                 <svg
                   :class="[
                     'h-3 w-3 shrink-0 transition-transform duration-fast',
+                    chevronHoverColor,
                     activeMenuId === item.id || isActive(item.href)
                       ? `rotate-180 ${activeLinkColor}`
-                      : hasSolidBackground
-                        ? 'text-ink/30'
-                        : 'text-white/40',
+                      : chevronIdleColor,
                   ]"
                   viewBox="0 0 12 12"
                   fill="none"
@@ -133,20 +139,20 @@
               </Transition>
             </div>
           </template>
-          <CurrencyDropdown :has-solid-background="hasSolidBackground" />
+          <CurrencyDropdown :has-solid-background="true" />
         </nav>
 
         <!-- Mobile: currency selector + hamburger -->
         <div class="flex items-center gap-4 lg:hidden">
-          <CurrencyDropdown :has-solid-background="hasSolidBackground" />
+          <CurrencyDropdown :has-solid-background="true" />
 
           <button
             type="button"
             :class="[
               'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast',
               hasSolidBackground
-                ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
-                : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
+                ? 'border-white/30 text-white/80 hover:border-white/60 hover:text-white'
+                : 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink',
             ]"
             :aria-expanded="isMobileOpen"
             aria-controls="mobile-navigation"
@@ -238,8 +244,8 @@ const nuxtApp = useNuxtApp();
 // `inert` keeps the hidden nav out of tab order — pointer-events-none wouldn't.
 const isMenuRevealed = useState("hero-menu-revealed", () => true);
 
-// Glass backdrop is held off while the home hero plays its full-bleed footage;
-// HeroSection allows it again near the journey's end (default: allowed)
+// Solid background is held off while the home hero plays its full-bleed
+// footage; HeroSection allows it again near the journey's end (default: allowed)
 const isNavGlassAllowed = useState("hero-nav-glass", () => true);
 const activeMenuId = ref<string | null>(null);
 const isMobileOpen = ref(false);
@@ -326,7 +332,26 @@ watch(showPromoBar, (visible) => {
 
 // Active nav item accent: champagne on the home page's dark hero, copper
 // elsewhere once the paper glass is in play
-const activeLinkColor = computed(() => (isHome.value ? "text-[#A75B27]" : "text-[#A75B27]"));
+const activeLinkColor = computed(() =>
+  hasSolidBackground.value ? "text-champagne" : "text-[#0F0F10]",
+);
+
+// Once the header goes solid it is the dark #060C14 panel with white menu
+// text; over the home hero (transparent) the original dark-on-veil text stays.
+const inactiveLinkColor = computed(() =>
+  hasSolidBackground.value ? "text-white" : "text-[#373737]",
+);
+const linkHoverColor = computed(() =>
+  hasSolidBackground.value ? "hover:text-champagne" : "hover:text-[#A75B27]",
+);
+const chevronIdleColor = computed(() =>
+  hasSolidBackground.value ? "text-white/60" : "text-[#373737]/50",
+);
+const chevronHoverColor = computed(() =>
+  hasSolidBackground.value
+    ? "group-hover:text-champagne"
+    : "group-hover:text-[#A75B27]",
+);
 
 // Pages with no dark cover media at the top (a plain paper background
 // instead of a hero photo) would render white-on-white nav text under this
@@ -334,9 +359,9 @@ const activeLinkColor = computed(() => (isHome.value ? "text-[#A75B27]" : "text-
 const NO_DARK_HERO_ROUTES = new Set(["/booking"]);
 const hasDarkHero = computed(() => !NO_DARK_HERO_ROUTES.has(route.path));
 
-// Only the home page runs the transparent header that gains a paper-glass
-// background on scroll. Every other page starts solid so the nav is always
-// readable over its non-hero, light-on-light content.
+// Only the home page runs the transparent header that turns into the solid
+// dark #060C14 panel on scroll. Every other page starts solid so the nav is
+// always readable over its non-hero, light-on-light content.
 const hasSolidBackground = computed(
   () =>
     !isHome.value ||
@@ -344,6 +369,44 @@ const hasSolidBackground = computed(
     (isScrolledPastHero.value && isNavGlassAllowed.value) ||
     isMobileOpen.value,
 );
+
+// ─── Scroll header hide ───────────────────────────────────────────
+// Any scroll gesture tucks the header away; stopping brings it back
+// so the navigation is always one gesture away.
+const HEADER_HIDE_THRESHOLD = 80;
+const HEADER_SCROLL_IDLE_DELAY = 180;
+const isHeaderScrollHidden = ref(false);
+let headerRevealTimer: ReturnType<typeof setTimeout> | undefined;
+
+const isHeaderHidden = computed(
+  () => !isMenuRevealed.value || isHeaderScrollHidden.value,
+);
+
+const headerVisibilityClass = computed(() => {
+  if (!isMenuRevealed.value) return "-translate-y-4 opacity-0";
+  return isHeaderScrollHidden.value
+    ? "-translate-y-full opacity-0"
+    : "translate-y-0 opacity-100";
+});
+
+function clearHeaderRevealTimer() {
+  if (!headerRevealTimer) return;
+  clearTimeout(headerRevealTimer);
+  headerRevealTimer = undefined;
+}
+
+function scheduleHeaderReveal() {
+  clearHeaderRevealTimer();
+  headerRevealTimer = setTimeout(() => {
+    isHeaderScrollHidden.value = false;
+    headerRevealTimer = undefined;
+  }, HEADER_SCROLL_IDLE_DELAY);
+}
+
+function resetHeaderScrollState() {
+  clearHeaderRevealTimer();
+  isHeaderScrollHidden.value = false;
+}
 
 function handleScroll() {
   const currentScrollY = Math.max(window.scrollY, 0);
@@ -359,6 +422,21 @@ function handleScroll() {
   ) {
     isPromoScrollHidden.value = true;
     schedulePromoReveal();
+  }
+
+  if (hasScrollPositionChanged) {
+    const shouldKeepHeaderVisible =
+      currentScrollY <= HEADER_HIDE_THRESHOLD ||
+      activeMenuId.value !== null ||
+      isMobileOpen.value;
+
+    if (shouldKeepHeaderVisible) {
+      clearHeaderRevealTimer();
+      isHeaderScrollHidden.value = false;
+    } else {
+      isHeaderScrollHidden.value = true;
+      scheduleHeaderReveal();
+    }
   }
 
   lastScrollY = currentScrollY;
@@ -426,6 +504,7 @@ watch(
     isMobileOpen.value = false;
     closeMenu();
     resetPromoScrollState();
+    resetHeaderScrollState();
     nextTick(() => handleScroll());
   },
 );
@@ -456,6 +535,7 @@ onUnmounted(() => {
   document.removeEventListener("click", handleDocumentClick);
   window.removeEventListener("scroll", handleScroll);
   clearPromoRevealTimer();
+  clearHeaderRevealTimer();
   if (closeTimer) clearTimeout(closeTimer);
 });
 </script>

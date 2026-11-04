@@ -43,19 +43,9 @@ const faqs = {
         "Q Hotel Dhaka has 152 Meticulously Curated Rooms & Suites. From spacious Standard Rooms designed for effortless comfort, to Deluxe Rooms offering enhanced space and style, to Executive Suites crafted for discerning travelers, and the ultimate in luxury with our Presidential Suites.",
     },
     {
-      question: "Does Q Hotel have a Spa?",
+      question: "Does Q Hotel have a spa, swimming pool, and gym?",
       answer:
-        "Yes, Q Hotel Dhaka is home to an exquisite spa sanctuary, guided by highly trained therapists devoted to restoring your body, mind, and spirit.",
-    },
-    {
-      question: "Does Q Hotel have a pool?",
-      answer:
-        "Yes, Q Hotel Dhaka features a beautiful outdoor swimming pool, designed as a relaxing retreat for guests to unwind amid the hotel's elegant surroundings.",
-    },
-    {
-      question: "Does Q Hotel have a Gym?",
-      answer:
-        "Yes, Q Hotel Dhaka features a large, well-equipped gymnasium, giving guests a refreshing space to stay active during their stay.",
+        "Q Hotel Dhaka offers a complete wellness experience with an exquisite spa sanctuary, a relaxing outdoor swimming pool, and a fully equipped gymnasium. Guests can rejuvenate with professional spa treatments, unwind by the pool, or maintain their fitness routine in a modern workout environment throughout their stay.",
     },
     {
       question: "Does Q Hotel have a conference and banqueting facility?",

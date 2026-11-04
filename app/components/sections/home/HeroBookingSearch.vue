@@ -27,11 +27,11 @@
         >
           <span :class="['hero-bar-label', labelClass]">Check-In</span>
           <span class="mt-3 flex items-center gap-2">
-            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span :class="['whitespace-nowrap leading-6', checkInValueClass]">{{ checkIn ? formatBookingDateLong(checkIn) : checkInPlaceholder }}</span>
+            <span :class="['whitespace-nowrap leading-6', checkInValueClass]">{{ checkIn ? formatBookingDateShort(checkIn) : checkInPlaceholder }}</span>
           </span>
         </button>
 
@@ -63,12 +63,12 @@
         >
           <span :class="['hero-bar-label', labelClass]">Check-Out</span>
           <span class="mt-3 flex items-center gap-2">
-            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <span class="whitespace-nowrap leading-6" :class="checkOutValueClass">
-              {{ checkOut ? formatBookingDateLong(checkOut) : checkOutPlaceholder }}
+              {{ checkOut ? formatBookingDateShort(checkOut) : checkOutPlaceholder }}
             </span>
           </span>
         </button>
@@ -87,12 +87,12 @@
         >
           <span :class="['hero-bar-label', labelClass]">Guests &amp; Rooms</span>
           <span class="mt-3 flex items-center gap-2">
-            <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <span :class="['truncate text-base leading-6 min-w-[140px]', placeholders ? mutedValueClass : valueClass]">{{ placeholders ? 'Select guests & rooms' : guestsSummary }}</span>
-            <svg :class="['h-4 w-4 shrink-0', chevronClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', chevronClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </span>
@@ -172,14 +172,13 @@
             v-model.trim="promoCode"
             type="text"
             autocomplete="off"
-            placeholder="Optional"
-            :class="['h-full w-full min-w-0 border bg-transparent px-2.5 text-sm leading-6 outline-none transition-colors duration-fast focus-visible:outline-none focus:border-champagne/60', valueClass, tone === 'light' ? 'border-ink/15 placeholder:text-ink/40' : 'border-champagne/30 placeholder:text-paper/40']"
+            :class="['h-full w-full min-w-0 border-b border-transparent bg-transparent px-2.5 text-sm leading-6 outline-none transition-colors duration-fast focus-visible:outline-none', valueClass, tone === 'light' ? 'focus-visible:border-[#A75B27]/60' : 'focus-visible:border-champagne/60']"
           >
         </div>
       </div>
     </div>
 
-    <BaseButton type="submit" variant="gold" class="mt-2 w-full whitespace-nowrap !rounded-none !tracking-normal lg:relative lg:z-10 lg:-ml-8 lg:mt-0 lg:h-[60px] lg:w-fit">
+    <BaseButton type="submit" variant="gold" class="mt-2 w-full whitespace-nowrap !rounded-none !tracking-normal lg:relative lg:z-10 lg:-ml-8 lg:mt-0 lg:h-[60px] lg:w-fit lg:px-8">
       {{ submitLabel }} 
     </BaseButton>
   </form>
@@ -271,8 +270,8 @@ const rateFieldClass = computed(() => props.tone === 'light'
 // A custom `placeholderClass` fully replaces the default typography (it
 // carries its own size/weight/color), avoiding utility-cascade conflicts
 const checkInValueClass = computed(() => checkIn.value
-  ? ['text-sm font-medium', valueClass.value]
-  : [props.placeholderClass || ['text-sm font-medium', mutedValueClass.value]])
+  ? ['text-base', valueClass.value]
+  : [props.placeholderClass || ['text-base', mutedValueClass.value]])
 
 const checkOutValueClass = computed(() => checkOut.value
   ? ['text-base', valueClass.value]
@@ -424,13 +423,12 @@ onUnmounted(() => {
    classes in the template — this rule only owns the shared typography */
 .hero-bar-label {
   display: block;
-  font-family: Satoshi, ui-sans-serif, system-ui, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
+  font-family: Avenir, ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
   line-height: 18px;
   text-transform: uppercase;
   white-space: nowrap;
-  color:#8A8A8A;
 }
 
 /* Vertical hairline between fields — hidden on stacked mobile/tablet rows,

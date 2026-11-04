@@ -9,24 +9,17 @@
     tone="paper"
     :spacing="spacing"
     container-size="xl"
+    class="!pb-0"
   >
-    <FadeReveal>
-      <div class="flex flex-col items-center text-center">
-        <BaseKicker>Select Your Room</BaseKicker>
-        <h2
-          id="rooms-title"
-          class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px]"
-        >
-          Rooms and Suites
-        </h2>
-      </div>
-    </FadeReveal>
-    <div ref="sectionRef" class="rooms-pin-wrap">
+    <BaseTitle id="rooms-title">
+      Rooms and Suites
+    </BaseTitle>
+    <div ref="sectionRef" class="rooms-pin-wrap mt-6">
       <FadeReveal v-if="showTabs" class="shrink-0">
         <div
           role="tablist"
           aria-label="Room types"
-          class=" flex flex-wrap justify-center gap-2.5 mt-10 mb-4"
+          class=" flex flex-wrap justify-center gap-2.5 mb-4"
           @keydown="handleTablistKeydown"
         >
           <button
@@ -51,7 +44,7 @@
         </div>
       </FadeReveal>
 
-      <div ref="stackRef" class="rooms-stack mt-10">
+      <div ref="stackRef" class="rooms-stack">
         <div ref="trackRef" class="rooms-track">
           <article
             v-for="(room, roomIndex) in rooms"
@@ -91,7 +84,7 @@
                 v-if="room.images.length > 1"
                 role="group"
                 aria-label="Room photos"
-                class="absolute inset-x-0 bottom-4 z-20 flex justify-center lg:right-[42%] lg:bottom-8"
+                class="absolute inset-x-0 bottom-4 z-20 flex justify-center lg:bottom-8"
               >
                 <div
                   class="flex items-center gap-1.5 rounded-full bg-black/50 px-2.5 py-1.5"
@@ -120,11 +113,9 @@
                  matching the Figma room card). No inner scroll: the stack
                  height below is sized to fit every room's content. -->
             <div
-              class="relative flex flex-col p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:inset-y-4 motion-safe:lg:right-4 motion-safe:lg:w-[27rem] room-card motion-safe:lg:p-0 motion-safe:xl:inset-y-6 motion-safe:xl:right-6 motion-safe:xl:w-[30rem]"
+              class="room-card relative flex flex-col p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:bottom-4 motion-safe:lg:right-4 motion-safe:lg:w-[22rem] motion-safe:lg:p-6 motion-safe:xl:bottom-8 motion-safe:xl:right-8 motion-safe:xl:w-[27rem] motion-safe:xl:p-10"
             >
-              <div
-                class="motion-safe:lg:absolute motion-safe:lg:inset-4 motion-safe:lg:flex motion-safe:lg:flex-col motion-safe:lg:border motion-safe:lg:border-copper motion-safe:lg:p-7 motion-safe:xl:inset-5 motion-safe:xl:p-8"
-              >
+              <div class="flex flex-col">
                 <span
                   class="self-start border border-paper/70 px-3 py-1.5 text-sm font-semibold uppercase text-paper"
                 >
@@ -132,17 +123,17 @@
                 </span>
 
                 <h3
-                  class="mt-4 font-display font-semibold text-3xl sm:text-4xl"
+                  class="mt-4 font-display font-semibold text-3xl sm:text-4xl lg:mt-3 lg:text-3xl xl:mt-4 xl:text-4xl"
                 >
                   {{ room.name }}
                 </h3>
 
-                <p class="mt-3 text-base  text-paper">
+                <p class="mt-3 text-base text-paper lg:text-sm lg:leading-6 xl:text-base">
                   {{ room.description }}
                 </p>
 
                 <ul
-                  class="mt-6 space-y-3 text-sm text-paper/80 motion-safe:lg:mt-auto motion-safe:lg:pt-6"
+                  class="mt-6 space-y-3 text-sm text-paper/80 lg:mt-4 lg:space-y-2 xl:mt-6 xl:space-y-3"
                 >
                   <li class="flex items-center gap-3">
                     <svg
@@ -210,7 +201,7 @@
                 </ul>
 
                 <!-- "More Details" opens the full room-details popup -->
-                <div class="mt-6">
+                <div class="mt-6 lg:mt-4 xl:mt-6">
                   <BaseArrowCta
                     variant="gold"
                     :tabindex="activeRoomId === room.id ? 0 : -1"
@@ -251,6 +242,10 @@ const { showTabs = true, spacing = 'lg' } = defineProps<{
    */
   spacing?: 'sm' | 'md' | 'lg';
 }>();
+
+/** Space between neighbouring room slides on the pinned desktop track; keep in
+ *  sync with `.rooms-track` gap below */
+const ROOM_SLIDE_GAP_PX = 16;
 
 const rooms = useRoomsCatalog();
 
@@ -456,11 +451,12 @@ onMounted(async () => {
 
       roomStackTrigger = timeline.scrollTrigger;
 
-      // Cinematic horizontal slide: one card width per snap step
+      // Cinematic horizontal slide: one card width plus the 16px gap per snap
+      // step (re-measured on refresh, so a resize keeps the slides aligned)
       timeline.to(
         trackElement,
         {
-          xPercent: -100 * slideCount,
+          x: () => -slideCount * (stackElement.clientWidth + ROOM_SLIDE_GAP_PX),
           duration: slideCount,
         },
         0,
@@ -514,15 +510,8 @@ onMounted(async () => {
 <style scoped>
 .room-card {
   background: rgba(15, 15, 15, 0.82);
-
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 20px 50px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .rooms-track {
   display: grid;
@@ -575,7 +564,7 @@ onMounted(async () => {
 
   .rooms-track {
     display: flex;
-    gap: 0;
+    gap: 16px;
     height: 100%;
     will-change: transform;
   }

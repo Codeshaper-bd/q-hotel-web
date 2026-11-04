@@ -40,10 +40,10 @@ export function formatBookingDay(iso: string): string {
   })
 }
 
-/** "26 June, 2026" — the reservation bar's field format */
-export function formatBookingDateLong(iso: string): string {
+/** "26 Jun, 2026" — the reservation bar's compact field format */
+export function formatBookingDateShort(iso: string): string {
   const date = isoToDate(iso)
-  const month = date.toLocaleDateString('en-US', { month: 'long' })
+  const month = date.toLocaleDateString('en-US', { month: 'short' })
   return `${date.getDate()} ${month}, ${date.getFullYear()}`
 }
 

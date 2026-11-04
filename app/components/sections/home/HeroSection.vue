@@ -3,43 +3,44 @@
     id="hero"
     ref="sectionRef"
     aria-labelledby="home-title"
-    class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-night text-paper"
+    class="relative flex h-screen flex-col justify-end overflow-hidden bg-night text-paper"
   >
     <div ref="bgRef" aria-hidden="true" class="absolute inset-0">
             <!-- Served at native resolution and high quality: the entrance animation
            holds the image at up to 1.12x scale, so a smaller/softer source
            would visibly upscale and lose sharpness. -->
       <BaseImage
-        src="/images/hero/q-hotel-outside-view.jpeg"
+        src="/images/hero/q-hotel-hero-figma.png"
         alt=""
-        :width="2500"
-        :height="1551"
+        :width="1673"
+        :height="940"
         :quality="90"
+        sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:1920px"
         priority
-        class="h-full w-full object-center lg:object-[center_10%]"
+        class="h-full w-full object-[center_20%]"
       />
 
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.70)_0%,rgba(0,0,0,0.00)_48.9%,#000_100%)]"
+        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_62.375%,#000_94.559%)]"
       />
     </div>
 
-    <BaseContainer size="xl" class="w-full pb-12 pt-32 sm:pb-12">
+    <BaseContainer size="xl" class="w-full pb-12 pt-32 xl:pb-[52px]">
       <div class="relative grid grid-cols-12 gap-3">
-        <div ref="textRef" class="col-span-12 xl:col-span-5 2xl:col-span-6 text-center xl:text-left">
+        <div ref="textRef" class="col-span-12 xl:col-span-5 2xl:col-span-6 text-center xl:text-left xl:mb-[94px]">
           <div class="overflow-hidden pb-2">
             <h1
               id="home-title"
               ref="headlineRef"
-              class="font-display text-4xl font-bold sm:text-[44px] sm:leading-[48px] max-w-[620px] mx-auto xl:mx-0 capitalize mt-10"
+              class="font-display text-2xl font-normal uppercase leading-8 sm:text-[32px] max-w-[620px] mx-auto xl:mx-0"
             >
               A new hospitality destination where glamour meets tranquility
             </h1>
           </div>
           <p
             ref="leadRef"
-            class="max-w-xl text-lg xl:max-w-[700px] xl:text-xl xl:leading-[30px] font-medium mt-[18px] mx-auto xl:mx-0"
+            class="max-w-xl text-lg leading-[26px] xl:max-w-[735px] mt-2 mx-auto xl:mx-0"
           >
             A refined stay for today’s business traveler, combining effortless
             convenience, exceptional comfort, and thoughtful services for work
@@ -68,43 +69,8 @@ const headlineRef = ref<HTMLElement | null>(null);
 const leadRef = ref<HTMLElement | null>(null);
 const consoleRef = ref<HTMLElement | null>(null);
 const { gsap, createContext, prefersReducedMotion } = useGsap();
-
-/**
- * Splits an element's plain text into word spans so each word can rise on
- * its own. Headline words get an overflow-hidden mask (the word slides up
- * through its own window); lead words are plain spans that just drift up.
- * Text content is preserved, so nothing changes for SEO or screen readers.
- */
-function splitIntoWords(element: HTMLElement, masked: boolean): HTMLElement[] {
-  const words = element.textContent?.trim().split(/\s+/) ?? [];
-  element.textContent = "";
-
-  return words.map((word, index) => {
-    // Always `inline-block` — transforms (and therefore GSAP's y-drift) are
-    // ignored on plain inline elements, so every animated word must be
-    // transformable.
-    const inner = document.createElement("span");
-    inner.className = "inline-block";
-    inner.textContent = word;
-
-    if (masked) {
-      // Headline words rise through their own clipped window
-      const mask = document.createElement("span");
-      mask.className = "inline-block overflow-hidden";
-      mask.appendChild(inner);
-      element.appendChild(mask);
-    } else {
-      // Lead words are plain spans that just drift up
-      element.appendChild(inner);
-    }
-
-    if (index < words.length - 1) {
-      element.appendChild(document.createTextNode(" "));
-    }
-
-    return inner;
-  });
-}
+/** Flips true as the preloader's curtains open (see AppPreloader) */
+const isPreloaderComplete = useState("preloader-complete", () => false);
 
 onMounted(() => {
   if (
@@ -121,17 +87,22 @@ onMounted(() => {
 
   // Turn the plain text into word spans — visually identical at rest, but it
   // lets each word rise through its own mask. Skipped under reduced motion.
+  const sectionElement = sectionRef.value;
   const headlineWords = splitIntoWords(headlineRef.value, true);
   const leadWords = splitIntoWords(leadRef.value, false);
 
+  // Park every layer in its starting pose right away (the preloader still
+  // covers the page), so nothing flashes before the entrance plays.
+  gsap.set(bgRef.value, { scale: 1.12 });
+  gsap.set(consoleRef.value, { autoAlpha: 0, y: 32 });
+  gsap.set(headlineWords, { yPercent: 110, autoAlpha: 0 });
+  gsap.set(leadWords, { autoAlpha: 0, y: 14 });
+
   // A quiet, cinematic arrival — not a scroll journey: the hero is fully
   // usable the instant it paints, and this just softens the first frames.
-  createContext(() => {
-    // Park every layer in its starting pose up front so nothing flashes
-    // before the timeline plays.
-    gsap.set(bgRef.value, { scale: 1.12 });
-    gsap.set(consoleRef.value, { autoAlpha: 0, y: 32 });
-
+  // It starts only once the preloader's curtains open, so the visitor
+  // actually sees it.
+  const playEntrance = () => createContext(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
     // The photograph arrives slightly oversized and breathes into rest — a
@@ -145,7 +116,7 @@ onMounted(() => {
     const wordsTimeline = gsap.timeline({
       defaults: { ease: "expo.out" },
       scrollTrigger: {
-        trigger: sectionRef.value,
+        trigger: sectionElement,
         start: "top 85%",
         toggleActions: "restart reset restart reset",
       },
@@ -182,7 +153,19 @@ onMounted(() => {
       },
       0.65,
     );
-  }, sectionRef.value);
+  }, sectionElement);
+
+  if (isPreloaderComplete.value) {
+    playEntrance();
+    return;
+  }
+
+  const stopWaiting = watch(isPreloaderComplete, (isComplete) => {
+    if (isComplete) {
+      stopWaiting();
+      playEntrance();
+    }
+  });
 });
 
 function handleSearch(query: BookingSearchQuery) {
