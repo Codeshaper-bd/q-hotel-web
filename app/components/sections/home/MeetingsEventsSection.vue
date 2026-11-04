@@ -2,8 +2,8 @@
   <!--
     Meetings & Events: three venue photographs. On hover or keyboard focus
     (large screens with a pointer) each card flips to reveal its name,
-    description and actions; touch devices and reduced-motion users get the
-    photo with the same details stacked beneath it instead of a flip.
+    description and actions. Below lg (mobile and tablet) there is no flip:
+    each venue is a plain card, photo on top and its details beneath.
   -->
   <BaseSection
     id="meetings-events"
@@ -12,20 +12,19 @@
     spacing="lg"
     container-size="xl"
   >
-    <FadeReveal>
-      <BaseTitle id="meetings-events-title">Meetings &amp; Events</BaseTitle>
-    </FadeReveal>
+    <BaseTitle id="meetings-events-title">Meetings &amp; Events</BaseTitle>
 
     <FadeReveal :stagger="0.08">
-      <ul class="mt-10 grid gap-6 lg:mt-16 lg:grid-cols-3 lg:gap-5">
+      <ul class="mx-auto mt-10 grid max-w-2xl gap-6 lg:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-5">
         <li
           v-for="venue in venues"
           :key="venue.id"
           data-reveal-item
-          class="venue-card"
+          :class="['venue-card', { 'is-flipped': flippedVenueIds[venue.id] }]"
+          @click="handleCardTap(venue.id, $event)"
         >
           <article class="venue-card-inner" :aria-label="venue.name">
-            <div class="venue-face relative aspect-[4/3] overflow-hidden bg-line/40">
+            <div class="venue-face relative aspect-[4/3] overflow-hidden bg-line/40 sm:aspect-[16/9] lg:aspect-auto">
               <BaseImage
                 :src="venue.image.src"
                 :alt="venue.image.alt"
@@ -37,13 +36,13 @@
             </div>
 
             <div
-              class="venue-face venue-face-back flex flex-col gap-8 bg-white p-6"
+              class="venue-face venue-face-back flex flex-col gap-6 bg-white p-6 sm:p-8 lg:gap-8 lg:overflow-y-auto lg:p-6"
             >
-              <h3 class="font-display text-3xl text-ink sm:text-4xl">
+              <h3 class="font-display text-2xl text-ink sm:text-3xl lg:text-4xl">
                 {{ venue.name }}
               </h3>
 
-              <div class="flex flex-col gap-8">
+              <div class="flex flex-col gap-6 lg:gap-8">
                 <p class="text-sm leading-6 text-muted xl:text-base">
                   {{ venue.description }}
                 </p>
@@ -139,6 +138,20 @@ const venues: MeetingVenue[] = [
   },
 ];
 
+// ─── Card flip ──────────────────────────────────────────────────────
+// Hover (pointer devices) and keyboard focus flip a card through CSS; this
+// adds tap-to-flip for touch devices, where hover does not exist. Taps on the
+// card's own buttons are left alone so they still open their dialogs.
+const flippedVenueIds = reactive<Record<string, boolean>>({});
+
+function handleCardTap(venueId: string, event: MouseEvent) {
+  const tapped = event.target;
+  if (tapped instanceof Element && tapped.closest("a, button")) {
+    return;
+  }
+  flippedVenueIds[venueId] = !flippedVenueIds[venueId];
+}
+
 // ─── Venue details popup ────────────────────────────────────────────
 const isDetailsOpen = ref(false);
 
@@ -157,12 +170,28 @@ const {
 </script>
 
 <style scoped>
-/* Flip only where hover exists and motion is welcome; everywhere else the
-   photo and details simply stack, so nothing is hover-only. */
-@media (min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+/* Below lg every venue is a plain card: photo on top, details beneath. */
+.venue-card {
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-line) / 0.6);
+  background: white;
+  box-shadow: 0 8px 24px -12px rgb(var(--color-night) / 0.2);
+}
+
+.venue-face {
+  position: relative;
+}
+
+/* From lg up the card flips: hover or keyboard focus on pointer devices, a tap
+   elsewhere (see handleCardTap). */
+@media (min-width: 1024px) {
   .venue-card {
     height: 600px;
     perspective: 1600px;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .venue-card-inner {
@@ -174,7 +203,7 @@ const {
     transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1);
   }
 
-  .venue-card:hover .venue-card-inner,
+  .venue-card.is-flipped .venue-card-inner,
   .venue-card:focus-within .venue-card-inner {
     transform: rotateY(180deg);
   }
@@ -182,14 +211,27 @@ const {
   .venue-face {
     position: absolute;
     inset: 0;
-    aspect-ratio: auto;
     backface-visibility: hidden;
   }
 
   .venue-face-back {
     justify-content: space-between;
-    overflow: hidden;
     transform: rotateY(180deg);
+  }
+}
+
+/* Hover only where it truly exists, so touch devices never get a card stuck
+   flipped by a stale hover state */
+@media (min-width: 1024px) and (hover: hover) {
+  .venue-card:hover .venue-card-inner {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Reduced motion keeps the flip's result but not its movement */
+@media (prefers-reduced-motion: reduce) {
+  .venue-card-inner {
+    transition: none;
   }
 }
 </style>

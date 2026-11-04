@@ -41,23 +41,28 @@
             sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px"
             class="absolute inset-0"
           />
+          <!-- Figma "Rectangle 6857": 411px of 780px, #060C14 100% -> 0% -->
+          <div
+            class="pointer-events-none absolute inset-x-0 bottom-0 h-[53%] bg-gradient-to-t from-[#060C14] to-[#060C14]/0"
+            aria-hidden="true"
+          />
         </div>
 
         <!-- Floating card: paper panel anchored to the container's right edge,
              as in the Figma. Fades with its slide via data-dining-copy. -->
         <div class="absolute inset-0 flex items-end">
           <BaseContainer size="xl">
-            <div class="flex justify-end pb-16 sm:pb-20 lg:pb-[150px]">
+            <div class="flex justify-end pb-16 sm:pb-20 lg:pb-[100px]">
               <div
                 :data-dining-copy="venueIndex"
-                class="flex w-full max-w-[540px] flex-col items-center bg-[#FDFBF7] p-6 text-center"
+                class="flex w-full max-w-[540px] flex-col items-center bg-[#FDFBF7] p-6 text-center sm:p-8"
               >
                 <h3
                   class="font-display text-2xl font-normal text-[#6C3E22] sm:text-[28px] sm:leading-[38px]"
                 >
                   {{ venue.name }}
                 </h3>
-                <p class="mt-9 text-sm leading-5 text-[#373737]">
+                <p class="mt-8 text-sm leading-5 text-[#373737]">
                   {{ venue.description }}
                 </p>
                 <!-- Each CTA lands on its own outlet's card on the dining page,
@@ -89,19 +94,28 @@
         </div>
       </article>
 
-      <!-- Position dots: only meaningful while the stage is pinned -->
+      <!-- Position dots: only meaningful while the stage is pinned. The row is
+           pointer-transparent; only the buttons take clicks, above the overlay
+           and the slides. Each scrolls the pin to its outlet's step. -->
       <div
-        class="pointer-events-none absolute inset-x-0 bottom-10 hidden justify-center gap-1.5 motion-safe:lg:flex"
-        aria-hidden="true"
+        class="pointer-events-none absolute inset-x-0 bottom-6 z-20 hidden justify-center motion-safe:lg:flex"
       >
-        <span
+        <button
           v-for="(venue, venueIndex) in venues"
           :key="venue.id"
-          :class="[
-            'size-2 rounded-full transition-colors duration-fast',
-            venueIndex === activeIndex ? 'bg-[#DFA558]' : 'bg-paper/70',
-          ]"
-        />
+          type="button"
+          class="pointer-events-auto flex size-6 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#DFA558]"
+          :aria-label="`Show ${venue.name}`"
+          :aria-current="venueIndex === activeIndex ? 'true' : undefined"
+          @click="goToVenue(venueIndex)"
+        >
+          <span
+            :class="[
+              'size-2 rounded-full transition-colors duration-fast',
+              venueIndex === activeIndex ? 'bg-[#DFA558]' : 'bg-paper/70',
+            ]"
+          />
+        </button>
       </div>
     </div>
   </section>
@@ -129,7 +143,7 @@ const venues: DiningVenue[] = [
     tagLine: "All-Day Dining",
     name: "All-Day Dining",
     description:
-      "Q Hotel Dhaka's all-day dining restaurant offers a vibrant and inviting culinary experience, serving an extensive selection of international and local delicacies throughout the day. Start your morning with a vast and lavish breakfast buffet featuring an impressive spread of continental, Asian, and local favorites, followed by satisfying lunch and dinner options complete with live cooking stations, curated buffet selections, and à la carte choices. Designed with a warm and contemporary ambiance, it provides the perfect setting for leisurely family meals, business lunches, or casual dining with friends.",
+      "Q Hotel Dhaka's all-day dining restaurant offers a delightful selection of international and local cuisines in a warm, contemporary setting. Enjoy a lavish breakfast buffet, delicious lunch and dinner options, live cooking stations, and à la carte selections. Perfect for family gatherings, business lunches, or casual dining with friends.",
     poster: {
       src: "/images/dining/all-day-dining.jpg",
       alt: "Q Hotel Dhaka's all-day dining restaurant with warm and contemporary ambiance",
@@ -140,7 +154,7 @@ const venues: DiningVenue[] = [
     tagLine: "Cafe & Deli",
     name: "Cafe Deli",
     description:
-      "Nestled within Q Hotel Dhaka, this charming café deli invites guests to savor expertly crafted coffees, fine teas, and freshly baked delicacies in a relaxed and inviting setting. From artisanal pastries and gourmet sandwiches to indulgent desserts, the menu is thoughtfully curated to satisfy every craving. With its stylish yet comfortable atmosphere, the café is perfect for casual catch-ups, light business discussions, or a leisurely break throughout the day.",
+      "Nestled within Q Hotel Dhaka, this charming café deli offers expertly crafted coffees, fine teas, and freshly baked treats. From artisanal pastries and gourmet sandwiches to indulgent desserts, every selection is thoughtfully prepared. With its stylish yet cozy ambiance, it's the perfect spot for casual catch-ups, business discussions, or a relaxing break throughout the day.",
     poster: {
       src: "/images/dining/cafe-deli.jpg",
       alt: "Cafe Deli interior with brass accents and city views",
@@ -151,7 +165,7 @@ const venues: DiningVenue[] = [
     tagLine: "",
     name: "BBQ / Pan Asian",
     description:
-      "Perched on the 19th floor of Q Hotel Dhaka, this exquisite Pan Asian and BBQ fine dining restaurant offers a culinary journey through bold, authentic flavors paired with breathtaking panoramic views of the city. Guests seeking a more intimate experience can dine on the striking sky bridge, an idyllic setting for candlelight dinners and special celebrations beneath the open sky. The restaurant's seamless access to the 20th floor further elevates the experience, unveiling a mesmerizing vista of the city lights, making it an unforgettable destination for both refined dining and memorable moments ",
+      "Perched on the 19th floor of Q Hotel Dhaka, this elegant Pan Asian and BBQ restaurant offers authentic flavors and breathtaking panoramic city views. Guests can enjoy intimate candlelight dinners on the stunning sky bridge or explore the 20th floor for mesmerizing views of the city lights, creating an unforgettable fine dining experience.",
     poster: {
       src: "/images/dining/bbq-restaurant.jpg",
       alt: "Q Hotel BBQ Restaurant dining room with ring chandeliers, stone feature wall, and city-view windows",
@@ -172,6 +186,25 @@ const nuxtApp = useNuxtApp();
 const ScrollTrigger = nuxtApp.$ScrollTrigger as
   | typeof ScrollTriggerType
   | undefined;
+
+/** The pin's ScrollTrigger; null whenever the pinned stage isn't running */
+let pinTrigger: ScrollTriggerType | null = null;
+
+/** Scrolls the pinned stage to the outlet's step (snap then settles it) */
+function goToVenue(index: number) {
+  if (!pinTrigger || venues.length < 2) {
+    return;
+  }
+
+  const progress = index / (venues.length - 1);
+  const targetScroll =
+    pinTrigger.start + (pinTrigger.end - pinTrigger.start) * progress;
+
+  window.scrollTo({
+    top: targetScroll,
+    behavior: prefersReducedMotion.value ? "auto" : "smooth",
+  });
+}
 
 /** Hidden from assistive tech and taken out of the tab order while covered */
 function isSlideInert(index: number) {
@@ -306,8 +339,12 @@ onMounted(async () => {
     }, sectionElement);
 
     isStageStacked.value = true;
+    pinTrigger = ScrollTrigger.getAll().find(
+      (trigger) => trigger.trigger === sectionElement && trigger.pin,
+    ) ?? null;
 
     return () => {
+      pinTrigger = null;
       isStageStacked.value = false;
       context?.revert();
     };

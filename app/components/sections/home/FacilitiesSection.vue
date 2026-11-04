@@ -114,11 +114,11 @@ function tileTintClass(index: number): string {
     container-size="xl"
     class="!pb-0"
   >
-    <FadeReveal>
-      <BaseTitle id="facilities-title">Facilities &amp; Amenities</BaseTitle>
-    </FadeReveal>
+    <BaseTitle id="facilities-title">Facilities &amp; Amenities</BaseTitle>
 
-    <FadeReveal :stagger="0.06">
+    <!-- The delay lets the title's word reveal land first; the tiles then
+         follow one by one -->
+    <FadeReveal :stagger="0.09" :delay="0.9" start="top 88%">
       <ul
         class="mt-10 grid grid-cols-2 gap-px bg-line/20 sm:grid-cols-3 lg:mt-16 lg:grid-cols-5 lg:gap-0 lg:bg-transparent"
       >

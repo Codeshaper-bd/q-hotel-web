@@ -9,12 +9,18 @@
   -->
   <!-- No position utility of its own: the PARENT positions this (here, as the
        section's `absolute inset-0` backdrop). -->
-  <div class="location-map isolate overflow-hidden">
+  <div
+    ref="rootRef"
+    class="location-map isolate"
+    @pointermove="onPointerMove"
+    @pointerleave="hideHint"
+  >
     <!-- MapLibre mounts here; its classes are added imperatively, so this
          element's class attribute stays static -->
     <!-- Wrapper owns the absolute fill: MapLibre sets `position: relative` on
-         its container, which would collapse an `absolute inset-0` one -->
-    <div class="absolute inset-0">
+         its container, which would collapse an `absolute inset-0` one. It also
+         owns the clipping, so the overlay below can reach up over the heading. -->
+    <div class="absolute inset-0 overflow-hidden">
       <div
         ref="mapContainerRef"
         class="h-full w-full"
@@ -26,6 +32,38 @@
     <!-- Edge feather: top and bottom dissolve into the section's own colour so
          the map reads as part of the section, not a panel dropped onto it -->
     <div class="map-fade pointer-events-none absolute inset-0 z-[5]" aria-hidden="true" />
+
+    <!-- Figma "Rectangle 7137": 583px dark overlay, #060C14 100% -> 0%. It
+         starts above the map (behind the section heading, which is z-10, and
+         clipped by the section) and sits below the hover card (z-10), so the
+         card is never dimmed. -->
+    <div
+      class="pointer-events-none absolute inset-x-0 -top-[140px] z-[5] h-[583px] bg-gradient-to-b from-[#060C14] to-[#060C14]/0"
+      aria-hidden="true"
+    />
+    <!-- Cursor hint: follows a mouse over the map so visitors know the pins
+         are clickable. Mouse-only (touch has no cursor to follow) and retired
+         for good once a pin has been used. Decorative: the pins carry their
+         own accessible names. -->
+    <div
+      v-if="isMapReady"
+      ref="hintRef"
+      class="pointer-events-none absolute left-0 top-0 z-[11] hidden [@media(hover:hover)_and_(pointer:fine)]:block"
+      aria-hidden="true"
+    >
+      <span
+        :class="[
+          'ml-4 mt-5 flex w-max items-center gap-1.5 bg-night/85 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-champagne backdrop-blur-sm transition-opacity duration-fast',
+          isHintVisible && !hasUsedPin ? 'opacity-100' : 'opacity-0',
+        ]"
+      >
+        <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z" />
+          <circle cx="12" cy="10" r="2.5" />
+        </svg>
+        Click a pin to get more info
+      </span>
+    </div>
 
     <!-- Pre-map / failed state: real content, not a spinner -->
     <div
@@ -51,7 +89,7 @@
     <!-- Recentre + zoom. Real buttons: keyboard-reachable. -->
     <div
       v-if="isMapReady"
-      class="pointer-events-none absolute bottom-8 left-5 z-10 flex flex-wrap items-center gap-x-5 gap-y-2 sm:left-6 lg:left-8"
+      class="map-controls pointer-events-none absolute bottom-8 left-5 z-10 flex flex-wrap items-center gap-x-5 gap-y-2 sm:left-6 lg:left-8"
     >
       <button
         type="button"
@@ -114,6 +152,12 @@ const HIDE_DELAY_MS = 220
 
 const mapContainerRef = ref<HTMLElement | null>(null)
 const isMapReady = ref(false)
+
+const rootRef = ref<HTMLElement | null>(null)
+const hintRef = ref<HTMLElement | null>(null)
+const isHintVisible = ref(false)
+/** Once a pin has been clicked the visitor knows; the hint stays away */
+const hasUsedPin = ref(false)
 
 const { prefersReducedMotion } = useReducedMotion()
 
@@ -261,6 +305,26 @@ function createCardContent(title: string, body: string, meta: string, link?: { h
   return root
 }
 
+/** Moves the hint with the mouse; hides it over pins and cards */
+function onPointerMove(event: PointerEvent) {
+  const root = rootRef.value
+  const hint = hintRef.value
+  if (event.pointerType !== 'mouse' || !root || !hint) {
+    return
+  }
+
+  const bounds = root.getBoundingClientRect()
+  hint.style.transform = `translate3d(${event.clientX - bounds.left}px, ${event.clientY - bounds.top}px, 0)`
+
+  const isOverInteractive = event.target instanceof Element
+    && event.target.closest('.map-pin, .maplibregl-popup, .map-controls') !== null
+  isHintVisible.value = !isOverInteractive
+}
+
+function hideHint() {
+  isHintVisible.value = false
+}
+
 function cancelHide() {
   if (hideTimer) {
     clearTimeout(hideTimer)
@@ -306,6 +370,7 @@ function bindPin(
   element.addEventListener('blur', () => scheduleHide(id))
   element.addEventListener('click', (event) => {
     event.stopPropagation()
+    hasUsedPin.value = true
     pinnedId = pinnedId === id ? null : id
     open()
   })
@@ -574,9 +639,14 @@ onBeforeUnmount(() => {
   color: #e0a23c;
 }
 
+/* Above the edge feather and top overlay, so the card is never dimmed */
+.location-map :deep(.map-card) {
+  z-index: 10;
+}
+
 /* Hover/click card: borderless night glass so it belongs to the map surface */
 .location-map :deep(.map-card .maplibregl-popup-content) {
-  background: rgb(var(--color-night) / 0.92);
+  background: rgb(var(--color-night) / 0.96);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 0;

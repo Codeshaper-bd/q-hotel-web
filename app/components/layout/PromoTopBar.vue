@@ -1,5 +1,5 @@
 <template>
-  <div class="promo-bar">
+  <div :class="['promo-bar', { 'promo-bar-solid': solid }]">
     <p class="promo-copy">
       Bookings over 10 nights and more will be applicable for …% discount
     </p>
@@ -34,6 +34,14 @@
 </template>
 
 <script setup lang="ts">
+withDefaults(defineProps<{
+  /** True once the header is solid: the bar turns a deeper black than the
+   *  header panel, with white copy */
+  solid?: boolean;
+}>(), {
+  solid: false,
+});
+
 defineEmits<{ dismiss: [] }>();
 </script>
 
@@ -51,6 +59,21 @@ defineEmits<{ dismiss: [] }>();
   background: rgb(255 255 255 / 0.2);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
+}
+
+.promo-bar-solid {
+  background: #02050a;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.promo-bar-solid .promo-copy,
+.promo-bar-solid .promo-close {
+  color: #fff;
+}
+
+.promo-bar-solid .promo-close {
+  background: rgb(255 255 255 / 0.12);
 }
 
 .promo-copy {

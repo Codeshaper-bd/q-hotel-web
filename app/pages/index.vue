@@ -15,7 +15,7 @@
     </FadeReveal>
 
     <FaqSection />
-    <div class="h-[160px]"></div>
+    <div class="h-[110px]"></div>
   </div>
 </template>
 

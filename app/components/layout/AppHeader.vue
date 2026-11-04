@@ -11,9 +11,9 @@
          layer so the backdrop blur eases in rather than snapping on -->
     <div
       :class="[
-        'absolute inset-0 border-b bg-paper/90 backdrop-blur-md transition-[opacity,border-color] duration-normal ease-premium',
+        'absolute inset-0 border-b bg-[#060C14] transition-[opacity,border-color] duration-normal ease-premium',
         hasSolidBackground ? 'opacity-100' : 'opacity-0',
-        hasScrolledPastCover ? 'border-line/70' : 'border-transparent',
+        hasScrolledPastCover ? 'border-white/10' : 'border-transparent',
       ]"
       aria-hidden="true"
     />
@@ -34,7 +34,7 @@
          keeps section offsets honest while the bar is visible. -->
     <Transition name="promo-bar" @after-leave="resetPromoHeaderHeight">
       <div v-if="showPromoBar" class="promo-bar-wrap">
-        <PromoTopBar @dismiss="handlePromoDismiss" />
+        <PromoTopBar :solid="hasSolidBackground" @dismiss="handlePromoDismiss" />
       </div>
     </Transition>
     <!-- Skip to content -->
@@ -51,7 +51,7 @@
         class="flex min-h-[var(--header-nav-height)] items-center justify-between gap-6"
       >
         <!-- Left: logo -->
-        <NavLogo tone="on-light" />
+        <NavLogo :tone="hasSolidBackground ? 'on-dark' : 'on-light'" />
 
         <!-- Right: primary navigation (hidden on mobile) -->
         <nav
@@ -65,8 +65,9 @@
               :to="item.href"
               :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
-                'py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast hover:text-[#A75B27]',
-                isActive(item.href) ? activeLinkColor : 'text-[#373737]',
+                'py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast',
+                linkHoverColor,
+                isActive(item.href) ? activeLinkColor : inactiveLinkColor,
               ]"
             >
               {{ item.label }}
@@ -81,10 +82,11 @@
                 aria-haspopup="true"
                 :aria-controls="`nav-menu-${item.id}`"
                 :class="[
-                  'group flex items-center gap-1 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast hover:text-[#A75B27]',
+                  'group flex items-center gap-1 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast',
+                  linkHoverColor,
                   activeMenuId === item.id || isActive(item.href)
                     ? activeLinkColor
-                    : 'text-[#373737]',
+                    : inactiveLinkColor,
                 ]"
                 @mouseenter="handleTriggerEnter(item.id)"
                 @mouseleave="schedulMenuClose"
@@ -103,10 +105,11 @@
                 <!-- Chevron indicator -->
                 <svg
                   :class="[
-                    'h-3 w-3 shrink-0 transition-transform duration-fast group-hover:text-[#A75B27]',
+                    'h-3 w-3 shrink-0 transition-transform duration-fast',
+                    chevronHoverColor,
                     activeMenuId === item.id || isActive(item.href)
                       ? `rotate-180 ${activeLinkColor}`
-                      : 'text-[#373737]/50',
+                      : chevronIdleColor,
                   ]"
                   viewBox="0 0 12 12"
                   fill="none"
@@ -147,7 +150,9 @@
             type="button"
             :class="[
               'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast',
-              'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink',
+              hasSolidBackground
+                ? 'border-white/30 text-white/80 hover:border-white/60 hover:text-white'
+                : 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink',
             ]"
             :aria-expanded="isMobileOpen"
             aria-controls="mobile-navigation"
@@ -239,8 +244,8 @@ const nuxtApp = useNuxtApp();
 // `inert` keeps the hidden nav out of tab order — pointer-events-none wouldn't.
 const isMenuRevealed = useState("hero-menu-revealed", () => true);
 
-// Glass backdrop is held off while the home hero plays its full-bleed footage;
-// HeroSection allows it again near the journey's end (default: allowed)
+// Solid background is held off while the home hero plays its full-bleed
+// footage; HeroSection allows it again near the journey's end (default: allowed)
 const isNavGlassAllowed = useState("hero-nav-glass", () => true);
 const activeMenuId = ref<string | null>(null);
 const isMobileOpen = ref(false);
@@ -328,7 +333,24 @@ watch(showPromoBar, (visible) => {
 // Active nav item accent: champagne on the home page's dark hero, copper
 // elsewhere once the paper glass is in play
 const activeLinkColor = computed(() =>
-  hasSolidBackground.value ? "text-[#A75B27]" : "text-[#0F0F10]",
+  hasSolidBackground.value ? "text-champagne" : "text-[#0F0F10]",
+);
+
+// Once the header goes solid it is the dark #060C14 panel with white menu
+// text; over the home hero (transparent) the original dark-on-veil text stays.
+const inactiveLinkColor = computed(() =>
+  hasSolidBackground.value ? "text-white" : "text-[#373737]",
+);
+const linkHoverColor = computed(() =>
+  hasSolidBackground.value ? "hover:text-champagne" : "hover:text-[#A75B27]",
+);
+const chevronIdleColor = computed(() =>
+  hasSolidBackground.value ? "text-white/60" : "text-[#373737]/50",
+);
+const chevronHoverColor = computed(() =>
+  hasSolidBackground.value
+    ? "group-hover:text-champagne"
+    : "group-hover:text-[#A75B27]",
 );
 
 // Pages with no dark cover media at the top (a plain paper background
@@ -337,9 +359,9 @@ const activeLinkColor = computed(() =>
 const NO_DARK_HERO_ROUTES = new Set(["/booking"]);
 const hasDarkHero = computed(() => !NO_DARK_HERO_ROUTES.has(route.path));
 
-// Only the home page runs the transparent header that gains a paper-glass
-// background on scroll. Every other page starts solid so the nav is always
-// readable over its non-hero, light-on-light content.
+// Only the home page runs the transparent header that turns into the solid
+// dark #060C14 panel on scroll. Every other page starts solid so the nav is
+// always readable over its non-hero, light-on-light content.
 const hasSolidBackground = computed(
   () =>
     !isHome.value ||

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 const { hotel, attractions } = useNearbyAttractions();
+
+const titleRef = ref<HTMLElement | null>(null);
+useWordReveal(titleRef);
 </script>
 
 <template>
@@ -18,14 +21,13 @@ const { hotel, attractions } = useNearbyAttractions();
          map's top edge feathers into that same colour, so the two read as one
          surface rather than a title stacked on a panel -->
     <BaseContainer size="xl" class="relative z-10 pt-20 sm:pt-24">
-      <FadeReveal>
-        <h2
-          id="location-title"
-          class="text-center font-display text-4xl font-normal text-paper sm:text-5xl lg:text-[56px]"
-        >
-          Explore Q Hotel Dhaka
-        </h2>
-      </FadeReveal>
+      <h2
+        id="location-title"
+        ref="titleRef"
+        class="text-center font-display text-4xl font-normal text-paper sm:text-5xl lg:text-[56px]"
+      >
+        Explore Q Hotel Dhaka
+      </h2>
     </BaseContainer>
 
     <!-- The map eases in as a whole (fade only — no travel, so its pins and
