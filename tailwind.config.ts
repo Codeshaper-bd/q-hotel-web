@@ -27,7 +27,7 @@ export default <Partial<Config>>{
         flame: 'rgb(var(--color-flame) / <alpha-value>)'
       },
       fontFamily: {
-        sans: ['Satoshi', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Avenir', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['Cormorant Garamond', 'Georgia', 'serif']
       },
       borderRadius: {

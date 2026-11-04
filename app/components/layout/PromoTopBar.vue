@@ -10,8 +10,8 @@
       @click="$emit('dismiss')"
     >
       <svg
-        width="16"
-        height="16"
+        width="11"
+        height="11"
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -43,30 +43,35 @@ defineEmits<{ dismiss: [] }>();
    promo-bar-wrap so the dismiss collapse can animate it. */
 .promo-bar {
   display: grid;
-  grid-template-columns: 2.5rem 1fr 2.5rem;
+  grid-template-columns: 3rem 1fr 3rem;
   align-items: center;
   height: 100%;
   overflow: hidden;
-  background: #0f0f10;
+  /* Figma glass: 20% white veil over a soft blur of the hero behind it */
+  background: rgb(255 255 255 / 0.2);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
 
 .promo-copy {
   grid-column: 2;
   font-size: 16px;
-  line-height: 1.4;
-  color: #ffffff;
+  line-height: 24px;
+  color: #0f0f10;
   text-align: center;
 }
 
 .promo-close {
   grid-column: 3;
   display: flex;
-  height: 100%;
-  width: 2.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
   align-items: center;
   justify-content: center;
   justify-self: end;
-  color: #ffffff;
+  margin-right: 1.5rem;
+  background: rgb(255 255 255 / 0.24);
+  color: #0f0f10;
   transition: opacity var(--duration-fast) var(--ease-premium);
 }
 

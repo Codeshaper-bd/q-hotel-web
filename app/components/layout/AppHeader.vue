@@ -18,6 +18,17 @@
       aria-hidden="true"
     />
 
+    <!-- Figma nav strip: a white veil that peaks mid-height and fades out at
+         both edges, pinned to the nav row (below the promo bar) while the
+         header is still transparent -->
+    <div
+      :class="[
+        'pointer-events-none absolute inset-x-0 bottom-0 h-[var(--header-nav-height)] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.5)_50%,rgba(255,255,255,0)_100%)] transition-opacity duration-normal ease-premium',
+        hasSolidBackground ? 'opacity-0' : 'opacity-100',
+      ]"
+      aria-hidden="true"
+    />
+
     <!-- Dismissible promo strip on the homepage; sits above the glass layer
          and paints its own dark band. The runtime --header-height override
          keeps section offsets honest while the bar is visible. -->
@@ -40,11 +51,11 @@
         class="flex min-h-[var(--header-nav-height)] items-center justify-between gap-6"
       >
         <!-- Left: logo -->
-        <NavLogo :tone="hasSolidBackground ? 'on-light' : 'on-dark'" />
+        <NavLogo tone="on-light" />
 
         <!-- Right: primary navigation (hidden on mobile) -->
         <nav
-          class="hidden items-center gap-0 lg:flex"
+          class="hidden items-center gap-10 lg:flex"
           aria-label="Primary navigation"
         >
           <template v-for="item in navigationItems" :key="item.id">
@@ -54,12 +65,8 @@
               :to="item.href"
               :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
-                'lg:mr-12 xl:mr-20 last:mr-0 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast  last:pr-0',
-                isActive(item.href)
-                  ? activeLinkColor
-                  : hasSolidBackground
-                    ? 'text-ink/70 hover:text-ink'
-                    : 'text-white hover:text-white/80',
+                'py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast hover:text-[#A75B27]',
+                isActive(item.href) ? activeLinkColor : 'text-[#373737]',
               ]"
             >
               {{ item.label }}
@@ -74,12 +81,10 @@
                 aria-haspopup="true"
                 :aria-controls="`nav-menu-${item.id}`"
                 :class="[
-                  'flex items-center gap-1 px-3.5 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast xl:px-4',
+                  'group flex items-center gap-1 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast hover:text-[#A75B27]',
                   activeMenuId === item.id || isActive(item.href)
                     ? activeLinkColor
-                    : hasSolidBackground
-                      ? 'text-ink/70 hover:text-ink'
-                      : 'text-white hover:text-white/80',
+                    : 'text-[#373737]',
                 ]"
                 @mouseenter="handleTriggerEnter(item.id)"
                 @mouseleave="schedulMenuClose"
@@ -98,12 +103,10 @@
                 <!-- Chevron indicator -->
                 <svg
                   :class="[
-                    'h-3 w-3 shrink-0 transition-transform duration-fast',
+                    'h-3 w-3 shrink-0 transition-transform duration-fast group-hover:text-[#A75B27]',
                     activeMenuId === item.id || isActive(item.href)
                       ? `rotate-180 ${activeLinkColor}`
-                      : hasSolidBackground
-                        ? 'text-ink/30'
-                        : 'text-white/40',
+                      : 'text-[#373737]/50',
                   ]"
                   viewBox="0 0 12 12"
                   fill="none"
@@ -133,20 +136,18 @@
               </Transition>
             </div>
           </template>
-          <CurrencyDropdown :has-solid-background="hasSolidBackground" />
+          <CurrencyDropdown :has-solid-background="true" />
         </nav>
 
         <!-- Mobile: currency selector + hamburger -->
         <div class="flex items-center gap-4 lg:hidden">
-          <CurrencyDropdown :has-solid-background="hasSolidBackground" />
+          <CurrencyDropdown :has-solid-background="true" />
 
           <button
             type="button"
             :class="[
               'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast',
-              hasSolidBackground
-                ? 'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink'
-                : 'border-paper/20 text-paper/60 hover:border-paper/40 hover:text-paper',
+              'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink',
             ]"
             :aria-expanded="isMobileOpen"
             aria-controls="mobile-navigation"
@@ -326,7 +327,9 @@ watch(showPromoBar, (visible) => {
 
 // Active nav item accent: champagne on the home page's dark hero, copper
 // elsewhere once the paper glass is in play
-const activeLinkColor = computed(() => (isHome.value ? "text-[#A75B27]" : "text-[#A75B27]"));
+const activeLinkColor = computed(() =>
+  hasSolidBackground.value ? "text-[#A75B27]" : "text-[#0F0F10]",
+);
 
 // Pages with no dark cover media at the top (a plain paper background
 // instead of a hero photo) would render white-on-white nav text under this
