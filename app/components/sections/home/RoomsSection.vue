@@ -11,15 +11,16 @@
     container-size="xl"
     class="!pb-0"
   >
-    <BaseTitle id="rooms-title">
+    <BaseTitle id="rooms-title" title-class="mb-0">
       Rooms and Suites
     </BaseTitle>
     <div ref="sectionRef" class="rooms-pin-wrap mt-6">
+      <div ref="spacerRef" class="h-0 overflow-hidden transition-all duration-300"></div>
       <FadeReveal v-if="showTabs" class="shrink-0">
         <div
           role="tablist"
           aria-label="Room types"
-          class=" flex flex-wrap justify-center gap-2.5 mb-4"
+          class="flex flex-wrap justify-center gap-2.5 mb-4"
           @keydown="handleTablistKeydown"
         >
           <button
@@ -255,6 +256,12 @@ const isDetailsOpen = ref(false);
 const sectionRef = ref<HTMLElement | null>(null);
 const stackRef = ref<HTMLElement | null>(null);
 const trackRef = ref<HTMLElement | null>(null);
+const spacerRef = ref<HTMLElement | null>(null);
+
+// While the showcase is on screen the fixed header stays tucked away, so the
+// pinned room cards get the full viewport instead of the nav reappearing
+// whenever scrolling pauses.
+const isSectionNavHidden = useState("section-nav-hidden", () => false);
 
 const { gsap, createContext, prefersReducedMotion } = useGsap();
 const { addCleanup } = useAnimationCleanup();
@@ -391,19 +398,41 @@ onMounted(async () => {
   const sectionElement = sectionRef.value;
   const stackElement = stackRef.value;
 
-  if (
-    !sectionElement ||
-    !stackElement ||
-    !gsap ||
-    !ScrollTrigger ||
-    prefersReducedMotion.value
-  ) {
+  if (!sectionElement || !stackElement || !gsap || !ScrollTrigger) {
     return;
   }
 
   const mediaMatcher = gsap.matchMedia();
 
+  // Narrow viewports and reduced motion keep the readable stacked flow (no
+  // pin), so a plain span trigger keeps the header tucked away while the
+  // showcase crosses the viewport.
+  mediaMatcher.add(
+    "(max-width: 1023px), (prefers-reduced-motion: reduce)",
+    () => {
+      const navTrigger = ScrollTrigger.create({
+        trigger: sectionElement,
+        start: "top top",
+        end: "bottom top",
+        onToggle: (self) => {
+          isSectionNavHidden.value = self.isActive;
+        },
+      });
+
+      return () => {
+        isSectionNavHidden.value = false;
+        navTrigger.kill();
+      };
+    },
+  );
+
   mediaMatcher.add("(min-width: 1024px)", () => {
+    // Reduced motion keeps the stacked flow; the span trigger above owns the
+    // header state in that case
+    if (prefersReducedMotion.value) {
+      return;
+    }
+
     const context = createContext(() => {
       const trackElement = trackRef.value;
       const cards = gsap.utils.toArray<HTMLElement>(
@@ -421,21 +450,34 @@ onMounted(async () => {
         defaults: { ease: "none" },
         scrollTrigger: {
           // Pin the tabs and card stack together: the heading scrolls away,
-          // then the tab switcher holds under the fixed header while the
-          // cards slide through the rest of the viewport.
+          // then the tab switcher holds at the top of the viewport (the navbar
+          // is hidden for this section) while the cards slide through.
           trigger: sectionElement,
-          start: () => `top top+=${readHeaderHeight()}`,
+          start: "top top",
           end: () => `+=${cards.length * window.innerHeight * 0.72}`,
           pin: true,
-          scrub: 0.85,
-          // Always settle on a full card so a slide never rests half-cut
+          scrub: 1,
+          // Always settle on a full card so a slide never rests half-cut,
+          // with a slow, symmetric ease so the settle glides instead of
+          // snapping
           snap: {
             snapTo: 1 / slideCount,
-            duration: { min: 0.25, max: 0.6 },
-            ease: "power2.out",
+            duration: { min: 0.45, max: 0.9 },
+            ease: "power1.inOut",
           },
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          // Keep the navbar tucked away for the whole pinned journey, not
+          // just while the page is actively scrolling
+          onToggle: (self) => {
+            isSectionNavHidden.value = self.isActive;
+            if (spacerRef.value) {
+              gsap.to(spacerRef.value, {
+                height: self.isActive ? 40 : 0,
+                duration: 0.3,
+              });
+            }
+          },
           onUpdate: (self) => {
             const activeIndex = Math.min(
               rooms.length - 1,
@@ -496,12 +538,14 @@ onMounted(async () => {
 
     return () => {
       roomStackTrigger = undefined;
+      isSectionNavHidden.value = false;
       context?.revert();
     };
   });
 
   addCleanup(() => {
     roomStackTrigger = undefined;
+    isSectionNavHidden.value = false;
     mediaMatcher.revert();
   });
 });
@@ -515,6 +559,9 @@ onMounted(async () => {
 }
 .rooms-track {
   display: grid;
+  /* Every stacked card takes the tallest card's height, so changing slides
+     never shifts the layout */
+  grid-auto-rows: 1fr;
   gap: 1.5rem;
 }
 
@@ -539,14 +586,19 @@ onMounted(async () => {
 /* The pinned horizontal slider only exists when motion is allowed; reduced
      motion keeps the readable vertical flow at every width */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  /* Pin group: tabs and card stack together fill the viewport below the
-     fixed header. Flex column keeps the tab row a fixed height and lets the
-     stack claim everything that remains, so the photograph is as tall as the
-     room allows on every screen. */
+  /* Pin group: tabs and card stack together fill the viewport. The nav bar is
+     hidden while this section is active, so the top padding stands in for it.
+     The stack height deliberately avoids --header-height: that token changes
+     when the promo bar reveals/hides, which used to resize the slides. */
   .rooms-pin-wrap {
     display: flex;
     flex-direction: column;
-    height: calc(100svh - var(--header-height));
+    height: 100svh;
+    padding-top: 0;
+  }
+
+  .rooms-pin-wrap.is-pinned {
+    padding-top: 40px;
   }
 
   .rooms-stack {
@@ -555,7 +607,7 @@ onMounted(async () => {
        The floor keeps the card tall enough that the details panel never needs
        to scroll internally on short viewports. */
     flex: 0 1 auto;
-    height: clamp(32rem, calc(100svh - var(--header-height) - 9rem - 10px), 48rem);
+    height: clamp(32rem, calc(100svh - var(--header-nav-height) - 8rem), 52rem);
     min-height: 32rem;
     margin-block: auto;
     overflow: hidden;
