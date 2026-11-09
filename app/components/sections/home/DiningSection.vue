@@ -1,7 +1,7 @@
 <template>
   <!--
-    Dining showcase: a full-screen (viewport minus header) image stage that the
-    scroll pins, stepping through one outlet at a time. The photographs simply
+    Dining showcase: a full-viewport (100svh) image stage that the scroll pins,
+    stepping through one outlet at a time. The photographs simply
     crossfade in place (no scale — the frame swaps at the same size) while the
     copy fades and slides out, gives the swap a beat to settle, then the next
     outlet's copy fades/slides in. Everything is scrub-synced to scroll, so
@@ -25,7 +25,7 @@
       <article
         v-for="(venue, venueIndex) in venues"
         :key="venue.id"
-        class="dining-slide relative min-h-[34rem] motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:min-h-0"
+        class="dining-slide relative min-h-[100svh] motion-safe:lg:absolute motion-safe:lg:inset-0 motion-safe:lg:min-h-0"
         :class="{ 'pointer-events-none': isSlideInert(venueIndex) }"
         :aria-hidden="isSlideInert(venueIndex) ? 'true' : undefined"
       >
@@ -247,7 +247,6 @@ onMounted(async () => {
       }
 
       const stepCount = mediaLayers.length - 1;
-      const headerHeight = readHeaderHeight();
 
       // Only the first outlet's photograph is visible at rest; the rest fade
       // in at the same size (no scale, no zoom — the image never grows).
@@ -264,9 +263,9 @@ onMounted(async () => {
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: sectionElement,
-          // Rest the stage directly under the fixed header, so the photograph
-          // fills the viewport below the navbar
-          start: () => `top top+=${headerHeight}`,
+          // The stage fills the whole viewport; the fixed header overlays it
+          // while visible and tucks away on scroll
+          start: "top top",
           end: () => `+=${mediaLayers.length * window.innerHeight * 0.8}`,
           pin: true,
           scrub: 0.8,
@@ -355,13 +354,13 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* Pinned full-bleed stage: the viewport minus the fixed header, so the
-   photograph sits directly below the navbar. Only where the pin actually
-   runs — mobile and reduced motion keep the stacked panels in normal flow. */
+/* Pinned full-viewport stage: the photograph fills the entire screen and the
+   fixed header overlays it. Only where the pin actually runs — mobile and
+   reduced motion keep the stacked panels in normal flow. */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .dining-stage {
     position: relative;
-    height: calc(100svh - var(--header-height));
+    height: 100svh;
     overflow: hidden;
   }
 

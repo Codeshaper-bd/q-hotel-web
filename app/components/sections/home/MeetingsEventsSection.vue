@@ -142,7 +142,9 @@ const venues: MeetingVenue[] = [
 // Hover (pointer devices) and keyboard focus flip a card through CSS; this
 // adds tap-to-flip for touch devices, where hover does not exist. Taps on the
 // card's own buttons are left alone so they still open their dialogs.
-const flippedVenueIds = reactive<Record<string, boolean>>({});
+const flippedVenueIds = reactive<Record<string, boolean>>({
+  [venues[0]!.id]: true, // First card flipped by default
+});
 
 function handleCardTap(venueId: string, event: MouseEvent) {
   const tapped = event.target;
@@ -225,6 +227,11 @@ const {
 @media (min-width: 1024px) and (hover: hover) {
   .venue-card:hover .venue-card-inner {
     transform: rotateY(180deg);
+  }
+
+  /* If card is already flipped, hover shows the front face instead */
+  .venue-card.is-flipped:hover .venue-card-inner {
+    transform: rotateY(0deg);
   }
 }
 
