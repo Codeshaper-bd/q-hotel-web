@@ -13,48 +13,62 @@
     v-model="open"
     labelled-by="event-reservation-dialog-title"
     close-label="Close reservation dialog"
-    max-width-class="max-w-[1120px]"
+    max-width-class="max-w-[1232px]"
+    close-button-class="absolute right-4 top-4 z-20 flex size-8 items-center justify-center bg-[#F9F0DB]/70 text-[#0F0F10] transition-colors duration-200 hover:bg-[#F9F0DB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C87532] lg:right-6 lg:top-6"
+    close-icon-class="size-5"
     @close="emit('close')"
   >
     <div
       data-lenis-prevent-wheel
-      class="grid max-h-[90dvh] w-full overflow-y-auto bg-white lg:h-[min(760px,90dvh)] lg:grid-cols-[410px_1fr] lg:overflow-hidden"
+      class="grid max-h-[90dvh] w-full overflow-y-auto bg-white lg:h-[min(796px,90dvh)] lg:grid-cols-[460px_1fr] lg:overflow-hidden"
     >
       <!-- ========================= -->
       <!-- LEFT INFORMATION PANEL -->
       <!-- ========================= -->
-      <aside class="relative flex flex-col overflow-hidden bg-[#F7F0E1]">
+      <!-- Figma: the venue photograph fills the whole panel; an ivory wash
+           (97% at 38% height, clear by 58%) lets the text sit on it. Phones
+           and tablets skip the photograph and keep the plain ivory panel. -->
+      <aside class="relative flex flex-col overflow-hidden bg-[#F9F0DB]">
+        <BaseImage
+          :src="venueImage"
+          :alt="`${venueName} at Q Hotel Dhaka`"
+          :width="1200"
+          :height="800"
+          sizes="lg:460px"
+          class="absolute inset-0 hidden lg:block"
+        />
         <div
-          class="relative z-10 px-5 pb-5 pt-6 sm:px-6 sm:pt-7 lg:px-7 lg:pb-6"
-        >
-          <div class="mb-4">
-            <p
-              class="text-[11px] font-medium uppercase text-[#C9752D] sm:text-sm"
-            >
+          class="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(180deg,rgba(249,240,219,0.97)_38.19%,rgba(249,240,219,0)_57.898%)] lg:block"
+          aria-hidden="true"
+        />
+
+        <div class="relative z-10 px-5 pb-6 pt-6 sm:px-6 sm:pt-7 lg:px-8 lg:pb-0 lg:pt-8">
+          <div>
+            <p class="text-xs font-normal uppercase leading-5 text-[#A75B27] sm:text-sm">
               Reserve Your Event
             </p>
 
-            <span class="mt-2 block h-[2px] w-[84px] bg-[#C9752D]" />
+            <span class="mt-2.5 block h-px w-[83px] bg-[#A75B27]" />
           </div>
 
           <h2
             id="event-reservation-dialog-title"
-            class="text-[22px] font-semibold text-[#0F0F10] sm:text-[32px]"
+            class="mt-6 max-w-[340px] font-display text-[22px] font-semibold capitalize leading-tight text-[#0F0F10] sm:text-[32px] lg:text-[36px] lg:leading-[44px]"
           >
             Plan Your Perfect Event
           </h2>
 
-          <p class="mt-3 text-[13px] text-[#373737] font-medium sm:text-sm">
+          <p class="mt-5 max-w-[333px] text-sm leading-6 text-[#373737] sm:text-base">
             Let us create an exceptional experience for your meeting,
-            celebration or special occasion.
+            celebration or special occasion
           </p>
 
           <a
             :href="`tel:${phoneNumber}`"
-            class="group mt-4 flex items-center gap-3 border border-[#C9752D] px-3 py-3 transition-colors duration-200 hover:bg-[#C87532]/5"
+            class="group mt-6 flex items-center gap-2.5 border border-[#C9752D] p-[18px] transition-colors duration-200 hover:bg-[#C87532]/5 lg:h-[88px]"
           >
             <span
-              class="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#C9752D] text-[#8F623A]"
+              class="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#A75B27]"
             >
               <svg
                 width="14"
@@ -92,38 +106,18 @@
             </span>
 
             <span>
-              <span
-                class="block text-[13px] font-medium text-[#0F0F10] sm:text-sm"
-              >
+              <span class="block text-sm font-medium leading-6 text-[#0F0F10] sm:text-base">
                 Prefer To Reserve By Phone?
               </span>
 
-              <span class="mt-0.5 block text-[13px] text-[#0F0F10] sm:text-sm">
+              <span class="block text-sm leading-6 text-[#0F0F10] sm:text-base">
                 Call us at
-                <strong class="text-[#A75B27]">
+                <strong class="font-medium text-[#A75B27]">
                   {{ phoneNumber }}
                 </strong>
               </span>
             </span>
           </a>
-        </div>
-
-        <div
-          class="relative mt-auto hidden h-[320px] overflow-hidden lg:block lg:h-auto lg:flex-1"
-        >
-          <BaseImage
-            :src="venueImage"
-            :alt="`${venueName} at Q Hotel Dhaka`"
-            :width="1200"
-            :height="800"
-            sizes="xs:100vw sm:100vw lg:500px"
-            class="absolute inset-0"
-          />
-
-          <div
-            class="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#F7F0E1] to-transparent"
-            aria-hidden="true"
-          />
         </div>
       </aside>
 
@@ -131,16 +125,16 @@
       <!-- RIGHT RESERVATION FORM -->
       <!-- ========================= -->
       <section
-        class="flex flex-col bg-white px-5 py-6 sm:px-7 sm:py-7 lg:overflow-y-auto lg:px-8 lg:pb-6 lg:pt-8"
+        class="form-column flex flex-col bg-white px-5 py-6 sm:px-7 sm:py-7 lg:overflow-y-auto lg:pb-6 lg:pl-[60px] lg:pr-8 lg:pt-[76px]"
       >
         <form
           ref="formRef"
-          class="flex flex-1 flex-col"
+          class="flex flex-col"
           :aria-busy="submitting"
           @submit.prevent="submitForm"
         >
-          <div class="space-y-4">
-            <div class="grid gap-3 sm:grid-cols-2">
+          <div class="space-y-5">
+            <div class="grid gap-5 sm:grid-cols-2 sm:gap-4 sm:gap-y-5">
               <div>
                 <label for="event-date" class="form-label">
                   Event Date
@@ -172,7 +166,7 @@
               {{ validationError }}
             </p>
 
-            <div class="grid gap-3 sm:grid-cols-2">
+            <div class="grid gap-5 sm:grid-cols-2 sm:gap-4 sm:gap-y-5">
               <div>
                 <label for="event-guests" class="form-label">
                   Number of Guests
@@ -236,7 +230,7 @@
               </div>
             </div>
 
-            <div class="grid gap-3 sm:grid-cols-2">
+            <div class="grid gap-5 sm:grid-cols-2 sm:gap-4 sm:gap-y-5">
               <div>
                 <label for="event-email" class="form-label">
                   Email Address
@@ -286,7 +280,7 @@
               </div>
             </div>
 
-            <div class="grid gap-3 sm:grid-cols-2">
+            <div class="grid gap-5 sm:grid-cols-2 sm:gap-4 sm:gap-y-5">
               <div>
                 <label for="event-name" class="form-label">
                   Name
@@ -331,20 +325,22 @@
                 id="event-request"
                 v-model.trim="form.specialRequest"
                 name="specialRequest"
-                rows="3"
+                rows="4"
                 placeholder="Add special request"
-                class="form-input min-h-[88px] resize-none py-2.5"
+                class="form-input !h-[120px] resize-none py-3.5"
               />
             </div>
 
-            <div class="flex items-start gap-2">
-              <svg
+          </div>
+
+          <div class="mt-6 flex items-center gap-1.5">
+            <svg
+                class="shrink-0"
                 width="20"
                 height="20"
                 viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="mt-0.5"
               >
                 <path
                   d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z"
@@ -366,18 +362,17 @@
                 />
               </svg>
 
-              <p class="text-sm text-[#505155]">
-                <span class="font-medium text-black">Please note:</span>
-                Your information is secure and will be kept confidential.
-              </p>
-            </div>
+            <p class="text-base font-medium leading-6 text-[#0F0F10]">
+              Your information is secure and will be kept confidential.
+            </p>
           </div>
 
-          <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:mt-auto lg:pt-5">
+          <div class="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
             <BaseArrowCta
               variant="gold"
-              label-class="flex-1 justify-center"
-              class="w-full"
+              label-class="flex-1 justify-center !min-h-12 !text-sm !font-medium"
+              background-class="!bg-[#E9C588] group-hover:!bg-gold"
+              class="w-full !gap-1"
               :disabled="submitting"
               @click="handleBookClick"
             >
@@ -385,9 +380,10 @@
             </BaseArrowCta>
 
             <BaseArrowCta
-              variant="ghost"
-              label-class="flex-1 justify-center"
-              class="w-full"
+              variant="gold-outline"
+              label-class="flex-1 justify-center !min-h-12 !text-sm !font-medium"
+              border-class="!border-[#D78C38]"
+              class="w-full !gap-1"
               :disabled="submitting"
               @click="open = false"
             >
@@ -501,22 +497,39 @@ function submitForm() {
 
 <style scoped>
 .form-label {
-  @apply mb-1.5 block text-[13px] font-normal uppercase tracking-[0.025em] text-[#373737];
+  @apply mb-2.5 block text-sm font-normal uppercase leading-[22px] text-[#373737];
 }
 
 .form-error {
   @apply mt-2 text-sm font-medium text-[#B3261E];
 }
 
+/* Figma: 52px fields, 1px #0F0F10 border at 40%, 16px text at 50% for hints */
 .form-input {
-  @apply h-[46px] w-full border border-[#C9C9C9] bg-white px-3 text-sm text-[#272727] transition duration-200 placeholder:text-sm placeholder:text-[#373737] hover:border-[#A9A9A9] focus:border-[#C87532] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#C87532];
+  @apply block h-[52px] w-full border border-[#0F0F10]/40 bg-white px-4 text-base text-[#272727] transition duration-200 placeholder:text-base placeholder:text-[#373737]/50 hover:border-[#0F0F10]/60 focus:border-[#C87532] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#C87532];
+}
+
+/* Block-level fields: inline selects/textareas add a few pixels of baseline
+   gap per row, which pushed the 796px design a hair past its frame and
+   summoned a scrollbar. */
+
+/* The form column still scrolls on short viewports, but never shows a bar */
+@media (min-width: 1024px) {
+  .form-column {
+    scrollbar-width: none;
+  }
+
+  .form-column::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Date/time pickers have a shared 52px trigger. This modal-specific wrapper
    keeps the compact treatment local without changing other booking forms. */
 .compact-picker :deep(.picker-trigger) {
-  height: 46px;
-  padding-inline: 0.75rem;
-  font-size: 0.875rem;
+  height: 52px;
+  padding-inline: 1rem;
+  font-size: 1rem;
+  border-color: rgb(15 15 16 / 0.4);
 }
 </style>
