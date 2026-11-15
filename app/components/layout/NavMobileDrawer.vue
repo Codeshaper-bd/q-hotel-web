@@ -7,8 +7,10 @@
     ]"
     aria-label="Mobile navigation"
   >
-    <div class="min-h-0 overflow-hidden bg-paper mb-5">
-      <div class="flex flex-col py-4">
+    <!-- No margin on the collapsing child: it survives the 0fr collapse and
+         left a 20px gap under the closed header. The spacing lives inside. -->
+    <div class="min-h-0 overflow-hidden bg-paper">
+      <div class="flex flex-col pb-9 pt-4">
         <!-- Items without submenus: direct links -->
         <template v-for="item in items" :key="item.id">
           <!-- Plain link -->

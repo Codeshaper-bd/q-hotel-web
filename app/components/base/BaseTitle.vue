@@ -21,5 +21,5 @@ const titleRef = ref<HTMLElement | null>(null)
 useWordReveal(titleRef)
 
 const titleBase =
-  "font-display text-center text-4xl font-medium leading-tight text-ink  sm:text-5xl lg:text-[56px]"
+  "font-display text-center text-[32px] font-medium leading-tight text-ink  sm:text-5xl lg:text-[56px]"
 </script>

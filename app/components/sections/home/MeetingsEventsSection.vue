@@ -14,12 +14,15 @@
   >
     <BaseTitle id="meetings-events-title">Meetings &amp; Events</BaseTitle>
 
-    <FadeReveal :stagger="0.08">
-      <ul class="mx-auto mt-10 grid max-w-2xl gap-6 lg:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-5">
+    <div>
+      <ul
+        ref="venuesRef"
+        class="mx-auto mt-10 grid max-w-2xl gap-6 lg:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-5"
+      >
         <li
           v-for="venue in venues"
           :key="venue.id"
-          data-reveal-item
+          data-venue-card
           :class="['venue-card', { 'is-flipped': flippedVenueIds[venue.id] }]"
           @click="handleCardTap(venue.id, $event)"
         >
@@ -36,18 +39,18 @@
             </div>
 
             <div
-              class="venue-face venue-face-back flex flex-col gap-6 bg-white p-6 sm:p-8 lg:gap-8 lg:overflow-y-auto lg:p-6"
+              class="venue-face venue-face-back flex flex-col gap-6 bg-white p-6 sm:p-8 lg:gap-4 lg:overflow-hidden lg:p-5 xl:gap-8 xl:p-6"
             >
-              <h3 class="font-display text-2xl text-ink sm:text-3xl lg:text-4xl">
+              <h3 class="font-display text-[28px] text-ink sm:text-3xl lg:text-3xl xl:text-4xl">
                 {{ venue.name }}
               </h3>
 
-              <div class="flex flex-col gap-6 lg:gap-8">
-                <p class="text-sm leading-6 text-muted xl:text-base">
+              <div class="flex flex-col gap-6 lg:gap-4 xl:gap-8">
+                <p class="text-sm leading-6 text-muted lg:text-[13px] lg:leading-5 xl:text-base xl:leading-6">
                   {{ venue.description }}
                 </p>
 
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-wrap gap-4 lg:gap-3 xl:gap-4">
                   <BaseArrowCta
                     variant="gold"
                     @click="
@@ -71,7 +74,7 @@
           </article>
         </li>
       </ul>
-    </FadeReveal>
+    </div>
   </BaseSection>
 
   <!-- Venue details reuse the same shared popup as the rooms section -->
@@ -94,6 +97,11 @@
 
 <script setup lang="ts">
 import type { MeetingVenue } from "~/types/venue";
+
+// Venue cards sweep in as a diagonal wave as they scroll into view
+// (see useWaveReveal), after the title's word reveal is under way.
+const venuesRef = ref<HTMLElement | null>(null);
+useWaveReveal(venuesRef, "[data-venue-card]");
 
 /** Static showcase content (CMS-ready shape); venue detail pages come later */
 const venues: MeetingVenue[] = [

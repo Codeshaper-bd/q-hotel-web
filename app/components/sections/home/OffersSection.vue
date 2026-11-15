@@ -9,7 +9,7 @@
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
         <BaseKicker>Only For You</BaseKicker>
-        <h2 id="offers-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+        <h2 id="offers-title" class="mt-6 font-display text-[32px] text-ink sm:text-5xl">
           Offers &amp; Packages
         </h2>
       </div>

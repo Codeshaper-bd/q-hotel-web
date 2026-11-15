@@ -39,6 +39,7 @@
             :width="1920"
             :height="1080"
             sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px"
+            data-dining-photo
             class="absolute inset-0"
           />
           <!-- Figma "Rectangle 6857": 411px of 780px, #060C14 100% -> 0% -->
@@ -58,16 +59,18 @@
                 class="flex w-full max-w-[540px] flex-col items-center bg-[#FDFBF7] p-6 text-center sm:p-8"
               >
                 <h3
-                  class="font-display text-2xl font-normal text-[#6C3E22] sm:text-[28px] sm:leading-[38px]"
+                  data-dining-piece
+                  class="font-display text-[28px] font-normal leading-[38px] text-[#6C3E22]"
                 >
                   {{ venue.name }}
                 </h3>
-                <p class="mt-8 text-sm leading-5 text-[#373737]">
+                <p data-dining-piece class="mt-8 text-sm leading-5 text-[#373737]">
                   {{ venue.description }}
                 </p>
                 <!-- Each CTA lands on its own outlet's card on the dining page,
                      keyed to the same `id` used by DiningVenues -->
                 <NuxtLink
+                  data-dining-piece
                   :to="`/dining#${venue.id}`"
                   :tabindex="isSlideInert(venueIndex) ? -1 : 0"
                   class="group mt-8 inline-flex items-center gap-1 border-b border-[#6C3E22] pb-0.5 text-sm font-medium uppercase text-[#6C3E22] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6C3E22]"
@@ -175,6 +178,66 @@ const venues: DiningVenue[] = [
 
 const sectionRef = ref<HTMLElement | null>(null);
 const stageRef = ref<HTMLElement | null>(null);
+
+// First look: each outlet card's heading, description and link sweep in as a
+// wave (see useWaveReveal). It animates the pieces INSIDE the cards, never the
+// cards themselves, which the pinned scroll timeline owns. The card sits at the
+// stage's bottom edge, so the offset is 0.
+useWaveReveal(sectionRef, "[data-dining-piece]", { offset: 0 });
+
+// First look, photographs: they settle in with a small drift (a touch larger
+// and lower, easing to rest) so the stage arrives with the same softness as
+// the card wave and the sections above. Only the <img> inside each media layer
+// moves; the layer itself (autoAlpha) belongs to the pinned scroll timeline.
+// The 1.08 overscale keeps the drift from ever exposing the frame's edges.
+let cancelPhotoWatch: (() => void) | undefined;
+let photoTween: gsap.core.Tween | undefined;
+
+onMounted(() => {
+  const section = sectionRef.value;
+  if (!section || !gsap || prefersReducedMotion.value) {
+    return;
+  }
+
+  const photos = Array.from(
+    section.querySelectorAll<HTMLElement>("[data-dining-photo]"),
+  );
+  if (photos.length === 0) {
+    return;
+  }
+
+  gsap.set(photos, { autoAlpha: 0, scale: 1.08, y: 32 });
+
+  // Scroll-position based (whenReached): a fast scroll past the section still
+  // shows the photographs at once instead of leaving them hidden
+  cancelPhotoWatch = whenReached(
+    section,
+    (isPastViewport) => {
+      if (isPastViewport) {
+        gsap.set(photos, { clearProps: "transform,opacity,visibility" });
+        return;
+      }
+
+      photoTween = gsap.to(photos, {
+        autoAlpha: 1,
+        scale: 1,
+        y: 0,
+        duration: 1.6,
+        ease: "power3.out",
+        // Leave no inline transform on the photographs once they have settled
+        onComplete: () => {
+          gsap.set(photos, { clearProps: "transform,opacity,visibility" });
+        },
+      });
+    },
+    0.1,
+  );
+});
+
+onBeforeUnmount(() => {
+  cancelPhotoWatch?.();
+  photoTween?.kill();
+});
 
 const activeIndex = ref(0);
 /** True once the slides are stacked on top of each other, so only one shows */

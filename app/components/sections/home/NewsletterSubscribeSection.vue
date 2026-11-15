@@ -5,23 +5,24 @@
     control — the same split-with-arrow CTA shape used across the site.
   -->
   <section
+    ref="sectionRef"
     aria-labelledby="newsletter-title"
     class="bg-paper px-5 pb-20  text-center text-ink sm:px-6"
   >
-    <!-- The title animates itself (words rise, like the hero); only the form
-         fades in through FadeReveal -->
-    <FadeReveal :stagger="0.1">
+    <!-- The title animates itself (words rise, like the hero); the form then
+         rises in as the same wave the other sections use (useWaveReveal) -->
+    <div>
       <h2
         id="newsletter-title"
         ref="titleRef"
-        class="mx-auto max-w-[34rem] font-display text-xl font-normal leading-8 text-ink sm:text-2xl sm:leading-[34px]"
+        class="mx-auto max-w-[34rem] font-display text-xl font-normal leading-[26px] text-ink sm:text-2xl sm:leading-[30px]"
       >
         Be the first to receive exclusive offers, the latest updates, and
         unforgettable experiences at Q Hotel Dhaka.
       </h2>
 
       <form
-        data-reveal-item
+        data-newsletter-form
         class="mx-auto mt-6 flex w-full max-w-[34rem] items-stretch border border-champagne/60 bg-cream p-0.5"
         novalidate
         @submit.prevent="handleSubscribe"
@@ -64,15 +65,17 @@
           </span>
         </button>
       </form>
-    </FadeReveal>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
 const email = ref('')
 
+const sectionRef = ref<HTMLElement | null>(null)
 const titleRef = ref<HTMLElement | null>(null)
 useWordReveal(titleRef)
+useWaveReveal(sectionRef, '[data-newsletter-form]')
 
 // Newsletter submission is not yet wired to a backend; prevent the default
 // navigation so the UI stays intact until the subscribe API is connected.

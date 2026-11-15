@@ -179,17 +179,49 @@
 
       <div v-if="showSpecialRates" :class="dividerClass" aria-hidden="true" />
 
-      <!-- Special Rates, phone: coupon icon with the code input beside it -->
-      <div v-if="showSpecialRates && compact" class="flex min-w-0 flex-1 items-center gap-1.5 pl-2 min-[400px]:gap-2 min-[400px]:pl-3 md:hidden">
-        <img src="/images/icons/hero-coupon.svg" alt="" width="12" height="14" class="h-3.5 w-3 shrink-0">
-        <label for="hero-special-rates-compact" class="sr-only">Special Rates</label>
-        <input
-          id="hero-special-rates-compact"
-          v-model.trim="promoCode"
-          type="text"
-          autocomplete="off"
-          :class="['h-full w-full min-w-0 bg-transparent text-xs uppercase leading-[18px] outline-none', valueClass]"
+      <!-- Special Rates, phone: the coupon icon, centred in its slot, opens the
+           same kind of popover as Guests & Rooms. Unlike the other panels, this
+           one anchors to its own slot so it sits right over the icon. -->
+      <div v-if="showSpecialRates && compact" class="relative flex min-w-0 flex-1 items-center justify-center md:hidden">
+        <button
+          type="button"
+          class="flex h-full w-full items-center justify-center"
+          aria-haspopup="dialog"
+          aria-label="Special rates"
+          :aria-expanded="openPanel === 'rates'"
+          @click="togglePanel('rates')"
         >
+          <img src="/images/icons/hero-coupon.svg" alt="" width="12" height="14" class="h-3.5 w-3">
+        </button>
+
+        <div
+          v-if="openPanel === 'rates'"
+          :class="['absolute right-0 z-50 w-[19.5rem] max-w-[calc(100vw-2rem)] min-[560px]:left-1/2 min-[560px]:right-auto min-[560px]:-translate-x-1/2', popoverPositionClass]"
+          role="dialog"
+          aria-label="Enter a special rate code"
+        >
+          <div class="border border-champagne/25 bg-ink/95 p-5 shadow-[0_28px_80px_-28px] shadow-ink backdrop-blur-xl">
+            <label for="hero-special-rates-compact" :class="['hero-bar-label', labelClass]">Special Rates</label>
+            <input
+              id="hero-special-rates-compact"
+              ref="ratesInputRef"
+              v-model.trim="promoCode"
+              type="text"
+              autocomplete="off"
+              :class="['mt-2 h-10 w-full border border-paper/20 bg-ink/50 px-3 text-sm outline-none transition-colors duration-fast focus-visible:border-champagne/60 focus-visible:outline-none', valueClass]"
+              @keydown.enter.prevent="openPanel = null"
+            >
+            <div class="mt-4 flex justify-center">
+              <button
+                type="button"
+                class="border border-champagne/50 px-10 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-paper transition-colors duration-fast hover:border-champagne hover:bg-champagne/10"
+                @click="openPanel = null"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Special Rates -->
@@ -283,7 +315,8 @@ const MAX_GUESTS_PER_ROOM = 8
 const MAX_CHILDREN = 6
 
 const rootRef = ref<HTMLElement | null>(null)
-const openPanel = ref<'dates' | 'guests' | null>(null)
+const openPanel = ref<'dates' | 'guests' | 'rates' | null>(null)
+const ratesInputRef = ref<HTMLInputElement | null>(null)
 
 // Default stay: tonight, one night — the console is always submittable.
 // A handed-off `initialQuery` (e.g. from the hero into the /rooms page)
@@ -347,6 +380,8 @@ const rateFieldMarginClass = computed(() => props.compact ? 'lg:mr-10' : 'mr-10'
 // Compact: Search sits inside the bar as an icon square (phone 42px, tablet
 // 58px) and returns to the overlapping text button from `lg`. `!min-h-0` and
 // `!p-0` beat BaseButton's own min-height and padding.
+const popoverPositionClass = computed(() => props.popoverDirection === 'down' ? 'top-full mt-3' : 'bottom-full mb-3')
+
 const submitClass = computed(() => props.compact
   ? 'whitespace-nowrap !rounded-none !tracking-normal max-lg:absolute max-lg:right-2.5 max-lg:top-1/2 max-lg:size-10 min-[400px]:max-lg:right-3.5 min-[400px]:max-lg:size-[42px] max-lg:-translate-y-1/2 max-lg:!min-h-0 max-lg:!p-0 md:max-lg:right-6 md:max-lg:size-[58px] lg:relative lg:z-10 lg:-ml-8 lg:h-[60px] lg:w-fit lg:px-8'
   : 'mt-2 w-full whitespace-nowrap !rounded-none !tracking-normal lg:relative lg:z-10 lg:-ml-8 lg:mt-0 lg:h-[60px] lg:w-fit lg:px-8')
@@ -421,8 +456,12 @@ const steppers = computed<StepperRow[]>(() => [
   },
 ])
 
-function togglePanel(panel: 'dates' | 'guests') {
+function togglePanel(panel: 'dates' | 'guests' | 'rates') {
   openPanel.value = openPanel.value === panel ? null : panel
+  // Ready to type the moment the rates panel opens
+  if (openPanel.value === 'rates') {
+    void nextTick(() => ratesInputRef.value?.focus())
+  }
 }
 
 function applyDates(range: { checkIn: string, checkOut: string }) {

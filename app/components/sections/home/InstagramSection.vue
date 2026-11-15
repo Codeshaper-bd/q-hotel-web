@@ -33,7 +33,7 @@
       <FadeReveal>
         <div class="relative flex flex-col items-center text-center">
           <BaseKicker>See What You Want</BaseKicker>
-          <h2 id="experience-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+          <h2 id="experience-title" class="mt-6 font-display text-[32px] text-ink sm:text-5xl">
             Experience Q Hotel Dhaka
           </h2>
           <BaseArrowCta

@@ -24,15 +24,15 @@ useWordReveal(titleRef);
       <h2
         id="location-title"
         ref="titleRef"
-        class="text-center font-display text-4xl font-normal text-paper sm:text-5xl lg:text-[56px]"
+        class="text-center font-display text-[32px] font-normal text-paper sm:text-5xl lg:text-[56px]"
       >
         Explore Q Hotel Dhaka
       </h2>
     </BaseContainer>
 
-    <!-- The map eases in as a whole (fade only — no travel, so its pins and
-         card positions never visibly drift) -->
-    <FadeReveal direction="none" :duration="1.2" start="top 90%" class="relative -mt-4 h-[36rem] sm:h-[42rem] lg:h-[48rem]">
+    <!-- The map follows the title (FadeReveal holds until the word reveal is
+         under way) and drifts up a little as it fades in -->
+    <FadeReveal :distance="24" :duration="1.4" start="top 90%" class="relative -mt-4 h-[36rem] sm:h-[42rem] lg:h-[48rem]">
       <LocationMap
         class="absolute inset-0"
         :hotel="hotel"

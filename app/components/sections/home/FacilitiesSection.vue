@@ -99,6 +99,11 @@ function tileTintClass(index: number): string {
   const row = Math.floor(index / GRID_COLUMNS);
   return (column + row) % 2 === 1 ? "lg:bg-white/50" : "lg:bg-transparent";
 }
+
+// ─── Tile entrance ────────────────────────────────────────────────
+// Diagonal wave as the tiles scroll into view (see useWaveReveal).
+const gridRef = ref<HTMLElement | null>(null);
+useWaveReveal(gridRef, "[data-tile]");
 </script>
 
 <template>
@@ -116,18 +121,19 @@ function tileTintClass(index: number): string {
   >
     <BaseTitle id="facilities-title">Facilities &amp; Amenities</BaseTitle>
 
-    <!-- The delay lets the title's word reveal land first; the tiles then
-         follow one by one -->
-    <FadeReveal :stagger="0.09" :delay="0.9" start="top 88%">
+    <!-- Tiles rise in row by row as each row scrolls into view (see the
+         tile entrance script) -->
+    <div>
       <ul
+        ref="gridRef"
         class="mt-10 grid grid-cols-2 gap-px bg-line/20 sm:grid-cols-3 lg:mt-16 lg:grid-cols-5 lg:gap-0 lg:bg-transparent"
       >
         <li
           v-for="(amenity, amenityIndex) in amenities"
           :key="amenity.id"
-          data-reveal-item
+          data-tile
           :class="[
-            'group relative isolate flex h-[200px] flex-col items-center justify-center gap-5 overflow-hidden bg-paper px-3 text-center lg:h-[240px] 2xl:h-[280px]',
+            'group relative isolate flex h-[168px] flex-col items-center justify-center gap-4 overflow-hidden bg-paper px-3 text-center sm:h-[200px] sm:gap-5 lg:h-[240px] 2xl:h-[280px]',
             tileTintClass(amenityIndex),
           ]"
         >
@@ -136,7 +142,7 @@ function tileTintClass(index: number): string {
             class="pointer-events-none absolute inset-0 bg-sand/0 transition-colors duration-fast ease-premium group-hover:bg-sand/80"
           />
           <span
-            class="relative flex size-[68px] shrink-0 items-center justify-center transition-transform duration-fast ease-premium motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.04]"
+            class="relative flex size-14 shrink-0 items-center justify-center transition-transform sm:size-[68px] duration-fast ease-premium motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.04]"
           >
             <img
               v-if="!amenity.composite"
@@ -144,7 +150,7 @@ function tileTintClass(index: number): string {
               alt=""
               width="68"
               height="68"
-              class="absolute inset-0 size-[68px]"
+              class="absolute inset-0 size-14 sm:size-[68px]"
               aria-hidden="true"
             />
             <img
@@ -153,12 +159,12 @@ function tileTintClass(index: number): string {
               :width="amenity.iconWidth"
               :height="amenity.iconHeight"
               loading="lazy"
-              class="relative"
+              class="relative max-sm:scale-[0.82]"
               aria-hidden="true"
             />
           </span>
           <span
-            class="relative block font-display text-xl text-ink transition-colors duration-fast ease-premium group-hover:text-copper sm:text-2xl"
+            class="relative block font-display text-lg text-ink transition-colors duration-fast ease-premium group-hover:text-copper sm:text-2xl"
           >
             {{ amenity.label }}
             <span
@@ -168,7 +174,7 @@ function tileTintClass(index: number): string {
           </span>
         </li>
       </ul>
-    </FadeReveal>
+    </div>
 
     <FadeReveal class="mt-10 flex justify-center lg:mt-16">
       <BaseArrowCta to="/facilities-amenities" variant="gold">

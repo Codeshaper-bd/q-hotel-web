@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<FadeRevealProps>(), {
   direction: 'up',
   distance: 28,
   delay: 0,
-  duration: 0.9,
+  duration: 1.1,
   blur: 0,
   stagger: 0,
   start: 'top 85%',
@@ -35,6 +35,8 @@ const props = withDefaults(defineProps<FadeRevealProps>(), {
 
 const root = ref<HTMLElement | null>(null)
 const { gsap, createContext, prefersReducedMotion } = useGsap()
+let isDisposed = false
+const cancels: Array<() => void> = []
 
 /** Hidden starting offset for a direction, expressed in px */
 function offsetFor(direction: FadeRevealProps['direction']): { x: number; y: number } {
@@ -80,16 +82,34 @@ onMounted(() => {
         duration: props.duration,
         delay: props.delay + index * props.stagger,
         ease: 'power3.out' as const,
-        scrollTrigger: {
-          trigger: target,
-          start: props.start,
-          once: true,
-        },
+        paused: true,
         ...(props.blur > 0 ? { filter: 'blur(0px)' } : {}),
       }
 
-      gsap.fromTo(target, fromVars, toVars)
+      const reveal = gsap.fromTo(target, fromVars, toVars)
+
+      // Plays when the block scrolls into view — but, inside a section whose
+      // title does a word reveal, only once that title is under way, so the
+      // content follows the headline instead of sitting there static. A block
+      // the visitor already scrolled past is shown at once, never left blank.
+      cancels.push(whenReached(target, (isPastViewport) => {
+        if (isPastViewport) {
+          reveal.progress(1)
+          return
+        }
+
+        void whenSectionTitleRevealed(target).then(() => {
+          if (!isDisposed) {
+            reveal.play()
+          }
+        })
+      }, offsetFromStart(props.start)))
     })
   }, root.value)
+})
+
+onBeforeUnmount(() => {
+  isDisposed = true
+  cancels.forEach(cancel => cancel())
 })
 </script>

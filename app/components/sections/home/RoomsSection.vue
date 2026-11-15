@@ -124,7 +124,7 @@
                 </span>
 
                 <h3
-                  class="mt-4 font-display font-semibold text-3xl sm:text-4xl lg:mt-3 lg:text-3xl xl:mt-4 xl:text-4xl"
+                  class="mt-4 font-display font-semibold text-[28px] sm:text-4xl lg:mt-3 lg:text-3xl xl:mt-4 xl:text-4xl"
                 >
                   {{ room.name }}
                 </h3>
@@ -391,6 +391,64 @@ function handleTablistKeydown(event: KeyboardEvent) {
 
 onMounted(startImageSlider);
 onBeforeUnmount(pauseImageSlider);
+
+// First appearance: the slider eases up into place once the title's word
+// reveal is under way, instead of sitting there static while the heading
+// animates. It animates the stack (a child of the pinned wrapper, never the
+// pinned element or the scrubbed track), so the pin and slide are untouched.
+// Created after the pin's own setup so ScrollTrigger measures in pin order.
+let isRevealDisposed = false;
+let cancelRevealWatch: (() => void) | undefined;
+onBeforeUnmount(() => {
+  isRevealDisposed = true;
+  cancelRevealWatch?.();
+});
+
+onMounted(async () => {
+  await nextTick();
+
+  const stackElement = stackRef.value;
+  if (!stackElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
+    return;
+  }
+
+  createContext(() => {
+    const reveal = gsap.fromTo(
+      stackElement,
+      { autoAlpha: 0, y: 56, scale: 0.985 },
+      {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.3,
+        ease: "power3.out",
+        paused: true,
+        // Leave no inline transform behind on the pinned layout
+        onComplete: () => {
+          gsap.set(stackElement, { clearProps: "transform,opacity,visibility" });
+        },
+      },
+    );
+
+    // Scroll-position based, so a fast scroll past the slider still shows it
+    cancelRevealWatch = whenReached(
+      stackElement,
+      (isPastViewport) => {
+        if (isPastViewport) {
+          reveal.progress(1);
+          return;
+        }
+
+        void whenSectionTitleRevealed(stackElement).then(() => {
+          if (!isRevealDisposed) {
+            reveal.play();
+          }
+        });
+      },
+      0.12,
+    );
+  }, sectionRef.value ?? undefined);
+});
 
 onMounted(async () => {
   await nextTick();

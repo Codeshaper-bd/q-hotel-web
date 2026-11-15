@@ -71,17 +71,17 @@ const SKETCH_OPACITY = 0.6
  * mid-size lines quicker, and the fine foliage/shading flecks quickest of all.
  */
 const LONG_LENGTH = 150
-const LONG_SPEED = 3000
+const LONG_SPEED = 16000
 const FINE_LENGTH = 30
-const MID_SPEED = 9000
-const FINE_SPEED = 20000
+const MID_SPEED = 45000
+const FINE_SPEED = 90000
 /** Pencil speed while gliding between strokes (not drawing) */
-const GLIDE_SPEED = 9000
-const MIN_STROKE_SECONDS = 0.004
-const MIN_GLIDE_SECONDS = 0.004
+const GLIDE_SPEED = 45000
+const MIN_STROKE_SECONDS = 0.002
+const MIN_GLIDE_SECONDS = 0.001
 /** Mid / fine strokes overlap: each starts this share of the way through the last */
-const MID_OVERLAP = 0.5
-const FINE_OVERLAP = 0.6
+const MID_OVERLAP = 0.3
+const FINE_OVERLAP = 0.35
 const SETTLE_SECONDS = 1.1
 
 const rootRef = ref<HTMLElement | null>(null)
@@ -91,7 +91,7 @@ const pencilRef = ref<SVGGElement | null>(null)
 
 const { gsap, prefersReducedMotion } = useGsap()
 
-let observer: IntersectionObserver | undefined
+let cancelWatch: (() => void) | undefined
 let timeline: gsap.core.Timeline | undefined
 let isDisposed = false
 
@@ -208,15 +208,16 @@ onMounted(() => {
     return
   }
 
-  observer = new IntersectionObserver(async (entries) => {
-    if (!entries.some(entry => entry.isIntersecting)) {
+  // Scroll-position based: a sketch the visitor already scrolled past is left
+  // as the finished artwork (nobody would see it being drawn), never hidden.
+  cancelWatch = whenReached(root, async (isPastViewport) => {
+    if (isPastViewport) {
       return
     }
 
-    observer?.disconnect()
-    observer = undefined
-
     try {
+      // The pencil starts once the section title is under way
+      await whenSectionTitleRevealed(root)
       const strokes = await loadStrokes()
       if (isDisposed || strokes.length === 0) {
         return
@@ -236,15 +237,13 @@ onMounted(() => {
         artworkRef.value.style.opacity = ''
       }
     }
-  }, { threshold: 0.3 })
-
-  observer.observe(root)
+  }, 0.25)
 })
 
 onBeforeUnmount(() => {
   isDisposed = true
-  observer?.disconnect()
-  observer = undefined
+  cancelWatch?.()
+  cancelWatch = undefined
   timeline?.kill()
   timeline = undefined
 })

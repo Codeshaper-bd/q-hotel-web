@@ -27,7 +27,7 @@
           <span
             :class="[
               'shrink-0 transition-colors duration-fast',
-              compact ? 'mt-2' : 'mt-1.5',
+              compact ? 'mt-1.5 lg:mt-2' : 'mt-1.5',
               openIndex === index ? 'text-copper' : 'text-ink/40',
             ]"
             aria-hidden="true"
@@ -46,7 +46,7 @@
           <span
             :class="[
               'font-display font-semibold text-[#0F0F10]',
-              compact ? 'text-[28px] leading-tight' : 'text-lg sm:text-xl lg:text-[28px]',
+              compact ? 'text-[22px] leading-tight lg:text-[28px]' : 'text-lg sm:text-xl lg:text-[28px]',
             ]"
           >
             {{ item.question }}

@@ -17,18 +17,6 @@
       aria-hidden="true"
     />
 
-    <!-- Nav strip: a soft sky-blue tint that fades out toward the bottom edge,
-         pinned to the nav row (below the promo bar) while the header is still
-         transparent. Only drawn while the promo bar is showing — once the bar
-         is dismissed or tucked away the tint would read as a dark shadow. -->
-    <div
-      :class="[
-        'pointer-events-none absolute inset-x-0 bottom-0 h-[var(--header-nav-height)] bg-[linear-gradient(180deg,rgba(96,150,214,0.45)_0%,rgba(96,150,214,0.18)_55%,rgba(96,150,214,0)_100%)] transition-opacity duration-normal ease-premium',
-        hasSolidBackground || !showPromoBar ? 'opacity-0' : 'opacity-100',
-      ]"
-      aria-hidden="true"
-    />
-
     <!-- Dismissible promo strip on the homepage; sits above the glass layer
          and paints its own dark band. The runtime --header-height override
          keeps section offsets honest while the bar is visible. -->
@@ -330,9 +318,9 @@ watch(showPromoBar, (visible) => {
 });
 
 // Active nav item accent: copper once the paper glass is in play
-const activeLinkColor = computed(() =>
-  hasSolidBackground.value ? "text-[#A75B27]" : "text-[#0F0F10]",
-);
+// Always copper (also over the transparent hero header), so the current page
+// reads as active instead of matching the idle links' near-black
+const activeLinkColor = "text-[#A75B27]";
 
 // Pages with no dark cover media at the top (a plain paper background
 // instead of a hero photo) would render white-on-white nav text under this

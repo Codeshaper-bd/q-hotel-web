@@ -176,7 +176,7 @@ const linkColumns = [
           <div>
             <h2 class="text-base font-medium uppercase text-white">Follow us</h2>
             <ul
-              class="mt-[28px] flex items-center gap-4"
+              class="mt-[28px] grid grid-cols-[repeat(2,2.5rem)] gap-4 sm:flex sm:items-center"
               aria-label="Q Hotel on social media"
             >
               <li v-for="social in socialLinks" :key="social.label">
@@ -230,7 +230,7 @@ const linkColumns = [
             </ul>
           </nav>
 
-          <div>
+          <div class="col-span-2 sm:col-span-1">
             <h2 class="text-base font-medium uppercase text-white">Address</h2>
             <ul class="mt-6 space-y-4 text-sm leading-5 text-[#ACACAC]">
               <li class="flex items-start gap-1.5">
