@@ -99,6 +99,11 @@ function tileTintClass(index: number): string {
   const row = Math.floor(index / GRID_COLUMNS);
   return (column + row) % 2 === 1 ? "lg:bg-white/50" : "lg:bg-transparent";
 }
+
+// ─── Tile entrance ────────────────────────────────────────────────
+// Diagonal wave as the tiles scroll into view (see useWaveReveal).
+const gridRef = ref<HTMLElement | null>(null);
+useWaveReveal(gridRef, "[data-tile]");
 </script>
 
 <template>
@@ -116,16 +121,17 @@ function tileTintClass(index: number): string {
   >
     <BaseTitle id="facilities-title">Facilities &amp; Amenities</BaseTitle>
 
-    <!-- The delay lets the title's word reveal land first; the tiles then
-         follow one by one -->
-    <FadeReveal :stagger="0.09" :delay="0.9" start="top 88%">
+    <!-- Tiles rise in row by row as each row scrolls into view (see the
+         tile entrance script) -->
+    <div>
       <ul
+        ref="gridRef"
         class="mt-10 grid grid-cols-2 gap-px bg-line/20 sm:grid-cols-3 lg:mt-16 lg:grid-cols-5 lg:gap-0 lg:bg-transparent"
       >
         <li
           v-for="(amenity, amenityIndex) in amenities"
           :key="amenity.id"
-          data-reveal-item
+          data-tile
           :class="[
             'group relative isolate flex h-[200px] flex-col items-center justify-center gap-5 overflow-hidden bg-paper px-3 text-center lg:h-[240px] 2xl:h-[280px]',
             tileTintClass(amenityIndex),
@@ -168,7 +174,7 @@ function tileTintClass(index: number): string {
           </span>
         </li>
       </ul>
-    </FadeReveal>
+    </div>
 
     <FadeReveal class="mt-10 flex justify-center lg:mt-16">
       <BaseArrowCta to="/facilities-amenities" variant="gold">

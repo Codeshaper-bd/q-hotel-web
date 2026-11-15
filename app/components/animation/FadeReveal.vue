@@ -5,6 +5,8 @@
 </template>
 
 <script setup lang="ts">
+import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
+
 interface FadeRevealProps {
   /** Direction the content travels from as it settles into view */
   direction?: 'up' | 'down' | 'left' | 'right' | 'none'
@@ -27,7 +29,7 @@ const props = withDefaults(defineProps<FadeRevealProps>(), {
   direction: 'up',
   distance: 28,
   delay: 0,
-  duration: 0.9,
+  duration: 1.1,
   blur: 0,
   stagger: 0,
   start: 'top 85%',
@@ -35,6 +37,8 @@ const props = withDefaults(defineProps<FadeRevealProps>(), {
 
 const root = ref<HTMLElement | null>(null)
 const { gsap, createContext, prefersReducedMotion } = useGsap()
+const ScrollTrigger = useNuxtApp().$ScrollTrigger as typeof ScrollTriggerType | undefined
+let isDisposed = false
 
 /** Hidden starting offset for a direction, expressed in px */
 function offsetFor(direction: FadeRevealProps['direction']): { x: number; y: number } {
@@ -80,16 +84,32 @@ onMounted(() => {
         duration: props.duration,
         delay: props.delay + index * props.stagger,
         ease: 'power3.out' as const,
-        scrollTrigger: {
-          trigger: target,
-          start: props.start,
-          once: true,
-        },
+        paused: true,
         ...(props.blur > 0 ? { filter: 'blur(0px)' } : {}),
       }
 
-      gsap.fromTo(target, fromVars, toVars)
+      const reveal = gsap.fromTo(target, fromVars, toVars)
+
+      // Plays when the block scrolls into view — but, inside a section whose
+      // title does a word reveal, only once that title is under way, so the
+      // content follows the headline instead of sitting there static.
+      ScrollTrigger?.create({
+        trigger: target,
+        start: props.start,
+        once: true,
+        onEnter: () => {
+          void whenSectionTitleRevealed(target).then(() => {
+            if (!isDisposed) {
+              reveal.play()
+            }
+          })
+        },
+      })
     })
   }, root.value)
+})
+
+onBeforeUnmount(() => {
+  isDisposed = true
 })
 </script>

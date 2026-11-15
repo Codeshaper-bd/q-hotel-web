@@ -392,6 +392,57 @@ function handleTablistKeydown(event: KeyboardEvent) {
 onMounted(startImageSlider);
 onBeforeUnmount(pauseImageSlider);
 
+// First appearance: the slider eases up into place once the title's word
+// reveal is under way, instead of sitting there static while the heading
+// animates. It animates the stack (a child of the pinned wrapper, never the
+// pinned element or the scrubbed track), so the pin and slide are untouched.
+// Created after the pin's own setup so ScrollTrigger measures in pin order.
+let isRevealDisposed = false;
+onBeforeUnmount(() => {
+  isRevealDisposed = true;
+});
+
+onMounted(async () => {
+  await nextTick();
+
+  const stackElement = stackRef.value;
+  if (!stackElement || !gsap || !ScrollTrigger || prefersReducedMotion.value) {
+    return;
+  }
+
+  createContext(() => {
+    const reveal = gsap.fromTo(
+      stackElement,
+      { autoAlpha: 0, y: 56, scale: 0.985 },
+      {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.3,
+        ease: "power3.out",
+        paused: true,
+        // Leave no inline transform behind on the pinned layout
+        onComplete: () => {
+          gsap.set(stackElement, { clearProps: "transform,opacity,visibility" });
+        },
+      },
+    );
+
+    ScrollTrigger.create({
+      trigger: stackElement,
+      start: "top 88%",
+      once: true,
+      onEnter: () => {
+        void whenSectionTitleRevealed(stackElement).then(() => {
+          if (!isRevealDisposed) {
+            reveal.play();
+          }
+        });
+      },
+    });
+  }, sectionRef.value ?? undefined);
+});
+
 onMounted(async () => {
   await nextTick();
 

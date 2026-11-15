@@ -30,9 +30,9 @@ useWordReveal(titleRef);
       </h2>
     </BaseContainer>
 
-    <!-- The map eases in as a whole (fade only — no travel, so its pins and
-         card positions never visibly drift) -->
-    <FadeReveal direction="none" :duration="1.2" start="top 90%" class="relative -mt-4 h-[36rem] sm:h-[42rem] lg:h-[48rem]">
+    <!-- The map follows the title (FadeReveal holds until the word reveal is
+         under way) and drifts up a little as it fades in -->
+    <FadeReveal :distance="24" :duration="1.4" start="top 90%" class="relative -mt-4 h-[36rem] sm:h-[42rem] lg:h-[48rem]">
       <LocationMap
         class="absolute inset-0"
         :hotel="hotel"

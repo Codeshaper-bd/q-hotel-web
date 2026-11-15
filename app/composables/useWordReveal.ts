@@ -5,12 +5,16 @@
  * pinned sections and layout shifts can't make it fire early). Plays once.
  * Skipped entirely under reduced motion (the title just renders).
  */
+/** Seconds after the first word starts rising before the section's content is released */
+const TITLE_LEAD_SECONDS = 0.85
+
 export const useWordReveal = (target: Ref<HTMLElement | null>) => {
   const { gsap, prefersReducedMotion } = useGsap()
   const isPreloaderComplete = useState('preloader-complete', () => false)
 
   let observer: IntersectionObserver | undefined
   let tween: gsap.core.Tween | undefined
+  let signalTimer: gsap.core.Tween | undefined
 
   onMounted(() => {
     const element = target.value
@@ -21,7 +25,13 @@ export const useWordReveal = (target: Ref<HTMLElement | null>) => {
     const words = splitIntoWords(element, true)
     gsap.set(words, { yPercent: 110, autoAlpha: 0 })
 
+    // Lets the section's content (FadeReveal) follow the title in sequence
+    const markTitleLanded = registerSectionTitle(element)
+
     const play = () => {
+      // Content starts while the last words are still settling, so the two
+      // overlap into one continuous motion rather than a hard hand-off
+      signalTimer = gsap.delayedCall(TITLE_LEAD_SECONDS, () => markTitleLanded?.())
       tween = gsap.to(words, {
         yPercent: 0,
         autoAlpha: 1,
@@ -59,5 +69,6 @@ export const useWordReveal = (target: Ref<HTMLElement | null>) => {
   onBeforeUnmount(() => {
     observer?.disconnect()
     tween?.kill()
+    signalTimer?.kill()
   })
 }

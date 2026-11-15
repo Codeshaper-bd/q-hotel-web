@@ -79,6 +79,17 @@ const props = withDefaults(defineProps<{
 })
 
 const faqs = useFaqs(props.page)
+
+// Where the pinned scroll experience does NOT run (phones, tablets, short
+// viewports, `pinned: false`), the questions sweep in as a wave as they come
+// into view. On the pinned desktop layout the scroll timeline owns the rows
+// instead, so the wave steps aside.
+useWaveReveal(sectionRef, 'dl [data-faq-reveal]', {
+  shouldRun: () => !(
+    props.pinned
+    && window.matchMedia('(min-width: 1024px) and (min-height: 560px)').matches
+  ),
+})
 const isHomeFaq = computed(() => props.page === 'home')
 
 const { gsap, prefersReducedMotion } = useGsap()

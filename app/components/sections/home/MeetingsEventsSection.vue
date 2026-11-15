@@ -14,12 +14,15 @@
   >
     <BaseTitle id="meetings-events-title">Meetings &amp; Events</BaseTitle>
 
-    <FadeReveal :stagger="0.08">
-      <ul class="mx-auto mt-10 grid max-w-2xl gap-6 lg:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-5">
+    <div>
+      <ul
+        ref="venuesRef"
+        class="mx-auto mt-10 grid max-w-2xl gap-6 lg:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-5"
+      >
         <li
           v-for="venue in venues"
           :key="venue.id"
-          data-reveal-item
+          data-venue-card
           :class="['venue-card', { 'is-flipped': flippedVenueIds[venue.id] }]"
           @click="handleCardTap(venue.id, $event)"
         >
@@ -71,7 +74,7 @@
           </article>
         </li>
       </ul>
-    </FadeReveal>
+    </div>
   </BaseSection>
 
   <!-- Venue details reuse the same shared popup as the rooms section -->
@@ -94,6 +97,11 @@
 
 <script setup lang="ts">
 import type { MeetingVenue } from "~/types/venue";
+
+// Venue cards sweep in as a diagonal wave as they scroll into view
+// (see useWaveReveal), after the title's word reveal is under way.
+const venuesRef = ref<HTMLElement | null>(null);
+useWaveReveal(venuesRef, "[data-venue-card]");
 
 /** Static showcase content (CMS-ready shape); venue detail pages come later */
 const venues: MeetingVenue[] = [
