@@ -18,7 +18,7 @@ interface TitleSignal {
 const signals = new WeakMap<Element, TitleSignal>()
 
 /** Longest content will ever wait for a title, e.g. when the title was scrolled past */
-const MAX_WAIT_MS = 1600
+const MAX_WAIT_MS = 1000
 
 /** Called by a title when it is armed; returns the callback to fire as it lands */
 export function registerSectionTitle(title: HTMLElement): (() => void) | undefined {

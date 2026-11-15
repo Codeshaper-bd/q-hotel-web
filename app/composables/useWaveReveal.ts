@@ -3,19 +3,20 @@
  * from the top-left, only once it is genuinely on screen, and (inside a
  * section with a word-reveal title) only once that title is under way.
  *
- * IntersectionObserver rather than ScrollTrigger on purpose: ScrollTrigger
- * measures positions at creation, and a pinned section above (Rooms) adds its
- * spacer afterwards, which made the cards fire far too early and finish off
- * screen. Skipped under reduced motion (the cards just render).
+ * Scroll-position based (whenReached) rather than ScrollTrigger or an
+ * IntersectionObserver on purpose: ScrollTrigger measures positions at
+ * creation (a pinned section above adds its spacer afterwards, so cards fired
+ * far too early), and observers miss cards scrolled past between frames, which
+ * left them blank. Skipped under reduced motion (the cards just render).
  */
 export const useWaveReveal = (
   grid: Ref<HTMLElement | null>,
   selector: string,
   options: {
-    /** IntersectionObserver margin: the default waits until a card is clearly
-     *  inside the viewport; pass '0px' for content that sits at the very
-     *  bottom edge of a full-viewport stage */
-    rootMargin?: string
+    /** How far up from the viewport's bottom edge a card's top must be before
+     *  it animates (fraction of the viewport height). Default 0.12; pass 0 for
+     *  content that sits at the very bottom edge of a full-viewport stage */
+    offset?: number
     /** Evaluated once on mount; return false to leave the cards alone (e.g.
      *  when another animation owns them at this viewport size) */
     shouldRun?: () => boolean
@@ -26,7 +27,7 @@ export const useWaveReveal = (
   /** Seconds between neighbouring cards along the wave */
   const WAVE_STEP_SECONDS = 0.1
 
-  let observer: IntersectionObserver | undefined
+  const cancels: Array<() => void> = []
   let isDisposed = false
   const tweens: gsap.core.Tween[] = []
 
@@ -58,51 +59,65 @@ export const useWaveReveal = (
 
     gsap.set(cards, { autoAlpha: 0, y: 48, scale: 0.94 })
 
-    observer = new IntersectionObserver(
-      (entries) => {
-        const entering = entries
-          .filter(entry => entry.isIntersecting)
-          .map(entry => entry.target as HTMLElement)
-        if (entering.length === 0) {
+    // Cards that cross the line in the same frame wave in together; a card the
+    // visitor already scrolled past is shown at once instead of being left blank
+    const queue: HTMLElement[] = []
+    let flushFrame = 0
+
+    const flush = () => {
+      flushFrame = 0
+      const entering = queue.splice(0)
+      if (entering.length === 0) {
+        return
+      }
+
+      const delays = waveDelays(entering)
+
+      void whenSectionTitleRevealed(container).then(() => {
+        if (isDisposed) {
           return
         }
 
-        entering.forEach(card => observer?.unobserve(card))
-        const delays = waveDelays(entering)
-
-        void whenSectionTitleRevealed(container).then(() => {
-          if (isDisposed) {
-            return
-          }
-
-          entering.forEach((card, index) => {
-            tweens.push(
-              gsap.to(card, {
-                autoAlpha: 1,
-                y: 0,
-                scale: 1,
-                duration: 1.1,
-                delay: delays[index],
-                ease: 'power3.out',
-                // Leave no inline transform on a card once it has landed
-                onComplete: () => {
-                  gsap.set(card, { clearProps: 'transform,opacity,visibility' })
-                },
-              }),
-            )
-          })
+        entering.forEach((card, index) => {
+          tweens.push(
+            gsap.to(card, {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 1.1,
+              delay: delays[index],
+              ease: 'power3.out',
+              // Leave no inline transform on a card once it has landed
+              onComplete: () => {
+                gsap.set(card, { clearProps: 'transform,opacity,visibility' })
+              },
+            }),
+          )
         })
-      },
-      // A card counts once its top is clearly inside the viewport
-      { rootMargin: options.rootMargin ?? '0px 0px -12% 0px', threshold: 0.2 },
-    )
+      })
+    }
 
-    cards.forEach(card => observer?.observe(card))
+    // A card counts once its top is clearly inside the viewport
+    const offset = options.offset ?? 0.12
+
+    cards.forEach((card) => {
+      cancels.push(whenReached(card, (isPastViewport) => {
+        if (isPastViewport) {
+          gsap.set(card, { clearProps: 'transform,opacity,visibility' })
+          return
+        }
+
+        queue.push(card)
+        if (!flushFrame) {
+          flushFrame = requestAnimationFrame(flush)
+        }
+      }, offset))
+    })
   })
 
   onBeforeUnmount(() => {
     isDisposed = true
-    observer?.disconnect()
+    cancels.forEach(cancel => cancel())
     tweens.forEach(tween => tween.kill())
   })
 }

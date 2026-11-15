@@ -124,7 +124,7 @@
                 </span>
 
                 <h3
-                  class="mt-4 font-display font-semibold text-3xl sm:text-4xl lg:mt-3 lg:text-3xl xl:mt-4 xl:text-4xl"
+                  class="mt-4 font-display font-semibold text-[28px] sm:text-4xl lg:mt-3 lg:text-3xl xl:mt-4 xl:text-4xl"
                 >
                   {{ room.name }}
                 </h3>
@@ -398,8 +398,10 @@ onBeforeUnmount(pauseImageSlider);
 // pinned element or the scrubbed track), so the pin and slide are untouched.
 // Created after the pin's own setup so ScrollTrigger measures in pin order.
 let isRevealDisposed = false;
+let cancelRevealWatch: (() => void) | undefined;
 onBeforeUnmount(() => {
   isRevealDisposed = true;
+  cancelRevealWatch?.();
 });
 
 onMounted(async () => {
@@ -428,18 +430,23 @@ onMounted(async () => {
       },
     );
 
-    ScrollTrigger.create({
-      trigger: stackElement,
-      start: "top 88%",
-      once: true,
-      onEnter: () => {
+    // Scroll-position based, so a fast scroll past the slider still shows it
+    cancelRevealWatch = whenReached(
+      stackElement,
+      (isPastViewport) => {
+        if (isPastViewport) {
+          reveal.progress(1);
+          return;
+        }
+
         void whenSectionTitleRevealed(stackElement).then(() => {
           if (!isRevealDisposed) {
             reveal.play();
           }
         });
       },
-    });
+      0.12,
+    );
   }, sectionRef.value ?? undefined);
 });
 

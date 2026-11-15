@@ -15,7 +15,7 @@
       <h2
         id="newsletter-title"
         ref="titleRef"
-        class="mx-auto max-w-[34rem] font-display text-xl font-normal leading-8 text-ink sm:text-2xl sm:leading-[34px]"
+        class="mx-auto max-w-[34rem] font-display text-xl font-normal leading-[26px] text-ink sm:text-2xl sm:leading-[30px]"
       >
         Be the first to receive exclusive offers, the latest updates, and
         unforgettable experiences at Q Hotel Dhaka.

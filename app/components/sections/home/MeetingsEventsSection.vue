@@ -39,18 +39,18 @@
             </div>
 
             <div
-              class="venue-face venue-face-back flex flex-col gap-6 bg-white p-6 sm:p-8 lg:gap-8 lg:overflow-y-auto lg:p-6"
+              class="venue-face venue-face-back flex flex-col gap-6 bg-white p-6 sm:p-8 lg:gap-4 lg:overflow-hidden lg:p-5 xl:gap-8 xl:p-6"
             >
-              <h3 class="font-display text-2xl text-ink sm:text-3xl lg:text-4xl">
+              <h3 class="font-display text-[28px] text-ink sm:text-3xl lg:text-3xl xl:text-4xl">
                 {{ venue.name }}
               </h3>
 
-              <div class="flex flex-col gap-6 lg:gap-8">
-                <p class="text-sm leading-6 text-muted xl:text-base">
+              <div class="flex flex-col gap-6 lg:gap-4 xl:gap-8">
+                <p class="text-sm leading-6 text-muted lg:text-[13px] lg:leading-5 xl:text-base xl:leading-6">
                   {{ venue.description }}
                 </p>
 
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-wrap gap-4 lg:gap-3 xl:gap-4">
                   <BaseArrowCta
                     variant="gold"
                     @click="

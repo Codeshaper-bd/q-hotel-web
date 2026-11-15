@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-
 interface FadeRevealProps {
   /** Direction the content travels from as it settles into view */
   direction?: 'up' | 'down' | 'left' | 'right' | 'none'
@@ -37,8 +35,8 @@ const props = withDefaults(defineProps<FadeRevealProps>(), {
 
 const root = ref<HTMLElement | null>(null)
 const { gsap, createContext, prefersReducedMotion } = useGsap()
-const ScrollTrigger = useNuxtApp().$ScrollTrigger as typeof ScrollTriggerType | undefined
 let isDisposed = false
+const cancels: Array<() => void> = []
 
 /** Hidden starting offset for a direction, expressed in px */
 function offsetFor(direction: FadeRevealProps['direction']): { x: number; y: number } {
@@ -92,24 +90,26 @@ onMounted(() => {
 
       // Plays when the block scrolls into view — but, inside a section whose
       // title does a word reveal, only once that title is under way, so the
-      // content follows the headline instead of sitting there static.
-      ScrollTrigger?.create({
-        trigger: target,
-        start: props.start,
-        once: true,
-        onEnter: () => {
-          void whenSectionTitleRevealed(target).then(() => {
-            if (!isDisposed) {
-              reveal.play()
-            }
-          })
-        },
-      })
+      // content follows the headline instead of sitting there static. A block
+      // the visitor already scrolled past is shown at once, never left blank.
+      cancels.push(whenReached(target, (isPastViewport) => {
+        if (isPastViewport) {
+          reveal.progress(1)
+          return
+        }
+
+        void whenSectionTitleRevealed(target).then(() => {
+          if (!isDisposed) {
+            reveal.play()
+          }
+        })
+      }, offsetFromStart(props.start)))
     })
   }, root.value)
 })
 
 onBeforeUnmount(() => {
   isDisposed = true
+  cancels.forEach(cancel => cancel())
 })
 </script>

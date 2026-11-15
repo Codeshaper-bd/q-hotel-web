@@ -133,7 +133,7 @@ useWaveReveal(gridRef, "[data-tile]");
           :key="amenity.id"
           data-tile
           :class="[
-            'group relative isolate flex h-[200px] flex-col items-center justify-center gap-5 overflow-hidden bg-paper px-3 text-center lg:h-[240px] 2xl:h-[280px]',
+            'group relative isolate flex h-[168px] flex-col items-center justify-center gap-4 overflow-hidden bg-paper px-3 text-center sm:h-[200px] sm:gap-5 lg:h-[240px] 2xl:h-[280px]',
             tileTintClass(amenityIndex),
           ]"
         >
@@ -142,7 +142,7 @@ useWaveReveal(gridRef, "[data-tile]");
             class="pointer-events-none absolute inset-0 bg-sand/0 transition-colors duration-fast ease-premium group-hover:bg-sand/80"
           />
           <span
-            class="relative flex size-[68px] shrink-0 items-center justify-center transition-transform duration-fast ease-premium motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.04]"
+            class="relative flex size-14 shrink-0 items-center justify-center transition-transform sm:size-[68px] duration-fast ease-premium motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.04]"
           >
             <img
               v-if="!amenity.composite"
@@ -150,7 +150,7 @@ useWaveReveal(gridRef, "[data-tile]");
               alt=""
               width="68"
               height="68"
-              class="absolute inset-0 size-[68px]"
+              class="absolute inset-0 size-14 sm:size-[68px]"
               aria-hidden="true"
             />
             <img
@@ -159,12 +159,12 @@ useWaveReveal(gridRef, "[data-tile]");
               :width="amenity.iconWidth"
               :height="amenity.iconHeight"
               loading="lazy"
-              class="relative"
+              class="relative max-sm:scale-[0.82]"
               aria-hidden="true"
             />
           </span>
           <span
-            class="relative block font-display text-xl text-ink transition-colors duration-fast ease-premium group-hover:text-copper sm:text-2xl"
+            class="relative block font-display text-lg text-ink transition-colors duration-fast ease-premium group-hover:text-copper sm:text-2xl"
           >
             {{ amenity.label }}
             <span

@@ -1,8 +1,8 @@
 /**
  * The hero's headline entrance for any section title: words rise one by one
  * through their own masks. The words wait hidden until BOTH the preloader has
- * opened and the title is genuinely on screen (IntersectionObserver, so
- * pinned sections and layout shifts can't make it fire early). Plays once.
+ * opened and the title is genuinely on screen (scroll-position based, see
+ * whenReached, so a fast scroll past it still reveals it). Plays once.
  * Skipped entirely under reduced motion (the title just renders).
  */
 /** Seconds after the first word starts rising before the section's content is released */
@@ -12,7 +12,7 @@ export const useWordReveal = (target: Ref<HTMLElement | null>) => {
   const { gsap, prefersReducedMotion } = useGsap()
   const isPreloaderComplete = useState('preloader-complete', () => false)
 
-  let observer: IntersectionObserver | undefined
+  let cancelWatch: (() => void) | undefined
   let tween: gsap.core.Tween | undefined
   let signalTimer: gsap.core.Tween | undefined
 
@@ -41,16 +41,17 @@ export const useWordReveal = (target: Ref<HTMLElement | null>) => {
       })
     }
 
-    // Fires once the title is well inside the viewport, not merely touching it
+    // Fires once the title's top is well inside the viewport. If the visitor
+    // scrolled straight past it, the title is simply shown, never left hidden.
     const arm = () => {
-      observer = new IntersectionObserver((entries) => {
-        if (entries.some(entry => entry.isIntersecting)) {
-          observer?.disconnect()
-          observer = undefined
-          play()
+      cancelWatch = whenReached(element, (isPastViewport) => {
+        if (isPastViewport) {
+          gsap.set(words, { yPercent: 0, autoAlpha: 1, clearProps: 'transform,opacity,visibility' })
+          markTitleLanded?.()
+          return
         }
-      }, { rootMargin: '0px 0px -15% 0px', threshold: 0.6 })
-      observer.observe(element)
+        play()
+      }, 0.15)
     }
 
     if (isPreloaderComplete.value) {
@@ -67,7 +68,7 @@ export const useWordReveal = (target: Ref<HTMLElement | null>) => {
   })
 
   onBeforeUnmount(() => {
-    observer?.disconnect()
+    cancelWatch?.()
     tween?.kill()
     signalTimer?.kill()
   })

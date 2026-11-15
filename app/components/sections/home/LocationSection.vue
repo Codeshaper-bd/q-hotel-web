@@ -24,7 +24,7 @@ useWordReveal(titleRef);
       <h2
         id="location-title"
         ref="titleRef"
-        class="text-center font-display text-4xl font-normal text-paper sm:text-5xl lg:text-[56px]"
+        class="text-center font-display text-[32px] font-normal text-paper sm:text-5xl lg:text-[56px]"
       >
         Explore Q Hotel Dhaka
       </h2>

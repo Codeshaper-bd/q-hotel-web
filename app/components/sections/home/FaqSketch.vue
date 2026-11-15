@@ -91,7 +91,7 @@ const pencilRef = ref<SVGGElement | null>(null)
 
 const { gsap, prefersReducedMotion } = useGsap()
 
-let observer: IntersectionObserver | undefined
+let cancelWatch: (() => void) | undefined
 let timeline: gsap.core.Timeline | undefined
 let isDisposed = false
 
@@ -208,13 +208,12 @@ onMounted(() => {
     return
   }
 
-  observer = new IntersectionObserver(async (entries) => {
-    if (!entries.some(entry => entry.isIntersecting)) {
+  // Scroll-position based: a sketch the visitor already scrolled past is left
+  // as the finished artwork (nobody would see it being drawn), never hidden.
+  cancelWatch = whenReached(root, async (isPastViewport) => {
+    if (isPastViewport) {
       return
     }
-
-    observer?.disconnect()
-    observer = undefined
 
     try {
       // The pencil starts once the section title is under way
@@ -238,15 +237,13 @@ onMounted(() => {
         artworkRef.value.style.opacity = ''
       }
     }
-  }, { threshold: 0.3 })
-
-  observer.observe(root)
+  }, 0.25)
 })
 
 onBeforeUnmount(() => {
   isDisposed = true
-  observer?.disconnect()
-  observer = undefined
+  cancelWatch?.()
+  cancelWatch = undefined
   timeline?.kill()
   timeline = undefined
 })

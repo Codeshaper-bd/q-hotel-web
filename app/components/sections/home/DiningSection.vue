@@ -60,7 +60,7 @@
               >
                 <h3
                   data-dining-piece
-                  class="font-display text-2xl font-normal text-[#6C3E22] sm:text-[28px] sm:leading-[38px]"
+                  class="font-display text-[28px] font-normal leading-[38px] text-[#6C3E22]"
                 >
                   {{ venue.name }}
                 </h3>
@@ -182,15 +182,15 @@ const stageRef = ref<HTMLElement | null>(null);
 // First look: each outlet card's heading, description and link sweep in as a
 // wave (see useWaveReveal). It animates the pieces INSIDE the cards, never the
 // cards themselves, which the pinned scroll timeline owns. The card sits at the
-// stage's bottom edge, so the observer margin is 0.
-useWaveReveal(sectionRef, "[data-dining-piece]", { rootMargin: "0px" });
+// stage's bottom edge, so the offset is 0.
+useWaveReveal(sectionRef, "[data-dining-piece]", { offset: 0 });
 
 // First look, photographs: they settle in with a small drift (a touch larger
 // and lower, easing to rest) so the stage arrives with the same softness as
 // the card wave and the sections above. Only the <img> inside each media layer
 // moves; the layer itself (autoAlpha) belongs to the pinned scroll timeline.
 // The 1.08 overscale keeps the drift from ever exposing the frame's edges.
-let photoObserver: IntersectionObserver | undefined;
+let cancelPhotoWatch: (() => void) | undefined;
 let photoTween: gsap.core.Tween | undefined;
 
 onMounted(() => {
@@ -208,14 +208,16 @@ onMounted(() => {
 
   gsap.set(photos, { autoAlpha: 0, scale: 1.08, y: 32 });
 
-  photoObserver = new IntersectionObserver(
-    (entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) {
+  // Scroll-position based (whenReached): a fast scroll past the section still
+  // shows the photographs at once instead of leaving them hidden
+  cancelPhotoWatch = whenReached(
+    section,
+    (isPastViewport) => {
+      if (isPastViewport) {
+        gsap.set(photos, { clearProps: "transform,opacity,visibility" });
         return;
       }
 
-      photoObserver?.disconnect();
-      photoObserver = undefined;
       photoTween = gsap.to(photos, {
         autoAlpha: 1,
         scale: 1,
@@ -228,13 +230,12 @@ onMounted(() => {
         },
       });
     },
-    { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
+    0.1,
   );
-  photoObserver.observe(section);
 });
 
 onBeforeUnmount(() => {
-  photoObserver?.disconnect();
+  cancelPhotoWatch?.();
   photoTween?.kill();
 });
 
