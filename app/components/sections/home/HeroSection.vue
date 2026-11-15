@@ -10,37 +10,39 @@
            holds the image at up to 1.12x scale, so a smaller/softer source
            would visibly upscale and lose sharpness. -->
       <BaseImage
-        src="/images/hero/q-hotel-hero-figma.png"
+        src="/images/hero/q-hotel-hero-v2.png"
         alt=""
         :width="1673"
         :height="940"
         :quality="90"
         sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:1920px"
         priority
-        class="h-full w-full object-[center_20%]"
+        class="h-full w-full object-[center_100%] md:object-[center_68%] xl:object-[center_20%]"
       />
 
+      <!-- Phone / tablet follow the Figma frames (clear sky, then a 0.7 black
+           shelf behind the copy and booking bar); xl keeps the longer ramp -->
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_62.375%,#000_94.559%)]"
+        class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_30%,rgba(0,0,0,0.45)_46%,rgba(0,0,0,0.75)_62%)] md:bg-[linear-gradient(180deg,rgba(0,0,0,0)_45.89%,rgba(0,0,0,0.7)_69.601%)] xl:bg-[linear-gradient(180deg,rgba(0,0,0,0)_35%,rgba(0,0,0,0.55)_65%,#000_94.559%)]"
       />
     </div>
 
-    <BaseContainer size="xl" class="w-full pb-12 pt-32 xl:pb-[52px]">
+    <BaseContainer size="xl" class="w-full !px-4 pb-4 pt-32 md:!px-8 md:pb-6 xl:pb-[52px]">
       <div class="relative grid grid-cols-12 gap-3">
         <div ref="textRef" class="col-span-12 xl:col-span-5 2xl:col-span-6 text-center xl:text-left xl:mb-[94px]">
           <div class="overflow-hidden pb-2">
             <h1
               id="home-title"
               ref="headlineRef"
-              class="font-display text-2xl font-normal uppercase leading-8 sm:text-[32px] max-w-[620px] mx-auto xl:mx-0"
+              class="font-display text-[clamp(14px,4.75vw,21px)] font-normal uppercase leading-tight md:max-w-[560px] md:text-[28px] md:leading-7 xl:max-w-[620px] xl:text-[32px] xl:leading-8 mx-auto xl:mx-0"
             >
               A new hospitality destination where glamour meets tranquility
             </h1>
           </div>
           <p
             ref="leadRef"
-            class="max-w-xl text-lg leading-[26px] xl:max-w-[735px] mt-2 mx-auto xl:mx-0"
+            class="mt-2 mx-auto max-w-[398px] text-sm font-light leading-5 md:max-w-[643px] md:text-base md:font-normal md:leading-6 xl:mx-0 xl:max-w-[735px] xl:text-lg xl:leading-[26px]"
           >
             A refined stay for today’s business traveler, combining effortless
             convenience, exceptional comfort, and thoughtful services for work
@@ -50,9 +52,9 @@
 
         <div
           ref="consoleRef"
-          class="mt-8 w-full col-span-12 xl:col-span-7 2xl:col-span-6 self-end xl:mt-10 max-w-4xl mx-auto xl:max-w-none xl:mx-0"
+          class="mt-6 w-full col-span-12 xl:col-span-7 2xl:col-span-6 self-end xl:mt-10 max-w-4xl mx-auto xl:max-w-none xl:mx-0"
         >
-          <HeroBookingSearch @search="handleSearch" />
+          <HeroBookingSearch compact @search="handleSearch" />
         </div>
       </div>
     </BaseContainer>

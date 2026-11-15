@@ -73,7 +73,7 @@ defineEmits<{ dismiss: [] }>();
 }
 
 .promo-bar-solid .promo-close {
-  background: rgb(255 255 255 / 0.12);
+  background: transparent;
 }
 
 .promo-copy {
@@ -93,7 +93,7 @@ defineEmits<{ dismiss: [] }>();
   justify-content: center;
   justify-self: end;
   margin-right: 1.5rem;
-  background: rgb(255 255 255 / 0.24);
+  background: transparent;
   color: #0f0f10;
   transition: opacity var(--duration-fast) var(--ease-premium);
 }

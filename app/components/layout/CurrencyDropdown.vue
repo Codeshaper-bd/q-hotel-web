@@ -11,14 +11,15 @@
       :aria-controls="listId"
       :aria-label="'Select currency, current: ' + selected.label + ' (' + selected.code + ')'"
       :class="[
-        'inline-flex items-center gap-1.5  bg-[#E9C588] px-3.5 py-2.5 text-sm font-medium uppercase leading-5 text-[#0F0F10] backdrop-blur-[5px] transition-colors duration-fast xl:px-4',
+        // Phone: 28px tall / 12px text; tablet: 36px / 14px (Figma); desktop nav keeps its padded sizing
+        'inline-flex h-7 items-center gap-1.5 bg-[#E9C588] px-3 text-xs font-medium uppercase leading-[18px] text-[#0F0F10] backdrop-blur-[5px] transition-colors duration-fast md:h-9 md:px-3.5 md:text-sm md:leading-5 lg:h-auto lg:py-2.5 xl:px-4',
       ]"
       @click="toggle"
       @keydown.escape="close"
       @keydown.enter.prevent="toggle"
       @keydown.space.prevent="toggle"
     >
-      <span class="h-3.5 w-5 shrink-0 overflow-hidden" aria-hidden="true">
+      <span class="h-3 w-[18px] shrink-0 overflow-hidden md:h-3.5 md:w-5" aria-hidden="true">
         <BaseImage
           :src="selected.flagSrc"
           alt=""
@@ -30,7 +31,7 @@
       <span class="tracking-wide">{{ selected.code }}</span>
       <svg
         :class="[
-          'h-4 w-4 shrink-0 transition-transform duration-fast',
+          'h-3 w-3 shrink-0 transition-transform duration-fast md:h-4 md:w-4',
           isOpen
             ? 'rotate-180 text-[#A75B27]'
             : hasSolidBackground ? 'text-[#0F0F10]' : 'text-white',

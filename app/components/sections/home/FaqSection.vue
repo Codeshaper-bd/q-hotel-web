@@ -21,7 +21,7 @@
     <div :class="['faq-stage flex flex-col', isHomeFaq ? 'py-24 sm:py-32 lg:py-0' : 'py-24 sm:py-32 lg:py-24']">
       <!-- Section heading spans both columns, matching the approved composition. -->
       <div data-faq-reveal :class="['flex shrink-0 flex-col items-center px-5 text-center sm:px-6', isHomeFaq ? 'lg:pt-[140px]' : 'lg:pt-0']">
-        <h2 id="faq-title" ref="titleRef" class="font-display text-4xl font-semibold leading-[1.05] text-ink sm:text-5xl lg:text-[44px]">
+        <h2 id="faq-title" ref="titleRef" class="font-display text-4xl font-semibold leading-[1.05] text-[#0F0F10] sm:text-5xl lg:text-[44px]">
           Frequently<br>Asked Questions
         </h2>
       </div>

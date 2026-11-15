@@ -443,8 +443,13 @@ async function initMap() {
 
   try {
     // Dynamic imports keep MapLibre (and its CSS) out of the initial bundle
-    const [maplibreModule, response] = await Promise.all([
+    const [maplibreModule, workerModule, response] = await Promise.all([
       import('maplibre-gl'),
+      // MapLibre locates its worker via `import.meta.url`, and a production
+      // build never emits that file (it only exists in node_modules, which is
+      // why the map worked in dev but not live). Bundling the worker through
+      // Vite and handing MapLibre its URL fixes that.
+      import('maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'),
       fetch(BASE_STYLE_URL),
       import('maplibre-gl/dist/maplibre-gl.css'),
     ])
@@ -453,6 +458,7 @@ async function initMap() {
       return
     }
 
+    maplibreModule.setWorkerUrl(workerModule.default)
     maplibre = maplibreModule
     const style = applyFigmaPalette(await response.json() as StyleSpecification)
 
@@ -497,8 +503,9 @@ async function initMap() {
       frameEverything(false)
     })
   }
-  catch {
+  catch (error) {
     // Leave the readable address card in place
+    console.warn('[LocationMap] The interactive map failed to load', error)
     map?.remove()
     map = undefined
   }
