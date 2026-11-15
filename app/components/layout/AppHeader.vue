@@ -7,24 +7,24 @@
     ]"
     :inert="isHeaderHidden"
   >
-    <!-- Glass background: same treatment as the booking bar, crossfaded as a
-         layer so the backdrop blur eases in rather than snapping on -->
+    <!-- Solid paper background, crossfaded in as a layer -->
     <div
       :class="[
-        'absolute inset-0 border-b bg-paper/90 backdrop-blur-md transition-[opacity,border-color] duration-normal ease-premium',
+        'absolute inset-0 border-b bg-paper transition-[opacity,border-color] duration-normal ease-premium',
         hasSolidBackground ? 'opacity-100' : 'opacity-0',
         hasScrolledPastCover ? 'border-line/70' : 'border-transparent',
       ]"
       aria-hidden="true"
     />
 
-    <!-- Figma nav strip: a white veil that peaks mid-height and fades out at
-         both edges, pinned to the nav row (below the promo bar) while the
-         header is still transparent -->
+    <!-- Nav strip: a soft sky-blue tint that fades out toward the bottom edge,
+         pinned to the nav row (below the promo bar) while the header is still
+         transparent. Only drawn while the promo bar is showing — once the bar
+         is dismissed or tucked away the tint would read as a dark shadow. -->
     <div
       :class="[
-        'pointer-events-none absolute inset-x-0 bottom-0 h-[var(--header-nav-height)] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.5)_50%,rgba(255,255,255,0)_100%)] transition-opacity duration-normal ease-premium',
-        hasSolidBackground ? 'opacity-0' : 'opacity-100',
+        'pointer-events-none absolute inset-x-0 bottom-0 h-[var(--header-nav-height)] bg-[linear-gradient(180deg,rgba(96,150,214,0.45)_0%,rgba(96,150,214,0.18)_55%,rgba(96,150,214,0)_100%)] transition-opacity duration-normal ease-premium',
+        hasSolidBackground || !showPromoBar ? 'opacity-0' : 'opacity-100',
       ]"
       aria-hidden="true"
     />
@@ -66,7 +66,7 @@
               :aria-current="isActive(item.href) ? 'page' : undefined"
               :class="[
                 'py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast hover:text-[#A75B27]',
-                isActive(item.href) ? activeLinkColor : 'text-[#373737]',
+                isActive(item.href) ? activeLinkColor : 'text-[#0F0F10]',
               ]"
             >
               {{ item.label }}
@@ -84,7 +84,7 @@
                   'group flex items-center gap-1 py-2 font-display text-base font-semibold uppercase leading-6 transition-colors duration-fast hover:text-[#A75B27]',
                   activeMenuId === item.id || isActive(item.href)
                     ? activeLinkColor
-                    : 'text-[#373737]',
+                    : 'text-[#0F0F10]',
                 ]"
                 @mouseenter="handleTriggerEnter(item.id)"
                 @mouseleave="schedulMenuClose"
@@ -106,7 +106,7 @@
                     'h-3 w-3 shrink-0 transition-transform duration-fast group-hover:text-[#A75B27]',
                     activeMenuId === item.id || isActive(item.href)
                       ? `rotate-180 ${activeLinkColor}`
-                      : 'text-[#373737]/50',
+                      : 'text-[#0F0F10]/50',
                   ]"
                   viewBox="0 0 12 12"
                   fill="none"
@@ -145,35 +145,35 @@
 
           <button
             type="button"
-            :class="[
-              'flex h-10 w-10 items-center justify-center rounded-sm border transition-colors duration-fast',
-              'border-ink/20 text-ink/60 hover:border-ink/40 hover:text-ink',
-            ]"
+            class="flex size-7 items-center justify-center bg-[#E9C588] text-[#0F0F10] transition-opacity duration-fast hover:opacity-80 md:size-9"
             :aria-expanded="isMobileOpen"
             aria-controls="mobile-navigation"
             aria-label="Toggle navigation"
             @click="isMobileOpen = !isMobileOpen"
           >
-            <span aria-hidden="true" class="relative h-3.5 w-5">
-              <span
-                :class="[
-                  'absolute left-0 top-0 h-px w-5 bg-current transition-transform duration-fast',
-                  isMobileOpen ? 'translate-y-[6px] rotate-45' : '',
-                ]"
+            <!-- Figma menu-alt-1 glyph; swaps to a close cross while the drawer is open -->
+            <img
+              v-if="!isMobileOpen"
+              src="/images/icons/menu-alt.svg"
+              alt=""
+              width="18"
+              height="18"
+              class="size-[18px] md:size-5"
+            >
+            <svg
+              v-else
+              class="size-[18px] md:size-5"
+              viewBox="0 0 18 18"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M4.5 4.5l9 9M13.5 4.5l-9 9"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
-              <span
-                :class="[
-                  'absolute left-0 top-1/2 h-px w-5 bg-current -translate-y-px transition-opacity duration-fast',
-                  isMobileOpen ? 'opacity-0' : '',
-                ]"
-              />
-              <span
-                :class="[
-                  'absolute bottom-0 left-0 h-px w-5 bg-current transition-transform duration-fast',
-                  isMobileOpen ? '-translate-y-[7px] -rotate-45' : '',
-                ]"
-              />
-            </span>
+            </svg>
           </button>
         </div>
       </div>

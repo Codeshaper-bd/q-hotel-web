@@ -64,17 +64,24 @@ const STROKES_URL = '/images/faq/faq-sketch-strokes.svg'
 /** Resting opacity of the artwork (Figma: 60%) — the sketch never exceeds it */
 const SKETCH_OPACITY = 0.6
 
-/** Pencil speed along long structural lines, in sketch units per second */
-const STRUCTURE_SPEED = 8000
-/** Strokes shorter than this are fine detail and are drawn much faster */
-const DETAIL_LENGTH = 70
-const DETAIL_SPEED = 32000
+/**
+ * Pacing, in sketch units per second. The drawing is three tiers so it reads
+ * as lines being drawn one after another instead of a single flash: the long
+ * structural lines are drawn one at a time at a pace the eye can follow, the
+ * mid-size lines quicker, and the fine foliage/shading flecks quickest of all.
+ */
+const LONG_LENGTH = 150
+const LONG_SPEED = 3000
+const FINE_LENGTH = 30
+const MID_SPEED = 9000
+const FINE_SPEED = 20000
 /** Pencil speed while gliding between strokes (not drawing) */
-const GLIDE_SPEED = 26000
-const MIN_STROKE_SECONDS = 0.003
+const GLIDE_SPEED = 9000
+const MIN_STROKE_SECONDS = 0.004
 const MIN_GLIDE_SECONDS = 0.004
-/** Fine-detail strokes overlap: each starts this share of the way through the last */
-const DETAIL_OVERLAP = 0.6
+/** Mid / fine strokes overlap: each starts this share of the way through the last */
+const MID_OVERLAP = 0.5
+const FINE_OVERLAP = 0.6
 const SETTLE_SECONDS = 1.1
 
 const rootRef = ref<HTMLElement | null>(null)
@@ -148,10 +155,11 @@ function buildTimeline(strokes: SVGPathElement[]) {
 
     const first = stroke.getPointAtLength(0)
 
-    const isDetail = length < DETAIL_LENGTH
+    const isFine = length < FINE_LENGTH
+    const isLong = length >= LONG_LENGTH
 
     // Glide to where the next line begins (the pencil lifts between strokes).
-    // Foliage-scale detail is too quick to follow, so the pencil just hops.
+    // Fine flecks are too quick to follow, so the pencil just hops.
     if (!hasPosition) {
       position.x = first.x
       position.y = first.y
@@ -161,21 +169,22 @@ function buildTimeline(strokes: SVGPathElement[]) {
     }
     else {
       const distance = Math.hypot(first.x - position.x, first.y - position.y)
-      if (distance > 1 && !isDetail) {
+      if (distance > 1 && !isFine) {
         const glide = Math.max(MIN_GLIDE_SECONDS, distance / GLIDE_SPEED)
         drawing.to(position, { x: first.x, y: first.y, duration: glide, ease: 'power1.inOut', onUpdate: place }, cursor)
         cursor += glide
       }
     }
 
-    const speed = isDetail ? DETAIL_SPEED : STRUCTURE_SPEED
+    const speed = isLong ? LONG_SPEED : isFine ? FINE_SPEED : MID_SPEED
     const seconds = Math.max(MIN_STROKE_SECONDS, length / speed)
 
     drawing.set(stroke, { opacity: 1 }, cursor)
     drawing.to(stroke, {
       strokeDashoffset: 0,
       duration: seconds,
-      ease: 'none',
+      // Long lines ease in/out like a hand drawing them; short ones stay linear
+      ease: isLong ? 'power1.inOut' : 'none',
       onUpdate() {
         // The tip rides exactly the head of the line being drawn
         const tip = stroke.getPointAtLength(length * this.progress())
@@ -184,7 +193,7 @@ function buildTimeline(strokes: SVGPathElement[]) {
         place()
       },
     }, cursor)
-    cursor += isDetail ? seconds * DETAIL_OVERLAP : seconds
+    cursor += isLong ? seconds : seconds * (isFine ? FINE_OVERLAP : MID_OVERLAP)
     // Keep the glide's start in sync with where this stroke ended
     const end = stroke.getPointAtLength(length)
     drawing.set(position, { x: end.x, y: end.y }, cursor)

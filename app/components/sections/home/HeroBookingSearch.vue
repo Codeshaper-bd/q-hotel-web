@@ -10,23 +10,23 @@
   -->
   <form
     ref="rootRef"
-    :class="['w-full lg:flex lg:items-center', tone === 'light' ? 'tone-light' : 'tone-dark']"
+    :class="['w-full lg:flex lg:items-center', compact ? 'relative' : '', tone === 'light' ? 'tone-light' : 'tone-dark']"
     aria-label="Check room availability"
     @submit.prevent="handleSubmit"
     @keydown.escape="openPanel = null"
   >
-    <div :class="['hero-bar-glass grid grid-cols-2 border shadow-[0_28px_80px_-28px] lg:flex lg:h-[94px] lg:flex-1', barClass]">
+    <div :class="['hero-bar-glass border shadow-[0_28px_80px_-28px] lg:flex lg:h-[94px] lg:flex-1', barLayoutClass, barClass]">
       <!-- Check-In -->
-      <div class="relative lg:flex-1">
+      <div :class="['relative lg:flex-1', fieldWrapperClass]">
         <button
           type="button"
-          class="hero-bar-field w-full text-left"
+          :class="['hero-bar-field w-full text-left', fieldCompactClass]"
           aria-haspopup="dialog"
           :aria-expanded="openPanel === 'dates'"
           @click="togglePanel('dates')"
         >
           <span :class="['hero-bar-label', labelClass]">Check-In</span>
-          <span class="mt-3 flex items-center gap-2">
+          <span :class="valueRowClass">
             <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
@@ -50,19 +50,19 @@
         </div>
       </div>
 
-      <div class="hero-bar-divider" aria-hidden="true" />
+      <div :class="dividerClass" aria-hidden="true" />
 
       <!-- Check-Out -->
-      <div :class="['relative border-l lg:flex-1 lg:border-l-0', dividerBorderClass]">
+      <div :class="['relative lg:flex-1', checkOutBorderClass, fieldWrapperClass]">
         <button
           type="button"
-          class="hero-bar-field w-full text-left"
+          :class="['hero-bar-field w-full text-left', fieldCompactClass]"
           aria-haspopup="dialog"
           :aria-expanded="openPanel === 'dates'"
           @click="togglePanel('dates')"
         >
           <span :class="['hero-bar-label', labelClass]">Check-Out</span>
-          <span class="mt-3 flex items-center gap-2">
+          <span :class="valueRowClass">
             <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5.33 1.336v2.667M10.667 1.336v2.667M12.667 2.664H3.333c-.736 0-1.333.597-1.333 1.333v9.334c0 .736.597 1.333 1.333 1.333h9.334c.736 0 1.333-.597 1.333-1.333V3.997c0-.736-.597-1.333-1.333-1.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M2 6.664h12M5.334 9.336h.007M8 9.336h.007M10.667 9.336h.006M5.334 12h.007M8 12h.007M10.667 12h.006" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
@@ -74,27 +74,46 @@
         </button>
       </div>
 
-      <div class="hero-bar-divider" aria-hidden="true" />
+      <div :class="dividerClass" aria-hidden="true" />
 
       <!-- Guests & Rooms -->
-      <div :class="['relative border-t lg:border-t-0 lg:flex-1', dividerBorderClass]">
+      <div :class="['relative lg:flex-1', guestsBorderClass, fieldWrapperClass]">
         <button
           type="button"
-          class="hero-bar-field w-full text-left"
+          :class="['hero-bar-field w-full text-left', fieldCompactClass]"
           aria-haspopup="dialog"
           :aria-expanded="openPanel === 'guests'"
           @click="togglePanel('guests')"
         >
-          <span :class="['hero-bar-label', labelClass]">Guests &amp; Rooms</span>
-          <span class="mt-3 flex items-center gap-2">
-            <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <span :class="['truncate text-base leading-6 min-w-[140px]', placeholders ? mutedValueClass : valueClass]">{{ placeholders ? 'Select guests & rooms' : guestsSummary }}</span>
-            <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', chevronClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+          <!-- Phone: icon + count pairs only (rooms/guests wording returns at md) -->
+          <span v-if="compact" :class="['flex items-center gap-2.5 text-xs uppercase leading-[18px] md:hidden', valueClass]">
+            <span class="sr-only">{{ guestsSummary }}</span>
+            <span class="flex items-center gap-1" aria-hidden="true">
+              <span class="flex size-4 items-center justify-center">
+                <img src="/images/icons/hero-guests.svg" alt="" width="14" height="13" class="h-[13px] w-3.5">
+              </span>
+              {{ totalGuests }}
+            </span>
+            <span class="flex items-center gap-1" aria-hidden="true">
+              <span class="flex size-4 items-center justify-center">
+                <img src="/images/icons/hero-bed.svg" alt="" width="13" height="10" class="h-[10px] w-[13px]">
+              </span>
+              {{ rooms }}
+            </span>
+          </span>
+
+          <span :class="['block', compact ? 'max-md:hidden' : '']">
+            <span :class="['hero-bar-label', labelClass]">Guests &amp; Rooms</span>
+            <span class="mt-3 flex items-center gap-2">
+              <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span :class="['truncate text-base leading-6', guestsValueWidthClass, placeholders ? mutedValueClass : valueClass]">{{ placeholders ? 'Select guests & rooms' : guestsSummary }}</span>
+              <svg :class="['h-4 w-4 shrink-0 -translate-y-[3px]', chevronClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
           </span>
         </button>
 
@@ -158,28 +177,51 @@
         </div>
       </div>
 
-      <div v-if="showSpecialRates" class="hero-bar-divider" aria-hidden="true" />
+      <div v-if="showSpecialRates" :class="dividerClass" aria-hidden="true" />
+
+      <!-- Special Rates, phone: coupon icon with the code input beside it -->
+      <div v-if="showSpecialRates && compact" class="flex min-w-0 flex-1 items-center gap-1.5 pl-2 min-[400px]:gap-2 min-[400px]:pl-3 md:hidden">
+        <img src="/images/icons/hero-coupon.svg" alt="" width="12" height="14" class="h-3.5 w-3 shrink-0">
+        <label for="hero-special-rates-compact" class="sr-only">Special Rates</label>
+        <input
+          id="hero-special-rates-compact"
+          v-model.trim="promoCode"
+          type="text"
+          autocomplete="off"
+          :class="['h-full w-full min-w-0 bg-transparent text-xs uppercase leading-[18px] outline-none', valueClass]"
+        >
+      </div>
 
       <!-- Special Rates -->
       <div
         v-if="showSpecialRates"
-        :class="['hero-bar-field border-t border-l lg:flex-1 lg:border-t-0 lg:border-l-0', dividerBorderClass]"
+        :class="['lg:flex-1', ratesBorderClass, compact ? 'max-md:hidden md:flex-1' : '']"
       >
-        <label for="hero-special-rates" :class="['hero-bar-label', labelClass]">Special Rates</label>
-        <div :class="['mt-1.5 flex h-[30px] items-center mr-10', rateFieldClass]">
-          <input
-            id="hero-special-rates"
-            v-model.trim="promoCode"
-            type="text"
-            autocomplete="off"
-            :class="['h-full w-full min-w-0 border-b border-transparent bg-transparent px-2.5 text-sm leading-6 outline-none transition-colors duration-fast focus-visible:outline-none', valueClass, tone === 'light' ? 'focus-visible:border-[#A75B27]/60' : 'focus-visible:border-champagne/60']"
-          >
+        <div :class="['hero-bar-field', fieldCompactClass]">
+          <label for="hero-special-rates" :class="['hero-bar-label', labelClass]">Special Rates</label>
+          <div :class="['mt-1.5 flex h-[30px] items-center', rateFieldMarginClass, rateFieldClass]">
+            <input
+              id="hero-special-rates"
+              v-model.trim="promoCode"
+              type="text"
+              autocomplete="off"
+              :class="['h-full w-full min-w-0 border-b border-transparent bg-transparent px-2.5 text-sm leading-6 outline-none transition-colors duration-fast focus-visible:outline-none', valueClass, tone === 'light' ? 'focus-visible:border-[#A75B27]/60' : 'focus-visible:border-champagne/60']"
+            >
+          </div>
         </div>
       </div>
     </div>
 
-    <BaseButton type="submit" variant="gold" class="mt-2 w-full whitespace-nowrap !rounded-none !tracking-normal lg:relative lg:z-10 lg:-ml-8 lg:mt-0 lg:h-[60px] lg:w-fit lg:px-8">
-      {{ submitLabel }} 
+    <BaseButton type="submit" variant="gold" :class="submitClass">
+      <span :class="compact ? 'max-lg:sr-only' : ''">{{ submitLabel }}</span>
+      <img
+        v-if="compact"
+        src="/images/icons/hero-search.svg"
+        alt=""
+        width="18"
+        height="18"
+        class="h-[18px] w-[18px] md:h-6 md:w-6 lg:hidden"
+      >
     </BaseButton>
   </form>
 </template>
@@ -215,7 +257,13 @@ const props = withDefaults(defineProps<{
    *  picks something. Used on the /rooms banner, where a plain nav link must
    *  never display a stale or assumed selection. */
   emptyState?: boolean
+  /** Hero layout below `lg`: one slim row instead of the stacked 2-column
+   *  grid. Tablet keeps the four labelled fields with an inset icon Search
+   *  button; phones collapse to labels + icon summaries (guests/rooms counts,
+   *  coupon icon) per the Figma mobile frames. */
+  compact?: boolean
 }>(), {
+  compact: false,
   tone: 'dark',
   submitLabel: 'Search',
   emptyState: false,
@@ -266,6 +314,42 @@ const dividerBorderClass = computed(() => props.tone === 'light' ? 'border-ink/1
 const rateFieldClass = computed(() => props.tone === 'light'
   ? 'bg-white'
   : 'bg-ink/50')
+
+// Layout lookups. Non-compact (default) keeps the stacked 2-column grid below
+// `lg`; compact turns the bar into one flex row from phone width up.
+//  - phone: 56px bar, auto-width fields, labels only
+//  - tablet: 92px bar with room reserved on the right for the inset Search
+const barLayoutClass = computed(() => props.compact
+  ? 'flex h-14 max-lg:pr-[3.25rem] min-[400px]:max-lg:pr-14 md:max-lg:h-[92px] md:max-lg:pr-[5.625rem]'
+  : 'grid grid-cols-2')
+const fieldWrapperClass = computed(() => props.compact
+  ? 'max-md:static max-md:flex-none md:flex-1'
+  : '')
+// Compact fields carry no stacked-grid borders — dividers separate them
+const checkOutBorderClass = computed(() => props.compact
+  ? ''
+  : `border-l lg:border-l-0 ${dividerBorderClass.value}`)
+const guestsBorderClass = computed(() => props.compact
+  ? ''
+  : `border-t lg:border-t-0 ${dividerBorderClass.value}`)
+const ratesBorderClass = computed(() => props.compact
+  ? ''
+  : `border-t border-l lg:border-t-0 lg:border-l-0 ${dividerBorderClass.value}`)
+const fieldCompactClass = computed(() => props.compact ? 'hero-bar-field-compact' : '')
+const dividerClass = computed(() => ['hero-bar-divider', props.compact ? 'hero-bar-divider-compact' : ''])
+/** Date rows disappear on phones — only the Check-In / Check-Out labels remain */
+const valueRowClass = computed(() => ['mt-3 flex items-center gap-2', props.compact ? 'max-md:hidden' : ''])
+/** The 140px floor keeps the empty-state placeholder readable on the stacked
+ *  layouts; compact tablet fields are tight, so there the text just truncates */
+const guestsValueWidthClass = computed(() => props.compact ? 'lg:min-w-[140px]' : 'min-w-[140px]')
+const rateFieldMarginClass = computed(() => props.compact ? 'lg:mr-10' : 'mr-10')
+
+// Compact: Search sits inside the bar as an icon square (phone 42px, tablet
+// 58px) and returns to the overlapping text button from `lg`. `!min-h-0` and
+// `!p-0` beat BaseButton's own min-height and padding.
+const submitClass = computed(() => props.compact
+  ? 'whitespace-nowrap !rounded-none !tracking-normal max-lg:absolute max-lg:right-2.5 max-lg:top-1/2 max-lg:size-10 min-[400px]:max-lg:right-3.5 min-[400px]:max-lg:size-[42px] max-lg:-translate-y-1/2 max-lg:!min-h-0 max-lg:!p-0 md:max-lg:right-6 md:max-lg:size-[58px] lg:relative lg:z-10 lg:-ml-8 lg:h-[60px] lg:w-fit lg:px-8'
+  : 'mt-2 w-full whitespace-nowrap !rounded-none !tracking-normal lg:relative lg:z-10 lg:-ml-8 lg:mt-0 lg:h-[60px] lg:w-fit lg:px-8')
 
 // A custom `placeholderClass` fully replaces the default typography (it
 // carries its own size/weight/color), avoiding utility-cascade conflicts
@@ -411,6 +495,37 @@ onUnmounted(() => {
   transition: background-color var(--duration-fast) var(--ease-premium);
 }
 
+/* Compact (hero) fields below lg: fill the slim bar's height and centre their
+   content instead of relying on fixed top/bottom padding. Declared after the
+   base rule at equal specificity so these win. */
+@media (max-width: 1023px) {
+  .hero-bar-field-compact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 0 0.75rem;
+  }
+}
+
+/* Small phones: tighter padding and 11px labels so the three fields, the
+   inline promo input and the Search square all fit on one row */
+@media (max-width: 399px) {
+  .hero-bar-field-compact {
+    padding: 0 0.5rem;
+  }
+
+  .hero-bar-field-compact .hero-bar-label {
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-bar-field-compact {
+    padding: 0 0.5rem 0 1rem;
+  }
+}
+
 .tone-dark .hero-bar-field:hover {
   background-color: rgb(var(--color-paper) / 0.04);
 }
@@ -449,6 +564,24 @@ onUnmounted(() => {
 
   .tone-light .hero-bar-divider {
     background-color: rgb(var(--color-ink) / 0.12);
+  }
+}
+
+/* Compact bar: the hairlines stay visible below lg (42px on phones, 56px from
+   tablet up, matching the Figma frames). Declared after the lg rule's base so
+   it only has to override `display: none`. */
+.hero-bar-divider-compact {
+  display: flex;
+  flex: none;
+  width: 1px;
+  align-self: center;
+  height: 2.625rem;
+  background-color: rgb(var(--color-paper) / 0.15);
+}
+
+@media (min-width: 768px) {
+  .hero-bar-divider-compact {
+    height: 3.5rem;
   }
 }
 

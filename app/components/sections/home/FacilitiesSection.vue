@@ -112,7 +112,7 @@ function tileTintClass(index: number): string {
     labelled-by="facilities-title"
     tone="paper"
     container-size="xl"
-    class="!pb-0"
+    class="!pt-9 sm:!pt-[65px] !pb-0"
   >
     <BaseTitle id="facilities-title">Facilities &amp; Amenities</BaseTitle>
 
