@@ -9,9 +9,9 @@
         <div class="max-w-[1316px] mx-auto">
           <HeroBookingSearch
             :key="route.fullPath"
+            compact
             tone="light"
             empty-state
-            popover-direction="down"
             :submit-label="initialQuery ? 'Modify Search' : 'Search'"
             :initial-query="initialQuery"
             @search="handleSearch"

@@ -37,7 +37,7 @@
 
         <div
           v-if="openPanel === 'dates'"
-          :class="['absolute left-0 z-50 w-[19.5rem] max-w-[calc(100vw-2rem)] md:w-[34rem]', popoverDirection === 'down' ? 'top-full mt-3' : 'bottom-full mb-3']"
+          :class="['absolute left-0 z-50 w-[19.5rem] max-w-[calc(100vw-2rem)] md:w-[34rem]', panelDirection === 'down' ? 'top-full mt-3' : 'bottom-full mb-3']"
           role="dialog"
           aria-label="Select stay dates"
         >
@@ -89,15 +89,16 @@
           <span v-if="compact" :class="['flex items-center gap-2.5 text-xs uppercase leading-[18px] md:hidden', valueClass]">
             <span class="sr-only">{{ guestsSummary }}</span>
             <span class="flex items-center gap-1" aria-hidden="true">
-              <span class="flex size-4 items-center justify-center">
-                <img src="/images/icons/hero-guests.svg" alt="" width="14" height="13" class="h-[13px] w-3.5">
-              </span>
+              <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
               {{ totalGuests }}
             </span>
             <span class="flex items-center gap-1" aria-hidden="true">
-              <span class="flex size-4 items-center justify-center">
-                <img src="/images/icons/hero-bed.svg" alt="" width="13" height="10" class="h-[10px] w-[13px]">
-              </span>
+              <svg :class="['h-4 w-4 shrink-0', iconClass]" viewBox="0 0 13 11" fill="none" aria-hidden="true">
+                <path d="M3.166 3.166v4.667M.5.5v9.333M.5 3.167h9.333a2.667 2.667 0 012.667 2.666v2M.5 7.833h12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
               {{ rooms }}
             </span>
           </span>
@@ -119,7 +120,7 @@
 
         <div
           v-if="openPanel === 'guests'"
-          :class="['absolute left-0 z-50 w-[19.5rem] max-w-[calc(100vw-2rem)]', popoverDirection === 'down' ? 'top-full mt-3' : 'bottom-full mb-3']"
+          :class="['absolute left-0 z-50 w-[19.5rem] max-w-[calc(100vw-2rem)]', panelDirection === 'down' ? 'top-full mt-3' : 'bottom-full mb-3']"
           role="dialog"
           aria-label="Select rooms and guests"
         >
@@ -269,9 +270,9 @@ const props = withDefaults(defineProps<{
   /** Seeds the console from a previously submitted search (e.g. handed off
    *  from the hero into the /rooms page) instead of today/tomorrow defaults */
   initialQuery?: BookingSearchQuery
-  /** Which way the popover panels open: `up` (default — the hero bar sits
-   *  near the viewport bottom) or `down` (the /rooms banner bar sits near
-   *  the page top, so an upward panel would extend off the viewport) */
+  /** Forces the direction popover panels open. By default (omitted) it is
+   *  measured against the viewport each time a panel opens: down when there
+   *  is room below the bar, otherwise up */
   popoverDirection?: 'up' | 'down'
   /** Hides the Special Rates promo-code field (and its divider) — used on
    *  the long-stays banner, where rate offers are handled differently */
@@ -299,7 +300,6 @@ const props = withDefaults(defineProps<{
   tone: 'dark',
   submitLabel: 'Search',
   emptyState: false,
-  popoverDirection: 'up',
   showSpecialRates: true,
   checkInPlaceholder: 'Select date',
   checkOutPlaceholder: 'Select date',
@@ -380,7 +380,7 @@ const rateFieldMarginClass = computed(() => props.compact ? 'lg:mr-10' : 'mr-10'
 // Compact: Search sits inside the bar as an icon square (phone 42px, tablet
 // 58px) and returns to the overlapping text button from `lg`. `!min-h-0` and
 // `!p-0` beat BaseButton's own min-height and padding.
-const popoverPositionClass = computed(() => props.popoverDirection === 'down' ? 'top-full mt-3' : 'bottom-full mb-3')
+const popoverPositionClass = computed(() => panelDirection.value === 'down' ? 'top-full mt-3' : 'bottom-full mb-3')
 
 const submitClass = computed(() => props.compact
   ? 'whitespace-nowrap !rounded-none !tracking-normal max-lg:absolute max-lg:right-2.5 max-lg:top-1/2 max-lg:size-10 min-[400px]:max-lg:right-3.5 min-[400px]:max-lg:size-[42px] max-lg:-translate-y-1/2 max-lg:!min-h-0 max-lg:!p-0 md:max-lg:right-6 md:max-lg:size-[58px] lg:relative lg:z-10 lg:-ml-8 lg:h-[60px] lg:w-fit lg:px-8'
@@ -456,7 +456,35 @@ const steppers = computed<StepperRow[]>(() => [
   },
 ])
 
+// Room a panel needs (the two-month calendar is the tallest)
+const PANEL_CLEARANCE = 460
+const panelDirection = ref<'up' | 'down'>(props.popoverDirection ?? 'up')
+
+/** Opens toward whichever side of the bar has room in the current viewport */
+function resolvePanelDirection() {
+  if (props.popoverDirection) {
+    panelDirection.value = props.popoverDirection
+    return
+  }
+  if (!rootRef.value) {
+    return
+  }
+  const bar = rootRef.value.getBoundingClientRect()
+  const spaceBelow = window.innerHeight - bar.bottom
+  const spaceAbove = bar.top
+  if (spaceBelow >= PANEL_CLEARANCE) {
+    panelDirection.value = 'down'
+  } else if (spaceAbove >= PANEL_CLEARANCE) {
+    panelDirection.value = 'up'
+  } else {
+    panelDirection.value = spaceBelow >= spaceAbove ? 'down' : 'up'
+  }
+}
+
 function togglePanel(panel: 'dates' | 'guests' | 'rates') {
+  if (openPanel.value !== panel) {
+    resolvePanelDirection()
+  }
   openPanel.value = openPanel.value === panel ? null : panel
   // Ready to type the moment the rates panel opens
   if (openPanel.value === 'rates') {
@@ -473,6 +501,7 @@ function applyDates(range: { checkIn: string, checkOut: string }) {
 function handleSubmit() {
   // An incomplete range sends the guest back to the calendar, not to an error
   if (!checkOut.value) {
+    resolvePanelDirection()
     openPanel.value = 'dates'
     return
   }

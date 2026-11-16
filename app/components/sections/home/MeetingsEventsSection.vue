@@ -24,7 +24,9 @@
           :key="venue.id"
           data-venue-card
           :class="['venue-card', { 'is-flipped': flippedVenueIds[venue.id] }]"
-          @click="handleCardTap(venue.id, $event)"
+          @mouseenter="openCard(venue.id)"
+          @focusin="openCard(venue.id)"
+          @click="openCard(venue.id)"
         >
           <article class="venue-card-inner" :aria-label="venue.name">
             <div class="venue-face relative aspect-[4/3] overflow-hidden bg-line/40 sm:aspect-[16/9] lg:aspect-auto">
@@ -147,19 +149,14 @@ const venues: MeetingVenue[] = [
 ];
 
 // ─── Card flip ──────────────────────────────────────────────────────
-// Hover (pointer devices) and keyboard focus flip a card through CSS; this
-// adds tap-to-flip for touch devices, where hover does not exist. Taps on the
-// card's own buttons are left alone so they still open their dialogs.
+// A card flips open the first time it is hovered, focused or tapped, and then
+// stays open: it never flips back. The first card starts open.
 const flippedVenueIds = reactive<Record<string, boolean>>({
-  [venues[0]!.id]: true, // First card flipped by default
+  [venues[0]!.id]: true,
 });
 
-function handleCardTap(venueId: string, event: MouseEvent) {
-  const tapped = event.target;
-  if (tapped instanceof Element && tapped.closest("a, button")) {
-    return;
-  }
-  flippedVenueIds[venueId] = !flippedVenueIds[venueId];
+function openCard(venueId: string) {
+  flippedVenueIds[venueId] = true;
 }
 
 // ─── Venue details popup ────────────────────────────────────────────
@@ -213,8 +210,7 @@ const {
     transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1);
   }
 
-  .venue-card.is-flipped .venue-card-inner,
-  .venue-card:focus-within .venue-card-inner {
+  .venue-card.is-flipped .venue-card-inner {
     transform: rotateY(180deg);
   }
 
@@ -227,19 +223,6 @@ const {
   .venue-face-back {
     justify-content: space-between;
     transform: rotateY(180deg);
-  }
-}
-
-/* Hover only where it truly exists, so touch devices never get a card stuck
-   flipped by a stale hover state */
-@media (min-width: 1024px) and (hover: hover) {
-  .venue-card:hover .venue-card-inner {
-    transform: rotateY(180deg);
-  }
-
-  /* If card is already flipped, hover shows the front face instead */
-  .venue-card.is-flipped:hover .venue-card-inner {
-    transform: rotateY(0deg);
   }
 }
 

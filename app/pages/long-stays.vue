@@ -17,7 +17,6 @@
           <div class="hidden h-16 w-px shrink-0 bg-line lg:block" aria-hidden="true" />
           <HeroBookingSearch
             tone="light"
-            popover-direction="down"
             :show-special-rates="false"
             empty-state
             check-in-placeholder="Check in Date"
