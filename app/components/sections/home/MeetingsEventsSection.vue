@@ -1,8 +1,9 @@
 <template>
   <!--
     Meetings & Events: three venue photographs. On hover or keyboard focus
-    (large screens with a pointer) each card flips to reveal its name,
-    description and actions. Below lg (mobile and tablet) there is no flip:
+    (large screens with a pointer) a card flips to reveal its name,
+    description and actions, and flips back to its photo when hover leaves;
+    the first card rests open when nothing is hovered. Below lg (mobile and tablet) there is no flip:
     each venue is a plain card, photo on top and its details beneath.
   -->
   <BaseSection
@@ -23,9 +24,11 @@
           v-for="venue in venues"
           :key="venue.id"
           data-venue-card
-          :class="['venue-card', { 'is-flipped': flippedVenueIds[venue.id] }]"
+          :class="['venue-card', { 'is-flipped': activeVenueId === venue.id }]"
           @mouseenter="openCard(venue.id)"
+          @mouseleave="closeCard(venue.id)"
           @focusin="openCard(venue.id)"
+          @focusout="handleFocusOut($event, venue.id)"
           @click="openCard(venue.id)"
         >
           <article class="venue-card-inner" :aria-label="venue.name">
@@ -149,14 +152,28 @@ const venues: MeetingVenue[] = [
 ];
 
 // ─── Card flip ──────────────────────────────────────────────────────
-// A card flips open the first time it is hovered, focused or tapped, and then
-// stays open: it never flips back. The first card starts open.
-const flippedVenueIds = reactive<Record<string, boolean>>({
-  [venues[0]!.id]: true,
-});
+// Only one card shows its details at a time. The hovered (or focused/tapped)
+// card flips open; every other card, including the first, shows its photo.
+// With nothing hovered, the first card rests open.
+const hoveredVenueId = ref<string | null>(null);
+const activeVenueId = computed(() => hoveredVenueId.value ?? venues[0]!.id);
 
 function openCard(venueId: string) {
-  flippedVenueIds[venueId] = true;
+  hoveredVenueId.value = venueId;
+}
+
+function closeCard(venueId: string) {
+  if (hoveredVenueId.value === venueId) {
+    hoveredVenueId.value = null;
+  }
+}
+
+/** Focus moving between controls inside a card must not flip it back */
+function handleFocusOut(event: FocusEvent, venueId: string) {
+  const card = event.currentTarget as HTMLElement;
+  if (!card.contains(event.relatedTarget as Node | null)) {
+    closeCard(venueId);
+  }
 }
 
 // ─── Venue details popup ────────────────────────────────────────────
@@ -205,9 +222,10 @@ const {
     position: relative;
     height: 100%;
     transform-style: preserve-3d;
-    /* Slow, symmetric ease-in-out: the premium ease front-loads its motion
-       and reads as a snap on a half-turn */
-    transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1);
+    /* Gentle ease-in-out sine: no hard start or stop, so the half-turn glides
+       instead of snapping. will-change keeps the flip on the GPU. */
+    transition: transform 1200ms cubic-bezier(0.37, 0, 0.63, 1);
+    will-change: transform;
   }
 
   .venue-card.is-flipped .venue-card-inner {
@@ -218,6 +236,9 @@ const {
     position: absolute;
     inset: 0;
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    /* Own compositing layer per face avoids edge flicker mid-turn */
+    transform: translateZ(0);
   }
 
   .venue-face-back {

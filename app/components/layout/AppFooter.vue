@@ -132,7 +132,7 @@ const linkColumns = [
     <!-- Newsletter sits on the paper page, directly above the dark panel -->
     <NewsletterSubscribeSection />
 
-    <div class="overflow-hidden rounded-sm bg-[#060C14] text-paper">
+    <div class="overflow-hidden bg-[#060C14] text-paper">
       <BaseContainer size="xl">
         <!-- Brand mark between two hairlines. The Q draws itself in a
              continuous loop; it renders solid without JS / under reduced
