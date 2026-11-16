@@ -20,7 +20,7 @@
         <div
           role="tablist"
           aria-label="Room types"
-          class="flex flex-wrap justify-center gap-2.5 mb-4"
+          class="mb-4 flex flex-wrap justify-center gap-2.5 motion-safe:lg:mb-0"
           @keydown="handleTablistKeydown"
         >
           <button
@@ -660,14 +660,14 @@ onMounted(async () => {
   }
 
   .rooms-stack {
-    /* The photograph rests centered in the space the tabs leave, with equal
-       breathing room above and below instead of touching the viewport edges.
-       The floor keeps the card tall enough that the details panel never needs
-       to scroll internally on short viewports. */
-    flex: 0 1 auto;
-    height: clamp(32rem, calc(100svh - var(--header-nav-height) - 8rem), 52rem);
+    /* Exactly 40px between the tab buttons and the photograph, and 40px
+       between the photograph and the viewport bottom: the stack fills the
+       space the tabs leave and the fixed margins frame it. The floor keeps
+       the card tall enough that the details panel never needs to scroll
+       internally on short viewports. */
+    flex: 1 1 auto;
     min-height: 32rem;
-    margin-block: auto;
+    margin-block: 40px;
     overflow: hidden;
     position: relative;
   }

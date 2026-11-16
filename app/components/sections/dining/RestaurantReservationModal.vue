@@ -133,7 +133,7 @@
         <!-- RIGHT RESERVATION FORM -->
         <!-- ========================= -->
         <section
-          class="flex flex-col bg-white px-6 py-8 sm:px-9 sm:py-10 lg:overflow-y-auto lg:px-12 lg:pb-8 lg:pt-14"
+          class="flex flex-col bg-white px-6 py-8 sm:px-9 sm:py-10 lg:overflow-y-auto lg:px-12 lg:pb-6 lg:pt-12"
         >
           <form
             ref="formRef"
@@ -141,7 +141,7 @@
             :aria-busy="submitting"
             @submit.prevent="submitForm"
           >
-            <div class="space-y-5">
+            <div class="flex flex-1 flex-col gap-3.5 lg:justify-between">
               <div class="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label for="reservation-date" class="form-label">
@@ -271,7 +271,7 @@
                   name="specialRequest"
                   rows="4"
                   placeholder="Add special request"
-                  class="form-input min-h-[120px] resize-none py-3"
+                  class="form-input min-h-[88px] resize-none py-3"
                 />
               </div>
 
@@ -312,7 +312,7 @@
               </div>
             </div>
 
-            <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:mt-auto lg:pt-8">
+            <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:mt-0 lg:pt-3">
               <BaseArrowCta
                 variant="gold"
                 label-class="flex-1 justify-center"
