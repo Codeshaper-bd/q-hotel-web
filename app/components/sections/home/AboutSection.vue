@@ -12,8 +12,7 @@
       <FadeReveal>
         <div class="mx-auto flex max-w-[926px] flex-col items-center text-center">
           <h2 id="about-title" class="sr-only">Who we are</h2>
-          <BaseKicker transparent>Who We Are</BaseKicker>
-          <div class="mt-8 flex w-full justify-center items-center gap-2" aria-hidden="true">
+          <div class="flex w-full justify-center items-center gap-2" aria-hidden="true">
             <span class="h-0.5 bg-[#C9752D] w-6"></span>
             <div class="flex items-center gap-0.5">
               <Star v-for="n in 5" :key="n" class="size-5" />

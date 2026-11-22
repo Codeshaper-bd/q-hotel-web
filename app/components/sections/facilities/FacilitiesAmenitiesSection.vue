@@ -163,10 +163,9 @@ const firstFacilityIndexInFinalRow = facilities.length - 3;
     <BaseContainer size="xl">
       <FadeReveal>
         <div class="text-center">
-          <BaseKicker>Facilities</BaseKicker>
           <h2
             id="facilities-amenities-title"
-            class="mt-5 font-display text-4xl font-semibold sm:text-5xl"
+            class="font-display text-4xl font-semibold sm:text-5xl"
           >
             Our Hotel Facilities
           </h2>

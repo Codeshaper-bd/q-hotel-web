@@ -16,10 +16,9 @@
   >
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
-        <BaseKicker>Select Your Room</BaseKicker>
         <h2
           id="long-stay-rooms-title"
-          class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px]"
+          class="font-display text-4xl text-ink sm:text-5xl lg:text-[56px]"
         >
           Rooms and Suites
         </h2>

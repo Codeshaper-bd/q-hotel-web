@@ -9,7 +9,14 @@
     lower edge (e.g. the about page's mouse-shaped scroll indicator).
   -->
   <section :aria-labelledby="bannerTitleId" class="relative text-paper">
-    <div class="relative mt-[var(--header-height)] flex h-[480px] items-center justify-center overflow-hidden sm:h-[640px] lg:h-[800px]">
+    <div
+      :class="[
+        'relative mt-[var(--header-height)] flex items-center justify-center overflow-hidden',
+        isCompact
+          ? 'h-[340px] sm:h-[420px] lg:h-[480px]'
+          : 'h-[480px] sm:h-[640px] lg:h-[800px]',
+      ]"
+    >
       <BaseImage
         :src="image"
         alt=""
@@ -65,16 +72,21 @@ type PageBreadcrumbItem = {
   to?: string
 }
 
-defineProps<{
+const props = withDefaults(defineProps<{
   title: string
   description?: string
   breadcrumb?: PageBreadcrumbItem[]
   image: string
+  /** Compact hero: identical layout with a shorter banner image. */
+  variant?: 'default' | 'compact'
   /** Optional classes overriding the default title size/weight. */
   titleClass?: string
   /** Optional classes overriding the default description width. */
   descriptionClass?: string
-}>()
+}>(), {
+  variant: 'default',
+})
 
+const isCompact = computed(() => props.variant === 'compact')
 const bannerTitleId = useId()
 </script>

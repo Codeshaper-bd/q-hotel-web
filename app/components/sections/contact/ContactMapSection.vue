@@ -1,9 +1,8 @@
 <template>
   <BaseSection tone="paper" spacing="lg" container-size="xl" class="!pt-[140px] !pb-12 sm:!pb-16">
     <div class="flex flex-col items-center text-center">
-      <BaseKicker>Map</BaseKicker>
       <h2
-        class="mt-6 font-display text-4xl text-[#0F0F10] font-semibold sm:text-5xl lg:text-[56px]"
+        class="font-display text-4xl text-[#0F0F10] font-semibold sm:text-5xl lg:text-[56px]"
       >
         Get Directions Here
       </h2>

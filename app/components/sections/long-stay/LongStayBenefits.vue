@@ -17,10 +17,9 @@
   >
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
-        <BaseKicker>Why Choose Long Stay</BaseKicker>
         <h2
           id="long-stay-benefits-title"
-          class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold"
+          class="font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold"
         >
           Everything You Need <br />
           For A Longer, Better Stay

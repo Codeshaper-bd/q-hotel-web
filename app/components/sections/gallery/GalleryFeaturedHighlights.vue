@@ -9,8 +9,7 @@
   <BaseSection id="gallery-highlights" labelled-by="gallery-highlights-title" tone="paper" spacing="lg" container-size="xl"     class="!pt-16 !pb-16 sm:!pt-32 sm:!pb-[70px]">
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
-        <BaseKicker>Featured</BaseKicker>
-        <h2 id="gallery-highlights-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] lg:text-[#0F0F10]">
+        <h2 id="gallery-highlights-title" class="font-display text-4xl text-ink sm:text-5xl lg:text-[56px] lg:text-[#0F0F10]">
           Featured Highlights
         </h2>
       </div>

@@ -38,8 +38,7 @@
     <BaseContainer size="xl">
       <FadeReveal>
         <div class="flex flex-col items-center text-center">
-          <BaseKicker tone="ink">What We Offer</BaseKicker>
-          <h2 id="facilities-title" class="mt-6 font-display text-4xl text-paper sm:text-5xl">
+          <h2 id="facilities-title" class="font-display text-4xl text-paper sm:text-5xl">
             Facilities &amp; Amenities
           </h2>
         </div>

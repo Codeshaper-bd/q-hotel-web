@@ -1,6 +1,7 @@
 <template>
   <div>
     <PageBanner
+      variant="compact"
       :title="initialQuery ? 'Select Your Room' : 'Discover Your Perfect Stay'"
       :breadcrumb="[{ label: 'Home', to: '/' }, { label: 'Room List' }]"
       image="/images/hero/hero-bannar.png"

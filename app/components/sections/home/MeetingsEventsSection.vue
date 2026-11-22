@@ -1,9 +1,11 @@
 <template>
   <!--
     Meetings & Events: three venue photographs. On hover or keyboard focus
-    (large screens with a pointer) each card flips to reveal its name,
-    description and actions. Below lg (mobile and tablet) there is no flip:
-    each venue is a plain card, photo on top and its details beneath.
+    (large screens with a pointer) one card flips to reveal its name,
+    description and actions while the others show their photographs. With
+    nothing active, the first card is the one showing its details.
+    Below lg (mobile and tablet) there is no flip: each venue is a plain
+    card, photo on top and its details beneath.
   -->
   <BaseSection
     id="meetings-events"
@@ -23,10 +25,11 @@
           v-for="venue in venues"
           :key="venue.id"
           data-venue-card
-          :class="['venue-card', { 'is-flipped': flippedVenueIds[venue.id] }]"
-          @mouseenter="openCard(venue.id)"
-          @focusin="openCard(venue.id)"
-          @click="openCard(venue.id)"
+          :class="['venue-card', { 'is-flipped': isVenueFlipped(venue.id) }]"
+          @mouseenter="hoveredVenueId = venue.id"
+          @mouseleave="hoveredVenueId = null"
+          @focusin="focusedVenueId = venue.id"
+          @focusout="onCardFocusOut(venue.id, $event)"
         >
           <article class="venue-card-inner" :aria-label="venue.name">
             <div class="venue-face relative aspect-[4/3] overflow-hidden bg-line/40 sm:aspect-[16/9] lg:aspect-auto">
@@ -149,14 +152,28 @@ const venues: MeetingVenue[] = [
 ];
 
 // ─── Card flip ──────────────────────────────────────────────────────
-// A card flips open the first time it is hovered, focused or tapped, and then
-// stays open: it never flips back. The first card starts open.
-const flippedVenueIds = reactive<Record<string, boolean>>({
-  [venues[0]!.id]: true,
-});
+// One card shows its details at a time: the hovered one, then the focused
+// one, otherwise the first card by default.
+const FIRST_VENUE_ID = venues[0]!.id;
+const hoveredVenueId = ref<string | null>(null);
+const focusedVenueId = ref<string | null>(null);
+const activeVenueId = computed(
+  () => hoveredVenueId.value ?? focusedVenueId.value ?? FIRST_VENUE_ID,
+);
 
-function openCard(venueId: string) {
-  flippedVenueIds[venueId] = true;
+function isVenueFlipped(venueId: string): boolean {
+  return activeVenueId.value === venueId;
+}
+
+function onCardFocusOut(venueId: string, event: FocusEvent) {
+  const card = event.currentTarget as HTMLElement;
+  const nextTarget = event.relatedTarget;
+  if (nextTarget instanceof Node && card.contains(nextTarget)) {
+    return;
+  }
+  if (focusedVenueId.value === venueId) {
+    focusedVenueId.value = null;
+  }
 }
 
 // ─── Venue details popup ────────────────────────────────────────────
@@ -189,8 +206,7 @@ const {
   position: relative;
 }
 
-/* From lg up the card flips: hover or keyboard focus on pointer devices, a tap
-   elsewhere (see handleCardTap). */
+/* From lg up only the active card flips; the first card is active by default. */
 @media (min-width: 1024px) {
   .venue-card {
     height: 600px;

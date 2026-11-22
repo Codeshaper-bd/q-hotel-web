@@ -16,10 +16,6 @@
       :blur="6"
       class="items-center text-center"
     >
-      <div data-reveal-item>
-        <BaseKicker transparent>Terms & Conditions</BaseKicker>
-      </div>
-
       <BaseTitle id="terms-title">
         Terms Designed for a Seamless Stay
       </BaseTitle>

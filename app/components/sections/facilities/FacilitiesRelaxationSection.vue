@@ -3,8 +3,7 @@
     <BaseContainer size="xl">
       <FadeReveal>
         <div class="text-center">
-          <BaseKicker>Relaxation &amp; Comfort</BaseKicker>
-          <h2 id="facilities-relaxation-title" class="mt-5 font-display text-4xl font-semibold sm:text-5xl">
+          <h2 id="facilities-relaxation-title" class="font-display text-4xl font-semibold sm:text-5xl">
             Designed for Rest &amp; Relaxation
           </h2>
         </div>
@@ -22,9 +21,8 @@
 
       <FadeReveal>
         <div class="mx-auto mt-20 flex max-w-xl flex-col items-center text-center sm:mt-24">
-          <BaseKicker>Contact Now</BaseKicker>
           <h3
-            class="mt-5 font-display text-3xl font-semibold  sm:text-4xl lg:text-[56px] lg:leading-[66px] text-[#0F0F10] max-w-[604px]">
+            class="font-display text-3xl font-semibold  sm:text-4xl lg:text-[56px] lg:leading-[66px] text-[#0F0F10] max-w-[604px]">
             Dedicated Team Always At Your Service
           </h3>
           <BaseArrowCta to="/contact" variant="gold" class="mt-8">

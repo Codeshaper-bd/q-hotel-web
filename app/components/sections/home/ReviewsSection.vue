@@ -7,8 +7,7 @@
   <BaseSection id="reviews" labelled-by="reviews-title" tone="ink" spacing="lg" container-size="xl">
     <FadeReveal>
       <div class="flex flex-col items-start">
-        <BaseKicker tone="ink">Travelers Review</BaseKicker>
-        <h2 id="reviews-title" class="mt-6 max-w-xl font-display text-[32px] text-paper sm:text-5xl">
+        <h2 id="reviews-title" class="max-w-xl font-display text-[32px] text-paper sm:text-5xl">
           Stories Behind Every Memorable Stay
         </h2>
       </div>

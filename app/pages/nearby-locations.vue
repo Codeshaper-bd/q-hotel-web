@@ -17,14 +17,10 @@
         :blur="6"
         class="mx-auto flex max-w-[880px] flex-col items-center pt-20 text-center sm:pt-28 lg:pt-36"
       >
-        <div data-reveal-item>
-          <BaseKicker transparent>location</BaseKicker>
-        </div>
-
         <h2
           data-reveal-item
           id="terms-title"
-          class="mt-10 font-display text-4xl font-semibold leading-tight text-ink sm:mt-12 sm:text-5xl lg:text-[56px]"
+          class="font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl lg:text-[56px]"
         >
           Find the Places That Matter Most
         </h2>

@@ -12,10 +12,9 @@
   >
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
-        <BaseKicker>Gallery</BaseKicker>
         <h2
           id="gallery-all-title"
-          class="mt-6 font-display text-4xl text-ink sm:text-5xl"
+          class="font-display text-4xl text-ink sm:text-5xl"
         >
           All Gallery
         </h2>
