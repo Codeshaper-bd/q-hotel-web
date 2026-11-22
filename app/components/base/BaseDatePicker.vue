@@ -34,7 +34,7 @@
 
     <div
       v-if="open"
-      class="absolute left-0 top-[calc(100%+0.5rem)] z-30 w-[290px] max-w-[calc(100vw-2.5rem)] border border-[#E5DBC4] bg-white p-4 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)]"
+      class="absolute left-0 top-[calc(100%+0.5rem)] z-30 w-[290px] max-w-[calc(100vw-2.5rem)] bg-white p-4 shadow-[0_20px_60px_-20px_rgba(255,255,255,0.9),0_10px_30px_-10px_rgba(15,15,16,0.12)]"
       role="dialog"
       aria-label="Choose a date"
     >
@@ -51,7 +51,7 @@
           </svg>
         </button>
 
-        <p class="flex-1 text-center text-sm font-semibold uppercase tracking-[0.14em] text-ink">
+        <p class="flex-1 text-center text-base font-bold uppercase tracking-[0.14em] text-ink">
           {{ currentMonth.label }}
         </p>
 
@@ -72,7 +72,7 @@
         <span
           v-for="weekday in WEEKDAYS"
           :key="weekday"
-          class="py-1 text-xs font-semibold uppercase tracking-[0.06em] text-[#505155]"
+          class="py-1 text-sm font-bold uppercase tracking-[0.06em] text-[#505155]"
         >
           {{ weekday }}
         </span>
@@ -194,7 +194,7 @@ function formatDisplay(iso: string): string {
 
 function dayClass(cell: CalendarCell): string[] {
   const classes = [
-    "mx-auto flex h-9 w-9 items-center justify-center rounded-full text-sm transition-colors duration-fast",
+    "mx-auto flex h-9 w-9 items-center justify-center rounded-full text-base font-semibold transition-colors duration-fast",
   ]
   if (cell.disabled) {
     classes.push("cursor-not-allowed text-[#B9B9B9]")

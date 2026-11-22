@@ -15,7 +15,7 @@
     @submit.prevent="handleSubmit"
     @keydown.escape="openPanel = null"
   >
-    <div :class="['hero-bar-glass border shadow-[0_28px_80px_-28px] lg:flex lg:h-[94px] lg:flex-1', barLayoutClass, barClass]">
+    <div :class="['hero-bar-glass lg:flex lg:h-[94px] lg:flex-1', barLayoutClass, barClass]">
       <!-- Check-In -->
       <div :class="['relative lg:flex-1', fieldWrapperClass]">
         <button
@@ -44,6 +44,7 @@
           <HeroBookingCalendar
             :check-in="checkIn"
             :check-out="checkOut"
+            :tone="tone"
             @change="applyDates"
             @close="openPanel = null"
           />
@@ -124,24 +125,24 @@
           role="dialog"
           aria-label="Select rooms and guests"
         >
-          <div class="border border-champagne/25 bg-ink/95 p-5 shadow-[0_28px_80px_-28px] shadow-ink backdrop-blur-xl">
-            <p class="text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-paper/45">
+          <div :class="[popoverSurfaceClass, 'p-5 backdrop-blur-xl']">
+            <p :class="['text-[0.6rem] font-semibold uppercase tracking-[0.24em]', popoverMutedClass]">
               Maximum {{ MAX_GUESTS_PER_ROOM }} guests per room
             </p>
 
             <div
               v-for="stepper in steppers"
               :key="stepper.key"
-              class="flex items-center justify-between gap-6 border-b border-paper/10 py-3.5 last:border-b-0"
+              :class="['flex items-center justify-between gap-6 border-b py-3.5 last:border-b-0', popoverDividerClass]"
             >
               <div>
-                <p class="text-xs text-paper">{{ stepper.title }}</p>
-                <p class="text-[0.65rem] text-paper/60">{{ stepper.hint }}</p>
+                <p :class="['text-xs', valueClass]">{{ stepper.title }}</p>
+                <p :class="['text-[0.65rem]', popoverHintClass]">{{ stepper.hint }}</p>
               </div>
               <div class="flex items-center gap-3">
                 <button
                   type="button"
-                  class="hero-step-btn"
+                  :class="['hero-step-btn', isLight ? 'hero-step-btn-light' : '']"
                   :disabled="!stepper.canDecrease"
                   :aria-label="`Decrease ${stepper.title}`"
                   @click="stepper.change(-1)"
@@ -150,10 +151,10 @@
                     <path d="M2.5 6h7" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
                   </svg>
                 </button>
-                <span class="w-5 text-center text-xs text-paper">{{ stepper.value }}</span>
+                <span :class="['w-5 text-center text-xs', valueClass]">{{ stepper.value }}</span>
                 <button
                   type="button"
-                  class="hero-step-btn"
+                  :class="['hero-step-btn', isLight ? 'hero-step-btn-light' : '']"
                   :disabled="!stepper.canIncrease"
                   :aria-label="`Increase ${stepper.title}`"
                   @click="stepper.change(1)"
@@ -168,7 +169,7 @@
             <div class="mt-4 flex justify-center">
               <button
                 type="button"
-                class="border border-champagne/50 px-10 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-paper transition-colors duration-fast hover:border-champagne hover:bg-champagne/10"
+                :class="['border px-10 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] transition-colors duration-fast', popoverDoneClass]"
                 @click="openPanel = null"
               >
                 Done
@@ -201,7 +202,7 @@
           role="dialog"
           aria-label="Enter a special rate code"
         >
-          <div class="border border-champagne/25 bg-ink/95 p-5 shadow-[0_28px_80px_-28px] shadow-ink backdrop-blur-xl">
+          <div :class="[popoverSurfaceClass, 'p-5 backdrop-blur-xl']">
             <label for="hero-special-rates-compact" :class="['hero-bar-label', labelClass]">Special Rates</label>
             <input
               id="hero-special-rates-compact"
@@ -209,13 +210,19 @@
               v-model.trim="promoCode"
               type="text"
               autocomplete="off"
-              :class="['mt-2 h-10 w-full border border-paper/20 bg-ink/50 px-3 text-sm outline-none transition-colors duration-fast focus-visible:border-champagne/60 focus-visible:outline-none', valueClass]"
+              :class="[
+                'mt-2 h-10 w-full border px-3 text-sm outline-none transition-colors duration-fast focus-visible:outline-none',
+                isLight
+                  ? 'border-ink/15 bg-white focus-visible:border-copper/60'
+                  : 'border-paper/20 bg-ink/50 focus-visible:border-champagne/60',
+                valueClass,
+              ]"
               @keydown.enter.prevent="openPanel = null"
             >
             <div class="mt-4 flex justify-center">
               <button
                 type="button"
-                class="border border-champagne/50 px-10 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-paper transition-colors duration-fast hover:border-champagne hover:bg-champagne/10"
+                :class="['border px-10 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] transition-colors duration-fast', popoverDoneClass]"
                 @click="openPanel = null"
               >
                 Done
@@ -230,15 +237,21 @@
         v-if="showSpecialRates"
         :class="['lg:flex-1', ratesBorderClass, compact ? 'max-md:hidden md:flex-1' : '']"
       >
-        <div :class="['hero-bar-field', fieldCompactClass]">
+        <div :class="['hero-bar-field', 'hero-rate-field', fieldCompactClass]">
           <label for="hero-special-rates" :class="['hero-bar-label', labelClass]">Special Rates</label>
-          <div :class="['mt-1.5 flex h-[30px] items-center', rateFieldMarginClass, rateFieldClass]">
+          <div :class="['mt-1.5 flex h-[30px] items-center', rateFieldMarginClass]">
             <input
               id="hero-special-rates"
               v-model.trim="promoCode"
               type="text"
               autocomplete="off"
-              :class="['h-full w-full min-w-0 border-b border-transparent bg-transparent px-2.5 text-sm leading-6 outline-none transition-colors duration-fast focus-visible:outline-none', valueClass, tone === 'light' ? 'focus-visible:border-[#A75B27]/60' : 'focus-visible:border-champagne/60']"
+              :class="[
+                'h-full w-full min-w-0 border-b bg-transparent px-2.5 text-sm leading-6 outline-none transition-colors duration-fast focus-visible:outline-none',
+                valueClass,
+                tone === 'light'
+                  ? 'border-ink/20 focus-visible:border-[#A75B27]/60'
+                  : 'border-paper/25 focus-visible:border-champagne/60',
+              ]"
             >
           </div>
         </div>
@@ -336,17 +349,25 @@ const placeholders = ref(startEmpty)
 // Tone-driven class lookups (mirrors BaseArrowCta's variant maps): the dark
 // glass hero bar vs. the white, champagne-bordered bar on the /rooms banner
 const barClass = computed(() => props.tone === 'light'
-  ? 'border-champagne bg-white shadow-ink/15'
-  : 'border-champagne/45 bg-ink/60 shadow-ink/90')
+  ? 'bg-white shadow-[0_20px_60px_-20px_rgba(255,255,255,0.9),0_10px_30px_-10px_rgba(15,15,16,0.12)]'
+  : 'bg-ink/60 shadow-[0_20px_60px_-20px_rgba(255,255,255,0.28)]')
 const labelClass = computed(() => props.tone === 'light' ? 'text-ink/60' : 'text-paper/70')
 const iconClass = computed(() => props.tone === 'light' ? 'text-ink/70' : 'text-paper')
 const valueClass = computed(() => props.tone === 'light' ? 'text-ink' : 'text-paper')
 const mutedValueClass = computed(() => props.tone === 'light' ? 'text-ink/40' : 'text-paper/50')
 const chevronClass = computed(() => props.tone === 'light' ? 'text-ink/50' : 'text-paper/70')
 const dividerBorderClass = computed(() => props.tone === 'light' ? 'border-ink/10' : 'border-paper/10')
-const rateFieldClass = computed(() => props.tone === 'light'
-  ? 'bg-white'
-  : 'bg-ink/50')
+// Popovers share the console's tone: white on secondary pages, dark on home.
+const isLight = computed(() => props.tone === 'light')
+const popoverSurfaceClass = computed(() => isLight.value
+  ? 'bg-white text-ink shadow-[0_20px_60px_-20px_rgba(255,255,255,0.9),0_10px_30px_-10px_rgba(15,15,16,0.12)]'
+  : 'bg-ink/95 text-paper shadow-[0_20px_60px_-20px_rgba(255,255,255,0.28)]')
+const popoverMutedClass = computed(() => isLight.value ? 'text-ink/50' : 'text-paper/45')
+const popoverHintClass = computed(() => isLight.value ? 'text-ink/60' : 'text-paper/60')
+const popoverDividerClass = computed(() => isLight.value ? 'border-ink/10' : 'border-paper/10')
+const popoverDoneClass = computed(() => isLight.value
+  ? 'border-[#E5DBC4] text-ink hover:border-copper hover:bg-copper/10'
+  : 'border-champagne/50 text-paper hover:border-champagne hover:bg-champagne/10')
 
 // Layout lookups. Non-compact (default) keeps the stacked 2-column grid below
 // `lg`; compact turns the bar into one flex row from phone width up.
@@ -602,6 +623,11 @@ onUnmounted(() => {
   background-color: rgb(var(--color-ink) / 0.04);
 }
 
+/* Special Rates is just a label and an underline — it never warms on hover */
+.hero-bar-field.hero-rate-field:hover {
+  background-color: transparent;
+}
+
 /* Color comes from the tone-driven `labelClass`/`valueClass` etc. utility
    classes in the template — this rule only owns the shared typography */
 .hero-bar-label {
@@ -673,5 +699,14 @@ onUnmounted(() => {
 .hero-step-btn:disabled {
   cursor: not-allowed;
   opacity: 0.3;
+}
+
+.hero-step-btn.hero-step-btn-light {
+  border-color: rgb(var(--color-ink) / 0.25);
+  color: rgb(var(--color-ink) / 0.85);
+}
+
+.hero-step-btn.hero-step-btn-light:hover:not(:disabled) {
+  border-color: rgb(var(--color-copper) / 0.6);
 }
 </style>
