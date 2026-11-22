@@ -27,8 +27,7 @@
       <!-- Heading + accordion, aligned to the xl container's right edge -->
       <div class="px-5 sm:px-6 lg:max-h-full lg:self-center lg:pl-0 lg:pr-[max(2rem,calc((100vw_-_90rem)/2_+_2rem))]">
         <div data-faq-reveal class="flex flex-col items-center text-center">
-          <BaseKicker>Related Question</BaseKicker>
-          <h2 id="faq-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+          <h2 id="faq-title" class="font-display text-4xl text-ink sm:text-5xl">
             Frequently Asked Questions
           </h2>
         </div>

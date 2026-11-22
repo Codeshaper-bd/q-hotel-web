@@ -8,10 +8,9 @@
   >
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
-        <BaseKicker>Contact Now</BaseKicker>
         <h2
           id="faqs-contact-title"
-          class="mt-6 font-display text-4xl font-semibold text-ink sm:text-5xl"
+          class="font-display text-4xl font-semibold text-ink sm:text-5xl"
         >
           Still Have Questions?
         </h2>

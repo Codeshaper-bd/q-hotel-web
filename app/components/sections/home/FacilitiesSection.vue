@@ -142,7 +142,7 @@ useWaveReveal(gridRef, "[data-tile]");
             class="pointer-events-none absolute inset-0 bg-sand/0 transition-colors duration-fast ease-premium group-hover:bg-sand/80"
           />
           <span
-            class="relative flex size-14 shrink-0 items-center justify-center transition-transform sm:size-[68px] duration-fast ease-premium motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-[1.04]"
+            class="relative flex size-14 shrink-0 items-center justify-center transition-transform sm:size-[68px] duration-fast ease-premium motion-safe:group-hover:scale-[1.04]"
           >
             <img
               v-if="!amenity.composite"

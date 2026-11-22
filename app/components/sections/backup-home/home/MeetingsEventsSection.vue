@@ -11,8 +11,7 @@
       <div ref="headingRef" class="venue-heading">
         <FadeReveal>
           <div class="flex flex-col items-center text-center">
-            <BaseKicker>Host With Us</BaseKicker>
-            <h2 id="meetings-events-title" class="mt-6 font-display text-4xl text-ink sm:text-5xl">
+            <h2 id="meetings-events-title" class="font-display text-4xl text-ink sm:text-5xl">
               Meetings &amp; Events
             </h2>
           </div>

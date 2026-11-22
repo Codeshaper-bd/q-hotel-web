@@ -24,8 +24,7 @@
     <BaseContainer size="xl" class="pointer-events-none">
       <FadeReveal>
         <div class="pointer-events-auto flex flex-col items-center text-center">
-          <BaseKicker tone="ink">Our Location</BaseKicker>
-          <h2 id="location-title" class="mt-6 font-display text-4xl text-paper sm:text-5xl">
+          <h2 id="location-title" class="font-display text-4xl text-paper sm:text-5xl">
             Explore Q Hotel Dhaka
           </h2>
         </div>

@@ -12,10 +12,9 @@
   >
     <FadeReveal>
       <div class="flex flex-col items-center text-center">
-        <BaseKicker>What's Included</BaseKicker>
         <h2
           id="long-stay-amenities-title"
-          class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold"
+          class="font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold"
         >
           Thoughtful Amenities For A <br />
           Seamless Stay

@@ -11,11 +11,7 @@
       :blur="6"
       class="flex flex-col items-center text-center"
     >
-      <div data-reveal-item>
-        <BaseKicker transparent>hotel policy</BaseKicker>
-      </div>
-
-      <BaseTitle id="terms-title" title-class="md:mt-10">
+      <BaseTitle id="terms-title">
         Everything You Need to Know
       </BaseTitle>
     </FadeReveal>

@@ -18,10 +18,9 @@
       <div ref="headingRef" class="story-heading">
         <FadeReveal>
           <div class="flex flex-col items-center text-center">
-            <BaseKicker>Our Story</BaseKicker>
             <h2
               id="our-story-title"
-              class="mt-6 font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold"
+              class="font-display text-4xl text-ink sm:text-5xl lg:text-[56px] font-semibold"
             >
               Our Journey &amp; Philosophy
             </h2>

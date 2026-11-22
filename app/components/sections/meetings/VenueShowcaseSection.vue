@@ -140,10 +140,9 @@ const {
     <BaseContainer size="xl" class="pt-16 lg:pt-24">
       <FadeReveal>
         <div class="mb-14 flex flex-col items-center text-center">
-          <BaseKicker>Our event spaces</BaseKicker>
           <h2
             id="venue-showcase-title"
-            class="mt-6 font-display text-4xl text-ink sm:text-5xl"
+            class="font-display text-4xl text-ink sm:text-5xl"
           >
             Find The Perfect Venue
           </h2>

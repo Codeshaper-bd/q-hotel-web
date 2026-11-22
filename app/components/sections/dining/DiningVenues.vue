@@ -12,10 +12,9 @@
   >
     <FadeReveal>
       <div class="mb-14 flex flex-col items-center text-center">
-        <BaseKicker>Dine With Us</BaseKicker>
         <h2
           id="dining-section-title"
-          class="mt-6 font-display font-semibold text-4xl sm:text-5xl text-[#0F0F10] lg:text-[56px]"
+          class="font-display font-semibold text-4xl sm:text-5xl text-[#0F0F10] lg:text-[56px]"
         >
           Exceptional Dining, Every Time
         </h2>

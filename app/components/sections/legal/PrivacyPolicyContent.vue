@@ -13,12 +13,8 @@
    
       <FadeReveal :stagger="0.12" :blur="6"
         class="mx-auto flex max-w-[880px] flex-col items-center text-center">
-        <div data-reveal-item>
-          <BaseKicker transparent>Privacy Policy</BaseKicker>
-        </div>
-
         <h2 data-reveal-item id="privacy-policy-title"
-          class="mt-10 font-display text-4xl font-semibold text-[#0F0F10] sm:mt-12 sm:text-5xl lg:text-[56px]">
+          class="font-display text-4xl font-semibold text-[#0F0F10] sm:text-5xl lg:text-[56px]">
           Your Privacy Matters to Us
         </h2>
       </FadeReveal>
