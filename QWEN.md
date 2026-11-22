@@ -118,7 +118,6 @@ All colors, radii, durations, and easings are CSS custom properties in `main.css
 | `/booking` | `booking.vue` | Reservation flow |
 | `/booking-confirmed` | `booking-confirmed.vue` | Booking confirmation |
 | `/contact` | `contact.vue` | Contact form |
-| `/long-stays` | `long-stays.vue` | Extended stay offers |
 | `/faqs` | `faqs.vue` | Frequently asked questions |
 | `/sitemap` | `sitemap.vue` | HTML sitemap |
 | `/payment-failed` | `payment-failed.vue` | Payment failure page |

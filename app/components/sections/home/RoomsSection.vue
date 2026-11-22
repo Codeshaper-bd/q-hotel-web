@@ -11,7 +11,7 @@
     container-size="xl"
     class="!pb-0"
   >
-    <BaseTitle id="rooms-title" title-class="mb-0">
+    <BaseTitle id="rooms-title" title-class="mb-0 pt-[24px]">
       Rooms and Suites
     </BaseTitle>
     <div ref="sectionRef" class="rooms-pin-wrap mt-6">
@@ -33,7 +33,7 @@
             :aria-controls="`room-panel-${room.id}`"
             :tabindex="activeRoomId === room.id ? 0 : -1"
             :class="[
-              'border border-[#DFA558] px-6 py-2.5 text-sm font-medium uppercase transition-colors duration-fast',
+              'border border-[#DFA558] px-5 py-2 text-xs font-medium uppercase transition-colors duration-fast',
               activeRoomId === room.id
                 ? 'border-[#DFA558] bg-[#F9F0DB] text-[#DFA558]'
                 : 'border-[#DFA558] text-[#0F0F10] hover:border-[#DFA558] hover:text-[#DFA558]',
@@ -74,9 +74,10 @@
                     :key="selectedImage(room).src"
                     :src="selectedImage(room).src"
                     :alt="selectedImage(room).alt"
-                    :width="1600"
-                    :height="1000"
-                    sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1280px"
+                    :width="1920"
+                    :height="1200"
+                    :quality="90"
+                    sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px xxl:1920px"
                     class="absolute inset-0 h-full w-full object-cover"
                   />
                 </Transition>
@@ -114,7 +115,7 @@
                  matching the Figma room card). No inner scroll: the stack
                  height below is sized to fit every room's content. -->
             <div
-              class="room-card relative flex flex-col p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:bottom-4 motion-safe:lg:right-4 motion-safe:lg:w-[22rem] motion-safe:lg:p-6 motion-safe:xl:bottom-8 motion-safe:xl:right-8 motion-safe:xl:w-[27rem] motion-safe:xl:p-10"
+              class="room-card relative flex flex-col p-7 text-paper sm:p-9 motion-safe:lg:absolute motion-safe:lg:bottom-4 motion-safe:lg:right-4 motion-safe:lg:w-[490px] motion-safe:lg:p-6 motion-safe:xl:bottom-8 motion-safe:xl:right-8 motion-safe:xl:p-10"
             >
               <div class="flex flex-col">
                 <span
@@ -134,7 +135,7 @@
                 </p>
 
                 <ul
-                  class="mt-6 space-y-3 text-sm text-paper/80 lg:mt-4 lg:space-y-2 xl:mt-6 xl:space-y-3"
+                  class="mt-[60px] space-y-3 text-sm text-paper/80"
                 >
                   <li class="flex items-center gap-3">
                     <svg
@@ -202,7 +203,7 @@
                 </ul>
 
                 <!-- "More Details" opens the full room-details popup -->
-                <div class="mt-6 lg:mt-4 xl:mt-6">
+                <div class="mt-[48px]">
                   <BaseArrowCta
                     variant="gold"
                     :tabindex="activeRoomId === room.id ? 0 : -1"
@@ -611,9 +612,18 @@ onMounted(async () => {
 
 <style scoped>
 .room-card {
-  background: rgba(15, 15, 15, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background:
+    linear-gradient(
+      110deg,
+      rgba(43, 37, 33, 0.84) 0%,
+      rgba(28, 24, 22, 0.88) 50%,
+      rgba(61, 55, 51, 0.82) 100%
+    );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 .rooms-track {
   display: grid;
