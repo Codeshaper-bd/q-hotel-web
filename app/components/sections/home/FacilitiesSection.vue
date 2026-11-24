@@ -1,94 +1,28 @@
 <script setup lang="ts">
+import FacilityMorphIcon from "~/components/icons/FacilityMorphIcon.vue";
+import type { FacilityIconName } from "~/types/facility";
+
 /**
  * Amenity tile: label plus its Figma icon. `composite` icons already include
  * the circular frame; glyph-only icons are centered inside the shared circle.
  */
 interface FacilityAmenity {
-  id: string;
+  id: FacilityIconName;
   label: string;
-  iconSrc: string;
-  iconWidth: number;
-  iconHeight: number;
   composite?: boolean;
 }
 
-const ICON_BASE_PATH = "/images/facilities/icons";
-
 const amenities: FacilityAmenity[] = [
-  {
-    id: "airport-shuttle",
-    label: "Airport Shuttle",
-    iconSrc: `${ICON_BASE_PATH}/airport-shuttle.svg`,
-    iconWidth: 68,
-    iconHeight: 68,
-    composite: true,
-  },
-  {
-    id: "parking",
-    label: "Parking",
-    iconSrc: `${ICON_BASE_PATH}/parking-glyph.svg`,
-    iconWidth: 31,
-    iconHeight: 25,
-  },
-  {
-    id: "dining",
-    label: "Dining",
-    iconSrc: `${ICON_BASE_PATH}/dining.svg`,
-    iconWidth: 68,
-    iconHeight: 68,
-    composite: true,
-  },
-  {
-    id: "swimming-pool",
-    label: "Swimming Pool",
-    iconSrc: `${ICON_BASE_PATH}/swimming-pool-glyph.svg`,
-    iconWidth: 31,
-    iconHeight: 24,
-  },
-  {
-    id: "wellness",
-    label: "Wellness",
-    iconSrc: `${ICON_BASE_PATH}/wellness-glyph.svg`,
-    iconWidth: 31,
-    iconHeight: 25,
-  },
-  {
-    id: "room-service",
-    label: "24hrs Room Service",
-    iconSrc: `${ICON_BASE_PATH}/room-service-glyph.svg`,
-    iconWidth: 31,
-    iconHeight: 31,
-  },
-  {
-    id: "ip-tv",
-    label: "IP TV",
-    iconSrc: `${ICON_BASE_PATH}/iptv-glyph.svg`,
-    iconWidth: 31,
-    iconHeight: 31,
-  },
-  {
-    id: "security",
-    label: "24 Hours Security",
-    iconSrc: `${ICON_BASE_PATH}/security-glyph.svg`,
-    iconWidth: 31,
-    iconHeight: 19,
-  },
-  {
-    id: "mini-bar",
-    label: "Mini Bar",
-    iconSrc: `${ICON_BASE_PATH}/mini-bar.svg`,
-    iconWidth: 68,
-    iconHeight: 68,
-    composite: true,
-  },
-  {
-    id: "valet-laundry",
-    label: "Valet Laundry",
-    iconSrc: `${ICON_BASE_PATH}/valet-laundry.svg`,
-    iconWidth: 68,
-    iconHeight: 68,
-    composite: true,
-  },
+  { id: "airport-shuttle", label: "Airport Shuttle", composite: true },
+  { id: "parking", label: "Parking" },
+  { id: "dining", label: "Dining", composite: true },
+  { id: "swimming-pool", label: "Swimming Pool" },
+  { id: "wellness", label: "Wellness" },
+  { id: "room-service", label: "24hrs Room Service" },
+  { id: "ip-tv", label: "IP TV" },
+  { id: "security", label: "24 Hours Security" },
+  { id: "mini-bar", label: "Mini Bar", composite: true },
+  { id: "valet-laundry", label: "Valet Laundry", composite: true },
 ];
 
 const GRID_COLUMNS = 5;
@@ -133,16 +67,12 @@ useWaveReveal(gridRef, "[data-tile]");
           :key="amenity.id"
           data-tile
           :class="[
-            'group relative isolate flex h-[168px] flex-col items-center justify-center gap-4 overflow-hidden bg-paper px-3 text-center sm:h-[200px] sm:gap-5 lg:h-[240px] 2xl:h-[280px]',
+            'facility-tile group relative isolate flex h-[168px] flex-col items-center justify-center gap-4 overflow-hidden bg-paper px-3 text-center sm:h-[200px] sm:gap-5 lg:h-[240px] 2xl:h-[280px]',
             tileTintClass(amenityIndex),
           ]"
         >
           <span
-            aria-hidden="true"
-            class="pointer-events-none absolute inset-0 bg-sand/0 transition-colors duration-fast ease-premium group-hover:bg-sand/80"
-          />
-          <span
-            class="relative flex size-14 shrink-0 items-center justify-center transition-transform sm:size-[68px] duration-fast ease-premium motion-safe:group-hover:scale-[1.04]"
+            class="relative flex size-14 shrink-0 items-center justify-center sm:size-[68px]"
           >
             <img
               v-if="!amenity.composite"
@@ -153,24 +83,17 @@ useWaveReveal(gridRef, "[data-tile]");
               class="absolute inset-0 size-14 sm:size-[68px]"
               aria-hidden="true"
             />
-            <img
-              :src="amenity.iconSrc"
-              alt=""
-              :width="amenity.iconWidth"
-              :height="amenity.iconHeight"
-              loading="lazy"
+            <FacilityMorphIcon
+              :name="amenity.id"
               class="relative max-sm:scale-[0.82]"
-              aria-hidden="true"
             />
-          </span>
-          <span
-            class="relative block font-display text-lg text-ink transition-colors duration-fast ease-premium group-hover:text-copper sm:text-2xl"
-          >
-            {{ amenity.label }}
             <span
               aria-hidden="true"
-              class="absolute -bottom-2 left-1/2 h-px w-8 -translate-x-1/2 scale-x-0 bg-copper transition-transform duration-fast ease-premium motion-reduce:transition-none group-hover:scale-x-100"
+              class="pointer-events-none absolute inset-0 rounded-full border border-ink/20"
             />
+          </span>
+          <span class="relative block font-display text-lg text-ink sm:text-2xl">
+            {{ amenity.label }}
           </span>
         </li>
       </ul>

@@ -19,7 +19,7 @@
     <div>
       <ul
         ref="venuesRef"
-        class="mx-auto mt-10 grid max-w-2xl gap-6 lg:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-5"
+        class="mx-auto mt-10 grid max-w-lg gap-6 lg:mt-16 lg:max-w-[85%] lg:grid-cols-3 lg:gap-5"
       >
         <li
           v-for="venue in venues"
@@ -209,7 +209,7 @@ const {
 /* From lg up only the active card flips; the first card is active by default. */
 @media (min-width: 1024px) {
   .venue-card {
-    height: 600px;
+    height: 520px;
     perspective: 1600px;
     overflow: visible;
     border: 0;

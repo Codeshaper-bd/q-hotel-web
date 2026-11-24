@@ -107,7 +107,6 @@ const linkColumns = [
   {
     title: "Discover",
     links: [
-      { label: "Long Stays", to: "/long-stays" },
       { label: "Meetings & Events", to: "/meetings-events" },
       { label: "Gallery", to: "/gallery" },
       { label: "Site Map", to: "/sitemap" },

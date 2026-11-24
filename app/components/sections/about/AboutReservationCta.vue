@@ -9,13 +9,6 @@
         <BaseArrowCta to="/rooms" variant="gold">
           Reserve Now
         </BaseArrowCta>
-        <BaseArrowCta
-          to="/long-stay"
-          variant="ghost"
-          border-class="!border-[#D78C38] group-hover:!border-[#D78C38] group-focus-visible:!border-[#D78C38]"
-        >
-          Long Stays
-        </BaseArrowCta>
       </div>
     </div>
   </BaseSection>

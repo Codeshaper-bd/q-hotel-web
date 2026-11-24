@@ -27,7 +27,6 @@ const mainPages = [
   { label: 'Facilities & Amenities', to: '/facilities-amenities' },
   { label: 'Meetings & Events', to: '/meetings-events' },
   { label: 'Event Details', to: '/meetings-events' },
-  { label: 'Long Stays', to: '/long-stays' },
   { label: 'Dining', to: '/dining' },
   { label: 'Gallery Preview', to: '/gallery' },
   { label: 'Nearby Locations', to: '/nearby-locations' },

@@ -38,7 +38,8 @@
             :alt="venue.poster.alt"
             :width="1920"
             :height="1080"
-            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1920px"
+            :quality="90"
+            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
             data-dining-photo
             class="absolute inset-0"
           />
@@ -170,7 +171,7 @@ const venues: DiningVenue[] = [
     description:
       "Perched on the 19th floor of Q Hotel Dhaka, this elegant Pan Asian and BBQ restaurant offers authentic flavors and breathtaking panoramic city views. Guests can enjoy intimate candlelight dinners on the stunning sky bridge or explore the 20th floor for mesmerizing views of the city lights, creating an unforgettable fine dining experience.",
     poster: {
-      src: "/images/dining/bbq-restaurant.jpg",
+      src: "/images/dining/bbq-restaurant-hd.jpg",
       alt: "Q Hotel BBQ Restaurant dining room with ring chandeliers, stone feature wall, and city-view windows",
     },
   },

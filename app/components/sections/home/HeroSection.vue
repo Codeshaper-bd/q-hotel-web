@@ -10,12 +10,12 @@
            holds the image at up to 1.12x scale, so a smaller/softer source
            would visibly upscale and lose sharpness. -->
       <BaseImage
-        src="/images/hero/q-hotel-hero-v2.png"
+        src="/images/hero/q-hotel-hero-v3.jpg"
         alt=""
-        :width="1673"
-        :height="940"
+        :width="3346"
+        :height="1880"
         :quality="90"
-        sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:1920px"
+        sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
         priority
         class="h-full w-full object-[center_100%] md:object-[center_68%] xl:object-[center_20%]"
       />
